@@ -459,7 +459,11 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData>
               value = value == null ? Long.valueOf(0) : value;
               data.agg[i] = (Long) value + 1;
             }
-          }
+          } else { // NEXUS-MOD COUNT DISTINCT SHOULD NOT RETURN null
+            if (value == null && data.agg[i]==null) {
+              data.agg[i] = 0L;
+            }
+          } // NEXUS-MOD END
           break;
         case GroupByMeta.TYPE_GROUP_COUNT_ALL:
           if (!subjMeta.isNull(subj)) {

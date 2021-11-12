@@ -52,6 +52,11 @@ public class Lookup {
       injectionKeyDescription = "DatabaseLookupMeta.Injection.OrderBy")
   private String orderByClause;
 
+  @HopMetadataProperty(
+      key = "where",
+      injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
+  private String whereClause; // NEXUS-MOD
+
   /** Have the lookup fail if multiple results were found, renders the orderByClause useless */
   @HopMetadataProperty(
       key = "fail_on_multiple",
@@ -81,6 +86,7 @@ public class Lookup {
     this.eatingRowOnLookupFailure = l.eatingRowOnLookupFailure;
     this.failingOnMultipleResults = l.failingOnMultipleResults;
     this.orderByClause = l.orderByClause;
+    this.whereClause = l.whereClause;
     for (KeyField keyField : l.getKeyFields()) {
       keyFields.add(new KeyField(keyField));
     }
@@ -157,6 +163,20 @@ public class Lookup {
   /** @param orderByClause The orderByClause to set */
   public void setOrderByClause(String orderByClause) {
     this.orderByClause = orderByClause;
+  }
+
+  /**
+   * @return Returns the whereClause.
+   */
+  public String getWhereClause() { // NEXUS-MOD
+      return whereClause;
+  }
+
+  /**
+   * @param whereClause The whereClause to set.
+   */
+  public void setWhereClause(String whereClause) { // NEXUS-MOD
+      this.whereClause = whereClause;
   }
 
   /**

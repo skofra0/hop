@@ -17,6 +17,7 @@
 
 package org.apache.hop.core;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.exception.HopXmlException;
 import org.apache.hop.core.row.IRowMeta;
@@ -85,6 +86,7 @@ public class Condition implements Cloneable {
         "ENDS WITH",
         "LIKE",
         "TRUE"
+        ,"IS EMPTY" , "NOT IS EMPTY" // NEXUS-MOD
       };
 
   public static final int FUNC_EQUAL = 0;
@@ -102,6 +104,8 @@ public class Condition implements Cloneable {
   public static final int FUNC_ENDS_WITH = 12;
   public static final int FUNC_LIKE = 13;
   public static final int FUNC_TRUE = 14;
+  public static final int FUNC_IS_EMPTY      = 15;  // NEXUS-MOD 
+  public static final int FUNC_NOT_IS_EMPTY  = 16;  // NEXUS-MOD
 
   //
   // These parameters allow for:
@@ -465,6 +469,14 @@ public class Condition implements Cloneable {
               retval = false;
             }
             break;
+          case FUNC_IS_EMPTY: // NEXUS-MOD
+            string = fieldMeta.getCompatibleString(field);
+            retval = StringUtils.isEmpty(string);
+            break;
+          case FUNC_NOT_IS_EMPTY: // NEXUS-MOD
+            string = fieldMeta.getCompatibleString(field);
+            retval = !StringUtils.isEmpty(string);
+            break;
           case FUNC_LIKE:
             // Converts to a regular expression
             // TODO: optimize the patterns and String replacements
@@ -682,7 +694,7 @@ public class Condition implements Cloneable {
         retval.append(" TRUE");
       } else {
         retval.append(leftValuename + " " + getFunctionDesc());
-        if (function != FUNC_NULL && function != FUNC_NOT_NULL) {
+        if (function != FUNC_NULL && function != FUNC_NOT_NULL && function != FUNC_IS_EMPTY && function != FUNC_NOT_IS_EMPTY ) { // NEXUS-MOD
           if (rightValuename != null) {
             retval.append(" ");
             retval.append(rightValuename);

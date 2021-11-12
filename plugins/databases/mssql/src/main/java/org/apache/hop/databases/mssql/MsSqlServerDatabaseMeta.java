@@ -17,6 +17,7 @@
 
 package org.apache.hop.databases.mssql;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.*;
 import org.apache.hop.core.exception.HopDatabaseException;
@@ -261,13 +262,17 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     switch (type) {
       case IValueMeta.TYPE_TIMESTAMP:
       case IValueMeta.TYPE_DATE:
-        retval += "DATETIME";
+        if (length >= 8 && length <= 10) { // NEXUS-MOD
+          retval += "DATE"; // NEXUS-MOD
+        } else {
+          retval += "DATETIME2"; // NEXUS-MOD
+        }
         break;
       case IValueMeta.TYPE_BOOLEAN:
         if (supportsBooleanDataType()) {
           retval += "BIT";
         } else {
-          retval += "CHAR(1)";
+          retval += "NCHAR(1)"; // NEXUS-MOD
         }
         break;
       case IValueMeta.TYPE_NUMBER:
@@ -284,11 +289,16 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
           }
         } else {
           if (precision == 0) {
-            if (length > 18) {
+            // if (length > 18) { // NEXUS-MOD
+            if (length > 20) {    // NEXUS-MOD
               retval += "DECIMAL(" + length + ",0)";
             } else {
               if (length > 9) {
-                retval += "BIGINT";
+                if (length == 11 && "int".equalsIgnoreCase(v.getOriginalColumnTypeName())) { // NEXUS-MOD
+                  retval += "INT"; // NEXUS-MOD
+                } else {
+                  retval += "BIGINT";
+                }
               } else {
                 retval += "INT";
               }
@@ -306,12 +316,12 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
         if (length < getMaxVARCHARLength()) {
           // Maybe use some default DB String length in case length<=0
           if (length > 0) {
-            retval += "VARCHAR(" + length + ")";
+            retval += "NVARCHAR(" + length + ")"; // NEXUS-MOD
           } else {
-            retval += "VARCHAR(100)";
+            retval += "NVARCHAR(100)"; // NEXUS-MOD
           }
         } else {
-          retval += "TEXT"; // Up to 2bilion characters.
+          retval += "NVARCHAR(MAX)"; // Up to 2bilion characters.
         }
         break;
       case IValueMeta.TYPE_BINARY:
@@ -753,6 +763,30 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     }
 
     try {
+      // NEXUS-MOD START JDBC (Try JDBC meta function first)
+      try (ResultSet indexList = database.getDatabaseMetaData().getIndexInfo(null, StringUtils.trimToNull(database.resolve(schemaName)), database.resolve(tableName), false, true)) {
+          while (indexList.next()) {
+              String column = indexList.getString("COLUMN_NAME");
+              int idx = Const.indexOfString(column, idxFields);
+              if (idx >= 0) {
+                  exists[idx] = true;
+              }
+          }
+      }
+
+      // See if all the fields are indexed...
+      boolean all = true;
+      for (int i = 0; i < exists.length && all; i++) {
+          if (!exists[i]) {
+              all = false;
+          }
+      }
+
+      if (all) {
+          return true;
+      }
+      // NEXUS-MOD END JDBC
+
       //
       // Get the info from the data dictionary...
       //
@@ -788,7 +822,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
       }
 
       // See if all the fields are indexed...
-      boolean all = true;
+      all = true;
       for (int i = 0; i < exists.length && all; i++) {
         if (!exists[i]) {
           all = false;
@@ -881,7 +915,8 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public int getMaxVARCHARLength() {
-    return 8000;
+    // return 8000;
+    return 4000; // NEXUS-MOD
   }
 
   @Override
