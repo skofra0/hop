@@ -1077,6 +1077,7 @@ public class ValueMetaBase implements IValueMeta {
         decimalFormatSymbols.setDecimalSeparator(decimalSymbol.charAt(0));
       }
       decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+      decimalFormat.setNegativePrefix("-"); // NEXUS-MOD
 
       String decimalPattern = getMask(getType());
       if (!Utils.isEmpty(decimalPattern)) {
