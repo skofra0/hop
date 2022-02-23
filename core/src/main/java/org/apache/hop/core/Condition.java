@@ -17,7 +17,6 @@
 
 package org.apache.hop.core;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.exception.HopXmlException;
 import org.apache.hop.core.row.IRowMeta;
@@ -468,11 +467,11 @@ public class Condition implements Cloneable {
             break;
           case FUNC_IS_EMPTY: // NEXUS-MOD
             string = fieldMeta.getCompatibleString(field);
-            retval = StringUtils.isEmpty(string);
+            retval = string == null || string.isEmpty();
             break;
           case FUNC_NOT_IS_EMPTY: // NEXUS-MOD
             string = fieldMeta.getCompatibleString(field);
-            retval = !StringUtils.isEmpty(string);
+            retval = !(string == null || string.isEmpty());
             break;
           case FUNC_LIKE:
             // Converts to a regular expression
