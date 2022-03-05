@@ -5267,7 +5267,7 @@ public class ValueMetaBase implements IValueMeta {
           }
           break;
         case IValueMeta.TYPE_BINARY:
-          if (iDatabase.supportsGetBlob()) {
+          if (iDatabase.isSupportsGetBlob()) {
             Blob blob = resultSet.getBlob(index + 1);
             if (blob != null) {
               data = blob.getBytes(1L, (int) blob.length());
@@ -5280,7 +5280,7 @@ public class ValueMetaBase implements IValueMeta {
           break;
 
         case IValueMeta.TYPE_DATE:
-          if (getPrecision() != 1 && iDatabase.supportsTimeStampToDateConversion()) {
+          if (getPrecision() != 1 && iDatabase.isSupportsTimeStampToDateConversion()) {
             data = resultSet.getTimestamp(index + 1);
             break; // Timestamp extends java.util.Date
           } else if (iDatabase.isNetezzaVariant()) {
