@@ -493,7 +493,33 @@
                 <artifactId>wagon-maven-plugin</artifactId>
                 <version>${wagon-plugin.version}</version>
             </dependency>
+
+			<!-- Java 11 -->
+			<dependency>
+				<groupId>jakarta.xml.bind</groupId>
+				<artifactId>jakarta.xml.bind-api</artifactId>
+				<version>2.3.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>2.3.6</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.activation</groupId>
+				<artifactId>jakarta.activation</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>jakarta.activation</groupId>
+				<artifactId>jakarta.activation-api</artifactId>
+				<version>1.2.2</version>
+				<scope>provided</scope>
+			</dependency>
         </dependencies>
+
+
     </dependencyManagement>
 
     <dependencies>
@@ -582,7 +608,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <release>8</release>
+                        <release>11</release>
                         <compilerArgument>${compilerArgument}</compilerArgument>
                     </configuration>
                 </plugin>
