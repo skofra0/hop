@@ -96,7 +96,7 @@ public class ValueMetaBaseLenientStringConversionTest {
   }
 
   @Test
-  public void testStrToBigNumberStrict() throws Exception {
+  public void testStrToBigNumberStrict() {
 
     System.setProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "N");
 
