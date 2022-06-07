@@ -46,6 +46,9 @@ import java.util.*;
 
 public class ValueMetaBase implements IValueMeta {
 
+  public static final String DATE_FORMAT_MSSQL = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"; // NEXUS-MOD (DOC)
+  public static final String DATE_FORMAT_MYSQL = "yyyy/MM/dd HH:mm:ss.SSS"; // NEXUS-MOD (DOC)
+
   private static final String MSG_UNKNOWN_STORAGE_TYPE = " : Unknown storage type ";
   private static final String MSG_SPECIFIED = " specified.";
   private static final String MSG_DATA_TYPE_ERROR =
@@ -1077,6 +1080,7 @@ public class ValueMetaBase implements IValueMeta {
         decimalFormatSymbols.setDecimalSeparator(decimalSymbol.charAt(0));
       }
       decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+      decimalFormat.setNegativePrefix("-"); // NEXUS-MOD
 
       String decimalPattern = getMask(getType());
       if (!Utils.isEmpty(decimalPattern)) {
@@ -4686,11 +4690,17 @@ public class ValueMetaBase implements IValueMeta {
         // This JDBC Driver doesn't support the isSigned method
         // nothing more we can do here by catch the exception.
       }
+      
+      // NEXUS-MOD - set correct field size
+      int dbDisplaySize = rm.getColumnDisplaySize(index); // NEXUS-MOD
+
       switch (type) {
         case Types.CHAR:
         case Types.VARCHAR:
         case Types.NVARCHAR:
         case Types.LONGVARCHAR: // Character Large Object
+        case Types.NCHAR:        // NEXUS-MOD
+        case Types.LONGNVARCHAR: // NEXUS-MOD
           valtype = IValueMeta.TYPE_STRING;
           if (!ignoreLength) {
             length = rm.getColumnDisplaySize(index);
@@ -4711,17 +4721,20 @@ public class ValueMetaBase implements IValueMeta {
             valtype = IValueMeta.TYPE_INTEGER;
             precision = 0; // Max 9.223.372.036.854.775.807
             length = 15;
+            length = dbDisplaySize; // NEXUS-MOD
           } else {
             valtype = IValueMeta.TYPE_BIGNUMBER;
             precision = 0; // Max 18.446.744.073.709.551.615
             length = 16;
-          }
+            length = dbDisplaySize; // NEXUS-MOD
+         }
           break;
 
         case Types.INTEGER:
           valtype = IValueMeta.TYPE_INTEGER;
           precision = 0; // Max 2.147.483.647
           length = 9;
+          length = dbDisplaySize; // NEXUS-MOD
           break;
 
         case Types.SMALLINT:
@@ -4752,6 +4765,19 @@ public class ValueMetaBase implements IValueMeta {
           }
 
           if (type == Types.DOUBLE || type == Types.FLOAT || type == Types.REAL) {
+              // NEXUS-MOD SQL-SERVER
+              if (databaseMeta.getIDatabase().isMsSqlServerVariant() || databaseMeta.getIDatabase().isMsSqlServerNativeVariant()) {
+                  if (length == 0) {
+                      length = 18;
+                  }
+                  if (precision == 0) {
+                      precision = 4;
+                      if (length>=15) {
+                          precision = 6;
+                      }
+                  }
+              }
+              // NEXUS-MOD END
             if (precision == 0) {
               precision = -1; // precision is obviously incorrect if the type if
               // Double/Float/Real

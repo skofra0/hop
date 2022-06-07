@@ -422,6 +422,33 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
           length = -1;
         }
 
+        
+        // NEXUS-MOD 
+        switch(aggregateType[i]) {
+          case TYPE_GROUP_AVERAGE            : 
+              if (valueType!=IValueMeta.TYPE_INTEGER) {
+                  length = subj.getLength();
+                  precision=subj.getPrecision();
+              }
+              break;
+          case TYPE_GROUP_SUM                : 
+          case TYPE_GROUP_FIRST              : 
+          case TYPE_GROUP_LAST               : 
+          case TYPE_GROUP_FIRST_INCL_NULL    : 
+          case TYPE_GROUP_LAST_INCL_NULL     : 
+          case TYPE_GROUP_MIN                : 
+          case TYPE_GROUP_MAX                : 
+              length = subj.getLength();
+              precision=subj.getPrecision();
+              break;
+          case TYPE_GROUP_COUNT_DISTINCT     :
+          case TYPE_GROUP_COUNT_ALL          :
+          case TYPE_GROUP_CONCAT_COMMA       : 
+          case TYPE_GROUP_STANDARD_DEVIATION :
+          case TYPE_GROUP_CONCAT_STRING      :
+          default: break;
+        }
+        // NEXUS-MOD END 
         if (valueType != IValueMeta.TYPE_NONE) {
           IValueMeta v;
           try {
