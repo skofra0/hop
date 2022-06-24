@@ -94,6 +94,7 @@ public class HopGuiWorkflowClipboardDelegate {
     try {
       Document doc = XmlHandler.loadXmlString(clipboardContent);
       Node workflowNode = XmlHandler.getSubNode(doc, XML_TAG_WORKFLOW_ACTIONS);
+      workflowNode = org.apache.hop.imports.kettle.KettleConverter.checkForKettleJobEntries(doc, workflowNode); // NEXUS-MOD
       // De-select all, re-select pasted transforms...
       workflowMeta.unselectAll();
 

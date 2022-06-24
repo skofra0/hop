@@ -87,6 +87,8 @@ public class HopGuiPipelineClipboardDelegate {
     try {
       Document doc = XmlHandler.loadXmlString(clipcontent);
       Node pipelineNode = XmlHandler.getSubNode(doc, XML_TAG_PIPELINE_TRANSFORMS);
+      pipelineNode = org.apache.hop.imports.kettle.KettleConverter.checkForKettleTransformationSteps(doc, pipelineNode); // NEXUS-MOD
+
       // De-select all, re-select pasted transforms...
       pipelineMeta.unselectAll();
 

@@ -145,6 +145,11 @@ public class KettleConst {
                 {"Mapping", "SimpleMapping"},
                 // Text File Input deprecated
                 {"TextFileInput", "TextFileInput2"},
+
+                // NEXUS-MOD
+                {"merit-janino", "expressionscript"},
+                {"data-lake-input", "cloud-api-input"},
+                {"remote-api-input", "cloud-api-input"},
               })
           .collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]));
 
