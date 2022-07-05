@@ -82,6 +82,11 @@ public class KettleImport extends HopImportBase implements IHopImport {
   public KettleImport() {
     super();
   }
+  
+  // NEXUS-MOD
+  public static String replaceDatabaseType(final String type) {
+    return type.replace("DEEM_", "NEXUS_");
+  }
 
   @Override
   public void findFilesToImport() throws HopException {
@@ -241,7 +246,6 @@ public class KettleImport extends HopImportBase implements IHopImport {
         } else {
           // Convert Kettle XML metadata to Hop (write the .hpl/.hwf)
           //
-          ByteArrayOutputStream os = new ByteArrayOutputStream();
 
           try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             StreamResult streamResult = new StreamResult(outputStream);
@@ -302,7 +306,10 @@ public class KettleImport extends HopImportBase implements IHopImport {
     IHopMetadataSerializer<DatabaseMeta> serializer =
         metadataProvider.getSerializer(DatabaseMeta.class);
     for (DatabaseMeta databaseMeta : connectionsList) {
-      serializer.save(databaseMeta);
+      // NEXUS-NEXUS-MOD skippingExistingTargetFiles
+      if (!skippingExistingTargetFiles || !serializer.exists(databaseMeta.getName())) {
+        serializer.save(databaseMeta);
+      }
     }
   }
 
@@ -357,11 +364,9 @@ public class KettleImport extends HopImportBase implements IHopImport {
     for (int i = 0; i < connectionList.getLength(); i++) {
       if (connectionList.item(i).getParentNode().equals(doc.getDocumentElement())) {
         Element connElement = (Element) connectionList.item(i);
-        String databaseType = connElement.getElementsByTagName("type").item(0).getTextContent();
-        IPlugin databasePlugin =
-            registry.findPluginWithId(
-                DatabasePluginType.class,
-                connElement.getElementsByTagName("type").item(0).getTextContent());
+        // NEXUS-MOD
+        String databaseType = replaceDatabaseType(connElement.getElementsByTagName("type").item(0).getTextContent());
+        IPlugin databasePlugin = registry.findPluginWithId(DatabasePluginType.class, databaseType);
 
         try {
           DatabaseMeta databaseMeta = new DatabaseMeta();
@@ -623,7 +628,8 @@ public class KettleImport extends HopImportBase implements IHopImport {
     for (int i = 0; i < repositoryNode.getChildNodes().getLength(); i++) {
       Node childNode = repositoryNode.getChildNodes().item(i);
       if (childNode.getNodeName().equals("directory")) {
-        if (childNode.getTextContent().startsWith(System.getProperty("file.separator"))) {
+        // if (childNode.getTextContent().startsWith(System.getProperty("file.separator"))) {
+        if (childNode.getTextContent().startsWith("\\") || childNode.getTextContent().startsWith("/")) { // Nexus NEXUS-MOD
           directory += childNode.getTextContent();
         } else {
           directory += System.getProperty("file.separator") + childNode.getTextContent();
