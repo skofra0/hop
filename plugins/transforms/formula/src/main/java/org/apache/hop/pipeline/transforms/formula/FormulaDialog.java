@@ -17,6 +17,12 @@
 
 package org.apache.hop.pipeline.transforms.formula;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopTransformException;
 import org.apache.hop.core.row.IRowMeta;
@@ -25,7 +31,6 @@ import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.PipelineMeta;
-import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.pipeline.transforms.formula.editor.FormulaEditor;
@@ -34,14 +39,20 @@ import org.apache.hop.ui.core.widget.ColumnInfo;
 import org.apache.hop.ui.core.widget.TableView;
 import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.*;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
-
-import java.util.List;
-import java.util.*;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 public class FormulaDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = FormulaDialog.class; // For Translator
@@ -59,7 +70,7 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
 
   public FormulaDialog(
       Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
-    super(parent, variables, (BaseTransformMeta) in, tr, sname);
+    super(parent, variables, (FormulaMeta) in, tr, sname);
 
     // The order here is important... currentMeta is looked at for changes
     currentMeta = (FormulaMeta) baseTransformMeta;
@@ -174,7 +185,7 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
 
                   // Remember these fields...
                   for (int i = 0; i < row.size(); i++) {
-                    inputFields.put(row.getValueMeta(i).getName(), new Integer(i));
+                    inputFields.put(row.getValueMeta(i).getName(), i);
                   }
 
                   setComboBoxes();

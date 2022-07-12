@@ -31,14 +31,21 @@
     <packaging>pom</packaging>
 
     <name>Hop Assemblies Plugins Transforms Formula</name>
+    <description></description>
 
     <properties>
-        <poi.version>4.1.2</poi.version>
-<!--        <poi.ooxml-schemas.version>4.1.2</poi.ooxml-schemas.version>-->
-        <xmlbeans.version>3.1.0</xmlbeans.version>
+        <poi.version>5.2.1</poi.version>
+        <xmlbeans.version>5.1.0</xmlbeans.version>
+		<pentaho-reporting.version>9.0.0.3-542</pentaho-reporting.version>
     </properties>
 
-    <description></description>
+   	<repositories>
+		<repository>
+			<id>bdo-nexus</id>
+			<url>${nexus-url}/content/groups/public/</url>
+		</repository>
+	</repositories>
+
 
     <dependencies>
         <dependency>
@@ -50,40 +57,28 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>${poi.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml-schemas</artifactId>
-            <version>${poi.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
             <artifactId>xmlbeans</artifactId>
             <version>${xmlbeans.version}</version>
         </dependency>
+		<dependency>
+			<groupId>org.pentaho.reporting.library</groupId>
+			<artifactId>libbase</artifactId>
+			<version>${pentaho-reporting.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.pentaho.reporting.library</groupId>
+			<artifactId>libformula</artifactId>
+			<version>${pentaho-reporting.version}</version>
+		</dependency>
+
     </dependencies>
 
 </project>

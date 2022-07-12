@@ -67,13 +67,7 @@ public class FormulaMetaFunction {
    * @param valuePrecision
    * @param replaceField
    */
-  public FormulaMetaFunction(
-      String fieldName,
-      String formula,
-      int valueType,
-      int valueLength,
-      int valuePrecision,
-      String replaceField) {
+  public FormulaMetaFunction(String fieldName, String formula, int valueType, int valueLength, int valuePrecision, String replaceField) {
     this.fieldName = fieldName;
     this.formula = formula;
     this.valueType = valueType;
