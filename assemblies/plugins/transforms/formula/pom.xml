@@ -34,7 +34,7 @@
     <description></description>
 
     <properties>
-        <poi.version>5.2.1</poi.version>
+        <poi.version>5.2.3</poi.version>
         <xmlbeans.version>5.1.0</xmlbeans.version>
 		<pentaho-reporting.version>9.0.0.3-542</pentaho-reporting.version>
     </properties>

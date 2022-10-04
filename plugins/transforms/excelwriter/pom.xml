@@ -34,7 +34,7 @@
     <name>Hop Plugins Transforms Excel Writer</name>
 
     <properties>
-        <poi.version>5.2.1</poi.version>
+        <poi.version>5.2.3</poi.version>
     </properties>
 
     <dependencies>
