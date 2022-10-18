@@ -422,7 +422,6 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
           length = -1;
         }
 
-        
         // NEXUS-MOD 
         switch(aggregateType[i]) {
           case TYPE_GROUP_AVERAGE            : 
