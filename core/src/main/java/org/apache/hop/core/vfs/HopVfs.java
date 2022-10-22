@@ -76,8 +76,7 @@ public class HopVfs {
     try {
       DefaultFileSystemManager fsm = new DefaultFileSystemManager();
       fsm.addProvider("ram", new org.apache.commons.vfs2.provider.ram.RamFileProvider());
-      fsm.addProvider(
-          "file", new org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider());
+      fsm.addProvider("file", new org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider());
       fsm.addProvider("res", new org.apache.commons.vfs2.provider.res.ResourceFileProvider());
       fsm.addProvider("zip", new org.apache.commons.vfs2.provider.zip.ZipFileProvider());
       fsm.addProvider("gz", new org.apache.commons.vfs2.provider.gzip.GzipFileProvider());
@@ -97,8 +96,7 @@ public class HopVfs {
       fsm.addProvider("tbz2", new org.apache.commons.vfs2.provider.tar.TarFileProvider());
       fsm.addProvider("tgz", new org.apache.commons.vfs2.provider.tar.TarFileProvider());
       fsm.addProvider("bz2", new org.apache.commons.vfs2.provider.bzip2.Bzip2FileProvider());
-      fsm.addProvider(
-          "files-cache", new org.apache.commons.vfs2.provider.temp.TemporaryFileProvider());
+      fsm.addProvider("files-cache", new org.apache.commons.vfs2.provider.temp.TemporaryFileProvider());
       fsm.addExtensionMap("jar", "jar");
       fsm.addExtensionMap("zip", "zip");
       fsm.addExtensionMap("gz", "gz");
@@ -190,8 +188,7 @@ public class HopVfs {
     }
   }
 
-  protected static boolean checkForScheme(
-      String[] initialSchemes, boolean relativeFilename, String vfsFilename) {
+  protected static boolean checkForScheme(String[] initialSchemes, boolean relativeFilename, String vfsFilename) {
     if (vfsFilename == null) {
       return false;
     }
