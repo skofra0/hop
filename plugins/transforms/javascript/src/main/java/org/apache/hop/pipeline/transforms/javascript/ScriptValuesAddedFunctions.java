@@ -18,10 +18,38 @@
 // CHECKSTYLE:FileLength:OFF
 package org.apache.hop.pipeline.transforms.javascript;
 
-import com.google.common.annotations.VisibleForTesting;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileUtil;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.Database;
 import org.apache.hop.core.database.DatabaseMeta;
@@ -39,20 +67,15 @@ import org.apache.hop.pipeline.transforms.loadfileinput.LoadFileInput;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.WrappedException;
 
-import java.io.*;
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.text.*;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.common.annotations.VisibleForTesting;
 
 public class ScriptValuesAddedFunctions extends ScriptableObject {
 
@@ -2185,7 +2208,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               boolean destinationExists = fileDestination.exists();
               // Let's copy the file...
               if ((destinationExists && overwrite) || !destinationExists) {
-                FileUtil.copyContent(fileSource, fileDestination);
+                FileObjectUtils.writeContent(fileSource, fileDestination);
               }
             }
           } else {

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,13 +66,7 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
 
   public Script script;
 
-  public ScriptValues(
-      TransformMeta transformMeta,
-      ScriptValuesMeta meta,
-      ScriptValuesData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ScriptValues(TransformMeta transformMeta, ScriptValuesMeta meta, ScriptValuesData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -101,9 +95,7 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
       String valname = row.getValueMeta(i).getName();
       if (strTransformScript.indexOf(valname) >= 0) {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ScriptValuesMod.Log.UsedValueName", String.valueOf(i), valname));
+          logDetailed(BaseMessages.getString(PKG, "ScriptValuesMod.Log.UsedValueName", String.valueOf(i), valname));
         }
         data.fieldsUsed[nr] = i;
         nr++;
@@ -111,11 +103,7 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
     }
 
     if (log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "ScriptValuesMod.Log.UsingValuesFromInputStream",
-              String.valueOf(data.fieldsUsed.length)));
+      logDetailed(BaseMessages.getString(PKG, "ScriptValuesMod.Log.UsingValuesFromInputStream", String.valueOf(data.fieldsUsed.length)));
     }
   }
 
@@ -140,19 +128,11 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
           data.replaceIndex[i] = rowMeta.indexOfValue(meta.getFieldname()[i]);
           if (data.replaceIndex[i] < 0) {
             if (Utils.isEmpty(meta.getFieldname()[i])) {
-              throw new HopTransformException(
-                  BaseMessages.getString(
-                      PKG,
-                      "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound",
-                      meta.getFieldname()[i]));
+              throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", meta.getFieldname()[i]));
             }
             data.replaceIndex[i] = rowMeta.indexOfValue(meta.getRename()[i]);
             if (data.replaceIndex[i] < 0) {
-              throw new HopTransformException(
-                  BaseMessages.getString(
-                      PKG,
-                      "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound",
-                      meta.getRename()[i]));
+              throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", meta.getRename()[i]));
             }
           }
         } else {
@@ -167,24 +147,13 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
         String optimizationLevelAsString = resolve(meta.getOptimizationLevel());
         if (!Utils.isEmpty(Const.trim(optimizationLevelAsString))) {
           data.cx.setOptimizationLevel(Integer.parseInt(optimizationLevelAsString.trim()));
-          logBasic(
-              BaseMessages.getString(
-                  PKG, "ScriptValuesMod.Optimization.Level", resolve(meta.getOptimizationLevel())));
+          logBasic(BaseMessages.getString(PKG, "ScriptValuesMod.Optimization.Level", resolve(meta.getOptimizationLevel())));
         } else {
-          data.cx.setOptimizationLevel(
-              Integer.parseInt(ScriptValuesMeta.OPTIMIZATION_LEVEL_DEFAULT));
-          logBasic(
-              BaseMessages.getString(
-                  PKG,
-                  "ScriptValuesMod.Optimization.UsingDefault",
-                  ScriptValuesMeta.OPTIMIZATION_LEVEL_DEFAULT));
+          data.cx.setOptimizationLevel(Integer.parseInt(ScriptValuesMeta.OPTIMIZATION_LEVEL_DEFAULT));
+          logBasic(BaseMessages.getString(PKG, "ScriptValuesMod.Optimization.UsingDefault", ScriptValuesMeta.OPTIMIZATION_LEVEL_DEFAULT));
         }
       } catch (NumberFormatException nfe) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG,
-                "ScriptValuesMetaMod.Exception.NumberFormatException",
-                resolve(meta.getOptimizationLevel())));
+        throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.NumberFormatException", resolve(meta.getOptimizationLevel())));
       } catch (IllegalArgumentException iae) {
         throw new HopException(iae.getMessage());
       }
@@ -245,35 +214,26 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
             }
           }
         } catch (Exception e) {
-          throw new HopValueException(
-              BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotAttachAdditionalScripts"),
-              e);
+          throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotAttachAdditionalScripts"), e);
         }
 
         // Adding some default JavaScriptFunctions to the System
         try {
           Context.javaToJS(ScriptValuesAddedFunctions.class, data.scope);
-          ((ScriptableObject) data.scope)
-              .defineFunctionProperties(
-                  ScriptValuesAddedFunctions.jsFunctionList,
-                  ScriptValuesAddedFunctions.class,
-                  ScriptableObject.DONTENUM);
+          ((ScriptableObject) data.scope).defineFunctionProperties(ScriptValuesAddedFunctions.jsFunctionList, ScriptValuesAddedFunctions.class, ScriptableObject.DONTENUM);
         } catch (Exception ex) {
-          throw new HopValueException(
-              BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotAddDefaultFunctions"), ex);
+          throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotAddDefaultFunctions"), ex);
         }
 
         // Adding some Constants to the JavaScript
         try {
-
           data.scope.put("SKIP_PIPELINE", data.scope, Integer.valueOf(SKIP_PIPELINE));
           data.scope.put("ABORT_PIPELINE", data.scope, Integer.valueOf(ABORT_PIPELINE));
           data.scope.put("ERROR_PIPELINE", data.scope, Integer.valueOf(ERROR_PIPELINE));
           data.scope.put("CONTINUE_PIPELINE", data.scope, Integer.valueOf(CONTINUE_PIPELINE));
 
         } catch (Exception ex) {
-          throw new HopValueException(
-              BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotAddDefaultConstants"), ex);
+          throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotAddDefaultConstants"), ex);
         }
 
         try {
@@ -286,18 +246,16 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
             }
           } else {
             if (log.isDetailed()) {
-              logDetailed(("No starting Script found!"));
+              logDetailed("No starting Script found!");
             }
           }
         } catch (Exception es) {
-          throw new HopValueException(
-              BaseMessages.getString(PKG, "ScriptValuesMod.Log.ErrorProcessingStartScript"), es);
+          throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.ErrorProcessingStartScript"), es);
         }
         // Now Compile our Script
         data.script = data.cx.compileString(strTransformScript, "script", 1, null);
       } catch (Exception e) {
-        throw new HopValueException(
-            BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotCompileJavascript"), e);
+        throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.CouldNotCompileJavascript"), e);
       }
     }
 
@@ -331,8 +289,7 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
         Scriptable jsrowMeta = Context.toObject(rowMeta, data.scope);
         data.scope.put("rowMeta", data.scope, jsrowMeta);
       } catch (Exception e) {
-        throw new HopValueException(
-            BaseMessages.getString(PKG, "ScriptValuesMod.Log.UnexpectedeError"), e);
+        throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.UnexpectedeError"), e);
       }
 
       // Executing our Script
@@ -408,8 +365,7 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
         //
       }
     } catch (Exception e) {
-      throw new HopValueException(
-          BaseMessages.getString(PKG, "ScriptValuesMod.Log.JavascriptError"), e);
+      throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.JavascriptError"), e);
     }
     return bRC;
   }
@@ -418,12 +374,9 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
     String fieldName = meta.getFieldname()[i];
     if (!Utils.isEmpty(fieldName)) {
       try {
-        return (result == null)
-            ? null
-            : JavaScriptUtils.convertFromJs(result, meta.getType()[i], fieldName);
+        return (result == null) ? null : JavaScriptUtils.convertFromJs(result, meta.getType()[i], fieldName);
       } catch (Exception e) {
-        throw new HopValueException(
-            BaseMessages.getString(PKG, "ScriptValuesMod.Log.JavascriptError"), e);
+        throw new HopValueException(BaseMessages.getString(PKG, "ScriptValuesMod.Log.JavascriptError"), e);
       }
     } else {
       throw new HopValueException("No name was specified for result value #" + (i + 1));
@@ -456,16 +409,8 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
           }
         }
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(PKG, "ScriptValuesMod.Log.UnexpectedeError")
-                + " : "
-                + e.toString());
-        logError(
-            BaseMessages.getString(PKG, "ScriptValuesMod.Log.ErrorStackTrace")
-                + Const.CR
-                + Const.getSimpleStackTrace(e)
-                + Const.CR
-                + Const.getStackTracker(e));
+        logError(BaseMessages.getString(PKG, "ScriptValuesMod.Log.UnexpectedeError") + " : " + e.toString());
+        logError(BaseMessages.getString(PKG, "ScriptValuesMod.Log.ErrorStackTrace") + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e));
         setErrors(1);
         stopAll();
       }
