@@ -169,7 +169,7 @@
         <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
         <maven-bundle-plugin.version>2.5.3</maven-bundle-plugin.version>
         <karaf-maven-plugin.version>3.0.8</karaf-maven-plugin.version>
-        <jandex.version>3.0.3</jandex.version>
+        <jandex.version>3.0.5</jandex.version>
         <wagon-plugin.version>2.0.0</wagon-plugin.version>
 
         <jackson.version>2.14.1</jackson.version>
