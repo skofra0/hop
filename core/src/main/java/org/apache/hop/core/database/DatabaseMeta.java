@@ -2094,7 +2094,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
   }
 
   public boolean supportsErrorHandlingOnBatchUpdates() {
-    return iDatabase.IsSupportsErrorHandlingOnBatchUpdates();
+    return iDatabase.isSupportsErrorHandlingOnBatchUpdates();
   }
 
   /**

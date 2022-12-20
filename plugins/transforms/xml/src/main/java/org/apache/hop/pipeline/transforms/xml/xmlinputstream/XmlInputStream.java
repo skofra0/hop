@@ -83,8 +83,8 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
       XmlInputStreamData transformDataInterface,
       int copyNr,
       PipelineMeta pipelineMeta,
-      Pipeline trans) {
-    super(transformMeta, meta, transformDataInterface, copyNr, pipelineMeta, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, transformDataInterface, copyNr, pipelineMeta, pipeline);
   }
 
   @Override

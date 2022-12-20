@@ -1971,10 +1971,10 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {
-          Pipeline trans = progressDialog.getPipeline();
+          Pipeline pipeline = progressDialog.getPipeline();
           String loggingText = progressDialog.getLoggingText();
 
-          if (trans.getResult() != null && trans.getResult().getNrErrors() > 0) {
+          if (pipeline.getResult() != null && pipeline.getResult().getNrErrors() > 0) {
             EnterTextDialog etd =
                 new EnterTextDialog(
                     shell,

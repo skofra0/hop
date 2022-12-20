@@ -839,7 +839,6 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
 
   @Override
   public List<String> getDatabaseFields() {
-
     List<String> items = Collections.emptyList();
     if (isSpecifyFields()) {
       items = new ArrayList<>();

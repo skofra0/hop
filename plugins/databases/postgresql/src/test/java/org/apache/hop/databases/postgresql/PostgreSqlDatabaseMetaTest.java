@@ -689,7 +689,7 @@ public class PostgreSqlDatabaseMetaTest {
     assertEquals(
         "http://jdbc.postgresql.org/documentation/83/connect.html#connection-parameters",
         nativeMeta.getExtraOptionsHelpText());
-    assertFalse(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertFalse(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertTrue(nativeMeta.isRequiresCastToVariousForIsNull());
     assertFalse(nativeMeta.isSupportsGetBlob());
     assertTrue(nativeMeta.isUseSafePoints());

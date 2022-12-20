@@ -223,7 +223,7 @@ public class OracleDatabaseMetaTest {
     dm.setIDatabase(nativeMeta);
     assertEquals("TABLESPACE FOOVALUE", nativeMeta.getTablespaceDDL(v, dm, "${FOOVARIABLE}"));
     assertEquals("", nativeMeta.getTablespaceDDL(v, dm, ""));
-    assertFalse(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertFalse(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertEquals(2000, nativeMeta.getMaxVARCHARLength());
     assertFalse(nativeMeta.isSupportsTimestampDataType());
     assertEquals(32, nativeMeta.getMaxColumnsInIndex());

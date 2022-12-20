@@ -41,8 +41,8 @@ public class KafkaProducerOutput
       KafkaProducerOutputData data,
       int copyNr,
       PipelineMeta pipelineMeta,
-      Pipeline trans) {
-    super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     setKafkaFactory(KafkaFactory.defaultFactory());
   }
 

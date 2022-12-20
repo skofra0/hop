@@ -380,7 +380,7 @@ public class TestUtilities {
     PipelineMeta pipelineMeta = new PipelineMeta();
     pipelineMeta.setPipelineType(PipelineMeta.PipelineType.Normal);
 
-    Pipeline trans = new LocalPipelineEngine(pipelineMeta);
+    Pipeline pipeline = new LocalPipelineEngine(pipelineMeta);
     if (parameters != null) {
       if (parameters.length % 2 == 1) {
         throw new IllegalArgumentException(
@@ -390,14 +390,14 @@ public class TestUtilities {
       for (int i = 0; i < parameters.length; i += 2) {
         Object parameter = parameters[i];
         Object value = parameters[i + 1];
-        trans.setParameterValue(parameter.toString(), value.toString());
+        pipeline.setParameterValue(parameter.toString(), value.toString());
       }
     }
 
-    trans.prepareExecution();
-    trans.startThreads();
-    trans.waitUntilFinished();
+    pipeline.prepareExecution();
+    pipeline.startThreads();
+    pipeline.waitUntilFinished();
 
-    return trans;
+    return pipeline;
   }
 }

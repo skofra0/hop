@@ -306,7 +306,7 @@ public class MySqlDatabaseMetaTest {
     assertFalse(nativeMeta.isSystemTable("Testsys"));
     assertTrue(nativeMeta.isMySqlVariant());
     assertFalse(nativeMeta.isReleaseSavepoint());
-    assertTrue(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertTrue(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertFalse(nativeMeta.isRequiringTransactionsOnQueries());
   }
 

@@ -1053,7 +1053,7 @@ public class PostgreSqlDatabaseMeta extends BaseDatabaseMeta implements IDatabas
    *     updates.
    */
   @Override
-  public boolean IsSupportsErrorHandlingOnBatchUpdates() {
+  public boolean isSupportsErrorHandlingOnBatchUpdates() {
     return false;
   }
 

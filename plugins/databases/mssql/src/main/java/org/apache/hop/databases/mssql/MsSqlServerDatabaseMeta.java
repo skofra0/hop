@@ -905,7 +905,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
   }
 
   @Override
-  public boolean IsSupportsErrorHandlingOnBatchUpdates() {
+  public boolean isSupportsErrorHandlingOnBatchUpdates() {
     return true;
   }
 

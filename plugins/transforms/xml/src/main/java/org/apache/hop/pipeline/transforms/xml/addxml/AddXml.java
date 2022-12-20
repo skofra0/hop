@@ -51,8 +51,8 @@ public class AddXml extends BaseTransform<AddXmlMeta, AddXmlData> {
       AddXmlData sdi,
       int copyNr,
       PipelineMeta tm,
-      Pipeline trans) {
-    super(transformMeta, meta, sdi, copyNr, tm, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, sdi, copyNr, tm, pipeline);
   }
 
   @Override

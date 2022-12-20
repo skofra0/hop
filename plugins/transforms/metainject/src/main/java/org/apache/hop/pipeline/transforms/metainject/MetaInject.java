@@ -58,8 +58,8 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
       MetaInjectData data,
       int copyNr,
       PipelineMeta pipelineMeta,
-      Pipeline trans) {
-    super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   @Override
@@ -447,8 +447,8 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
     }
   }
 
-  private void copyResult(Pipeline trans) {
-    Result result = trans.getResult();
+  private void copyResult(Pipeline pipeline) {
+    Result result = pipeline.getResult();
     setLinesInput(result.getNrLinesInput());
     setLinesOutput(result.getNrLinesOutput());
     setLinesRead(result.getNrLinesRead());

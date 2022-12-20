@@ -68,8 +68,8 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
       GetXmlDataData data,
       int copyNr,
       PipelineMeta pipelineMeta,
-      Pipeline trans) {
-    super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   protected boolean setDocument(

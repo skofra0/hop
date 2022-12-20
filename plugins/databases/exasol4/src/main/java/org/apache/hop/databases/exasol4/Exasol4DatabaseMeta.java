@@ -757,7 +757,7 @@ public class Exasol4DatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public boolean IsSupportsErrorHandlingOnBatchUpdates() {
+  public boolean isSupportsErrorHandlingOnBatchUpdates() {
     return false;
   }
 

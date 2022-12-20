@@ -469,7 +469,7 @@ public class MsSqlServerDatabaseMetaTest {
     assertTrue(nativeMeta.isSupportsSequences());
     assertTrue(nativeMeta.isSupportsSequenceNoMaxValueOption());
     assertFalse(nativeMeta.isUseSafePoints());
-    assertTrue(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertTrue(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertEquals(8000, nativeMeta.getMaxVARCHARLength());
   }
 

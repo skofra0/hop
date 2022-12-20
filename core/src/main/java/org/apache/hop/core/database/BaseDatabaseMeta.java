@@ -1188,7 +1188,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    *     updates.
    */
   @Override
-  public boolean IsSupportsErrorHandlingOnBatchUpdates() {
+  public boolean isSupportsErrorHandlingOnBatchUpdates() {
     return true;
   }
 

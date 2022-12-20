@@ -278,7 +278,7 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
   }
 
   @Override
-  public boolean IsSupportsErrorHandlingOnBatchUpdates() {
+  public boolean isSupportsErrorHandlingOnBatchUpdates() {
     return true;
   }
 

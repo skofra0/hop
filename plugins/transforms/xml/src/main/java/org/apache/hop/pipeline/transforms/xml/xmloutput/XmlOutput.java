@@ -57,8 +57,8 @@ public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
       XmlOutputData transformDataInterface,
       int copyNr,
       PipelineMeta pipelineMeta,
-      Pipeline trans) {
-    super(transformMeta, meta, transformDataInterface, copyNr, pipelineMeta, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, transformDataInterface, copyNr, pipelineMeta, pipeline);
   }
 
   @Override

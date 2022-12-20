@@ -1146,12 +1146,12 @@ public class XmlInputStreamDialog extends BaseTransformDialog implements ITransf
               new int[] {previewSize});
       progressDialog.open();
 
-      Pipeline trans = progressDialog.getPipeline();
+      Pipeline pipeline = progressDialog.getPipeline();
       String loggingText = progressDialog.getLoggingText();
 
       if (!progressDialog.isCancelled()
-          && trans.getResult() != null
-          && trans.getResult().getNrErrors() > 0) {
+          && pipeline.getResult() != null
+          && pipeline.getResult().getNrErrors() > 0) {
         EnterTextDialog etd =
             new EnterTextDialog(
                 shell,

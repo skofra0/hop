@@ -680,7 +680,7 @@ public interface IDatabase extends Cloneable {
    * @return true if the database supports error handling (recovery of failure) while doing batch
    *     updates.
    */
-  boolean IsSupportsErrorHandlingOnBatchUpdates();
+  boolean isSupportsErrorHandlingOnBatchUpdates();
 
   /**
    * Get the SQL to insert a new empty unknown record in a dimension.

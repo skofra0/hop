@@ -41,7 +41,7 @@ public class GreenplumDatabaseMeta extends PostgreSqlDatabaseMeta implements IDa
   }
 
   @Override
-  public boolean IsSupportsErrorHandlingOnBatchUpdates() {
+  public boolean isSupportsErrorHandlingOnBatchUpdates() {
     return false;
   }
 }

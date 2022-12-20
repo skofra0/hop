@@ -124,7 +124,7 @@ public class BaseDatabaseMetaTest {
     assertTrue(nativeMeta.isSupportsNewLinesInSql());
     assertNull(nativeMeta.getSqlListOfSchemas());
     assertEquals(0, nativeMeta.getMaxColumnsInIndex());
-    assertTrue(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertTrue(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertTrue(nativeMeta.isExplorable());
     assertTrue(nativeMeta.onlySpaces("   \t   \n  \r   "));
     assertFalse(nativeMeta.isMySqlVariant());

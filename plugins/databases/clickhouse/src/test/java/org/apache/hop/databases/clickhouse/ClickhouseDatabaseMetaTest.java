@@ -67,7 +67,7 @@ public class ClickhouseDatabaseMetaTest {
     assertFalse(nativeMeta.isSupportsSchemas());
     assertTrue(nativeMeta.isSupportsViews());
     assertFalse(nativeMeta.isSupportsSequences());
-    assertTrue(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertTrue(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertFalse(nativeMeta.isSupportsBooleanDataType());
     assertTrue(nativeMeta.isSupportsBitmapIndex());
     assertFalse(nativeMeta.isSupportsTransactions());

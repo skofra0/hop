@@ -487,7 +487,7 @@ public class Exasol4DatabaseMetaTest {
     assertFalse(nativeMeta.isSupportsPreparedStatementMetadataRetrieval());
     assertEquals(-1, nativeMeta.getMaxColumnsInIndex());
     assertFalse(nativeMeta.isReleaseSavepoint());
-    assertFalse(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertFalse(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
   }
 
   @Test

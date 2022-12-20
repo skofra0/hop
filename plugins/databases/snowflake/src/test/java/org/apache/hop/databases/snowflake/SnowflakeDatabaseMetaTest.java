@@ -92,7 +92,7 @@ public class SnowflakeDatabaseMetaTest {
     assertTrue(nativeMeta.isSupportsSchemas());
     assertTrue(nativeMeta.isSupportsViews());
     assertTrue(nativeMeta.isSupportsSequences());
-    assertTrue(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
+    assertTrue(nativeMeta.isSupportsErrorHandlingOnBatchUpdates());
     assertTrue(nativeMeta.isSupportsBooleanDataType());
     assertFalse(nativeMeta.isSupportsBitmapIndex());
     assertFalse(nativeMeta.isSupportsTransactions());

@@ -293,8 +293,7 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
       throws HopXmlException {
     try {
       selectFields = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "selectFields"));
-      selectValuesType =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "selectValuesType"));
+      selectValuesType = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "selectValuesType"));
       replaceAllByValue = XmlHandler.getTagValue(transformNode, "replaceAllByValue");
       replaceAllMask = XmlHandler.getTagValue(transformNode, "replaceAllMask");
       String setEmptyStringAllString = XmlHandler.getTagValue(transformNode, "setEmptyStringAll");

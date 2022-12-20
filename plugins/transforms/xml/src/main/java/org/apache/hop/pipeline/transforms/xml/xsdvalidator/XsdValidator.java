@@ -59,8 +59,8 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
       XsdValidatorData data,
       int copyNr,
       PipelineMeta pipelineMeta,
-      Pipeline trans) {
-    super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
+      Pipeline pipeline) {
+    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   @Override
