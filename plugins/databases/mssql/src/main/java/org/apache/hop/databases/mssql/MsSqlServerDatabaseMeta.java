@@ -290,11 +290,11 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
               retval += "DECIMAL(" + length + ",0)";
             } else {
               if (length > 9) {
-                  if (length == 11 && "int".equalsIgnoreCase(v.getOriginalColumnTypeName())) { // NEXUS-MOD
-                      retval += "INT"; // NEXUS-MOD
-                    } else {
-                      retval += "BIGINT";
-                    }
+                if (length == 11 && "int".equalsIgnoreCase(v.getOriginalColumnTypeName())) { // NEXUS-MOD
+                  retval += "INT"; // NEXUS-MOD
+                } else {
+                  retval += "BIGINT";
+                }
               } else {
                 retval += "INT";
               }

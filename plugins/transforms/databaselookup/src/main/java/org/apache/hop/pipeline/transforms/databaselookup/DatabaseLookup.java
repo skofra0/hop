@@ -529,9 +529,9 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
                   this, meta.getSchemaName(), meta.getTableName());
 
       // where? //NEXUS-MOD
-      sql +=  noLock;
+      sql += noLock;
       if (StringUtils.isNotEmpty(lookup.getWhereClause())) {
-          sql += " WHERE "+resolve(lookup.getWhereClause());
+        sql += " WHERE " + resolve(lookup.getWhereClause());
       }
 
       // order by?
