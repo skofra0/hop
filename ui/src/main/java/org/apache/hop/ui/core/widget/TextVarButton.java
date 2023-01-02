@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,31 +33,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class TextVarButton extends TextVar {
 
-  public TextVarButton(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface,
-      SelectionListener selectionListener) {
-    super(
-        composite,
-        variables,
-        flags,
-        getCaretPositionInterface,
-        insertTextInterface,
-        selectionListener);
+  public TextVarButton(IVariables variables, Composite composite, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface, SelectionListener selectionListener) {
+    super(composite, variables, flags, getCaretPositionInterface, insertTextInterface, selectionListener);
   }
 
   @Override
-  protected void initialize(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String toolTipText,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface,
-      SelectionListener selectionListener) {
+  protected void initialize(IVariables variables, Composite composite, int flags, String toolTipText, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface, SelectionListener selectionListener) {
     this.toolTipText = toolTipText;
     this.getCaretPositionInterface = getCaretPositionInterface;
     this.insertTextInterface = insertTextInterface;
@@ -107,9 +88,7 @@ public class TextVarButton extends TextVar {
     modifyListenerTooltipText = getModifyListenerTooltipText(wText);
     wText.addModifyListener(modifyListenerTooltipText);
 
-    controlSpaceKeyAdapter =
-        new ControlSpaceKeyAdapter(
-            variables, wText, getCaretPositionInterface, insertTextInterface);
+    controlSpaceKeyAdapter = new ControlSpaceKeyAdapter(variables, wText, getCaretPositionInterface, insertTextInterface);
     wText.addKeyListener(controlSpaceKeyAdapter);
   }
 }

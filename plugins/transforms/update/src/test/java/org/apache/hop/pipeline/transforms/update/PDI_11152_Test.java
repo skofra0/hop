@@ -17,7 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.update;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.hop.core.database.Database;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.logging.ILoggingObject;

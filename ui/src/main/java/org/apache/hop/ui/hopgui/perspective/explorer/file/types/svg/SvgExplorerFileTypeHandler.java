@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,11 +39,9 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 /** How do we handle an SVG file in file explorer perspective? */
-public class SvgExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class SvgExplorerFileTypeHandler extends BaseExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
-  public SvgExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public SvgExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 
@@ -53,11 +51,8 @@ public class SvgExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     Rectangle area = canvas.getBounds();
 
     try {
-      SvgCacheEntry entry =
-          SvgCache.loadSvg(
-              new SvgFile(explorerFile.getFilename(), SvgExplorerFileType.class.getClassLoader()));
-      SwtUniversalImageSvg svg =
-          new SwtUniversalImageSvg(new SvgImage(entry.getSvgDocument()), true);
+      SvgCacheEntry entry = SvgCache.loadSvg(new SvgFile(explorerFile.getFilename(), SvgExplorerFileType.class.getClassLoader()));
+      SwtUniversalImageSvg svg = new SwtUniversalImageSvg(new SvgImage(entry.getSvgDocument()), true);
 
       float factorX = (float) area.width / entry.getWidth();
       float factorY = (float) area.height / entry.getHeight();

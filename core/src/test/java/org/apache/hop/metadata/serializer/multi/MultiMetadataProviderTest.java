@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,17 +66,13 @@ public class MultiMetadataProviderTest extends MetadataTestBase {
 
   public void testSetProviders() {
     List<IHopMetadataProvider> list = multiMetadataProvider.getProviders();
-    MemoryMetadataProvider provider4 =
-        new MemoryMetadataProvider(
-            new HopTwoWayPasswordEncoder(), Variables.getADefaultVariableSpace());
+    MemoryMetadataProvider provider4 = new MemoryMetadataProvider(new HopTwoWayPasswordEncoder(), Variables.getADefaultVariableSpace());
     provider4.setDescription("Provider4");
     list.add(provider4);
     multiMetadataProvider.setProviders(list);
     assertEquals(4, multiMetadataProvider.getProviders().size());
     // see if the description has changed...
     //
-    assertEquals(
-        "Multi Metadata Provider: Provider1, Provider2, Provider3, Provider4",
-        multiMetadataProvider.getDescription());
+    assertEquals("Multi Metadata Provider: Provider1, Provider2, Provider3, Provider4", multiMetadataProvider.getDescription());
   }
 }

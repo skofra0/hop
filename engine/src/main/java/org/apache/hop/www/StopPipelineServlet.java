@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,8 +47,7 @@ public class StopPipelineServlet extends BaseHttpServlet implements IHopServerPl
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -72,16 +71,8 @@ public class StopPipelineServlet extends BaseHttpServlet implements IHopServerPl
         response.setContentType("text/html;charset=UTF-8");
         out.println("<HTML>");
         out.println("<HEAD>");
-        out.println(
-            "<TITLE>"
-                + BaseMessages.getString(PKG, "StopPipelineServlet.StopPipeline")
-                + "</TITLE>");
-        out.println(
-            "<META http-equiv=\"Refresh\" content=\"2;url="
-                + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                + "?name="
-                + URLEncoder.encode(pipelineName, "UTF-8")
-                + "\">");
+        out.println("<TITLE>" + BaseMessages.getString(PKG, "StopPipelineServlet.StopPipeline") + "</TITLE>");
+        out.println("<META http-equiv=\"Refresh\" content=\"2;url=" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "\">");
         out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
         out.println("</HEAD>");
         out.println("<BODY>");
@@ -112,38 +103,22 @@ public class StopPipelineServlet extends BaseHttpServlet implements IHopServerPl
 
         pipeline.stopAll();
 
-        String message =
-            BaseMessages.getString(PKG, "StopPipelineServlet.PipelineStopRequested", pipelineName);
+        String message = BaseMessages.getString(PKG, "StopPipelineServlet.PipelineStopRequested", pipelineName);
 
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_OK, message, id).getXml());
         } else {
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToPipelineStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToPipelineStatusPage") + "</a><p>");
         }
       } else {
-        String message =
-            BaseMessages.getString(PKG, "StopPipelineServlet.CanNotFindPipeline", pipelineName);
+        String message = BaseMessages.getString(PKG, "StopPipelineServlet.CanNotFindPipeline", pipelineName);
 
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_ERROR, message, id).getXml());
         } else {
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
       }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,11 +44,9 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.*;
 
-/**
- * Editor that allows you to change Web Service metadata
+/** Editor that allows you to change Web Service metadata
  *
- * @see WebService
- */
+ * @see WebService */
 public class WebServiceEditor extends MetadataEditor<WebService> {
   private static final Class<?> PKG = WebServiceEditor.class; // For Translator
 
@@ -261,11 +259,9 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
     wListStatus.addListener(SWT.Selection, modifyListener);
   }
 
-  /**
-   * Create a new pipeline file with a note to explain what's going on
+  /** Create a new pipeline file with a note to explain what's going on
    *
-   * @param parent
-   */
+   * @param parent */
   private void createPipelineFile(Composite parent) {
     try {
 
@@ -275,29 +271,14 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
 
       // Add a note explaining what's going on.
       //
-      NotePadMeta note =
-          new NotePadMeta(
-              "This pipeline can create output for a web service."
-                  + Const.CR
-                  + "It will pick up the data in a single field in a single transform of this pipeline",
-              150,
-              350,
-              -1,
-              -1);
+      NotePadMeta note = new NotePadMeta("This pipeline can create output for a web service." + Const.CR + "It will pick up the data in a single field in a single transform of this pipeline", 150, 350, -1, -1);
       pipelineMeta.addNote(note);
 
       // Save it...
       //
       HopPipelineFileType<PipelineMeta> type = new HopPipelineFileType<>();
-      String filename =
-          BaseDialog.presentFileDialog(
-              true, // save
-              parent.getShell(),
-              wFilename,
-              manager.getVariables(),
-              type.getFilterExtensions(),
-              type.getFilterNames(),
-              true);
+      String filename = BaseDialog.presentFileDialog(true, // save
+          parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
       if (filename != null) {
         // User specified a pipeline filename
         //
@@ -323,11 +304,9 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
     }
   }
 
-  /**
-   * Open the specified file
+  /** Open the specified file
    *
-   * @param parent
-   */
+   * @param parent */
   private void openPipelineFile(Composite parent) {
     try {
       String filename = manager.getVariables().resolve(wFilename.getText());
@@ -341,13 +320,7 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
 
   private void selectPipelineFilename(Composite parent) {
     HopPipelineFileType<?> type = new HopPipelineFileType<>();
-    BaseDialog.presentFileDialog(
-        parent.getShell(),
-        wFilename,
-        manager.getVariables(),
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   @Override
@@ -399,23 +372,13 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
     try {
       PipelineMeta pipelineMeta = new PipelineMeta(filename, metadataProvider, true, variables);
 
-      EnterSelectionDialog selectTransformDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              pipelineMeta.getTransformNames(),
-              "Select output transform",
-              "Select the transform output for the web service");
+      EnterSelectionDialog selectTransformDialog = new EnterSelectionDialog(hopGui.getShell(), pipelineMeta.getTransformNames(), "Select output transform", "Select the transform output for the web service");
       String transformName = selectTransformDialog.open();
       if (transformName == null) {
         return;
       }
       IRowMeta rowMeta = pipelineMeta.getTransformFields(variables, transformName);
-      EnterSelectionDialog selectFieldDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              rowMeta.getFieldNames(),
-              "Select the output field",
-              "Select the field to use as output for this web service");
+      EnterSelectionDialog selectFieldDialog = new EnterSelectionDialog(hopGui.getShell(), rowMeta.getFieldNames(), "Select the output field", "Select the field to use as output for this web service");
       String fieldName = selectFieldDialog.open();
       if (fieldName == null) {
         return;

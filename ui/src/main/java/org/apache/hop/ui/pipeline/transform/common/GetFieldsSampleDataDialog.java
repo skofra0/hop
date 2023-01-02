@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * A dialog that allows the user to select the number of data rows to sample, when fetching fields.
- */
+/** A dialog that allows the user to select the number of data rows to sample, when fetching fields. */
 public class GetFieldsSampleDataDialog extends EnterNumberDialog {
 
   private static final Class<?> PKG = GetFieldsSampleDataDialog.class;
@@ -39,17 +37,8 @@ public class GetFieldsSampleDataDialog extends EnterNumberDialog {
   private final IGetFieldsCapableTransformDialog parentDialog;
   private final boolean reloadAllFields;
 
-  public GetFieldsSampleDataDialog(
-          final Shell parentShell,
-          final IGetFieldsCapableTransformDialog parentDialog,
-          final boolean reloadAllFields) {
-    super(
-            parentShell,
-            SAMPLE_SIZE,
-            BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Title"),
-            BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Message"),
-        BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.ShowSample.Message"),
-        SHELL_WIDTH);
+  public GetFieldsSampleDataDialog(final Shell parentShell, final IGetFieldsCapableTransformDialog parentDialog, final boolean reloadAllFields) {
+    super(parentShell, SAMPLE_SIZE, BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Title"), BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Message"), BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.ShowSample.Message"), SHELL_WIDTH);
     this.parentDialog = parentDialog;
     this.reloadAllFields = reloadAllFields;
   }
@@ -71,18 +60,10 @@ public class GetFieldsSampleDataDialog extends EnterNumberDialog {
 
   protected void handleOk(final int samples) {
     if (samples >= 0) {
-      String message =
-          parentDialog.loadFields(parentDialog.getPopulatedMeta(), samples, reloadAllFields);
+      String message = parentDialog.loadFields(parentDialog.getPopulatedMeta(), samples, reloadAllFields);
       if (wCheckbox != null && wCheckbox.getSelection()) {
         if (StringUtils.isNotBlank(message)) {
-          final EnterTextDialog etd =
-              new EnterTextDialog(
-                  parentDialog.getShell(),
-                  BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.DialogTitle"),
-                  BaseMessages.getString(
-                      PKG, "GetFieldsSampleDataDialog.ScanResults.DialogMessage"),
-                  message,
-                  true);
+          final EnterTextDialog etd = new EnterTextDialog(parentDialog.getShell(), BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.DialogTitle"), BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.DialogMessage"), message, true);
           etd.setReadOnly();
           etd.setModal();
           etd.open();
@@ -90,8 +71,7 @@ public class GetFieldsSampleDataDialog extends EnterNumberDialog {
 
           MessageBox box = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
           box.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-          box.setMessage(
-              BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.Error.Message"));
+          box.setMessage(BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.Error.Message"));
           box.open();
         }
       }

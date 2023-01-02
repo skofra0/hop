@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,8 +47,7 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
     baseFolder = "metadata";
   }
 
-  public JsonMetadataProvider(
-      ITwoWayPasswordEncoder twoWayPasswordEncoder, String baseFolder, IVariables variables) {
+  public JsonMetadataProvider(ITwoWayPasswordEncoder twoWayPasswordEncoder, String baseFolder, IVariables variables) {
     super(variables, DEFAULT_DESCRIPTION + " in folder " + baseFolder);
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
     this.baseFolder = baseFolder;
@@ -64,8 +63,7 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
   }
 
   @Override
-  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass)
-      throws HopException {
+  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass) throws HopException {
     if (managedClass == null) {
       throw new HopException("You need to specify the class to serialize");
     }
@@ -74,17 +72,10 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
     //
     HopMetadata hopMetadata = managedClass.getAnnotation(HopMetadata.class);
     if (hopMetadata == null) {
-      throw new HopException(
-          "To serialize class "
-              + managedClass.getClass().getName()
-              + " it needs to have annotation "
-              + HopMetadata.class.getName());
+      throw new HopException("To serialize class " + managedClass.getClass().getName() + " it needs to have annotation " + HopMetadata.class.getName());
     }
     String classFolder = Const.NVL(hopMetadata.key(), hopMetadata.name());
-    String serializerBaseFolderName =
-        baseFolder
-            + (baseFolder.endsWith(Const.FILE_SEPARATOR) ? "" : Const.FILE_SEPARATOR)
-            + classFolder;
+    String serializerBaseFolderName = baseFolder + (baseFolder.endsWith(Const.FILE_SEPARATOR) ? "" : Const.FILE_SEPARATOR) + classFolder;
 
     // Check if the folder exists...
     //
@@ -94,22 +85,15 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
         serializerBaseFolder.createFolder();
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error validating or creating folder  '"
-              + serializerBaseFolderName
-              + "'to store JSON serialized objects in from class "
-              + managedClass.getName());
+      throw new HopException("Error validating or creating folder  '" + serializerBaseFolderName + "'to store JSON serialized objects in from class " + managedClass.getName());
     }
 
-    return new JsonMetadataSerializer<>(
-        this, serializerBaseFolderName, managedClass, variables, hopMetadata.name());
+    return new JsonMetadataSerializer<>(this, serializerBaseFolderName, managedClass, variables, hopMetadata.name());
   }
 
-  /**
-   * Gets twoWayPasswordEncoder
+  /** Gets twoWayPasswordEncoder
    *
-   * @return value of twoWayPasswordEncoder
-   */
+   * @return value of twoWayPasswordEncoder */
   @Override
   public ITwoWayPasswordEncoder getTwoWayPasswordEncoder() {
     return twoWayPasswordEncoder;
@@ -120,11 +104,9 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
   }
 
-  /**
-   * Gets baseFolder
+  /** Gets baseFolder
    *
-   * @return value of baseFolder
-   */
+   * @return value of baseFolder */
   public String getBaseFolder() {
     return baseFolder;
   }

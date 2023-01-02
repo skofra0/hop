@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,11 +38,9 @@ public class AuditEvent {
     this.date = date;
   }
 
-  /**
-   * Gets group
+  /** Gets group
    *
-   * @return value of group
-   */
+   * @return value of group */
   public String getGroup() {
     return group;
   }
@@ -52,11 +50,9 @@ public class AuditEvent {
     this.group = group;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public String getType() {
     return type;
   }
@@ -66,11 +62,9 @@ public class AuditEvent {
     this.type = type;
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   public String getName() {
     return name;
   }
@@ -80,11 +74,9 @@ public class AuditEvent {
     this.name = name;
   }
 
-  /**
-   * Gets operation
+  /** Gets operation
    *
-   * @return value of operation
-   */
+   * @return value of operation */
   public String getOperation() {
     return operation;
   }
@@ -94,11 +86,9 @@ public class AuditEvent {
     this.operation = operation;
   }
 
-  /**
-   * Gets date
+  /** Gets date
    *
-   * @return value of date
-   */
+   * @return value of date */
   public Date getDate() {
     return date;
   }

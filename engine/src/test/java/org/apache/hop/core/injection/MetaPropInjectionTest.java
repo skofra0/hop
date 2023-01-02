@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,11 +38,9 @@ import static org.junit.Assert.*;
 
 public class MetaPropInjectionTest {
 
-  /**
-   * Test to see that the annotations are picked up properly in various scenarios
+  /** Test to see that the annotations are picked up properly in various scenarios
    *
-   * @throws Exception
-   */
+   * @throws Exception */
   @Test
   public void testHopMetadataPropertyInjectionInfo() throws Exception {
     BeanInjectionInfo<PropBeanParent> info = new BeanInjectionInfo<>(PropBeanParent.class);
@@ -193,10 +191,8 @@ public class MetaPropInjectionTest {
     injector.setProperty(parent, "boolean", Arrays.asList(parentMetadata), "booleanValue");
     injector.setProperty(parent, "child1", Arrays.asList(parentMetadata), "childValue1");
     injector.setProperty(parent, "child2", Arrays.asList(parentMetadata), "childValue2");
-    injector.setProperty(
-        parent, "grand_child_name", Arrays.asList(parentMetadata), "grandChildName");
-    injector.setProperty(
-        parent, "grand_child_description", Arrays.asList(parentMetadata), "grandChildDescription");
+    injector.setProperty(parent, "grand_child_name", Arrays.asList(parentMetadata), "grandChildName");
+    injector.setProperty(parent, "grand_child_description", Arrays.asList(parentMetadata), "grandChildDescription");
 
     assertEquals(parent.getStringField(), "someString");
     assertEquals(parent.getIntField(), 123);
@@ -208,11 +204,7 @@ public class MetaPropInjectionTest {
     assertEquals("someDescription", parent.getChild().getGrandChild().getGrandChildDescription());
 
     IRowMeta stringRowMeta = new RowMetaBuilder().addString("stringField").build();
-    List<RowMetaAndData> stringsRows =
-        Arrays.asList(
-            new RowMetaAndData(stringRowMeta, "string1"),
-            new RowMetaAndData(stringRowMeta, "string2"),
-            new RowMetaAndData(stringRowMeta, "string3"));
+    List<RowMetaAndData> stringsRows = Arrays.asList(new RowMetaAndData(stringRowMeta, "string1"), new RowMetaAndData(stringRowMeta, "string2"), new RowMetaAndData(stringRowMeta, "string3"));
     injector.setProperty(parent, "string", stringsRows, "stringField");
 
     assertEquals(3, parent.getStrings().size());
@@ -222,13 +214,8 @@ public class MetaPropInjectionTest {
 
     // Inject a number of children into a list
     //
-    IRowMeta entriesRowMeta =
-        new RowMetaBuilder().addString("fieldF1").addString("fieldF2").build();
-    List<RowMetaAndData> entriesRows =
-        Arrays.asList(
-            new RowMetaAndData(entriesRowMeta, "f1_1", "f2_1"),
-            new RowMetaAndData(entriesRowMeta, "f1_2", "f2_2"),
-            new RowMetaAndData(entriesRowMeta, "f1_3", "f2_3"));
+    IRowMeta entriesRowMeta = new RowMetaBuilder().addString("fieldF1").addString("fieldF2").build();
+    List<RowMetaAndData> entriesRows = Arrays.asList(new RowMetaAndData(entriesRowMeta, "f1_1", "f2_1"), new RowMetaAndData(entriesRowMeta, "f1_2", "f2_2"), new RowMetaAndData(entriesRowMeta, "f1_3", "f2_3"));
     injector.setProperty(parent, "f1", entriesRows, "fieldF1");
     injector.setProperty(parent, "f2", entriesRows, "fieldF2");
 

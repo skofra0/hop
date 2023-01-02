@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,23 +59,14 @@ public class HopServerSequence {
     startValue = 1;
   }
 
-  /**
-   * @param name
+  /** @param name
    * @param startValue
    * @param databaseMeta
    * @param schemaName
    * @param tableName
    * @param sequenceNameField
-   * @param valueField
-   */
-  public HopServerSequence(
-      String name,
-      long startValue,
-      DatabaseMeta databaseMeta,
-      String schemaName,
-      String tableName,
-      String sequenceNameField,
-      String valueField) {
+   * @param valueField */
+  public HopServerSequence(String name, long startValue, DatabaseMeta databaseMeta, String schemaName, String tableName, String sequenceNameField, String valueField) {
     this.name = name;
     this.startValue = startValue;
     this.databaseMeta = databaseMeta;
@@ -85,16 +76,14 @@ public class HopServerSequence {
     this.valueField = valueField;
   }
 
-  public synchronized long getNextValue(
-      IVariables variables, ILoggingObject log, long incrementValue) throws HopException {
+  public synchronized long getNextValue(IVariables variables, ILoggingObject log, long incrementValue) throws HopException {
 
     Database db = null;
     try {
       db = new Database(log, variables, databaseMeta);
       db.connect();
 
-      String schemaTable =
-          databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+      String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
       String seqField = databaseMeta.quoteField(sequenceNameField);
       String valField = databaseMeta.quoteField(valueField);
 
@@ -138,13 +127,7 @@ public class HopServerSequence {
       return value;
 
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to get next value for server sequence '"
-              + name
-              + "' on database '"
-              + databaseMeta.getName()
-              + "'",
-          e);
+      throw new HopException("Unable to get next value for server sequence '" + name + "' on database '" + databaseMeta.getName() + "'", e);
     } finally {
       db.disconnect();
     }
@@ -165,8 +148,7 @@ public class HopServerSequence {
 
     xml.append(XmlHandler.addTagValue("name", name));
     xml.append(XmlHandler.addTagValue("start", startValue));
-    xml.append(
-        XmlHandler.addTagValue("connection", databaseMeta == null ? "" : databaseMeta.getName()));
+    xml.append(XmlHandler.addTagValue("connection", databaseMeta == null ? "" : databaseMeta.getName()));
     xml.append(XmlHandler.addTagValue("schema", schemaName));
     xml.append(XmlHandler.addTagValue("table", tableName));
     xml.append(XmlHandler.addTagValue("sequence_field", sequenceNameField));
@@ -245,14 +227,11 @@ public class HopServerSequence {
     this.valueField = valueField;
   }
 
-  /**
-   * Find a server sequence with a certain name
+  /** Find a server sequence with a certain name
    *
    * @param name the name to look for
-   * @return the server sequence with the specified name or null of the sequence couldn't be found.
-   */
-  public static HopServerSequence findServerSequence(
-      String name, List<HopServerSequence> hopServerSequences) {
+   * @return the server sequence with the specified name or null of the sequence couldn't be found. */
+  public static HopServerSequence findServerSequence(String name, List<HopServerSequence> hopServerSequences) {
     for (HopServerSequence hopServerSequence : hopServerSequences) {
       if (hopServerSequence.getName().equalsIgnoreCase(name)) {
         return hopServerSequence;

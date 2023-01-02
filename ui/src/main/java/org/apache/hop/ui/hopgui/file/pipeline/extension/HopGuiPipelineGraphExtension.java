@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,19 +30,16 @@ public class HopGuiPipelineGraphExtension {
   private boolean preventingDefault;
   private AreaOwner areaOwner;
 
-  public HopGuiPipelineGraphExtension(
-      HopGuiPipelineGraph pipelineGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
+  public HopGuiPipelineGraphExtension(HopGuiPipelineGraph pipelineGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
     this.pipelineGraph = pipelineGraph;
     this.event = event;
     this.point = point;
     this.areaOwner = areaOwner;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiPipelineGraph getPipelineGraph() {
     return pipelineGraph;
   }
@@ -52,11 +49,9 @@ public class HopGuiPipelineGraphExtension {
     this.pipelineGraph = pipelineGraph;
   }
 
-  /**
-   * Gets event
+  /** Gets event
    *
-   * @return value of event
-   */
+   * @return value of event */
   public MouseEvent getEvent() {
     return event;
   }
@@ -66,11 +61,9 @@ public class HopGuiPipelineGraphExtension {
     this.event = event;
   }
 
-  /**
-   * Gets point
+  /** Gets point
    *
-   * @return value of point
-   */
+   * @return value of point */
   public Point getPoint() {
     return point;
   }
@@ -80,11 +73,9 @@ public class HopGuiPipelineGraphExtension {
     this.point = point;
   }
 
-  /**
-   * Gets preventDefault
+  /** Gets preventDefault
    *
-   * @return value of preventDefault
-   */
+   * @return value of preventDefault */
   public boolean isPreventingDefault() {
     return preventingDefault;
   }
@@ -94,11 +85,9 @@ public class HopGuiPipelineGraphExtension {
     this.preventingDefault = preventingDefault;
   }
 
-  /**
-   * Gets areaOwner
+  /** Gets areaOwner
    *
-   * @return value of areaOwner
-   */
+   * @return value of areaOwner */
   public AreaOwner getAreaOwner() {
     return areaOwner;
   }

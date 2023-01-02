@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,47 +21,37 @@ import java.util.Map;
 
 public interface IAttributes {
 
-  /**
-   * Pass a map of group attributes
+  /** Pass a map of group attributes
    *
-   * @param attributesMap The map of group attributes
-   */
+   * @param attributesMap The map of group attributes */
   void setAttributesMap(Map<String, Map<String, String>> attributesMap);
 
   /** @return All attributes for all attribute groups in one single map. */
   Map<String, Map<String, String>> getAttributesMap();
 
-  /**
-   * Add a map of attributes to an attribute group.
+  /** Add a map of attributes to an attribute group.
    *
    * @param groupName The group to add the attributes to
-   * @param attributes the attributes to add
-   */
+   * @param attributes the attributes to add */
   void setAttributes(String groupName, Map<String, String> attributes);
 
-  /**
-   * Add an attribute to an attribute group
+  /** Add an attribute to an attribute group
    *
    * @param groupName The group to add the attribute to
    * @param key The key of the attribute
-   * @param value the value of the attribute
-   */
+   * @param value the value of the attribute */
   void setAttribute(String groupName, String key, String value);
 
-  /**
-   * Get an attributes map for a group
+  /** Get an attributes map for a group
    *
    * @param groupName The name of the attributes group to retrieve
-   * @return The map representing the attributes group
-   */
+   * @return The map representing the attributes group */
   Map<String, String> getAttributes(String groupName);
 
-  /**
-   * Get a value for an attribute in an attribute group
+  /** Get a value for an attribute in an attribute group
    *
    * @param groupName The group to get the attribute from
    * @param key The attribute key
-   * @return The attribute value of null if the group of key doesn't exist
-   */
+   * @return The attribute value of null if the group of key doesn't exist */
   String getAttribute(String groupName, String key);
 }

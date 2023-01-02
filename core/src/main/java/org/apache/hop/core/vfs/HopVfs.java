@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,12 +66,10 @@ public class HopVfs {
     }
   }
 
-  /**
-   * Make sure to close when done using!
+  /** Make sure to close when done using!
    *
    * @return A new standard file system manager
-   * @throws HopException
-   */
+   * @throws HopException */
   private static DefaultFileSystemManager createFileSystemManager() throws HopException {
     try {
       DefaultFileSystemManager fsm = new DefaultFileSystemManager();
@@ -122,13 +120,7 @@ public class HopVfs {
         try {
           fsm.addProvider(iVfs.getUrlSchemes(), iVfs.getProvider());
         } catch (Exception e) {
-          throw new HopException(
-              "Error registering provider for VFS plugin "
-                  + plugin.getIds()[0]
-                  + " : "
-                  + plugin.getName()
-                  + " : ",
-              e);
+          throw new HopException("Error registering provider for VFS plugin " + plugin.getIds()[0] + " : " + plugin.getName() + " : ", e);
         }
       }
 
@@ -176,12 +168,7 @@ public class HopVfs {
 
         return fsManager.resolveFile(filename);
       } catch (Exception e) {
-        throw new HopFileException(
-            "Unable to get VFS File object for filename '"
-                + cleanseFilename(vfsFilename)
-                + "' : "
-                + e.getMessage(),
-            e);
+        throw new HopFileException("Unable to get VFS File object for filename '" + cleanseFilename(vfsFilename) + "' : " + e.getMessage(), e);
       }
     } finally {
       lock.readLock().unlock();
@@ -200,24 +187,19 @@ public class HopVfs {
     return relativeFilename;
   }
 
-  /**
-   * Private method for stripping password from filename when a FileObject can not be obtained.
-   * getFriendlyURI(FileObject) or getFriendlyURI(String) are the public methods.
-   */
+  /** Private method for stripping password from filename when a FileObject can not be obtained.
+   * getFriendlyURI(FileObject) or getFriendlyURI(String) are the public methods. */
   private static String cleanseFilename(String vfsFilename) {
     return vfsFilename.replaceAll(":[^:@/]+@", ":<password>@");
   }
 
-  /**
-   * Read a text file (like an XML document). WARNING DO NOT USE FOR DATA FILES.
+  /** Read a text file (like an XML document). WARNING DO NOT USE FOR DATA FILES.
    *
    * @param vfsFilename the filename or URL to read from
    * @param charSetName the character set of the string (UTF-8, ISO8859-1, etc)
    * @return The content of the file as a String
-   * @throws IOException
-   */
-  public static String getTextFileContent(String vfsFilename, String charSetName)
-      throws HopFileException {
+   * @throws IOException */
+  public static String getTextFileContent(String vfsFilename, String charSetName) throws HopFileException {
     try {
       InputStream inputStream = getInputStream(vfsFilename);
 
@@ -269,13 +251,10 @@ public class HopVfs {
     }
   }
 
-  public static OutputStream getOutputStream(FileObject fileObject, boolean append)
-      throws IOException {
+  public static OutputStream getOutputStream(FileObject fileObject, boolean append) throws IOException {
     FileObject parent = fileObject.getParent();
     if (parent != null && !parent.exists()) {
-      throw new IOException(
-          BaseMessages.getString(
-              PKG, "HopVFS.Exception.ParentDirectoryDoesNotExist", getFriendlyURI(parent)));
+      throw new IOException(BaseMessages.getString(PKG, "HopVFS.Exception.ParentDirectoryDoesNotExist", getFriendlyURI(parent)));
     }
     try {
       // Temporary work-around for VFS-807 bug (can be removed after 2.9.0)
@@ -306,8 +285,7 @@ public class HopVfs {
     }
   }
 
-  public static OutputStream getOutputStream(String vfsFilename, boolean append)
-      throws HopFileException {
+  public static OutputStream getOutputStream(String vfsFilename, boolean append) throws HopFileException {
     try {
       FileObject fileObject = getFileObject(vfsFilename);
       return getOutputStream(fileObject, append);
@@ -356,27 +334,22 @@ public class HopVfs {
     return fileObject.getName().getFriendlyURI();
   }
 
-  /**
-   * Creates a file using "java.io.tmpdir" directory
+  /** Creates a file using "java.io.tmpdir" directory
    *
    * @param prefix - file name
    * @param prefix - file extension
    * @return FileObject
-   * @throws HopFileException
-   */
+   * @throws HopFileException */
   public static FileObject createTempFile(String prefix, Suffix suffix) throws HopFileException {
     return createTempFile(prefix, suffix.ext, TEMP_DIR);
   }
 
-  /**
-   * @param prefix - file name
+  /** @param prefix - file name
    * @param suffix - file extension
    * @param directory - directory where file will be created
    * @return FileObject
-   * @throws HopFileException
-   */
-  public static synchronized FileObject createTempFile(
-      String prefix, String suffix, String directory) throws HopFileException {
+   * @throws HopFileException */
+  public static synchronized FileObject createTempFile(String prefix, String suffix, String directory) throws HopFileException {
     try {
       FileObject fileObject;
       do {
@@ -415,13 +388,11 @@ public class HopVfs {
     };
   }
 
-  /**
-   * Check if filename starts with one of the known protocols like file: zip: ram: smb: jar: etc. If
+  /** Check if filename starts with one of the known protocols like file: zip: ram: smb: jar: etc. If
    * yes, return true otherwise return false
    *
    * @param vfsFileName
-   * @return boolean
-   */
+   * @return boolean */
   public static boolean startsWithScheme(String vfsFileName) {
     lock.readLock().lock();
     try {
@@ -443,25 +414,21 @@ public class HopVfs {
     }
   }
 
-  /**
-   * Find files with a specific extension in the specified folder and optionally
+  /** Find files with a specific extension in the specified folder and optionally
    *
    * @param folder The folder to search in
    * @param extension The extension of null if you want all files
    * @param includeSubFolders True if you want to search sub-folders as well.
    * @return The list of files found
-   * @throws Exception
-   */
-  public static final List<FileObject> findFiles(
-      FileObject folder, String extension, boolean includeSubFolders) throws Exception {
+   * @throws Exception */
+  public static final List<FileObject> findFiles(FileObject folder, String extension, boolean includeSubFolders) throws Exception {
     List<FileObject> files = new ArrayList<>();
 
     for (FileObject child : folder.getChildren()) {
       if (child.isFolder() && includeSubFolders) {
         files.addAll(findFiles(child, extension, true));
       } else {
-        if (StringUtils.isEmpty(extension)
-            || extension.equalsIgnoreCase(child.getName().getExtension())) {
+        if (StringUtils.isEmpty(extension) || extension.equalsIgnoreCase(child.getName().getExtension())) {
           files.add(child);
         }
       }
@@ -470,9 +437,7 @@ public class HopVfs {
     return files;
   }
 
-  /**
-   * @see StandardFileSystemManager#freeUnusedResources()
-   */
+  /** @see StandardFileSystemManager#freeUnusedResources() */
   public static void freeUnusedResources() {
     if (fsm != null) {
       fsm.freeUnusedResources();
@@ -488,9 +453,7 @@ public class HopVfs {
   }
 
   public enum Suffix {
-    ZIP(".zip"),
-    TMP(".tmp"),
-    JAR(".jar");
+    ZIP(".zip"), TMP(".tmp"), JAR(".jar");
 
     private String ext;
 

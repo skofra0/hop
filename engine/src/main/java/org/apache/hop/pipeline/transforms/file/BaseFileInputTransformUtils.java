@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,9 +31,7 @@ import java.util.List;
 /** Utils for file-based input transforms. */
 public class BaseFileInputTransformUtils {
 
-  public static void handleMissingFiles(
-      FileInputList files, ILogChannel log, boolean isErrorIgnored, IFileErrorHandler errorHandler)
-      throws HopException {
+  public static void handleMissingFiles(FileInputList files, ILogChannel log, boolean isErrorIgnored, IFileErrorHandler errorHandler) throws HopException {
     List<FileObject> nonExistantFiles = files.getNonExistantFiles();
 
     if (!nonExistantFiles.isEmpty()) {
@@ -66,13 +64,11 @@ public class BaseFileInputTransformUtils {
     }
   }
 
-  /**
-   * Adds <code>String</code> value meta with given name if not present and returns index
+  /** Adds <code>String</code> value meta with given name if not present and returns index
    *
    * @param rowMeta
    * @param fieldName
-   * @return Index in row meta of value meta with <code>fieldName</code>
-   */
+   * @return Index in row meta of value meta with <code>fieldName</code> */
   public static int addValueMeta(String transformName, IRowMeta rowMeta, String fieldName) {
     IValueMeta valueMeta = new ValueMetaString(fieldName);
     valueMeta.setOrigin(transformName);

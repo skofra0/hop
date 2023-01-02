@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,10 +34,8 @@ public class ValueMetaAndData {
 
   public ValueMetaAndData() {}
 
-  /**
-   * @param valueMeta
-   * @param valueData
-   */
+  /** @param valueMeta
+   * @param valueData */
   public ValueMetaAndData(IValueMeta valueMeta, Object valueData) {
     this.valueMeta = valueMeta;
     this.valueData = valueData;
@@ -86,13 +84,11 @@ public class ValueMetaAndData {
     }
   }
 
-  /**
-   * Produce the XML representation of this value.
+  /** Produce the XML representation of this value.
    *
    * @return a String containing the XML to represent this Value.
    * @throws HopValueException in case there is a data conversion error, only throws in case of lazy
-   *     conversion
-   */
+   *         conversion */
   public String getXml() throws HopValueException {
     IValueMeta meta = valueMeta.clone();
     meta.setDecimalSymbol(".");
@@ -117,22 +113,18 @@ public class ValueMetaAndData {
     return retval.toString();
   }
 
-  /**
-   * Construct a new Value and read the data from XML
+  /** Construct a new Value and read the data from XML
    *
-   * @param valnode The XML Node to read from.
-   */
+   * @param valnode The XML Node to read from. */
   public ValueMetaAndData(Node valnode) {
     this();
     loadXml(valnode);
   }
 
-  /**
-   * Read the data for this Value from an XML Node
+  /** Read the data for this Value from an XML Node
    *
    * @param valnode The XML Node to read from
-   * @return true if all went well, false if something went wrong.
-   */
+   * @return true if all went well, false if something went wrong. */
   public boolean loadXml(Node valnode) {
     valueMeta = null;
 

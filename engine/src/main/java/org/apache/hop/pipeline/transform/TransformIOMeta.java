@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,17 +35,9 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
   private String generalInfoDescription;
   private String generalTargetDescription;
 
-  /**
-   * @param inputAcceptor
-   * @param outputProducer
-   */
-  public TransformIOMeta(
-      boolean inputAcceptor,
-      boolean outputProducer,
-      boolean inputOptional,
-      boolean sortedDataRequired,
-      boolean inputDynamic,
-      boolean outputDynamic) {
+  /** @param inputAcceptor
+   * @param outputProducer */
+  public TransformIOMeta(boolean inputAcceptor, boolean outputProducer, boolean inputOptional, boolean sortedDataRequired, boolean inputDynamic, boolean outputDynamic) {
     this.inputAcceptor = inputAcceptor;
     this.outputProducer = outputProducer;
     this.inputOptional = inputOptional;
@@ -97,10 +89,8 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
     this.inputOptional = inputOptional;
   }
 
-  /**
-   * @return the info streams of this transform. Important: Modifying this list does not have any
-   *     effect on the Transforms IO metadata.
-   */
+  /** @return the info streams of this transform. Important: Modifying this list does not have any
+   *         effect on the Transforms IO metadata. */
   @Override
   public List<IStream> getInfoStreams() {
     List<IStream> list = new ArrayList<>();
@@ -114,10 +104,8 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
     return list;
   }
 
-  /**
-   * @return the target streams of this transform. Important: Modifying this list does not have any
-   *     effect on the Transforms IO metadata.
-   */
+  /** @return the target streams of this transform. Important: Modifying this list does not have any
+   *         effect on the Transforms IO metadata. */
   @Override
   public List<IStream> getTargetStreams() {
     List<IStream> list = new ArrayList<>();
@@ -167,11 +155,9 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
     return names;
   }
 
-  /**
-   * Replace the info transforms with the supplied source transforms.
+  /** Replace the info transforms with the supplied source transforms.
    *
-   * @param infoTransforms
-   */
+   * @param infoTransforms */
   @Override
   public void setInfoTransforms(TransformMeta[] infoTransforms) {
     // First get the info transforms...

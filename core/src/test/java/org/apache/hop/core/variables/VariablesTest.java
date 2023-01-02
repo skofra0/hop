@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,11 +36,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-/**
- * Variables tests.
+/** Variables tests.
  *
- * @see Variables
- */
+ * @see Variables */
 public class VariablesTest {
 
   private Variables variables = new Variables();
@@ -90,11 +88,9 @@ public class VariablesTest {
     thread.start();
   }
 
-  /**
-   * Spawns 20 threads that modify variables to test concurrent modification error fix.
+  /** Spawns 20 threads that modify variables to test concurrent modification error fix.
    *
-   * @throws Exception
-   */
+   * @throws Exception */
   @Test
   public void testConcurrentModification() throws Exception {
 
@@ -110,7 +106,7 @@ public class VariablesTest {
     }
   }
 
-  // Note:  Not using lambda so this can be ported to older version compatible with 1.7
+  // Note: Not using lambda so this can be ported to older version compatible with 1.7
   private Callable<Boolean> newCallable() {
     return () -> {
       for (int i = 0; i < 300; i++) {
@@ -148,8 +144,6 @@ public class VariablesTest {
     assertEquals("DataTwoEnd", vars.resolve("${VarTwo}End"));
 
     assertEquals(0, vars.resolve(new String[0]).length);
-    assertArrayEquals(
-        new String[] {"DataOne", "TheDataOne"},
-        vars.resolve(new String[] {"${VarOne}", "The${VarOne}"}));
+    assertArrayEquals(new String[] {"DataOne", "TheDataOne"}, vars.resolve(new String[] {"${VarOne}", "The${VarOne}"}));
   }
 }

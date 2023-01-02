@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,8 +38,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransformOptionTest {
-  @Mock TransformMeta transformMeta;
-  @Mock IVariables variables;
+  @Mock
+  TransformMeta transformMeta;
+  @Mock
+  IVariables variables;
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -83,9 +85,7 @@ public class TransformOptionTest {
     List<ICheckResult> remarks = new ArrayList<>();
     TransformOption.checkInteger(remarks, transformMeta, variables, "IDENTIFIER", "asdf");
     assertEquals(1, remarks.size());
-    assertEquals(
-        remarks.get(0).getText(),
-        getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
+    assertEquals(remarks.get(0).getText(), getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
   }
 
   @Test
@@ -93,9 +93,7 @@ public class TransformOptionTest {
     List<ICheckResult> remarks = new ArrayList<>();
     TransformOption.checkLong(remarks, transformMeta, variables, "IDENTIFIER", "asdf");
     assertEquals(1, remarks.size());
-    assertEquals(
-        remarks.get(0).getText(),
-        getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
+    assertEquals(remarks.get(0).getText(), getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
   }
 
   @Test
@@ -103,8 +101,6 @@ public class TransformOptionTest {
     List<ICheckResult> remarks = new ArrayList<>();
     TransformOption.checkBoolean(remarks, transformMeta, variables, "IDENTIFIER", "asdf");
     assertEquals(1, remarks.size());
-    assertEquals(
-        remarks.get(0).getText(),
-        getString(TransformOption.class, "TransformOption.CheckResult.NotABoolean", "IDENTIFIER"));
+    assertEquals(remarks.get(0).getText(), getString(TransformOption.class, "TransformOption.CheckResult.NotABoolean", "IDENTIFIER"));
   }
 }

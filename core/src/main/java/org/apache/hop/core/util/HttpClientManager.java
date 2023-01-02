@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,12 +49,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-/**
- * Single entry point for all {@link org.apache.http.client.HttpClient HttpClient instances} usages
+/** Single entry point for all {@link org.apache.http.client.HttpClient HttpClient instances} usages
  * in Hop projects. Contains {@link org.apache.http.impl.conn.PoolingHttpClientConnectionManager
  * Connection pool} of 200 connections. Maximum connections per one route is 100. Provides inner
- * builder class for creating {@link org.apache.http.client.HttpClient HttpClients}.
- */
+ * builder class for creating {@link org.apache.http.client.HttpClient HttpClients}. */
 public class HttpClientManager {
   private static final int CONNECTIONS_PER_ROUTE = 100;
   private static final int TOTAL_CONNECTIONS = 200;
@@ -101,8 +99,7 @@ public class HttpClientManager {
       return this;
     }
 
-    public HttpClientBuilderFacade setCredentials(
-        String user, String password, AuthScope authScope) {
+    public HttpClientBuilderFacade setCredentials(String user, String password, AuthScope authScope) {
       CredentialsProvider provider = new BasicCredentialsProvider();
       UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(user, password);
       provider.setCredentials(authScope, credentials);
@@ -133,7 +130,7 @@ public class HttpClientManager {
       this.ignoreSsl = ignoreSsl;
     }
 
-    public void ignoreSsl(HttpClientBuilder httpClientBuilder){
+    public void ignoreSsl(HttpClientBuilder httpClientBuilder) {
       TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
       SSLContext sslContext;
       try {
@@ -142,17 +139,11 @@ public class HttpClientManager {
         throw new RuntimeException(e);
       }
 
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
-          NoopHostnameVerifier.INSTANCE);
+      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
 
-      Registry<ConnectionSocketFactory> socketFactoryRegistry =
-          RegistryBuilder.<ConnectionSocketFactory>create()
-              .register("https", sslsf)
-              .register("http", new PlainConnectionSocketFactory())
-              .build();
+      Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("https", sslsf).register("http", new PlainConnectionSocketFactory()).build();
 
-      BasicHttpClientConnectionManager connectionManager =
-          new BasicHttpClientConnectionManager(socketFactoryRegistry);
+      BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(socketFactoryRegistry);
 
       httpClientBuilder.setSSLSocketFactory(sslsf).setConnectionManager(connectionManager);
     }
@@ -243,31 +234,29 @@ public class HttpClientManager {
     };
 
     SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-    sslContext.init(null, new TrustManager[] { customTm }, null);
+    sslContext.init(null, new TrustManager[] {customTm}, null);
 
     return sslContext;
   }
 
   public static SSLContext getTrustAllSslContext() throws NoSuchAlgorithmException, KeyManagementException {
-    TrustManager[] trustAllCerts = new TrustManager[] {
-        new X509TrustManager() {
-          public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-            return null;
-          }
+    TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+      public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        return null;
+      }
 
-          public void checkClientTrusted(X509Certificate[] certs, String authType) {  }
+      public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
-          public void checkServerTrusted(X509Certificate[] certs, String authType) {  }
+      public void checkServerTrusted(X509Certificate[] certs, String authType) {}
 
-        }
-    };
+    }};
 
     SSLContext sc = SSLContext.getInstance("SSL");
     sc.init(null, trustAllCerts, new java.security.SecureRandom());
     return sc;
   }
 
-  public static HostnameVerifier getHostnameVerifier(boolean isDebug, ILogChannel log){
+  public static HostnameVerifier getHostnameVerifier(boolean isDebug, ILogChannel log) {
     return (hostname, session) -> {
       if (isDebug) {
         log.logDebug("Warning: URL Host: " + hostname + " vs. " + session.getPeerHost());

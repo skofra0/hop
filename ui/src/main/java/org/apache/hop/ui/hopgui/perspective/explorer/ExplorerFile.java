@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,12 +41,7 @@ public class ExplorerFile {
     contentChangedListeners = new ArrayList<>();
   }
 
-  public ExplorerFile(
-      String name,
-      Image tabImage,
-      String filename,
-      IExplorerFileType fileType,
-      IExplorerFileTypeHandler fileTypeHandler) {
+  public ExplorerFile(String name, Image tabImage, String filename, IExplorerFileType fileType, IExplorerFileTypeHandler fileTypeHandler) {
     this();
     this.name = name;
     this.tabImage = tabImage;
@@ -72,11 +67,9 @@ public class ExplorerFile {
     return Objects.hash(filename);
   }
 
-  /**
-   * Gets tabName
+  /** Gets tabName
    *
-   * @return the name
-   */
+   * @return the name */
   public String getName() {
     return name;
   }
@@ -86,11 +79,9 @@ public class ExplorerFile {
     this.name = name;
   }
 
-  /**
-   * Gets tabImage
+  /** Gets tabImage
    *
-   * @return value of tabImage
-   */
+   * @return value of tabImage */
   public Image getTabImage() {
     return tabImage;
   }
@@ -100,11 +91,9 @@ public class ExplorerFile {
     this.tabImage = tabImage;
   }
 
-  /**
-   * Gets filename
+  /** Gets filename
    *
-   * @return value of filename
-   */
+   * @return value of filename */
   public String getFilename() {
     return filename;
   }
@@ -114,11 +103,9 @@ public class ExplorerFile {
     this.filename = filename;
   }
 
-  /**
-   * Gets fileType
+  /** Gets fileType
    *
-   * @return value of fileType
-   */
+   * @return value of fileType */
   public IExplorerFileType getFileType() {
     return fileType;
   }
@@ -128,11 +115,9 @@ public class ExplorerFile {
     this.fileType = fileType;
   }
 
-  /**
-   * Gets fileTypeHandler
+  /** Gets fileTypeHandler
    *
-   * @return value of fileTypeHandler
-   */
+   * @return value of fileTypeHandler */
   public IExplorerFileTypeHandler getFileTypeHandler() {
     return fileTypeHandler;
   }
@@ -142,11 +127,9 @@ public class ExplorerFile {
     this.fileTypeHandler = fileTypeHandler;
   }
 
-  /**
-   * Gets changed
+  /** Gets changed
    *
-   * @return value of changed
-   */
+   * @return value of changed */
   public boolean isChanged() {
     return changed;
   }
@@ -170,20 +153,16 @@ public class ExplorerFile {
     }
   }
 
-  /**
-   * Gets contentChangedListeners
+  /** Gets contentChangedListeners
    *
-   * @return value of contentChangedListeners
-   */
+   * @return value of contentChangedListeners */
   public List<IContentChangedListener> getContentChangedListeners() {
     return contentChangedListeners;
   }
 
-  /**
-   * Be informed if content changed.
+  /** Be informed if content changed.
    *
-   * @param listener
-   */
+   * @param listener */
   public void addContentChangedListener(IContentChangedListener listener) {
     contentChangedListeners.add(listener);
   }

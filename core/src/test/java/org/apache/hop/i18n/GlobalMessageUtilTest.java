@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,8 @@ import org.junit.Test;
 import java.util.Locale;
 
 public class GlobalMessageUtilTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Test
   public void testGetLocaleString() {
@@ -56,101 +57,34 @@ public class GlobalMessageUtilTest {
   public void calculateString() {
 
     // "fr", "FR"
-    Assert.assertEquals(
-        "Une certaine valeur foo",
-        GlobalMessageUtil.calculateString(
-            GlobalMessages.SYSTEM_BUNDLE_PACKAGE,
-            Locale.FRANCE,
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    Assert.assertEquals("Une certaine valeur foo", GlobalMessageUtil.calculateString(GlobalMessages.SYSTEM_BUNDLE_PACKAGE, Locale.FRANCE, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
 
     // "fr" - should fall back on default bundle
-    String str =
-        GlobalMessageUtil.calculateString(
-            GlobalMessages.SYSTEM_BUNDLE_PACKAGE,
-            Locale.FRENCH,
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME);
+    String str = GlobalMessageUtil.calculateString(GlobalMessages.SYSTEM_BUNDLE_PACKAGE, Locale.FRENCH, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME);
     Assert.assertEquals("Some Value foo", str);
 
     // "jp"
-    Assert.assertEquals(
-        "何らかの値 foo",
-        GlobalMessageUtil.calculateString(
-            GlobalMessages.SYSTEM_BUNDLE_PACKAGE,
-            Locale.JAPANESE,
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    Assert.assertEquals("何らかの値 foo", GlobalMessageUtil.calculateString(GlobalMessages.SYSTEM_BUNDLE_PACKAGE, Locale.JAPANESE, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
 
     // "jp", "JP" - should fall back on "jp"
-    str =
-        GlobalMessageUtil.calculateString(
-            GlobalMessages.SYSTEM_BUNDLE_PACKAGE,
-            Locale.JAPAN,
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME);
+    str = GlobalMessageUtil.calculateString(GlobalMessages.SYSTEM_BUNDLE_PACKAGE, Locale.JAPAN, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME);
     Assert.assertEquals("何らかの値 foo", str);
 
     // try with multiple packages
     // make sure the selected language is used correctly
     LanguageChoice.getInstance().setDefaultLocale(Locale.FRANCE); // "fr", "FR"
-    Assert.assertEquals(
-        "Une certaine valeur foo",
-        GlobalMessageUtil.calculateString(
-            new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE},
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    Assert.assertEquals("Une certaine valeur foo", GlobalMessageUtil.calculateString(new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE}, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
 
-    LanguageChoice.getInstance()
-        .setDefaultLocale(Locale.FRENCH); // "fr" - fall back on "default" messages.properties
-    Assert.assertEquals(
-        "Some Value foo",
-        GlobalMessageUtil.calculateString(
-            new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE},
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    LanguageChoice.getInstance().setDefaultLocale(Locale.FRENCH); // "fr" - fall back on "default" messages.properties
+    Assert.assertEquals("Some Value foo", GlobalMessageUtil.calculateString(new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE}, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
 
-    LanguageChoice.getInstance()
-        .setDefaultLocale(Locale.FRENCH); // "fr" - fall back on foo/messages_fr.properties
-    Assert.assertEquals(
-        "Une certaine valeur foo",
-        GlobalMessageUtil.calculateString(
-            new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE, "org.apache.hop.foo"},
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    LanguageChoice.getInstance().setDefaultLocale(Locale.FRENCH); // "fr" - fall back on foo/messages_fr.properties
+    Assert.assertEquals("Une certaine valeur foo", GlobalMessageUtil.calculateString(new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE, "org.apache.hop.foo"}, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
 
     LanguageChoice.getInstance().setDefaultLocale(Locale.JAPANESE); // "jp"
-    Assert.assertEquals(
-        "何らかの値 foo",
-        GlobalMessageUtil.calculateString(
-            new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE},
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    Assert.assertEquals("何らかの値 foo", GlobalMessageUtil.calculateString(new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE}, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
 
     LanguageChoice.getInstance().setDefaultLocale(Locale.JAPAN); // "jp", "JP" - fall back on "jp"
-    Assert.assertEquals(
-        "何らかの値 foo",
-        GlobalMessageUtil.calculateString(
-            new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE},
-            "someKey",
-            new String[] {"foo"},
-            GlobalMessages.PKG,
-            GlobalMessages.BUNDLE_NAME));
+    Assert.assertEquals("何らかの値 foo", GlobalMessageUtil.calculateString(new String[] {GlobalMessages.SYSTEM_BUNDLE_PACKAGE}, "someKey", new String[] {"foo"}, GlobalMessages.PKG, GlobalMessages.BUNDLE_NAME));
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,20 +80,17 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized Object compute(
-      Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+  public synchronized Object compute(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
     return storageMap.compute(key, remappingFunction);
   }
 
   @Override
-  public synchronized Object computeIfAbsent(
-      Object key, Function<? super Object, ? extends Object> mappingFunction) {
+  public synchronized Object computeIfAbsent(Object key, Function<? super Object, ? extends Object> mappingFunction) {
     return storageMap.computeIfAbsent(key, mappingFunction);
   }
 
   @Override
-  public synchronized Object computeIfPresent(
-      Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+  public synchronized Object computeIfPresent(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
     return storageMap.computeIfPresent(key, remappingFunction);
   }
 
@@ -150,10 +147,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized Object merge(
-      Object key,
-      Object value,
-      BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+  public synchronized Object merge(Object key, Object value, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
     return storageMap.merge(key, value, remappingFunction);
   }
 
@@ -178,8 +172,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized void replaceAll(
-      BiFunction<? super Object, ? super Object, ? extends Object> function) {
+  public synchronized void replaceAll(BiFunction<? super Object, ? super Object, ? extends Object> function) {
     storageMap.replaceAll(function);
   }
 
@@ -283,8 +276,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized void loadFromXML(InputStream in)
-      throws IOException, InvalidPropertiesFormatException {
+  public synchronized void loadFromXML(InputStream in) throws IOException, InvalidPropertiesFormatException {
     super.putAll(storageMap);
     super.loadFromXML(in);
     super.forEach((key, value) -> storageMap.putIfAbsent(key, value));
@@ -313,19 +305,16 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized void storeToXML(OutputStream os, String comment, String encoding)
-      throws IOException {
+  public synchronized void storeToXML(OutputStream os, String comment, String encoding) throws IOException {
     super.putAll(storageMap);
     super.storeToXML(os, comment, encoding);
     super.clear();
   }
 
-  /**
-   * Converts a Properties object to a ConcurrentMapProperties object
+  /** Converts a Properties object to a ConcurrentMapProperties object
    *
    * @param props
-   * @return A new ConcurrentMapProperties with all properties enumerated (including defaults)
-   */
+   * @return A new ConcurrentMapProperties with all properties enumerated (including defaults) */
   public static ConcurrentMapProperties convertProperties(Properties props) {
     if (props != null) {
       if (!(props instanceof ConcurrentMapProperties)) {

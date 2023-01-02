@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,12 +24,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-/**
- * This delegating driver allows the plugin system to be used in a separate class loader while
+/** This delegating driver allows the plugin system to be used in a separate class loader while
  * making DriverManager believe that the parent class loader is used.
- *
- * <p>It's an unfortunate hack but it works fine.
- */
+ * <p>
+ * It's an unfortunate hack but it works fine. */
 public class DelegatingDriver implements Driver {
   private final Driver driver;
 
@@ -70,11 +68,9 @@ public class DelegatingDriver implements Driver {
     return driver.jdbcCompliant();
   }
 
-  /**
-   * This method is added to make this driver compile on Java7
+  /** This method is added to make this driver compile on Java7
    *
-   * @return always null until we finally switch over to Java7 with the codebase (TODO)
-   */
+   * @return always null until we finally switch over to Java7 with the codebase (TODO) */
   @Override
   public Logger getParentLogger() {
     return null;

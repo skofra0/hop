@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,18 +43,15 @@ public class GuiContextUtil {
     return (GuiContextUtil) PROVIDER.getInstanceInternal();
   }
 
-  public final List<GuiAction> getContextActions(
-      IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
+  public final List<GuiAction> getContextActions(IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
     return filterHandlerActions(provider.getContextHandlers(), actionType, contextId);
   }
 
-  /**
-   * Filter out the actions with the given type, return a new list.
+  /** Filter out the actions with the given type, return a new list.
    *
    * @param guiActions The list of actions to filter
    * @param actionType The type to filter out
-   * @return A new list with only the actions of the specified type
-   */
+   * @return A new list with only the actions of the specified type */
   public final List<GuiAction> filterActions(List<GuiAction> guiActions, GuiActionType actionType) {
     List<GuiAction> filtered = new ArrayList<>();
     for (GuiAction guiAction : guiActions) {
@@ -65,16 +62,13 @@ public class GuiContextUtil {
     return filtered;
   }
 
-  /**
-   * Ask for all the actions from the list of context handlers. Then filter out the actions of a
+  /** Ask for all the actions from the list of context handlers. Then filter out the actions of a
    * particular type.
    *
    * @param handlers
    * @param actionType
-   * @return
-   */
-  public final List<GuiAction> filterHandlerActions(
-      List<IGuiContextHandler> handlers, GuiActionType actionType, String contextId) {
+   * @return */
+  public final List<GuiAction> filterHandlerActions(List<IGuiContextHandler> handlers, GuiActionType actionType, String contextId) {
     List<GuiAction> filtered = new ArrayList<>();
     for (IGuiContextHandler handler : handlers) {
       filtered.addAll(filterActions(handler.getSupportedActions(), actionType));
@@ -82,33 +76,15 @@ public class GuiContextUtil {
     return filtered;
   }
 
-  public final void handleActionSelection(
-      Shell parent,
-      String message,
-      IActionContextHandlersProvider provider,
-      GuiActionType actionType,
-      String contextId) {
+  public final void handleActionSelection(Shell parent, String message, IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
     handleActionSelection(parent, message, null, provider, actionType, contextId);
   }
 
-  public final void handleActionSelection(
-      Shell parent,
-      String message,
-      Point clickLocation,
-      IActionContextHandlersProvider provider,
-      GuiActionType actionType,
-      String contextId) {
+  public final void handleActionSelection(Shell parent, String message, Point clickLocation, IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
     handleActionSelection(parent, message, clickLocation, provider, actionType, contextId, false);
   }
 
-  public final void handleActionSelection(
-      Shell parent,
-      String message,
-      Point clickLocation,
-      IActionContextHandlersProvider provider,
-      GuiActionType actionType,
-      String contextId,
-      boolean sortByName) {
+  public final void handleActionSelection(Shell parent, String message, Point clickLocation, IActionContextHandlersProvider provider, GuiActionType actionType, String contextId, boolean sortByName) {
     // Get the list of create actions in the Hop UI context...
     //
     List<GuiAction> actions = getContextActions(provider, actionType, contextId);
@@ -119,24 +95,19 @@ public class GuiContextUtil {
       Collections.sort(actions, Comparator.comparing(GuiAction::getName));
     }
 
-    handleActionSelection(
-        parent, message, clickLocation, new GuiContextHandler(contextId, actions));
+    handleActionSelection(parent, message, clickLocation, new GuiContextHandler(contextId, actions));
   }
 
-  public boolean handleActionSelection(
-      Shell parent, String message, IGuiContextHandler contextHandler) {
+  public boolean handleActionSelection(Shell parent, String message, IGuiContextHandler contextHandler) {
     return handleActionSelection(parent, message, null, contextHandler);
   }
 
-  /**
-   * @param parent
+  /** @param parent
    * @param message
    * @param clickLocation
    * @param contextHandler
-   * @return true if the action dialog lost focus
-   */
-  public synchronized boolean handleActionSelection(
-      Shell parent, String message, Point clickLocation, IGuiContextHandler contextHandler) {
+   * @return true if the action dialog lost focus */
+  public synchronized boolean handleActionSelection(Shell parent, String message, Point clickLocation, IGuiContextHandler contextHandler) {
     List<GuiAction> actions = contextHandler.getSupportedActions();
     if (actions.isEmpty()) {
       return false;
@@ -156,13 +127,10 @@ public class GuiContextUtil {
 
         List<String> fileTypes = new ArrayList<>();
         for (GuiAction action : actions) {
-          fileTypes.add(
-              action.getType().name() + " - " + action.getName() + " : " + action.getTooltip());
+          fileTypes.add(action.getType().name() + " - " + action.getName() + " : " + action.getTooltip());
         }
 
-        contextDialog =
-            new ContextDialog(
-                parent, message, clickLocation, actions, contextHandler.getContextId());
+        contextDialog = new ContextDialog(parent, message, clickLocation, actions, contextHandler.getContextId());
         shellDialogMap.put(parent.getText(), contextDialog);
         GuiAction selectedAction = contextDialog.open();
         shellDialogMap.remove(parent.getText());

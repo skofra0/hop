@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,46 +35,25 @@ import org.apache.hop.ui.hopgui.HopGui;
 import org.eclipse.swt.widgets.Control;
 import picocli.CommandLine;
 
-@ConfigPlugin(
-    id = "ExplorerPerspectiveConfigPlugin",
-    description = "Configuration options for the explorer perspective",
-    category = ConfigPlugin.CATEGORY_CONFIG)
-@GuiPlugin(
-    description = "Explorer Perspective" // Tab label in options dialog
-    )
-public class ExplorerPerspectiveConfigPlugin
-    implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
+@ConfigPlugin(id = "ExplorerPerspectiveConfigPlugin", description = "Configuration options for the explorer perspective", category = ConfigPlugin.CATEGORY_CONFIG)
+@GuiPlugin(description = "Explorer Perspective" // Tab label in options dialog
+)
+public class ExplorerPerspectiveConfigPlugin implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
 
   private static final String WIDGET_ID_LAZY_LOADING_DEPTH = "10000-lazy-loading-depth";
   private static final String WIDGET_ID_FILE_LOADING_MAX_SIZE = "10100-file-loading-max-size";
 
-  @GuiWidgetElement(
-      id = WIDGET_ID_LAZY_LOADING_DEPTH,
-      parentId = EnterOptionsDialog.GUI_WIDGETS_PARENT_ID,
-      type = GuiElementType.TEXT,
-      variables = true,
-      label = "Lazy loading maximum initial depth")
-  @CommandLine.Option(
-      names = {"-exid", "--explorer-lazy-loading-initial-depth"},
-      description = "For the explorer perspective: the initial depth to load not lazily")
+  @GuiWidgetElement(id = WIDGET_ID_LAZY_LOADING_DEPTH, parentId = EnterOptionsDialog.GUI_WIDGETS_PARENT_ID, type = GuiElementType.TEXT, variables = true, label = "Lazy loading maximum initial depth")
+  @CommandLine.Option(names = {"-exid", "--explorer-lazy-loading-initial-depth"}, description = "For the explorer perspective: the initial depth to load not lazily")
   private String lazyLoadingDepth;
 
-  @GuiWidgetElement(
-      id = WIDGET_ID_FILE_LOADING_MAX_SIZE,
-      parentId = EnterOptionsDialog.GUI_WIDGETS_PARENT_ID,
-      type = GuiElementType.TEXT,
-      variables = true,
-      label = "The maxim file size to load (in MB)")
-  @CommandLine.Option(
-      names = {"-exms", "--explorer-file-loading-max-size"},
-      description = "For the explorer: the maximum file size to load")
+  @GuiWidgetElement(id = WIDGET_ID_FILE_LOADING_MAX_SIZE, parentId = EnterOptionsDialog.GUI_WIDGETS_PARENT_ID, type = GuiElementType.TEXT, variables = true, label = "The maxim file size to load (in MB)")
+  @CommandLine.Option(names = {"-exms", "--explorer-file-loading-max-size"}, description = "For the explorer: the maximum file size to load")
   private String fileLoadingMaxSize;
 
-  /**
-   * Gets instance
+  /** Gets instance
    *
-   * @return value of instance
-   */
+   * @return value of instance */
   public static ExplorerPerspectiveConfigPlugin getInstance() {
     ExplorerPerspectiveConfigPlugin instance = new ExplorerPerspectiveConfigPlugin();
 
@@ -86,26 +65,20 @@ public class ExplorerPerspectiveConfigPlugin
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     ExplorerPerspectiveConfig config = ExplorerPerspectiveConfigSingleton.getConfig();
     try {
       boolean changed = false;
 
       if (lazyLoadingDepth != null) {
         config.setLazyLoadingDepth(lazyLoadingDepth);
-        log.logBasic(
-            "Explorer perspective: the lazy loading depth is set to '" + lazyLoadingDepth + "'");
+        log.logBasic("Explorer perspective: the lazy loading depth is set to '" + lazyLoadingDepth + "'");
         changed = true;
       }
 
       if (fileLoadingMaxSize != null) {
         config.setFileLoadingMaxSize(fileLoadingMaxSize);
-        log.logBasic(
-            "Explorer perspective: the file loading maximum size (in MB) is set to '"
-                + fileLoadingMaxSize
-                + "'");
+        log.logBasic("Explorer perspective: the file loading maximum size (in MB) is set to '" + fileLoadingMaxSize + "'");
         changed = true;
       }
 
@@ -127,8 +100,7 @@ public class ExplorerPerspectiveConfigPlugin
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {}
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {}
 
   @Override
   public void persistContents(GuiCompositeWidgets compositeWidgets) {

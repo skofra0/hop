@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,14 +25,10 @@ public class Uuid4Util {
   private static Random random;
 
   /** Used to build output as hex. Adapted from org.apache.commons.id.Hex */
-  private static final char[] DIGITS = {
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
-  };
+  private static final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-  /**
-   * Constructor. Initializes random generator, attempting first to use SecureRandom, then failing
-   * over to Random.
-   */
+  /** Constructor. Initializes random generator, attempting first to use SecureRandom, then failing
+   * over to Random. */
   public Uuid4Util() {
     try {
       random = SecureRandom.getInstance("SHA1PRNG", "SUN");
@@ -41,12 +37,10 @@ public class Uuid4Util {
     }
   }
 
-  /**
-   * Generate byte array using random generator. Code adapted from
+  /** Generate byte array using random generator. Code adapted from
    * org.apache.commons.id.uuid.VersionFourGenerator.java
    *
-   * @return
-   */
+   * @return */
   private byte[] getBytes() {
     byte[] raw = new byte[16];
     random.nextBytes(raw);
@@ -57,13 +51,11 @@ public class Uuid4Util {
     return raw;
   }
 
-  /**
-   * Turn a byte array into a version four UUID string. Adapted from
+  /** Turn a byte array into a version four UUID string. Adapted from
    * org.apache.commons.id.uuid.UUID.java
    *
    * @param raw
-   * @return
-   */
+   * @return */
   private String getUUIDString(byte[] raw) {
     StringBuilder buf = new StringBuilder(new String(encodeHex(raw)));
     while (buf.length() != 32) {
@@ -77,16 +69,14 @@ public class Uuid4Util {
     return buf.toString();
   }
 
-  /**
-   * Converts an array of bytes into an array of characters representing the hexidecimal values of
+  /** Converts an array of bytes into an array of characters representing the hexidecimal values of
    * each byte in order. The returned array will be double the length of the passed array, as it
    * takes two characters to represent any given byte.
-   *
-   * <p>Adapted from org.apache.commons.id.Hex
+   * <p>
+   * Adapted from org.apache.commons.id.Hex
    *
    * @param data a byte[] to convert to Hex characters
-   * @return A char[] containing hexidecimal characters
-   */
+   * @return A char[] containing hexidecimal characters */
   private static char[] encodeHex(byte[] data) {
     int l = data.length;
     char[] out = new char[l << 1];
@@ -97,11 +87,9 @@ public class Uuid4Util {
     return out;
   }
 
-  /**
-   * Generates a string representation of a version four UUID.
+  /** Generates a string representation of a version four UUID.
    *
-   * @return
-   */
+   * @return */
   public String getUUID4AsString() {
     return getUUIDString(getBytes());
   }

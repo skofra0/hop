@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,12 +55,7 @@ public class PipelinePreviewProgressDialog {
   private PipelineDebugMeta pipelineDebugMeta;
 
   /** Creates a new dialog that will handle the wait while previewing a pipeline... */
-  public PipelinePreviewProgressDialog(
-      Shell shell,
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      String[] previewTransformNames,
-      int[] previewSize) {
+  public PipelinePreviewProgressDialog(Shell shell, IVariables variables, PipelineMeta pipelineMeta, String[] previewTransformNames, int[] previewSize) {
     this.shell = shell;
     this.variables = variables;
     this.pipelineMeta = pipelineMeta;
@@ -74,13 +69,11 @@ public class PipelinePreviewProgressDialog {
     return open(true);
   }
 
-  /**
-   * Opens the progress dialog
+  /** Opens the progress dialog
    *
    * @param showErrorDialogs dictates whether error dialogs should be shown when errors occur - can
-   *     be set to "false" to let the caller control error dialogs instead.
-   * @return a {@link PipelineMeta}
-   */
+   *        be set to "false" to let the caller control error dialogs instead.
+   * @return a {@link PipelineMeta} */
   public PipelineMeta open(final boolean showErrorDialogs) {
     final HopGui hopGui = HopGui.getInstance();
 
@@ -90,27 +83,25 @@ public class PipelinePreviewProgressDialog {
       final ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
 
       // Run something in the background to cancel active database queries, force this if needed!
-      Runnable run =
-          () -> {
-            IProgressMonitor monitor = pmd.getProgressMonitor();
-            while (pmd.getShell() == null
-                || (!pmd.getShell().isDisposed() && !monitor.isCanceled())) {
-              try {
-                Thread.sleep(100);
-              } catch (InterruptedException e) {
-                // Ignore
-              }
-            }
+      Runnable run = () -> {
+        IProgressMonitor monitor = pmd.getProgressMonitor();
+        while (pmd.getShell() == null || (!pmd.getShell().isDisposed() && !monitor.isCanceled())) {
+          try {
+            Thread.sleep(100);
+          } catch (InterruptedException e) {
+            // Ignore
+          }
+        }
 
-            if (monitor.isCanceled()) { // Disconnect and see what happens!
+        if (monitor.isCanceled()) { // Disconnect and see what happens!
 
-              try {
-                pipeline.stopAll();
-              } catch (Exception e) {
-                /* Ignore */
-              }
-            }
-          };
+          try {
+            pipeline.stopAll();
+          } catch (Exception e) {
+            /* Ignore */
+          }
+        }
+      };
 
       // Start the cancel tracker in the background!
       new Thread(run).start();
@@ -118,13 +109,7 @@ public class PipelinePreviewProgressDialog {
       pmd.run(true, op);
     } catch (InvocationTargetException | InterruptedException e) {
       if (showErrorDialogs) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(
-                PKG, "PipelinePreviewProgressDialog.ErrorLoadingPipeline.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "PipelinePreviewProgressDialog.ErrorLoadingPipeline.DialogMessage"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.ErrorLoadingPipeline.DialogTitle"), BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.ErrorLoadingPipeline.DialogMessage"), e);
       }
       pipelineMeta = null;
     }
@@ -132,10 +117,8 @@ public class PipelinePreviewProgressDialog {
     return pipelineMeta;
   }
 
-  private void doPreview(
-      final HopGui hopGui, final IProgressMonitor progressMonitor, final boolean showErrorDialogs) {
-    progressMonitor.beginTask(
-        BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.Monitor.BeginTask.Title"), 100);
+  private void doPreview(final HopGui hopGui, final IProgressMonitor progressMonitor, final boolean showErrorDialogs) {
+    progressMonitor.beginTask(BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.Monitor.BeginTask.Title"), 100);
 
     // This pipeline is ready to run in preview!
     //
@@ -149,23 +132,14 @@ public class PipelinePreviewProgressDialog {
       pipeline.prepareExecution();
     } catch (final HopException e) {
       if (showErrorDialogs) {
-        shell
-            .getDisplay()
-            .asyncExec(
-                () ->
-                    new ErrorDialog(
-                        shell,
-                        BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-                        BaseMessages.getString(
-                            PKG, "PipelinePreviewProgressDialog.Exception.ErrorPreparingPipeline"),
-                        e));
+        shell.getDisplay().asyncExec(() -> new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.Exception.ErrorPreparingPipeline"), e));
       }
 
       // It makes no sense to continue, so just stop running...
       //
       if (!progressMonitor.isCanceled()) {
-          progressMonitor.done();
-        }
+        progressMonitor.done();
+      }
       return;
     }
 
@@ -186,16 +160,11 @@ public class PipelinePreviewProgressDialog {
     // buffer
     // That makes it easy and fast to see if we have all the rows we need
     //
-    pipelineDebugMeta.addBreakPointListers(
-        (pipelineDebugMeta, transformDebugMeta, rowBufferMeta, rowBuffer) -> {
-          String transformName = transformDebugMeta.getTransformMeta().getName();
-          previewComplete.add(transformName);
-          progressMonitor.subTask(
-              BaseMessages.getString(
-                  PKG,
-                  "PipelinePreviewProgressDialog.SubTask.TransformPreviewFinished",
-                  transformName));
-        });
+    pipelineDebugMeta.addBreakPointListers((pipelineDebugMeta, transformDebugMeta, rowBufferMeta, rowBuffer) -> {
+      String transformName = transformDebugMeta.getTransformMeta().getName();
+      previewComplete.add(transformName);
+      progressMonitor.subTask(BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.SubTask.TransformPreviewFinished", transformName));
+    });
     // set the appropriate listeners on the pipeline...
     //
     pipelineDebugMeta.addRowListenersToPipeline(pipeline);
@@ -205,31 +174,19 @@ public class PipelinePreviewProgressDialog {
     try {
       pipeline.startThreads();
     } catch (final HopException e) {
-      shell
-          .getDisplay()
-          .asyncExec(
-              () ->
-                  new ErrorDialog(
-                      shell,
-                      BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-                      BaseMessages.getString(
-                          PKG, "PipelinePreviewProgressDialog.Exception.ErrorPreparingPipeline"),
-                      e));
+      shell.getDisplay().asyncExec(() -> new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "PipelinePreviewProgressDialog.Exception.ErrorPreparingPipeline"), e));
 
       // It makes no sense to continue, so just stop running...
       //
       return;
     }
 
-    while (previewComplete.size() < previewTransformNames.length
-        && !pipeline.isFinished()
-        && !progressMonitor.isCanceled()) {
+    while (previewComplete.size() < previewTransformNames.length && !pipeline.isFinished() && !progressMonitor.isCanceled()) {
 
       // How many rows are done?
       int nrDone = 0;
       int nrTotal = 0;
-      for (TransformDebugMeta transformDebugMeta :
-          pipelineDebugMeta.getTransformDebugMetaMap().values()) {
+      for (TransformDebugMeta transformDebugMeta : pipelineDebugMeta.getTransformDebugMetaMap().values()) {
         nrDone += transformDebugMeta.getRowBuffer().size();
         nrTotal += transformDebugMeta.getRowCount();
       }
@@ -259,18 +216,13 @@ public class PipelinePreviewProgressDialog {
     pipeline.stopAll();
 
     // Capture preview activity to a String:
-    loggingText =
-        HopLogStore.getAppender()
-            .getBuffer(pipeline.getLogChannel().getLogChannelId(), true)
-            .toString();
+    loggingText = HopLogStore.getAppender().getBuffer(pipeline.getLogChannel().getLogChannelId(), true).toString();
 
     progressMonitor.done();
   }
 
-  /**
-   * @param transformName the name of the transform to get the preview rows for
-   * @return A list of rows as the result of the preview run.
-   */
+  /** @param transformName the name of the transform to get the preview rows for
+   * @return A list of rows as the result of the preview run. */
   public List<Object[]> getPreviewRows(String transformName) {
     if (pipelineDebugMeta == null) {
       return null;
@@ -278,18 +230,15 @@ public class PipelinePreviewProgressDialog {
 
     for (TransformMeta transformMeta : pipelineDebugMeta.getTransformDebugMetaMap().keySet()) {
       if (transformMeta.getName().equals(transformName)) {
-        TransformDebugMeta transformDebugMeta =
-            pipelineDebugMeta.getTransformDebugMetaMap().get(transformMeta);
+        TransformDebugMeta transformDebugMeta = pipelineDebugMeta.getTransformDebugMetaMap().get(transformMeta);
         return transformDebugMeta.getRowBuffer();
       }
     }
     return null;
   }
 
-  /**
-   * @param transformName the name of the transform to get the preview rows for
-   * @return A description of the row (metadata)
-   */
+  /** @param transformName the name of the transform to get the preview rows for
+   * @return A description of the row (metadata) */
   public IRowMeta getPreviewRowsMeta(String transformName) {
     if (pipelineDebugMeta == null) {
       return null;
@@ -297,8 +246,7 @@ public class PipelinePreviewProgressDialog {
 
     for (TransformMeta transformMeta : pipelineDebugMeta.getTransformDebugMetaMap().keySet()) {
       if (transformMeta.getName().equals(transformName)) {
-        TransformDebugMeta transformDebugMeta =
-            pipelineDebugMeta.getTransformDebugMetaMap().get(transformMeta);
+        TransformDebugMeta transformDebugMeta = pipelineDebugMeta.getTransformDebugMetaMap().get(transformMeta);
         return transformDebugMeta.getRowBufferMeta();
       }
     }

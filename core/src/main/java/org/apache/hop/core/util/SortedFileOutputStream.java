@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,21 +33,17 @@ public class SortedFileOutputStream extends FileOutputStream {
   /** Logger, for the few errors that may occur. */
   private ILogChannel log = null;
 
-  /**
-   * CT
+  /** CT
    *
    * @param file
-   * @throws FileNotFoundException
-   */
+   * @throws FileNotFoundException */
   public SortedFileOutputStream(File file) throws FileNotFoundException {
     super(file);
   }
 
-  /**
-   * Setter
+  /** Setter
    *
-   * @param log
-   */
+   * @param log */
   public void setLogger(ILogChannel log) {
     this.log = log;
   }
@@ -83,10 +79,8 @@ public class SortedFileOutputStream extends FileOutputStream {
   @Override
   public void flush() throws IOException {}
 
-  /**
-   * If internally stored content is available, sorting keys of content, then sending content to
-   * file. Then calling {@link FileOutputStream#close()} method.
-   */
+  /** If internally stored content is available, sorting keys of content, then sending content to
+   * file. Then calling {@link FileOutputStream#close()} method. */
   @Override
   public void close() throws IOException {
     if (sb == null || sb.length() == 0) {
@@ -119,9 +113,7 @@ public class SortedFileOutputStream extends FileOutputStream {
       if (idx <= 0) {
         // '=' either does not exist or is at first position (that should never happen!).
         // Write line immediately
-        log.logError(
-            this.getClass().getName(),
-            "Unexpected: '=' character not found or found at first position.");
+        log.logError(this.getClass().getName(), "Unexpected: '=' character not found or found at first position.");
         super.write(sLine.getBytes());
       } else {
         while (idx != -1 && sLine.charAt(idx - 1) == '\\') {
@@ -129,9 +121,7 @@ public class SortedFileOutputStream extends FileOutputStream {
         }
 
         if (idx == -1) {
-          log.logError(
-              this.getClass().getName(),
-              "Unexpected: No '=' character found that is not escaped by a '\\'.");
+          log.logError(this.getClass().getName(), "Unexpected: No '=' character found that is not escaped by a '\\'.");
           super.write(sLine.getBytes());
         } else {
           lines.add(sLine);
@@ -148,15 +138,13 @@ public class SortedFileOutputStream extends FileOutputStream {
     super.close();
   }
 
-  /**
-   * Get next line. The line end is marked at the first occurrence of an unescaped '\n' or '\r'
+  /** Get next line. The line end is marked at the first occurrence of an unescaped '\n' or '\r'
    * character. All following '\n' or '\r' characters after the first unescaped '\n' or '\r'
    * character are included in the line.
    *
    * @param iPos The position from where to start at. This is passed as array of size one to <i>pass
-   *     back</i> the parsing position (kind of C++ reference pass)
-   * @return
-   */
+   *        back</i> the parsing position (kind of C++ reference pass)
+   * @return */
   private String nextLine(int[] iPos) {
     // End of StringBuilder reached?
     if (iPos[0] >= sb.length()) {

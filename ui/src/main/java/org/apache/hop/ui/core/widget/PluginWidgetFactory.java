@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,15 +45,12 @@ public class PluginWidgetFactory {
 
   private int rightOffset = DEFAULT_RIGHT_OFFSET;
 
-  /**
-   * Constructor.
+  /** Constructor.
    *
    * @param shell the shell to set.
    * @param varSpace the variables to be used. e.g. for TextVar
-   * @throws IllegalArgumentException if shell is null.
-   */
-  public PluginWidgetFactory(final Shell shell, final IVariables varSpace)
-      throws IllegalArgumentException {
+   * @throws IllegalArgumentException if shell is null. */
+  public PluginWidgetFactory(final Shell shell, final IVariables varSpace) throws IllegalArgumentException {
     Assert.assertNotNull(shell, "Shell cannot be null");
     Assert.assertNotNull(varSpace, "pipelineMeta cannot be null");
 
@@ -81,35 +78,29 @@ public class PluginWidgetFactory {
     this.middle = middle;
   }
 
-  /**
-   * Create label.
+  /** Create label.
    *
    * @param text text to set.
-   * @return new label.
-   */
+   * @return new label. */
   public Label createRightLabel(final String text) {
     return this.createLabel(SWT.RIGHT, text);
   }
 
-  /**
-   * Create label.
+  /** Create label.
    *
    * @param style style to use.
    * @param text text to set.
-   * @return new label.
-   */
+   * @return new label. */
   public Label createLabel(final int style, final String text) {
     final Label label = new Label(this.shell, style);
     label.setText(text);
     return label;
   }
 
-  /**
-   * Convenience method to create FormData for labels.
+  /** Convenience method to create FormData for labels.
    *
    * @param topControl the control which is above the current label, or null if none above.
-   * @return layoutData.
-   */
+   * @return layoutData. */
   public FormData createLabelLayoutData(final Control topControl) {
     FormData formData = new FormData();
 
@@ -123,12 +114,10 @@ public class PluginWidgetFactory {
     return formData;
   }
 
-  /**
-   * Convenience method to create FormData for Controls beside a label.
+  /** Convenience method to create FormData for Controls beside a label.
    *
    * @param topControl the control which is above the current label, or null if none above.
-   * @return layoutData.
-   */
+   * @return layoutData. */
   public FormData createControlLayoutData(final Control topControl) {
     FormData formData = new FormData();
 
@@ -143,12 +132,10 @@ public class PluginWidgetFactory {
     return formData;
   }
 
-  /**
-   * Convenience method to create FormData for Buttons beside a label.
+  /** Convenience method to create FormData for Buttons beside a label.
    *
    * @param labelControl the label which is to the left.
-   * @return layoutData.
-   */
+   * @return layoutData. */
   public FormData createButtonLayoutData(final Control labelControl) {
     FormData formData = new FormData();
 
@@ -159,19 +146,15 @@ public class PluginWidgetFactory {
     return formData;
   }
 
-  /**
-   * @param text text to set.
-   * @return text widget.
-   */
+  /** @param text text to set.
+   * @return text widget. */
   public Text createSingleTextLeft(final String text) {
     return this.createText(SWT.SINGLE | SWT.LEFT | SWT.BORDER, text);
   }
 
-  /**
-   * @param style style to use.
+  /** @param style style to use.
    * @param text text to set.
-   * @return text widget.
-   */
+   * @return text widget. */
   public Text createText(final int style, final String text) {
     final Text textWidget = new Text(this.shell, style);
     textWidget.setText(text);
@@ -183,21 +166,17 @@ public class PluginWidgetFactory {
     return new TextVar(this.varSpace, this.shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
   }
 
-  /**
-   * @param style style to use.
+  /** @param style style to use.
    * @param text text to set.
-   * @return new button.
-   */
+   * @return new button. */
   public Button createButton(final int style, final String text) {
     final Button button = new Button(this.shell, style);
     button.setText(text);
     return button;
   }
 
-  /**
-   * @param text text to set.
-   * @return new button.
-   */
+  /** @param text text to set.
+   * @return new button. */
   public Button createPushButton(final String text) {
     return this.createButton(SWT.PUSH, text);
   }

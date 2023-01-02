@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,8 +66,7 @@ public class HopGuiKeyHandler extends KeyAdapter {
     // TODO: allow for keyboard shortcut priorities for certain objects.
     //
     for (Object parentObject : parentObjects) {
-      List<KeyboardShortcut> shortcuts =
-          GuiRegistry.getInstance().getKeyboardShortcuts(parentObject.getClass().getName());
+      List<KeyboardShortcut> shortcuts = GuiRegistry.getInstance().getKeyboardShortcuts(parentObject.getClass().getName());
       if (shortcuts != null) {
         for (KeyboardShortcut shortcut : shortcuts) {
           if (handleKey(parentObject, event, shortcut)) {
@@ -120,11 +119,16 @@ public class HopGuiKeyHandler extends KeyAdapter {
 
     boolean matchOS = Const.isOSX() == shortcut.isOsx();
 
-    if (keyCode == SWT.KEYPAD_ADD) keyCode = '+';
-    else if (keyCode == SWT.KEYPAD_SUBTRACT) keyCode = '-';
-    else if (keyCode == SWT.KEYPAD_MULTIPLY) keyCode = '*';
-    else if (keyCode == SWT.KEYPAD_DIVIDE) keyCode = '/';
-    else if (keyCode == SWT.KEYPAD_EQUAL) keyCode = '=';
+    if (keyCode == SWT.KEYPAD_ADD)
+      keyCode = '+';
+    else if (keyCode == SWT.KEYPAD_SUBTRACT)
+      keyCode = '-';
+    else if (keyCode == SWT.KEYPAD_MULTIPLY)
+      keyCode = '*';
+    else if (keyCode == SWT.KEYPAD_DIVIDE)
+      keyCode = '/';
+    else if (keyCode == SWT.KEYPAD_EQUAL)
+      keyCode = '=';
 
     boolean keyMatch = keyCode == shortcut.getKeyCode();
     boolean altMatch = shortcut.isAlt() == alt;
@@ -143,9 +147,7 @@ public class HopGuiKeyHandler extends KeyAdapter {
           return true; // Stop looking after 1 execution
         }
       } catch (Exception ex) {
-        LogChannel.UI.logError(
-            "Error calling keyboard shortcut method on parent object " + parentObject.toString(),
-            ex);
+        LogChannel.UI.logError("Error calling keyboard shortcut method on parent object " + parentObject.toString(), ex);
       }
     }
     return false;

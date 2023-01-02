@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,8 +80,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     // With children mean: drop-down menu item
     // Without children:
     //
-    List<GuiMenuItem> children =
-        GuiRegistry.getInstance().findChildGuiMenuItems(root, guiMenuItem.getId());
+    List<GuiMenuItem> children = GuiRegistry.getInstance().findChildGuiMenuItems(root, guiMenuItem.getId());
 
     if (children.isEmpty()) {
 
@@ -92,52 +91,31 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
       menuItem = new MenuItem(parentMenu, SWT.PUSH);
       menuItem.setText(guiMenuItem.getLabel());
       if (StringUtils.isNotEmpty(guiMenuItem.getImage())) {
-        menuItem.setImage(
-            GuiResource.getInstance()
-                .getImage(
-                    guiMenuItem.getImage(),
-                    guiMenuItem.getClassLoader(),
-                    ConstUi.SMALL_ICON_SIZE,
-                    ConstUi.SMALL_ICON_SIZE));
+        menuItem.setImage(GuiResource.getInstance().getImage(guiMenuItem.getImage(), guiMenuItem.getClassLoader(), ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
       }
 
       setMenuItemKeyboardShortcut(menuItem, guiMenuItem);
-      if (StringUtils.isNotEmpty(guiMenuItem.getToolTip())
-          && !EnvironmentUtils.getInstance().isWeb()) {
+      if (StringUtils.isNotEmpty(guiMenuItem.getToolTip()) && !EnvironmentUtils.getInstance().isWeb()) {
         menuItem.setToolTipText(guiMenuItem.getToolTip());
       }
 
       // Call the method to which the GuiWidgetElement annotation belongs.
       //
-      menuItem.addListener(
-          SWT.Selection,
-          e -> {
-            try {
+      menuItem.addListener(SWT.Selection, e -> {
+        try {
 
-              Object singleton =
-                  findGuiPluginInstance(
-                      guiMenuItem.getClassLoader(), guiMenuItem.getListenerClassName());
+          Object singleton = findGuiPluginInstance(guiMenuItem.getClassLoader(), guiMenuItem.getListenerClassName());
 
-              Method menuMethod = singleton.getClass().getMethod(guiMenuItem.getListenerMethod());
-              if (menuMethod == null) {
-                throw new HopException(
-                    "Unable to find method "
-                        + guiMenuItem.getListenerMethod()
-                        + " in singleton "
-                        + guiMenuItem.getListenerClassName());
-              }
-              menuMethod.invoke(singleton);
-            } catch (Exception ex) {
-              System.err.println(
-                  "Unable to call method "
-                      + guiMenuItem.getListenerMethod()
-                      + " in singleton "
-                      + guiMenuItem.getListenerClassName()
-                      + " : "
-                      + ex.getMessage());
-              ex.printStackTrace(System.err);
-            }
-          });
+          Method menuMethod = singleton.getClass().getMethod(guiMenuItem.getListenerMethod());
+          if (menuMethod == null) {
+            throw new HopException("Unable to find method " + guiMenuItem.getListenerMethod() + " in singleton " + guiMenuItem.getListenerClassName());
+          }
+          menuMethod.invoke(singleton);
+        } catch (Exception ex) {
+          System.err.println("Unable to call method " + guiMenuItem.getListenerMethod() + " in singleton " + guiMenuItem.getListenerClassName() + " : " + ex.getMessage());
+          ex.printStackTrace(System.err);
+        }
+      });
 
       menuItemMap.put(guiMenuItem.getId(), menuItem);
 
@@ -149,8 +127,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
         menuItem = new MenuItem(parentMenu, SWT.CASCADE);
         menuItem.setText(Const.NVL(guiMenuItem.getLabel(), ""));
         setMenuItemKeyboardShortcut(menuItem, guiMenuItem);
-        if (StringUtils.isNotEmpty(guiMenuItem.getToolTip())
-            && !EnvironmentUtils.getInstance().isWeb()) {
+        if (StringUtils.isNotEmpty(guiMenuItem.getToolTip()) && !EnvironmentUtils.getInstance().isWeb()) {
           menuItem.setToolTipText(guiMenuItem.getToolTip());
         }
         menu = new Menu(shell, SWT.DROP_DOWN);
@@ -161,7 +138,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
       // Add the children to this menu...
       //
 
-      // Sort the children as well.  It gets chaotic otherwise
+      // Sort the children as well. It gets chaotic otherwise
       //
       Collections.sort(children);
 
@@ -174,10 +151,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
   private void setMenuItemKeyboardShortcut(MenuItem menuItem, GuiMenuItem guiMenuItem) {
     // See if there's a shortcut worth mentioning...
     //
-    KeyboardShortcut shortcut =
-        GuiRegistry.getInstance()
-            .findKeyboardShortcut(
-                guiMenuItem.getListenerClassName(), guiMenuItem.getListenerMethod(), Const.isOSX());
+    KeyboardShortcut shortcut = GuiRegistry.getInstance().findKeyboardShortcut(guiMenuItem.getListenerClassName(), guiMenuItem.getListenerMethod(), Const.isOSX());
     if (shortcut != null) {
       appendShortCut(menuItem, shortcut);
       menuItem.setAccelerator(getAccelerator(shortcut));
@@ -278,12 +252,10 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     return s;
   }
 
-  /**
-   * Find the menu item with the given ID
+  /** Find the menu item with the given ID
    *
    * @param id The ID to look for
-   * @return The menu item or null if nothing is found
-   */
+   * @return The menu item or null if nothing is found */
   public MenuItem findMenuItem(String id) {
     return menuItemMap.get(id);
   }
@@ -292,13 +264,11 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     return shortcutMap.get(id);
   }
 
-  /**
-   * Find the menu item with the given ID. If we find it we enable or disable it.
+  /** Find the menu item with the given ID. If we find it we enable or disable it.
    *
    * @param id The ID to look for
    * @param enabled true if the item needs to be enabled.
-   * @return The menu item or null if nothing is found
-   */
+   * @return The menu item or null if nothing is found */
   public MenuItem enableMenuItem(String id, boolean enabled) {
     MenuItem menuItem = menuItemMap.get(id);
     if (menuItem == null || menuItem.isDisposed()) {
@@ -308,31 +278,26 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     return menuItem;
   }
 
-  /**
-   * Find the menu item with the given ID. Check the capability in the given file type Enable or
+  /** Find the menu item with the given ID. Check the capability in the given file type Enable or
    * disable accordingly.
    *
    * @param fileType
    * @param id The ID of the widget to look for
    * @param permission
-   * @return The menu item or null if nothing is found
-   */
+   * @return The menu item or null if nothing is found */
   public MenuItem enableMenuItem(IHopFileType fileType, String id, String permission) {
     return enableMenuItem(fileType, id, permission, true);
   }
 
-  /**
-   * Find the menu item with the given ID. Check the capability in the given file type Enable or
+  /** Find the menu item with the given ID. Check the capability in the given file type Enable or
    * disable accordingly.
    *
    * @param fileType
    * @param id The ID of the widget to look for
    * @param permission
    * @param active The state if the permission is available
-   * @return The menu item or null if nothing is found
-   */
-  public MenuItem enableMenuItem(
-      IHopFileType fileType, String id, String permission, boolean active) {
+   * @return The menu item or null if nothing is found */
+  public MenuItem enableMenuItem(IHopFileType fileType, String id, String permission, boolean active) {
     MenuItem menuItem = menuItemMap.get(id);
     if (menuItem == null || menuItem.isDisposed()) {
       return null;
@@ -342,11 +307,9 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     return menuItem;
   }
 
-  /**
-   * Gets menuItemMap
+  /** Gets menuItemMap
    *
-   * @return value of menuItemMap
-   */
+   * @return value of menuItemMap */
   public Map<String, MenuItem> getMenuItemMap() {
     return menuItemMap;
   }

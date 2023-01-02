@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,16 +27,13 @@ import java.util.prefs.Preferences;
 public final class PluginPropertyHandler {
 
   public abstract static class AbstractHandler implements Closure {
-    /**
-     * {@inheritDoc}
+    /** {@inheritDoc}
      *
      * @throws IllegalArgumentException if property is null.
      * @throws FunctorException if HopException in handle thrown.
-     * @see org.apache.commons.collections.Closure#execute(java.lang.Object)
-     */
+     * @see org.apache.commons.collections.Closure#execute(java.lang.Object) */
     @Override
-    public final void execute(final Object property)
-        throws IllegalArgumentException, FunctorException {
+    public final void execute(final Object property) throws IllegalArgumentException, FunctorException {
       Assert.assertNotNull(property, "Plugin property cannot be null");
       try {
         this.handle((IPluginProperty) property);
@@ -45,12 +42,10 @@ public final class PluginPropertyHandler {
       }
     }
 
-    /**
-     * Handle property.
+    /** Handle property.
      *
      * @param property property.
-     * @throws HopException ...
-     */
+     * @throws HopException ... */
     protected abstract void handle(final IPluginProperty property) throws HopException;
   }
 
@@ -88,12 +83,10 @@ public final class PluginPropertyHandler {
 
     private final Node node;
 
-    /**
-     * Constructor.
+    /** Constructor.
      *
      * @param node node to set.
-     * @throws IllegalArgumentException if node is null.
-     */
+     * @throws IllegalArgumentException if node is null. */
     public LoadXml(final Node node) throws IllegalArgumentException {
       super();
       Assert.assertNotNull(node, "Node cannot be null");
@@ -110,12 +103,10 @@ public final class PluginPropertyHandler {
 
     private final Preferences node;
 
-    /**
-     * Constructor.
+    /** Constructor.
      *
      * @param node node to set.
-     * @throws IllegalArgumentException if node is null.
-     */
+     * @throws IllegalArgumentException if node is null. */
     public SaveToPreferences(final Preferences node) throws IllegalArgumentException {
       super();
       Assert.assertNotNull(node, "Node cannot be null");
@@ -132,12 +123,10 @@ public final class PluginPropertyHandler {
 
     private final Preferences node;
 
-    /**
-     * Constructor.
+    /** Constructor.
      *
      * @param node node to set.
-     * @throws IllegalArgumentException if node is null.
-     */
+     * @throws IllegalArgumentException if node is null. */
     public ReadFromPreferences(final Preferences node) throws IllegalArgumentException {
       super();
       Assert.assertNotNull(node, "Node cannot be null");
@@ -150,20 +139,15 @@ public final class PluginPropertyHandler {
     }
   }
 
-  /**
-   * @param properties properties to test.
-   * @throws IllegalArgumentException if properties is null.
-   */
-  public static void assertProperties(final KeyValueSet properties)
-      throws IllegalArgumentException {
+  /** @param properties properties to test.
+   * @throws IllegalArgumentException if properties is null. */
+  public static void assertProperties(final KeyValueSet properties) throws IllegalArgumentException {
     Assert.assertNotNull(properties, "Properties cannot be null");
   }
 
-  /**
-   * @param properties properties
+  /** @param properties properties
    * @return XML String
-   * @throws IllegalArgumentException if properties is null
-   */
+   * @throws IllegalArgumentException if properties is null */
   public static String toXml(final KeyValueSet properties) throws IllegalArgumentException {
     assertProperties(properties);
     final AppendXml handler = new AppendXml();
@@ -171,14 +155,11 @@ public final class PluginPropertyHandler {
     return handler.getXml();
   }
 
-  /**
-   * @param properties properties.
+  /** @param properties properties.
    * @param handler handler.
    * @throws HopException ...
-   * @throws IllegalArgumentException if properties is null.
-   */
-  public static void walk(final KeyValueSet properties, final Closure handler)
-      throws HopException, IllegalArgumentException {
+   * @throws IllegalArgumentException if properties is null. */
+  public static void walk(final KeyValueSet properties, final Closure handler) throws HopException, IllegalArgumentException {
     assertProperties(properties);
     try {
       properties.walk(handler);

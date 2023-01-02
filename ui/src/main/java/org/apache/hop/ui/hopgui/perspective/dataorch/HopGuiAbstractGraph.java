@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,10 +36,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * The beginnings of a common graph object, used by JobGraph and HopGuiPipelineGraph to share common
- * behaviors.
- */
+/** The beginnings of a common graph object, used by JobGraph and HopGuiPipelineGraph to share common
+ * behaviors. */
 public abstract class HopGuiAbstractGraph extends Composite {
 
   public static final String STATE_MAGNIFICATION = "magnification";
@@ -76,10 +74,8 @@ public abstract class HopGuiAbstractGraph extends Composite {
 
   protected ToolTip toolTip;
 
-  /**
-   * This is a state map which can be used by plugins to render extra states on top of pipelines and
-   * workflows or their components.
-   */
+  /** This is a state map which can be used by plugins to render extra states on top of pipelines and
+   * workflows or their components. */
   protected Map<String, Object> stateMap;
 
   protected boolean avoidScrollAdjusting;
@@ -194,7 +190,7 @@ public abstract class HopGuiAbstractGraph extends Composite {
     zoomIn();
   }
 
-  @GuiKeyboardShortcut(control = true, key = '+')  
+  @GuiKeyboardShortcut(control = true, key = '+')
   public void zoomIn() {
     magnification += 0.1f;
     // Minimum 1000%
@@ -206,7 +202,7 @@ public abstract class HopGuiAbstractGraph extends Composite {
     redraw();
   }
 
-  @GuiKeyboardShortcut(control = true, key = '-')  
+  @GuiKeyboardShortcut(control = true, key = '-')
   public void zoomOut() {
     magnification -= 0.1f;
     // Minimum 10%
@@ -231,10 +227,7 @@ public abstract class HopGuiAbstractGraph extends Composite {
     float correctedMagnification = calculateCorrectedMagnification();
     Point real;
     if (offset != null) {
-      real =
-          new Point(
-              Math.round((x / correctedMagnification - offset.x)),
-              Math.round((y / correctedMagnification - offset.y)));
+      real = new Point(Math.round((x / correctedMagnification - offset.x)), Math.round((y / correctedMagnification - offset.y)));
     } else {
       real = new Point(x, y);
     }
@@ -259,11 +252,9 @@ public abstract class HopGuiAbstractGraph extends Composite {
     parentTabItem.dispose();
   }
 
-  /**
-   * Gets parentTabItem
+  /** Gets parentTabItem
    *
-   * @return value of parentTabItem
-   */
+   * @return value of parentTabItem */
   public CTabItem getParentTabItem() {
     return parentTabItem;
   }
@@ -273,11 +264,9 @@ public abstract class HopGuiAbstractGraph extends Composite {
     this.parentTabItem = parentTabItem;
   }
 
-  /**
-   * Gets parentComposite
+  /** Gets parentComposite
    *
-   * @return value of parentComposite
-   */
+   * @return value of parentComposite */
   public Composite getParentComposite() {
     return parentComposite;
   }
@@ -287,11 +276,9 @@ public abstract class HopGuiAbstractGraph extends Composite {
     this.parentComposite = parentComposite;
   }
 
-  /**
-   * Gets id
+  /** Gets id
    *
-   * @return value of id
-   */
+   * @return value of id */
   public String getId() {
     return id;
   }
@@ -303,12 +290,9 @@ public abstract class HopGuiAbstractGraph extends Composite {
     ScrollBar horizontalScrollBar = wsCanvas.getHorizontalBar();
     ScrollBar verticalScrollBar = wsCanvas.getVerticalBar();
 
-    map.put(
-        STATE_SCROLL_X_SELECTION,
-        horizontalScrollBar != null ? horizontalScrollBar.getSelection() : 0);
+    map.put(STATE_SCROLL_X_SELECTION, horizontalScrollBar != null ? horizontalScrollBar.getSelection() : 0);
 
-    map.put(
-        STATE_SCROLL_Y_SELECTION, verticalScrollBar != null ? verticalScrollBar.getSelection() : 0);
+    map.put(STATE_SCROLL_Y_SELECTION, verticalScrollBar != null ? verticalScrollBar.getSelection() : 0);
     return map;
   }
 
@@ -419,43 +403,27 @@ public abstract class HopGuiAbstractGraph extends Composite {
 
   protected void dragView(Point lastClick, Point real) {
 
-    /**
-     * Calculate the differences for the scrollbars. We take the system zoom factor and current
-     * magnification into account
-     */
-    int deltaX =
-        (int)
-            Math.round(
-                (lastClick.x - real.x)
-                    / (10.0 * PropsUi.getInstance().getZoomFactor())
-                    / Math.max(1.0, magnification));
-    int deltaY =
-        (int)
-            Math.round(
-                (lastClick.y - real.y)
-                    / (10.0 * PropsUi.getInstance().getZoomFactor())
-                    / Math.max(1.0, magnification));
+    /** Calculate the differences for the scrollbars. We take the system zoom factor and current
+     * magnification into account */
+    int deltaX = (int) Math.round((lastClick.x - real.x) / (10.0 * PropsUi.getInstance().getZoomFactor()) / Math.max(1.0, magnification));
+    int deltaY = (int) Math.round((lastClick.y - real.y) / (10.0 * PropsUi.getInstance().getZoomFactor()) / Math.max(1.0, magnification));
 
     ScrollBar h = wsCanvas.getHorizontalBar();
     if (h != null && startHorizontalDragSelection > 0) {
-      int newSelection =
-          Math.max(h.getMinimum(), Math.min(startHorizontalDragSelection + deltaX, h.getMaximum()));
+      int newSelection = Math.max(h.getMinimum(), Math.min(startHorizontalDragSelection + deltaX, h.getMaximum()));
       h.setSelection(newSelection);
     }
     ScrollBar v = wsCanvas.getVerticalBar();
     if (v != null && startVerticalDragSelection > 0) {
-      int newSelection =
-          Math.max(v.getMinimum(), Math.min(startVerticalDragSelection + deltaY, v.getMaximum()));
+      int newSelection = Math.max(v.getMinimum(), Math.min(startVerticalDragSelection + deltaY, v.getMaximum()));
       v.setSelection(newSelection);
     }
     redraw();
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
@@ -465,11 +433,9 @@ public abstract class HopGuiAbstractGraph extends Composite {
     this.variables = variables;
   }
 
-  /**
-   * Gets stateMap
+  /** Gets stateMap
    *
-   * @return value of stateMap
-   */
+   * @return value of stateMap */
   public Map<String, Object> getStateMap() {
     return stateMap;
   }
@@ -479,11 +445,9 @@ public abstract class HopGuiAbstractGraph extends Composite {
     this.stateMap = stateMap;
   }
 
-  /**
-   * Gets avoidScrollAdjusting
+  /** Gets avoidScrollAdjusting
    *
-   * @return value of avoidScrollAdjusting
-   */
+   * @return value of avoidScrollAdjusting */
   public boolean isAvoidScrollAdjusting() {
     return avoidScrollAdjusting;
   }

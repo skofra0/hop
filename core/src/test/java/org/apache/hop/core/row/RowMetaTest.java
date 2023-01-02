@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 
 public class RowMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   IRowMeta rowMeta = new RowMeta();
   IValueMeta string;
@@ -107,8 +108,7 @@ public class RowMetaTest {
 
   @Test
   public void testSetValueMetaList() throws HopPluginException {
-    List<IValueMeta> setList =
-        this.generateVList(new String[] {"alpha", "bravo"}, new int[] {2, 2});
+    List<IValueMeta> setList = this.generateVList(new String[] {"alpha", "bravo"}, new int[] {2, 2});
     rowMeta.setValueMetaList(setList);
     assertTrue(setList.contains(rowMeta.searchValueMeta("alpha")));
     assertTrue(setList.contains(rowMeta.searchValueMeta("bravo")));
@@ -229,9 +229,7 @@ public class RowMetaTest {
 
   @Test
   public void testAddRowMeta() throws HopPluginException {
-    List<IValueMeta> list =
-        this.generateVList(
-            new String[] {"alfa", "bravo", "charly", "delta"}, new int[] {2, 2, 3, 4});
+    List<IValueMeta> list = this.generateVList(new String[] {"alfa", "bravo", "charly", "delta"}, new int[] {2, 2, 3, 4});
     RowMeta added = new RowMeta();
     added.setValueMetaList(list);
     rowMeta.addRowMeta(added);
@@ -242,8 +240,7 @@ public class RowMetaTest {
 
   @Test
   public void testMergeRowMeta() throws HopPluginException {
-    List<IValueMeta> list =
-        this.generateVList(new String[] {"phobos", "demos", "mars"}, new int[] {6, 6, 6});
+    List<IValueMeta> list = this.generateVList(new String[] {"phobos", "demos", "mars"}, new int[] {6, 6, 6});
     list.add(1, integer);
     RowMeta toMerge = new RowMeta();
     toMerge.setValueMetaList(list);
@@ -358,9 +355,7 @@ public class RowMetaTest {
     assertNull(newRowMeta.needRealClone); // null because of the new add
     list = newRowMeta.getOrCreateValuesThatNeedRealClone(newRowMeta.valueMetaList);
     assertNotNull(newRowMeta.needRealClone);
-    assertEquals(
-        5,
-        list.size()); // Should still only be charly, dup and bin, charly_1, bin_1 - adding a string
+    assertEquals(5, list.size()); // Should still only be charly, dup and bin, charly_1, bin_1 - adding a string
     // doesn't change of result
   }
 
@@ -370,8 +365,7 @@ public class RowMetaTest {
 
     IValueMeta searchFor = null;
     for (int i = 0; i < 100000; i++) {
-      IValueMeta vm =
-          ValueMetaFactory.createValueMeta(UUID.randomUUID().toString(), IValueMeta.TYPE_STRING);
+      IValueMeta vm = ValueMetaFactory.createValueMeta(UUID.randomUUID().toString(), IValueMeta.TYPE_STRING);
       rowMeta.addValueMeta(vm);
       if (i == 50000) {
         searchFor = vm;
@@ -392,13 +386,7 @@ public class RowMetaTest {
     assertEquals(searchFor, found);
     time2 = stop - start;
 
-    assertTrue(
-        "array search is slower then current implementation : "
-            + "for array list: "
-            + time1
-            + ", for hashed rowMeta: "
-            + time2,
-        time1 > time2);
+    assertTrue("array search is slower then current implementation : " + "for array list: " + time1 + ", for hashed rowMeta: " + time2, time1 > time2);
   }
 
   // @Test
@@ -408,8 +396,7 @@ public class RowMetaTest {
     // create pre-existed rom meta list
     List<IValueMeta> pre = new ArrayList<>(100000);
     for (int i = 0; i < 100000; i++) {
-      IValueMeta vm =
-          ValueMetaFactory.createValueMeta(UUID.randomUUID().toString(), IValueMeta.TYPE_STRING);
+      IValueMeta vm = ValueMetaFactory.createValueMeta(UUID.randomUUID().toString(), IValueMeta.TYPE_STRING);
       pre.add(vm);
     }
 
@@ -440,8 +427,7 @@ public class RowMetaTest {
   @Test
   public void testMergeRowMetaWithOriginTransform() throws Exception {
 
-    List<IValueMeta> list =
-        this.generateVList(new String[] {"phobos", "demos", "mars"}, new int[] {6, 6, 6});
+    List<IValueMeta> list = this.generateVList(new String[] {"phobos", "demos", "mars"}, new int[] {6, 6, 6});
     list.add(1, integer);
     RowMeta toMerge = new RowMeta();
     toMerge.setValueMetaList(list);

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,11 +56,9 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Tests for HopServer class
+/** Tests for HopServer class
  *
- * @see HopServer
- */
+ * @see HopServer */
 public class HopServerTest {
   HopServer hopServer;
   IVariables variables;
@@ -69,8 +67,7 @@ public class HopServerTest {
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -114,8 +111,7 @@ public class HopServerTest {
     when(status.getStatusCode()).thenReturn(statusCode);
     when(resp.getStatusLine()).thenReturn(status);
     HttpEntity entity = mock(HttpEntity.class);
-    when(entity.getContent())
-        .thenReturn(new ByteArrayInputStream(entityText.getBytes(StandardCharsets.UTF_8)));
+    when(entity.getContent()).thenReturn(new ByteArrayInputStream(entityText.getBytes(StandardCharsets.UTF_8)));
     when(resp.getEntity()).thenReturn(entity);
     return resp;
   }

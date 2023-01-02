@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,11 +32,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-/**
- * A Widget that combines a Text widget with a Variable button that will insert an Environment
+/** A Widget that combines a Text widget with a Variable button that will insert an Environment
  * variable. The tool tip of the text widget shows the content of the Text widget with expanded
- * variables.
- */
+ * variables. */
 public class ComboVar extends Composite {
   private static final Class<?> PKG = ComboVar.class; // For Translator
 
@@ -62,22 +60,11 @@ public class ComboVar extends Composite {
     this(variables, composite, flags, toolTipText, null, null);
   }
 
-  public ComboVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
+  public ComboVar(IVariables variables, Composite composite, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
     this(variables, composite, flags, null, getCaretPositionInterface, insertTextInterface);
   }
 
-  public ComboVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String toolTipText,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
+  public ComboVar(IVariables variables, Composite composite, int flags, String toolTipText, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
     super(composite, SWT.NONE);
     this.toolTipText = toolTipText;
     this.getCaretPositionInterface = getCaretPositionInterface;
@@ -112,9 +99,7 @@ public class ComboVar extends Composite {
     fdCombo.right = new FormAttachment(wlImage, 0);
     wCombo.setLayoutData(fdCombo);
 
-    controlSpaceKeyAdapter =
-        new ControlSpaceKeyAdapter(
-            variables, wCombo, getCaretPositionInterface, insertTextInterface);
+    controlSpaceKeyAdapter = new ControlSpaceKeyAdapter(variables, wCombo, getCaretPositionInterface, insertTextInterface);
     wCombo.addKeyListener(controlSpaceKeyAdapter);
   }
 
@@ -172,11 +157,9 @@ public class ComboVar extends Composite {
     wCombo.addListener(eventType, listener);
   }
 
-  /**
-   * Add a modify listener to the text widget
+  /** Add a modify listener to the text widget
    *
-   * @param modifyListener
-   */
+   * @param modifyListener */
   public void addModifyListener(ModifyListener modifyListener) {
     wCombo.addModifyListener(modifyListener);
   }
@@ -204,10 +187,7 @@ public class ComboVar extends Composite {
   public synchronized boolean setFocus() {
     if (wCombo != null && !wCombo.isDisposed()) {
       synchronized (wCombo) {
-        if (!wCombo.isEnabled()
-            || !wCombo.getVisible()
-            || !wCombo.isVisible()
-            || !wCombo.isFocusControl()) {
+        if (!wCombo.isEnabled() || !wCombo.getVisible() || !wCombo.isVisible() || !wCombo.isFocusControl()) {
           return false;
         }
         return wCombo.setFocus();

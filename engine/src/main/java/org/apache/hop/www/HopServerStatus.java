@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -65,15 +65,10 @@ public class HopServerStatus {
     this.statusDescription = statusDescription;
   }
 
-  /**
-   * @param statusDescription
+  /** @param statusDescription
    * @param pipelineStatusList
-   * @param jobStatusList
-   */
-  public HopServerStatus(
-      String statusDescription,
-      List<HopServerPipelineStatus> pipelineStatusList,
-      List<HopServerWorkflowStatus> jobStatusList) {
+   * @param jobStatusList */
+  public HopServerStatus(String statusDescription, List<HopServerPipelineStatus> pipelineStatusList, List<HopServerWorkflowStatus> jobStatusList) {
     this.statusDescription = statusDescription;
     this.pipelineStatusList = pipelineStatusList;
     this.workflowStatusList = jobStatusList;
@@ -147,14 +142,12 @@ public class HopServerStatus {
     int nrWorkflows = XmlHandler.countNodes(listWorkflowsNode, HopServerWorkflowStatus.XML_TAG);
 
     for (int i = 0; i < nrPipelines; i++) {
-      Node pipelineStatusNode =
-          XmlHandler.getSubNodeByNr(listPipelineNode, HopServerPipelineStatus.XML_TAG, i);
+      Node pipelineStatusNode = XmlHandler.getSubNodeByNr(listPipelineNode, HopServerPipelineStatus.XML_TAG, i);
       pipelineStatusList.add(new HopServerPipelineStatus(pipelineStatusNode));
     }
 
     for (int i = 0; i < nrWorkflows; i++) {
-      Node jobStatusNode =
-          XmlHandler.getSubNodeByNr(listWorkflowsNode, HopServerWorkflowStatus.XML_TAG, i);
+      Node jobStatusNode = XmlHandler.getSubNodeByNr(listWorkflowsNode, HopServerWorkflowStatus.XML_TAG, i);
       workflowStatusList.add(new HopServerWorkflowStatus(jobStatusNode));
     }
   }
@@ -197,8 +190,7 @@ public class HopServerStatus {
   public HopServerPipelineStatus findPipelineStatus(String pipelineName, String id) {
     for (int i = 0; i < pipelineStatusList.size(); i++) {
       HopServerPipelineStatus pipelineStatus = pipelineStatusList.get(i);
-      if (pipelineStatus.getPipelineName().equalsIgnoreCase(pipelineName)
-          && (Utils.isEmpty(id) || pipelineStatus.getId().equals(id))) {
+      if (pipelineStatus.getPipelineName().equalsIgnoreCase(pipelineName) && (Utils.isEmpty(id) || pipelineStatus.getId().equals(id))) {
         return pipelineStatus;
       }
     }
@@ -208,8 +200,7 @@ public class HopServerStatus {
   public HopServerWorkflowStatus findJobStatus(String workflowName, String id) {
     for (int i = 0; i < workflowStatusList.size(); i++) {
       HopServerWorkflowStatus jobStatus = workflowStatusList.get(i);
-      if (jobStatus.getWorkflowName().equalsIgnoreCase(workflowName)
-          && (Utils.isEmpty(id) || jobStatus.getId().equals(id))) {
+      if (jobStatus.getWorkflowName().equalsIgnoreCase(workflowName) && (Utils.isEmpty(id) || jobStatus.getId().equals(id))) {
         return jobStatus;
       }
     }

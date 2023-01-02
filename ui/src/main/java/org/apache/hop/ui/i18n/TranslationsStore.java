@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,10 +22,8 @@ import org.apache.hop.core.logging.ILogChannel;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class contains and handles all the translations for the keys specified in the Java source
- * code.
- */
+/** This class contains and handles all the translations for the keys specified in the Java source
+ * code. */
 public class TranslationsStore {
 
   private List<String> localeList;
@@ -37,19 +35,12 @@ public class TranslationsStore {
 
   private ILogChannel log;
 
-  /**
-   * @param log
+  /** @param log
    * @param localeList
    * @param mainLocale
    * @param sourcePackageOccurrences
-   * @param bundlesStore
-   */
-  public TranslationsStore(
-      ILogChannel log,
-      List<String> localeList,
-      String mainLocale,
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences,
-      BundlesStore bundlesStore) {
+   * @param bundlesStore */
+  public TranslationsStore(ILogChannel log, List<String> localeList, String mainLocale, Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences, BundlesStore bundlesStore) {
     super();
     this.log = log;
     this.localeList = localeList;
@@ -58,14 +49,12 @@ public class TranslationsStore {
     this.bundleStore = bundlesStore;
   }
 
-  /**
-   * Look up the translation for a key in a certain locale
+  /** Look up the translation for a key in a certain locale
    *
    * @param locale the locale to hunt for
    * @param messagesPackage the messages package to look in
    * @param key the key
-   * @return the translation for the specified key in the desired locale, from the requested package
-   */
+   * @return the translation for the specified key in the desired locale, from the requested package */
   public String lookupKeyValue(String locale, String messagesPackage, String key) {
     return bundleStore.lookupTranslation(messagesPackage, locale, key);
   }
@@ -74,8 +63,7 @@ public class TranslationsStore {
     bundleStore.removeTranslation(messagesPackage, locale, key);
   }
 
-  public void storeValue(
-      String locale, String sourceFolder, String messagesPackage, String key, String value) {
+  public void storeValue(String locale, String sourceFolder, String messagesPackage, String key, String value) {
     bundleStore.addTranslation(sourceFolder, messagesPackage, locale, key, value);
   }
 
@@ -84,12 +72,10 @@ public class TranslationsStore {
     return bundleStore.getChangedBundleFiles();
   }
 
-  /**
-   * @param searchLocale the locale the filter on.
+  /** @param searchLocale the locale the filter on.
    * @param messagesPackage the messagesPackage to filter on. Specify null to get all message
-   *     stores.
-   * @return the list of messages bundle files for the locale
-   */
+   *        stores.
+   * @return the list of messages bundle files for the locale */
   public List<BundleFile> findBundleFiles(String searchLocale, String messagesPackage) {
     return bundleStore.getBundleFiles(searchLocale, messagesPackage);
   }
@@ -126,25 +112,20 @@ public class TranslationsStore {
     return sourcePackageOccurrences;
   }
 
-  public void setSourcePackageOccurrences(
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
+  public void setSourcePackageOccurrences(Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
     this.sourcePackageOccurrences = sourcePackageOccurrences;
   }
 
-  /**
-   * Gets bundleStore
+  /** Gets bundleStore
    *
-   * @return value of bundleStore
-   */
+   * @return value of bundleStore */
   public BundlesStore getBundleStore() {
     return bundleStore;
   }
 
-  /**
-   * Gets log
+  /** Gets log
    *
-   * @return value of log
-   */
+   * @return value of log */
   public ILogChannel getLog() {
     return log;
   }

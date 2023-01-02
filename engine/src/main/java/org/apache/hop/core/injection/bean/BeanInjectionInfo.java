@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -69,8 +69,7 @@ public class BeanInjectionInfo<Meta extends Object> {
         extractInjectionInfo(clazz);
       }
     } catch (Throwable ex) {
-      log.logError(
-          "Error bean injection info collection for " + clazz + ": " + ex.getMessage(), ex);
+      log.logError("Error bean injection info collection for " + clazz + ": " + ex.getMessage(), ex);
       throw ex;
     }
   }
@@ -116,8 +115,7 @@ public class BeanInjectionInfo<Meta extends Object> {
     groupsList = Collections.unmodifiableList(groupsList);
   }
 
-  private boolean extractMetadataProperties(
-      Group rootGroup, List<BeanLevelInfo> parentPath, Class<?> clazz) {
+  private boolean extractMetadataProperties(Group rootGroup, List<BeanLevelInfo> parentPath, Class<?> clazz) {
     Map<Field, HopMetadataProperty> propertyFields = new HashMap<>();
     for (Field field : ReflectionUtil.findAllFields(clazz)) {
       HopMetadataProperty property = field.getAnnotation(HopMetadataProperty.class);
@@ -142,14 +140,7 @@ public class BeanInjectionInfo<Meta extends Object> {
 
       // Class Bean Level Info...
       //
-      BeanLevelInfo fieldLevelInfo =
-          getLevelInfo(
-              clazz,
-              parentPath.get(parentPath.size() - 1),
-              field,
-              fieldType,
-              property,
-              injectionKey);
+      BeanLevelInfo fieldLevelInfo = getLevelInfo(clazz, parentPath.get(parentPath.size() - 1), field, fieldType, property, injectionKey);
 
       Group group = null;
       if (StringUtils.isNotEmpty(injectionGroupKey)) {
@@ -184,20 +175,13 @@ public class BeanInjectionInfo<Meta extends Object> {
 
           // Child bean level info...
           //
-          BeanLevelInfo childLevelInfo =
-              getLevelInfo(fieldType, fieldLevelInfo, null, fieldType, property, injectionKey);
+          BeanLevelInfo childLevelInfo = getLevelInfo(fieldType, fieldLevelInfo, null, fieldType, property, injectionKey);
           childLevelInfo.stringList = true;
 
           List<BeanLevelInfo> path = new ArrayList<>(parentPath);
           path.add(fieldLevelInfo);
           path.add(childLevelInfo);
-          Property p =
-              new Property(
-                  injectionKey,
-                  injectionKeyDescription,
-                  injectionGroupKey,
-                  path,
-                  property.isExcludedFromInjection());
+          Property p = new Property(injectionKey, injectionKeyDescription, injectionGroupKey, path, property.isExcludedFromInjection());
           group.properties.add(p);
           properties.put(injectionKey, p);
         } else {
@@ -211,27 +195,14 @@ public class BeanInjectionInfo<Meta extends Object> {
 
               // Child bean level info...
               //
-              BeanLevelInfo childLevelInfo =
-                  getLevelInfo(
-                      fieldType,
-                      fieldLevelInfo,
-                      childField,
-                      childFieldType,
-                      childProperty,
-                      childInjectionKey);
+              BeanLevelInfo childLevelInfo = getLevelInfo(fieldType, fieldLevelInfo, childField, childFieldType, childProperty, childInjectionKey);
 
               List<BeanLevelInfo> path = new ArrayList<>(parentPath);
               path.add(fieldLevelInfo);
               path.add(childLevelInfo);
 
               if (isChildlessClass(childFieldType, childProperty)) {
-                Property p =
-                    new Property(
-                        childInjectionKey,
-                        childInjectionKeyDescription,
-                        injectionGroupKey,
-                        path,
-                        property.isExcludedFromInjection());
+                Property p = new Property(childInjectionKey, childInjectionKeyDescription, injectionGroupKey, path, property.isExcludedFromInjection());
                 group.properties.add(p);
                 properties.put(childInjectionKey, p);
               } else {
@@ -250,13 +221,7 @@ public class BeanInjectionInfo<Meta extends Object> {
           //
           List<BeanLevelInfo> path = new ArrayList<>(parentPath);
           path.add(fieldLevelInfo);
-          Property p =
-              new Property(
-                  injectionKey,
-                  injectionKeyDescription,
-                  "",
-                  path,
-                  property.isExcludedFromInjection());
+          Property p = new Property(injectionKey, injectionKeyDescription, "", path, property.isExcludedFromInjection());
           rootGroup.properties.add(p);
           properties.put(injectionKey, p);
         } else {
@@ -272,21 +237,10 @@ public class BeanInjectionInfo<Meta extends Object> {
   }
 
   private boolean isChildlessClass(Class<?> fieldType, HopMetadataProperty property) {
-    return fieldType.isPrimitive()
-        || fieldType.isEnum()
-        || String.class.equals(fieldType)
-        || Date.class.equals(fieldType)
-        || property.storeWithName()
-        || property.storeWithCode();
+    return fieldType.isPrimitive() || fieldType.isEnum() || String.class.equals(fieldType) || Date.class.equals(fieldType) || property.storeWithName() || property.storeWithCode();
   }
 
-  private BeanLevelInfo getLevelInfo(
-      Class<?> parentClass,
-      BeanLevelInfo parent,
-      Field field,
-      Class<?> fieldType,
-      HopMetadataProperty property,
-      String injectionKey) {
+  private BeanLevelInfo getLevelInfo(Class<?> parentClass, BeanLevelInfo parent, Field field, Class<?> fieldType, HopMetadataProperty property, String injectionKey) {
     BeanLevelInfo fieldLevelInfo = new BeanLevelInfo();
     fieldLevelInfo.parent = parent;
     fieldLevelInfo.leafClass = fieldType;
@@ -295,10 +249,7 @@ public class BeanInjectionInfo<Meta extends Object> {
       try {
         fieldLevelInfo.converter = property.injectionConverter().newInstance();
       } catch (Exception e) {
-        throw new RuntimeException(
-            "Unable to instantiate injection metadata converter class "
-                + property.injectionConverter().getName(),
-            e);
+        throw new RuntimeException("Unable to instantiate injection metadata converter class " + property.injectionConverter().getName(), e);
       }
     }
     fieldLevelInfo.nameKey = injectionKey;
@@ -310,26 +261,14 @@ public class BeanInjectionInfo<Meta extends Object> {
     boolean isBoolean = Boolean.class.equals(fieldType) || boolean.class.equals(fieldType);
     if (field != null) {
       try {
-        fieldLevelInfo.getter =
-            parentClass.getMethod(ReflectionUtil.getGetterMethodName(field.getName(), isBoolean));
+        fieldLevelInfo.getter = parentClass.getMethod(ReflectionUtil.getGetterMethodName(field.getName(), isBoolean));
       } catch (Exception e) {
-        throw new RuntimeException(
-            "Unable to find getter for field "
-                + field.getName()
-                + " in class "
-                + parentClass.getName(),
-            e);
+        throw new RuntimeException("Unable to find getter for field " + field.getName() + " in class " + parentClass.getName(), e);
       }
       try {
-        fieldLevelInfo.setter =
-            parentClass.getMethod(ReflectionUtil.getSetterMethodName(field.getName()), fieldType);
+        fieldLevelInfo.setter = parentClass.getMethod(ReflectionUtil.getSetterMethodName(field.getName()), fieldType);
       } catch (Exception e) {
-        throw new RuntimeException(
-            "Unable to find setter for field "
-                + field.getName()
-                + " in class "
-                + parentClass.getName(),
-            e);
+        throw new RuntimeException("Unable to find setter for field " + field.getName() + " in class " + parentClass.getName(), e);
       }
     }
     return fieldLevelInfo;
@@ -436,19 +375,11 @@ public class BeanInjectionInfo<Meta extends Object> {
 
     String injectionKeyDescription = clazzAnnotation.localizationPrefix() + propertyName;
 
-    Property prop =
-        new Property(
-            propertyName, injectionKeyDescription, metaInj.group(), leaf.createCallStack(), false);
+    Property prop = new Property(propertyName, injectionKeyDescription, metaInj.group(), leaf.createCallStack(), false);
     properties.put(prop.key, prop);
     Group gr = groupsMap.get(metaInj.group());
     if (gr == null) {
-      throw new RuntimeException(
-          "Group '"
-              + metaInj.group()
-              + "' for property '"
-              + metaInj.name()
-              + "' is not defined "
-              + clazz);
+      throw new RuntimeException("Group '" + metaInj.group() + "' for property '" + metaInj.name() + "' is not defined " + clazz);
     }
     gr.properties.add(prop);
   }
@@ -497,12 +428,7 @@ public class BeanInjectionInfo<Meta extends Object> {
     public final int pathArraysCount;
     private final boolean isExcludedFromInjection;
 
-    public Property(
-        String key,
-        String description,
-        String groupKey,
-        List<BeanLevelInfo> path,
-        boolean isExcludedFromInjection) {
+    public Property(String key, String description, String groupKey, List<BeanLevelInfo> path, boolean isExcludedFromInjection) {
 
       this.key = key;
       this.description = description;
@@ -523,11 +449,9 @@ public class BeanInjectionInfo<Meta extends Object> {
       return key;
     }
 
-    /**
-     * Gets description
+    /** Gets description
      *
-     * @return value of description
-     */
+     * @return value of description */
     public String getDescription() {
       return description;
     }
@@ -561,11 +485,9 @@ public class BeanInjectionInfo<Meta extends Object> {
       return false;
     }
 
-    /**
-     * Gets path
+    /** Gets path
      *
-     * @return value of path
-     */
+     * @return value of path */
     public List<BeanLevelInfo> getPath() {
       return path;
     }
@@ -585,11 +507,9 @@ public class BeanInjectionInfo<Meta extends Object> {
       return key;
     }
 
-    /**
-     * Gets groupDescription
+    /** Gets groupDescription
      *
-     * @return value of groupDescription
-     */
+     * @return value of groupDescription */
     public String getDescription() {
       return description;
     }

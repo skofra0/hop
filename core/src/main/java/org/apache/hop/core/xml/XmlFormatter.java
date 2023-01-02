@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,12 +22,10 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * XML formatting for better VCS diff.
- *
- * <p>It preserve formatting only in cases: 1) inside one tag if there are only characters, 2) in
- * comments, 3) if there are some characters outside tags
- */
+/** XML formatting for better VCS diff.
+ * <p>
+ * It preserve formatting only in cases: 1) inside one tag if there are only characters, 2) in
+ * comments, 3) if there are some characters outside tags */
 public class XmlFormatter {
   private static final String TRANSFORM_PREFIX = "  ";
 
@@ -160,10 +158,8 @@ public class XmlFormatter {
     }
   }
 
-  /**
-   * Storage for start element info. It required since elements can be empty, i.e. we should call
-   * writeEmptyElement for writer instead writeStartElement.
-   */
+  /** Storage for start element info. It required since elements can be empty, i.e. we should call
+   * writeEmptyElement for writer instead writeStartElement. */
   private static class StartElementBuffer {
     String prefix;
     String namespace;

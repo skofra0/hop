@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,13 +36,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /** The start action is starting point for workflow execution. */
-@Action(
-    id = ActionStart.ID,
-    image = "ui/images/start.svg",
-    name = "i18n::ActionStart.Name",
-    description = "i18n::ActionStart.Description",
-    categoryDescription = "i18n:org.apache.hop.workflow:ActionCategory.Category.General",
-    keywords = "i18n::ActionStart.keyword",
+@Action(id = ActionStart.ID, image = "ui/images/start.svg", name = "i18n::ActionStart.Name", description = "i18n::ActionStart.Description", categoryDescription = "i18n:org.apache.hop.workflow:ActionCategory.Category.General", keywords = "i18n::ActionStart.keyword",
     documentationUrl = "/workflow/actions/start.html")
 public class ActionStart extends ActionBase implements Cloneable, IAction {
 
@@ -96,13 +90,11 @@ public class ActionStart extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(actionNode);
       repeat = "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, "repeat"));
-      setSchedulerType(
-          Const.toInt(XmlHandler.getTagValue(actionNode, "schedulerType"), NOSCHEDULING));
+      setSchedulerType(Const.toInt(XmlHandler.getTagValue(actionNode, "schedulerType"), NOSCHEDULING));
       setIntervalSeconds(Const.toInt(XmlHandler.getTagValue(actionNode, "intervalSeconds"), 0));
       setIntervalMinutes(Const.toInt(XmlHandler.getTagValue(actionNode, "intervalMinutes"), 0));
       setHour(Const.toInt(XmlHandler.getTagValue(actionNode, "hour"), 0));
@@ -121,11 +113,7 @@ public class ActionStart extends ActionBase implements Cloneable, IAction {
     try {
       long sleepTime = getNextExecutionTime();
       if (sleepTime > 0) {
-        parentWorkflow
-            .getLogChannel()
-            .logBasic(
-                parentWorkflow.getWorkflowName(),
-                "Sleeping: " + (sleepTime / 1000 / 60) + " minutes (sleep time=" + sleepTime + ")");
+        parentWorkflow.getLogChannel().logBasic(parentWorkflow.getWorkflowName(), "Sleeping: " + (sleepTime / 1000 / 60) + " minutes (sleep time=" + sleepTime + ")");
         long totalSleep = 0L;
         while (totalSleep < sleepTime && !parentWorkflow.isStopped()) {
           Thread.sleep(1000L);
@@ -300,9 +288,5 @@ public class ActionStart extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {}
 }

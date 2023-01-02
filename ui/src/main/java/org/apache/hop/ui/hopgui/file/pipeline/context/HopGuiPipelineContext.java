@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,8 +44,7 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
   private Point click;
   private GuiActionLambdaBuilder<HopGuiPipelineContext> lambdaBuilder;
 
-  public HopGuiPipelineContext(
-      PipelineMeta pipelineMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
+  public HopGuiPipelineContext(PipelineMeta pipelineMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
     this.pipelineMeta = pipelineMeta;
     this.pipelineGraph = pipelineGraph;
     this.click = click;
@@ -57,12 +56,10 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
     return CONTEXT_ID;
   }
 
-  /**
-   * Create a list of supported actions on a pipeline. We'll add the creation of every possible
+  /** Create a list of supported actions on a pipeline. We'll add the creation of every possible
    * transform as well as the modification of the pipeline itself.
    *
-   * @return The list of supported actions
-   */
+   * @return The list of supported actions */
   @Override
   public List<GuiAction> getSupportedActions() {
     List<GuiAction> actions = new ArrayList<>();
@@ -81,31 +78,15 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
     PluginRegistry registry = PluginRegistry.getInstance();
     List<IPlugin> transformPlugins = registry.getPlugins(TransformPluginType.class);
     for (IPlugin transformPlugin : transformPlugins) {
-      GuiAction createTransformAction =
-          new GuiAction(
-              "pipeline-graph-create-transform-" + transformPlugin.getIds()[0],
-              GuiActionType.Create,
-              transformPlugin.getName(),
-              transformPlugin.getDescription(),
-              transformPlugin.getImageFile(),
-              (shiftClicked, controlClicked, t) ->
-                  pipelineGraph.pipelineTransformDelegate.newTransform(
-                      pipelineMeta,
-                      transformPlugin.getIds()[0],
-                      transformPlugin.getName(),
-                      transformPlugin.getDescription(),
-                      controlClicked,
-                      true,
-                      click));
+      GuiAction createTransformAction = new GuiAction("pipeline-graph-create-transform-" + transformPlugin.getIds()[0], GuiActionType.Create, transformPlugin.getName(), transformPlugin.getDescription(), transformPlugin.getImageFile(),
+          (shiftClicked, controlClicked, t) -> pipelineGraph.pipelineTransformDelegate.newTransform(pipelineMeta, transformPlugin.getIds()[0], transformPlugin.getName(), transformPlugin.getDescription(), controlClicked, true, click));
       createTransformAction.getKeywords().addAll(Arrays.asList(transformPlugin.getKeywords()));
       createTransformAction.setCategory(transformPlugin.getCategory());
-      createTransformAction.setCategoryOrder(
-          "9999_" + transformPlugin.getCategory()); // sort alphabetically
+      createTransformAction.setCategoryOrder("9999_" + transformPlugin.getCategory()); // sort alphabetically
       try {
         createTransformAction.setClassLoader(registry.getClassLoader(transformPlugin));
       } catch (HopPluginException e) {
-        LogChannel.UI.logError(
-            "Unable to get classloader for transform plugin " + transformPlugin.getIds()[0], e);
+        LogChannel.UI.logError("Unable to get classloader for transform plugin " + transformPlugin.getIds()[0], e);
       }
       createTransformAction.getKeywords().add(transformPlugin.getCategory());
       actions.add(createTransformAction);
@@ -114,11 +95,9 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
     return actions;
   }
 
-  /**
-   * Gets pipelineMeta
+  /** Gets pipelineMeta
    *
-   * @return value of pipelineMeta
-   */
+   * @return value of pipelineMeta */
   public PipelineMeta getPipelineMeta() {
     return pipelineMeta;
   }
@@ -128,11 +107,9 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
     this.pipelineMeta = pipelineMeta;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiPipelineGraph getPipelineGraph() {
     return pipelineGraph;
   }
@@ -142,11 +119,9 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
     this.pipelineGraph = pipelineGraph;
   }
 
-  /**
-   * Gets click
+  /** Gets click
    *
-   * @return value of click
-   */
+   * @return value of click */
   public Point getClick() {
     return click;
   }

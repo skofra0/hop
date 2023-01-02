@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,9 +27,11 @@ import java.util.Objects;
 @HopMetadata(name = "Occupation", key = "occupation")
 public class Occupation extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty private int startYear;
+  @HopMetadataProperty
+  private int startYear;
 
   public Occupation() {}
 
@@ -48,9 +50,7 @@ public class Occupation extends HopMetadataBase implements IHopMetadata {
       return false;
     }
     Occupation that = (Occupation) o;
-    return startYear == that.startYear
-        && Objects.equals(name, that.name)
-        && Objects.equals(description, that.description);
+    return startYear == that.startYear && Objects.equals(name, that.name) && Objects.equals(description, that.description);
   }
 
   @Override
@@ -58,11 +58,9 @@ public class Occupation extends HopMetadataBase implements IHopMetadata {
     return Objects.hash(name, description, startYear);
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   public String getDescription() {
     return description;
   }
@@ -72,11 +70,9 @@ public class Occupation extends HopMetadataBase implements IHopMetadata {
     this.description = description;
   }
 
-  /**
-   * Gets startYear
+  /** Gets startYear
    *
-   * @return value of startYear
-   */
+   * @return value of startYear */
   public int getStartYear() {
     return startYear;
   }

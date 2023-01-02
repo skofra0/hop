@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,12 +33,10 @@ public class LoggingRegistryTest {
   public void correctLogIdReturned_WhenLogObjectRegisteredAlready() {
     LoggingRegistry loggingRegistry = LoggingRegistry.getInstance();
 
-    LoggingObject parent =
-        new LoggingObject(new SimpleLoggingObject("parent", LoggingObjectType.PIPELINE, null));
+    LoggingObject parent = new LoggingObject(new SimpleLoggingObject("parent", LoggingObjectType.PIPELINE, null));
     parent.setLogChannelId(LOG_CHANEL_ID_PARENT);
 
-    LoggingObject child =
-        new LoggingObject(new SimpleLoggingObject("child", LoggingObjectType.TRANSFORM, parent));
+    LoggingObject child = new LoggingObject(new SimpleLoggingObject("child", LoggingObjectType.TRANSFORM, parent));
     child.setLogChannelId(LOG_CHANEL_ID_CHILD);
 
     loggingRegistry.getMap().put(STRING_DEFAULT, child);

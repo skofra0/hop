@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -110,7 +110,7 @@ public class SwtGc implements IGc {
 
   @Override
   public void dispose() {
-    // Do not dispose the GC.  It's handed to us so we don't dispose it
+    // Do not dispose the GC. It's handed to us so we don't dispose it
     // However, the resources below are possibly used and allocated here so they need to be cleaned
     // up
     //
@@ -132,12 +132,7 @@ public class SwtGc implements IGc {
 
   @Override
   public void drawImage(EImage image, int x, int y, float magnification) {
-    Image img =
-        getNativeImage(image)
-            .getAsBitmapForSize(
-                gc.getDevice(),
-                Math.round(miniIconSize * magnification),
-                Math.round(miniIconSize * magnification));
+    Image img = getNativeImage(image).getAsBitmapForSize(gc.getDevice(), Math.round(miniIconSize * magnification), Math.round(miniIconSize * magnification));
     if (img != null) {
       Rectangle bounds = img.getBounds();
       gc.drawImage(img, 0, 0, bounds.width, bounds.height, x, y, miniIconSize, miniIconSize);
@@ -145,12 +140,7 @@ public class SwtGc implements IGc {
   }
 
   public void drawImage(EImage image, int x, int y, int width, int height, float magnification) {
-    Image img =
-        getNativeImage(image)
-            .getAsBitmapForSize(
-                gc.getDevice(),
-                Math.round(width * magnification),
-                Math.round(height * magnification));
+    Image img = getNativeImage(image).getAsBitmapForSize(gc.getDevice(), Math.round(width * magnification), Math.round(height * magnification));
     if (img != null) {
       Rectangle bounds = img.getBounds();
       gc.drawImage(img, 0, 0, bounds.width, bounds.height, x, y, width, height);
@@ -159,13 +149,7 @@ public class SwtGc implements IGc {
 
   @Override
   public void drawImage(EImage image, int x, int y, float magnification, double angle) {
-    Image img =
-        getNativeImage(image)
-            .getAsBitmapForSize(
-                gc.getDevice(),
-                Math.round(miniIconSize * magnification),
-                Math.round(miniIconSize * magnification),
-                angle);
+    Image img = getNativeImage(image).getAsBitmapForSize(gc.getDevice(), Math.round(miniIconSize * magnification), Math.round(miniIconSize * magnification), angle);
     if (img != null) {
       Rectangle bounds = img.getBounds();
       int hx = Math.round(bounds.width / magnification);
@@ -275,8 +259,7 @@ public class SwtGc implements IGc {
   }
 
   @Override
-  public void drawRoundRectangle(
-      int x, int y, int width, int height, int circleWidth, int circleHeight) {
+  public void drawRoundRectangle(int x, int y, int width, int height, int circleWidth, int circleHeight) {
     gc.drawRoundRectangle(x, y, width, height, circleWidth, circleHeight);
   }
 
@@ -306,8 +289,7 @@ public class SwtGc implements IGc {
   }
 
   @Override
-  public void fillRoundRectangle(
-      int x, int y, int width, int height, int circleWidth, int circleHeight) {
+  public void fillRoundRectangle(int x, int y, int width, int height, int circleWidth, int circleHeight) {
     gc.fillRoundRectangle(x, y, width, height, circleWidth, circleHeight);
   }
 
@@ -418,17 +400,7 @@ public class SwtGc implements IGc {
           gc.setLineStyle(SWT.LINE_DASH);
           break;
         case PARALLEL:
-          gc.setLineAttributes(
-              new LineAttributes(
-                  gc.getLineWidth(),
-                  SWT.CAP_FLAT,
-                  SWT.JOIN_MITER,
-                  SWT.LINE_CUSTOM,
-                  new float[] {
-                    5, 3,
-                  },
-                  0,
-                  10));
+          gc.setLineAttributes(new LineAttributes(gc.getLineWidth(), SWT.CAP_FLAT, SWT.JOIN_MITER, SWT.LINE_CUSTOM, new float[] {5, 3,}, 0, 10));
           break;
         default:
           break;
@@ -524,19 +496,10 @@ public class SwtGc implements IGc {
   }
 
   @Override
-  public void drawImage(
-      SvgFile svgFile,
-      int x,
-      int y,
-      int desiredWidth,
-      int desiredHeight,
-      float magnification,
-      double angle)
-      throws HopException {
+  public void drawImage(SvgFile svgFile, int x, int y, int desiredWidth, int desiredHeight, float magnification, double angle) throws HopException {
     //
     SvgCacheEntry cacheEntry = SvgCache.loadSvg(svgFile);
-    SwtUniversalImageSvg imageSvg =
-        new SwtUniversalImageSvg(new SvgImage(cacheEntry.getSvgDocument()));
+    SwtUniversalImageSvg imageSvg = new SwtUniversalImageSvg(new SvgImage(cacheEntry.getSvgDocument()));
 
     int magnifiedWidth = Math.round(desiredWidth * magnification);
     int magnifiedHeight = Math.round(desiredHeight * magnification);
@@ -544,8 +507,7 @@ public class SwtGc implements IGc {
       // A rotated image is blown up to twice its size to allow it to be rendered completely in the
       // center
       //
-      Image img =
-          imageSvg.getAsBitmapForSize(gc.getDevice(), magnifiedWidth, magnifiedHeight, angle);
+      Image img = imageSvg.getAsBitmapForSize(gc.getDevice(), magnifiedWidth, magnifiedHeight, angle);
       Rectangle bounds = img.getBounds();
       int hx = Math.round(bounds.width / magnification);
       int hy = Math.round(bounds.height / magnification);

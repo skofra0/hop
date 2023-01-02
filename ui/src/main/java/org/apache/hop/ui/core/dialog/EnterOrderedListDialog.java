@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -102,36 +102,27 @@ public class EnterOrderedListDialog extends Dialog {
 
     Composite leftPane = new Composite(top, SWT.NONE);
     leftPane.setLayout(new FormLayout());
-    leftPane.setLayoutData(
-        new FormDataBuilder().top().left().bottom(100, 0).right(50, -36).result());
+    leftPane.setLayoutData(new FormDataBuilder().top().left().bottom(100, 0).right(50, -36).result());
     props.setLook(leftPane);
 
     // Source list to the left...
     Label lblListSource = new Label(leftPane, SWT.NONE);
-    lblListSource.setText(
-        BaseMessages.getString(PKG, "EnterOrderedListDialog.AvailableItems.Label"));
+    lblListSource.setText(BaseMessages.getString(PKG, "EnterOrderedListDialog.AvailableItems.Label"));
     lblListSource.setLayoutData(new FormDataBuilder().top().left().result());
     props.setLook(lblListSource);
 
     wListSource = new List(leftPane, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-    wListSource.setLayoutData(
-        new FormDataBuilder()
-            .top(lblListSource, ConstUi.SMALL_MARGIN)
-            .left()
-            .bottom(100, 0)
-            .right(100, 0)
-            .result());
+    wListSource.setLayoutData(new FormDataBuilder().top(lblListSource, ConstUi.SMALL_MARGIN).left().bottom(100, 0).right(100, 0).result());
     wListSource.addListener(SWT.Selection, e -> updateButton());
     wListSource.addListener(SWT.DefaultSelection, e -> addToSelection(wListSource.getSelection()));
-    wListSource.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent event) {
-            if (event.character == SWT.CR) {
-              addToSelection(wListSource.getSelection());
-            }
-          }
-        });
+    wListSource.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent event) {
+        if (event.character == SWT.CR) {
+          addToSelection(wListSource.getSelection());
+        }
+      }
+    });
     props.setLook(wListSource);
 
     // *******************************************************************
@@ -140,8 +131,7 @@ public class EnterOrderedListDialog extends Dialog {
 
     Composite middlePane = new Composite(top, SWT.NONE);
     middlePane.setLayout(new FormLayout());
-    middlePane.setLayoutData(
-        new FormDataBuilder().top().left(leftPane, -36).bottom(100, 0).right(50, 36).result());
+    middlePane.setLayoutData(new FormDataBuilder().top().left(leftPane, -36).bottom(100, 0).right(50, 36).result());
     props.setLook(middlePane);
 
     Label label = new Label(middlePane, SWT.NONE);
@@ -157,13 +147,7 @@ public class EnterOrderedListDialog extends Dialog {
     layout.marginRight = LARGE_MARGIN;
 
     gButtonGroup.setLayout(layout);
-    gButtonGroup.setLayoutData(
-        new FormDataBuilder()
-            .top(label, ConstUi.SMALL_MARGIN)
-            .left()
-            .bottom(100, 0)
-            .right(100, 0)
-            .result());
+    gButtonGroup.setLayoutData(new FormDataBuilder().top(label, ConstUi.SMALL_MARGIN).left().bottom(100, 0).right(100, 0).result());
     props.setLook(gButtonGroup);
 
     wButtonAdd = new Button(gButtonGroup, SWT.PUSH);
@@ -174,22 +158,19 @@ public class EnterOrderedListDialog extends Dialog {
 
     wButtonAddAll = new Button(gButtonGroup, SWT.PUSH);
     wButtonAddAll.setImage(GuiResource.getInstance().getImageAddAll());
-    wButtonAddAll.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOrderedListDialog.AddAll.Tooltip"));
+    wButtonAddAll.setToolTipText(BaseMessages.getString(PKG, "EnterOrderedListDialog.AddAll.Tooltip"));
     wButtonAddAll.setLayoutData(new RowData(32, 32));
     wButtonAddAll.addListener(SWT.Selection, e -> addToSelection(wListSource.getItems()));
 
     wButtonRemove = new Button(gButtonGroup, SWT.PUSH);
     wButtonRemove.setImage(GuiResource.getInstance().getImageRemoveSingle());
-    wButtonRemove.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOrderedListDialog.RemoveOne.Tooltip"));
+    wButtonRemove.setToolTipText(BaseMessages.getString(PKG, "EnterOrderedListDialog.RemoveOne.Tooltip"));
     wButtonRemove.setLayoutData(new RowData(32, 32));
     wButtonRemove.addListener(SWT.Selection, e -> removeFromSelection(wListTarget.getSelection()));
 
     wButtonRemoveAll = new Button(gButtonGroup, SWT.PUSH);
     wButtonRemoveAll.setImage(GuiResource.getInstance().getImageRemoveAll());
-    wButtonRemoveAll.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOrderedListDialog.RemoveAll.Tooltip"));
+    wButtonRemoveAll.setToolTipText(BaseMessages.getString(PKG, "EnterOrderedListDialog.RemoveAll.Tooltip"));
     wButtonRemoveAll.setLayoutData(new RowData(32, 32));
     wButtonRemoveAll.addListener(SWT.Selection, e -> removeFromSelection(wListTarget.getItems()));
 
@@ -213,16 +194,14 @@ public class EnterOrderedListDialog extends Dialog {
     wButtonAddAll.pack(); // get a size
     fdButtonGroup.left = new FormAttachment(50, -(wButtonAddAll.getSize().x / 2) - 5);
     fdButtonGroup.top = new FormAttachment(50, -offset);
-    gButtonGroup.setLayoutData(
-        new FormDataBuilder().top(label, ConstUi.SMALL_MARGIN).left(50, -offset).result());
+    gButtonGroup.setLayoutData(new FormDataBuilder().top(label, ConstUi.SMALL_MARGIN).left(50, -offset).result());
 
     // *******************************************************************
     // RIGHT
     // *******************************************************************
     Composite rightPane = new Composite(top, SWT.NONE);
     rightPane.setLayout(new FormLayout());
-    rightPane.setLayoutData(
-        new FormDataBuilder().top().left(middlePane, 0).bottom(100, 0).right(100, 0).result());
+    rightPane.setLayoutData(new FormDataBuilder().top().left(middlePane, 0).bottom(100, 0).right(100, 0).result());
     props.setLook(rightPane);
 
     Label lblListTarget = new Label(rightPane, SWT.NONE);
@@ -231,25 +210,17 @@ public class EnterOrderedListDialog extends Dialog {
     props.setLook(lblListTarget);
 
     wListTarget = new List(rightPane, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-    wListTarget.setLayoutData(
-        new FormDataBuilder()
-            .top(lblListTarget, ConstUi.SMALL_MARGIN)
-            .left()
-            .bottom(100, 0)
-            .right(100, 0)
-            .result());
+    wListTarget.setLayoutData(new FormDataBuilder().top(lblListTarget, ConstUi.SMALL_MARGIN).left().bottom(100, 0).right(100, 0).result());
     wListTarget.addListener(SWT.Selection, e -> updateButton());
-    wListTarget.addListener(
-        SWT.DefaultSelection, e -> removeFromSelection(wListTarget.getSelection()));
-    wListTarget.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent event) {
-            if (event.character == SWT.CR) {
-              removeFromSelection(wListTarget.getSelection());
-            }
-          }
-        });
+    wListTarget.addListener(SWT.DefaultSelection, e -> removeFromSelection(wListTarget.getSelection()));
+    wListTarget.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent event) {
+        if (event.character == SWT.CR) {
+          removeFromSelection(wListTarget.getSelection());
+        }
+      }
+    });
     props.setLook(wListTarget);
 
     // *******************************************************************
@@ -264,67 +235,64 @@ public class EnterOrderedListDialog extends Dialog {
     wOK.setText(BaseMessages.getString(PKG, "System.Button.OK"));
     wOK.addListener(SWT.Selection, e -> ok());
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOK, wCancel}, props.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOK, wCancel}, props.getMargin(), null);
 
     // Drag & Drop for steps
     Transfer[] ttypes = new Transfer[] {TextTransfer.getInstance()};
 
     DragSource ddSource = new DragSource(wListSource, DND.DROP_MOVE | DND.DROP_COPY);
     ddSource.setTransfer(ttypes);
-    ddSource.addDragListener(
-        new DragSourceListener() {
-          @Override
-          public void dragStart(DragSourceEvent event) {}
+    ddSource.addDragListener(new DragSourceListener() {
+      @Override
+      public void dragStart(DragSourceEvent event) {}
 
-          @Override
-          public void dragSetData(DragSourceEvent event) {
-            String[] ti = wListSource.getSelection();
-            String data = new String();
-            for (int i = 0; i < ti.length; i++) {
-              data += ti[i] + Const.CR;
-            }
-            event.data = data;
-          }
+      @Override
+      public void dragSetData(DragSourceEvent event) {
+        String[] ti = wListSource.getSelection();
+        String data = new String();
+        for (int i = 0; i < ti.length; i++) {
+          data += ti[i] + Const.CR;
+        }
+        event.data = data;
+      }
 
-          @Override
-          public void dragFinished(DragSourceEvent event) {}
-        });
+      @Override
+      public void dragFinished(DragSourceEvent event) {}
+    });
     DropTarget ddTarget = new DropTarget(wListTarget, DND.DROP_MOVE | DND.DROP_COPY);
     ddTarget.setTransfer(ttypes);
-    ddTarget.addDropListener(
-        new DropTargetListener() {
-          @Override
-          public void dragEnter(DropTargetEvent event) {}
+    ddTarget.addDropListener(new DropTargetListener() {
+      @Override
+      public void dragEnter(DropTargetEvent event) {}
 
-          @Override
-          public void dragLeave(DropTargetEvent event) {}
+      @Override
+      public void dragLeave(DropTargetEvent event) {}
 
-          @Override
-          public void dragOperationChanged(DropTargetEvent event) {}
+      @Override
+      public void dragOperationChanged(DropTargetEvent event) {}
 
-          @Override
-          public void dragOver(DropTargetEvent event) {
-            event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL | DND.FEEDBACK_INSERT_AFTER;
-          }
+      @Override
+      public void dragOver(DropTargetEvent event) {
+        event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL | DND.FEEDBACK_INSERT_AFTER;
+      }
 
-          @Override
-          public void drop(DropTargetEvent event) {
-            if (event.data == null) { // no data to copy, indicate failure
-              // in event.detail
-              event.detail = DND.DROP_NONE;
-              return;
-            }
-            StringTokenizer strtok = new StringTokenizer((String) event.data, Const.CR);
-            while (strtok.hasMoreTokens()) {
-              String source = strtok.nextToken();
-              addToSelection(source);
-            }
-          }
+      @Override
+      public void drop(DropTargetEvent event) {
+        if (event.data == null) { // no data to copy, indicate failure
+          // in event.detail
+          event.detail = DND.DROP_NONE;
+          return;
+        }
+        StringTokenizer strtok = new StringTokenizer((String) event.data, Const.CR);
+        while (strtok.hasMoreTokens()) {
+          String source = strtok.nextToken();
+          addToSelection(source);
+        }
+      }
 
-          @Override
-          public void dropAccept(DropTargetEvent event) {}
-        });
+      @Override
+      public void dropAccept(DropTargetEvent event) {}
+    });
 
     opened = true;
     update();
@@ -374,7 +342,8 @@ public class EnterOrderedListDialog extends Dialog {
   public void addToSelection(String... elements) {
     for (String element : elements) {
 
-      if (Utils.isEmpty(element)) continue;
+      if (Utils.isEmpty(element))
+        continue;
       selection.push(element);
     }
 
@@ -408,7 +377,8 @@ public class EnterOrderedListDialog extends Dialog {
       if (index > 0) {
         selection.remove(index);
         selection.add(index - 1, element);
-      } else break;
+      } else
+        break;
     }
     update();
   }
@@ -422,7 +392,8 @@ public class EnterOrderedListDialog extends Dialog {
       if (index < selection.size() - 1) {
         selection.remove(index);
         selection.add(index + 1, element);
-      } else break;
+      } else
+        break;
     }
     update();
   }

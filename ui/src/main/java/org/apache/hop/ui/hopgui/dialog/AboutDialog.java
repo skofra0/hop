@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,17 +40,7 @@ import java.util.Set;
 public class AboutDialog extends Dialog {
   private static final Class<?> PKG = AboutDialog.class; // For Translator
 
-  private static final String[] JAVA_PROPERTIES =
-      new String[] {
-        "os.name",
-        "os.version",
-        "os.arch",
-        "java.version",
-        "java.vm.vendor",
-        "java.specification.version",
-        "java.class.path",
-        "file.encoding"
-      };
+  private static final String[] JAVA_PROPERTIES = new String[] {"os.name", "os.version", "os.arch", "java.version", "java.vm.vendor", "java.specification.version", "java.class.path", "file.encoding"};
 
   private Shell shell;
 
@@ -90,9 +80,7 @@ public class AboutDialog extends Dialog {
 
     // Widget application logo
     Label wLogo = new Label(composite, SWT.CENTER);
-    wLogo.setImage(
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/logo_hop.svg")
-            .getAsBitmapForSize(display, 100, 100));
+    wLogo.setImage(SwtSvgImageUtil.getImageAsResource(display, "ui/images/logo_hop.svg").getAsBitmapForSize(display, 100, 100));
     wLogo.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 3));
 
     // Widget application name
@@ -121,9 +109,7 @@ public class AboutDialog extends Dialog {
     BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk}, Const.MARGIN, null);
 
     // Widget system properties
-    Text wText =
-        new Text(
-            shell, SWT.READ_ONLY | SWT.WRAP | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    Text wText = new Text(shell, SWT.READ_ONLY | SWT.WRAP | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     wText.setText(getProperties());
     FormData fdText = new FormData();
     fdText.top = new FormAttachment(composite, Const.MARGIN);
@@ -134,13 +120,12 @@ public class AboutDialog extends Dialog {
     props.setLook(wText);
 
     // Detect [X] or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            ok();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        ok();
+      }
+    });
 
     shell.open();
     while (!shell.isDisposed()) {
@@ -153,9 +138,9 @@ public class AboutDialog extends Dialog {
   private String getProperties() {
     Set<String> names = VariableRegistry.getInstance().getVariableNames(VariableScope.SYSTEM);
     for (String name : JAVA_PROPERTIES) {
-      names.add(name);      
+      names.add(name);
     }
-         
+
     IVariables variables = HopGui.getInstance().getVariables();
     StringBuilder builder = new StringBuilder();
     for (String name : names) {

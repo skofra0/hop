@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,16 +18,69 @@
 // CHECKSTYLE:FileLength:OFF
 package org.apache.hop.pipeline;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.BIT_STATUS_SUM;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.FINISHED;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.INITIALIZING;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.PAUSED;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.PREPARING;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.RUNNING;
+import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.STOPPED;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.hop.core.*;
+import org.apache.hop.core.BlockingBatchingRowSet;
+import org.apache.hop.core.BlockingRowSet;
+import org.apache.hop.core.Const;
+import org.apache.hop.core.IExecutor;
+import org.apache.hop.core.IExtensionData;
+import org.apache.hop.core.IRowSet;
+import org.apache.hop.core.QueueRowSet;
+import org.apache.hop.core.Result;
+import org.apache.hop.core.ResultFile;
+import org.apache.hop.core.RowMetaAndData;
 import org.apache.hop.core.database.Database;
-import org.apache.hop.core.exception.*;
+import org.apache.hop.core.exception.HopException;
+import org.apache.hop.core.exception.HopFileException;
+import org.apache.hop.core.exception.HopPipelineException;
+import org.apache.hop.core.exception.HopTransformException;
+import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.extension.ExtensionPointHandler;
 import org.apache.hop.core.extension.HopExtensionPoint;
-import org.apache.hop.core.logging.*;
-import org.apache.hop.core.parameters.*;
+import org.apache.hop.core.logging.HopLogStore;
+import org.apache.hop.core.logging.IHasLogChannel;
+import org.apache.hop.core.logging.ILogChannel;
+import org.apache.hop.core.logging.ILoggingObject;
+import org.apache.hop.core.logging.LogChannel;
+import org.apache.hop.core.logging.LogLevel;
+import org.apache.hop.core.logging.LoggingHierarchy;
+import org.apache.hop.core.logging.LoggingObjectType;
+import org.apache.hop.core.logging.LoggingRegistry;
+import org.apache.hop.core.logging.Metrics;
+import org.apache.hop.core.parameters.DuplicateParamException;
+import org.apache.hop.core.parameters.INamedParameterDefinitions;
+import org.apache.hop.core.parameters.INamedParameters;
+import org.apache.hop.core.parameters.NamedParameters;
+import org.apache.hop.core.parameters.UnknownParamException;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.RowBuffer;
 import org.apache.hop.core.row.value.ValueMetaString;
@@ -42,38 +95,32 @@ import org.apache.hop.partition.PartitionSchema;
 import org.apache.hop.pipeline.config.IPipelineEngineRunConfiguration;
 import org.apache.hop.pipeline.config.PipelineRunConfiguration;
 import org.apache.hop.pipeline.engine.EngineComponent.ComponentExecutionStatus;
-import org.apache.hop.pipeline.engine.*;
+import org.apache.hop.pipeline.engine.EngineMetric;
+import org.apache.hop.pipeline.engine.EngineMetrics;
+import org.apache.hop.pipeline.engine.IEngineComponent;
+import org.apache.hop.pipeline.engine.IEngineMetric;
+import org.apache.hop.pipeline.engine.IPipelineComponentRowsReceived;
+import org.apache.hop.pipeline.engine.IPipelineEngine;
 import org.apache.hop.pipeline.engines.EmptyPipelineRunConfiguration;
 import org.apache.hop.pipeline.performance.PerformanceSnapShot;
-import org.apache.hop.pipeline.transform.*;
+import org.apache.hop.pipeline.transform.BaseTransform;
+import org.apache.hop.pipeline.transform.ITransform;
+import org.apache.hop.pipeline.transform.ITransformData;
+import org.apache.hop.pipeline.transform.ITransformFinishedListener;
+import org.apache.hop.pipeline.transform.RowAdapter;
+import org.apache.hop.pipeline.transform.RunThread;
+import org.apache.hop.pipeline.transform.TransformInitThread;
+import org.apache.hop.pipeline.transform.TransformMeta;
+import org.apache.hop.pipeline.transform.TransformMetaDataCombi;
+import org.apache.hop.pipeline.transform.TransformPartitioningMeta;
+import org.apache.hop.pipeline.transform.TransformStatus;
 import org.apache.hop.workflow.WorkflowMeta;
 import org.apache.hop.workflow.engine.IWorkflowEngine;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.*;
-
-/**
- * This class represents the information and operations associated with the execution of a Pipeline.
+/** This class represents the information and operations associated with the execution of a Pipeline.
  * It loads, instantiates, initializes, runs, and monitors the execution of the pipeline contained
- * in the specified PipelineMeta object.
- */
-public abstract class Pipeline
-    implements IVariables,
-        INamedParameters,
-        IHasLogChannel,
-        ILoggingObject,
-        IExecutor,
-        IExtensionData,
-        IPipelineEngine<PipelineMeta> {
+ * in the specified PipelineMeta object. */
+public abstract class Pipeline implements IVariables, INamedParameters, IHasLogChannel, ILoggingObject, IExecutor, IExtensionData, IPipelineEngine<PipelineMeta> {
 
   public static final String METRIC_NAME_INPUT = "input";
   public static final String METRIC_NAME_OUTPUT = "output";
@@ -111,10 +158,8 @@ public abstract class Pipeline
   /** The MetaStore to use */
   protected IHopMetadataProvider metadataProvider;
 
-  /**
-   * The workflow that's launching this pipeline. This gives us access to the whole chain, including
-   * the parent variables, etc.
-   */
+  /** The workflow that's launching this pipeline. This gives us access to the whole chain, including
+   * the parent variables, etc. */
   private IWorkflowEngine<WorkflowMeta> parentWorkflow;
 
   /** The pipeline that is executing this pipeline in case of mappings. */
@@ -189,12 +234,9 @@ public abstract class Pipeline
   /** Constant indicating a pipeline status of Halting. */
   public static final String STRING_HALTING = "Halting";
 
-  /**
-   * Constant specifying a filename containing XML to inject into a ZIP file created during resource
-   * export.
-   */
-  public static final String CONFIGURATION_IN_EXPORT_FILENAME =
-      "__job_execution_configuration__.xml";
+  /** Constant specifying a filename containing XML to inject into a ZIP file created during resource
+   * export. */
+  public static final String CONFIGURATION_IN_EXPORT_FILENAME = "__job_execution_configuration__.xml";
 
   /** Whether safe mode is enabled. */
   private boolean safeModeEnabled;
@@ -205,17 +247,10 @@ public abstract class Pipeline
   /** Boolean to check if pipeline is already stopped */
   private final AtomicBoolean isAlreadyStopped = new AtomicBoolean(false);
 
-  /**
-   * This enum stores bit masks which are used to manipulate with statuses over field {@link
-   * Pipeline#status}
-   */
+  /** This enum stores bit masks which are used to manipulate with statuses over field {@link
+   * Pipeline#status} */
   enum BitMaskStatus {
-    RUNNING(1),
-    INITIALIZING(2),
-    PREPARING(4),
-    STOPPED(8),
-    FINISHED(16),
-    PAUSED(32);
+    RUNNING(1), INITIALIZING(2), PREPARING(4), STOPPED(8), FINISHED(16), PAUSED(32);
 
     private final int mask;
     // the sum of status masks
@@ -242,8 +277,7 @@ public abstract class Pipeline
   private List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> executionStartedListeners;
 
   /** A list of finished listeners attached to the pipeline. */
-  private List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>>
-      executionFinishedListeners;
+  private List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> executionFinishedListeners;
 
   /** A list of stop-event listeners attached to the pipeline. */
   private List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> executionStoppedListeners;
@@ -334,23 +368,19 @@ public abstract class Pipeline
     rowSetSize = Const.ROWS_IN_ROWSET;
   }
 
-  /**
-   * Initializes a pipeline from pipeline meta-data defined in memory.
+  /** Initializes a pipeline from pipeline meta-data defined in memory.
    *
-   * @param pipelineMeta the pipeline meta-data to use.
-   */
+   * @param pipelineMeta the pipeline meta-data to use. */
   public Pipeline(PipelineMeta pipelineMeta) {
     this(pipelineMeta, new Variables(), null);
   }
 
-  /**
-   * Initializes a pipeline from pipeline meta-data defined in memory. Also take into account the
+  /** Initializes a pipeline from pipeline meta-data defined in memory. Also take into account the
    * parent log channel interface (workflow or pipeline) for logging lineage purposes.
    *
    * @param pipelineMeta the pipeline meta-data to use.
    * @param variables The variables to inherit from
-   * @param parent the parent workflow that is executing this pipeline
-   */
+   * @param parent the parent workflow that is executing this pipeline */
   public Pipeline(PipelineMeta pipelineMeta, IVariables variables, ILoggingObject parent) {
     this();
 
@@ -366,11 +396,9 @@ public abstract class Pipeline
     this.containerObjectId = UUID.randomUUID().toString();
   }
 
-  /**
-   * Sets the parent logging object.
+  /** Sets the parent logging object.
    *
-   * @param parent the new parent
-   */
+   * @param parent the new parent */
   @Override
   public void setParent(ILoggingObject parent) {
     this.parent = parent;
@@ -389,32 +417,26 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Gets the log channel interface for the pipeline.
+  /** Gets the log channel interface for the pipeline.
    *
    * @return the log channel
-   * @see IHasLogChannel#getLogChannel()
-   */
+   * @see IHasLogChannel#getLogChannel() */
   @Override
   public ILogChannel getLogChannel() {
     return log;
   }
 
-  /**
-   * Sets the log channel interface for the pipeline.
+  /** Sets the log channel interface for the pipeline.
    *
-   * @param log the new log channel interface
-   */
+   * @param log the new log channel interface */
   @Override
   public void setLogChannel(ILogChannel log) {
     this.log = log;
   }
 
-  /**
-   * Gets the name of the pipeline.
+  /** Gets the name of the pipeline.
    *
-   * @return the pipeline name
-   */
+   * @return the pipeline name */
   public String getName() {
     if (pipelineMeta == null) {
       return null;
@@ -423,19 +445,15 @@ public abstract class Pipeline
     return pipelineMeta.getName();
   }
 
-  /**
-   * Instantiates a new pipeline using any of the provided parameters including the variable
+  /** Instantiates a new pipeline using any of the provided parameters including the variable
    * bindings, a name and a filename. This contstructor loads the specified pipeline from a file.
    *
    * @param parent the parent variable variables and named params
    * @param name the name of the pipeline
    * @param filename the filename containing the pipeline definition
    * @param metadataProvider The MetaStore to use when referencing metadata objects
-   * @throws HopException if any error occurs during loading, parsing, or creation of the pipeline
-   */
-  public <Parent extends IVariables & INamedParameters> Pipeline(
-      Parent parent, String name, String filename, IHopMetadataProvider metadataProvider)
-      throws HopException {
+   * @throws HopException if any error occurs during loading, parsing, or creation of the pipeline */
+  public <Parent extends IVariables & INamedParameters> Pipeline(Parent parent, String name, String filename, IHopMetadataProvider metadataProvider) throws HopException {
     this();
 
     this.metadataProvider = metadataProvider;
@@ -451,29 +469,24 @@ public abstract class Pipeline
 
       this.setDefaultLogCommitSize();
     } catch (HopException e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "Pipeline.Exception.UnableToOpenPipeline", name), e);
+      throw new HopException(BaseMessages.getString(PKG, "Pipeline.Exception.UnableToOpenPipeline", name), e);
     }
   }
 
-  /**
-   * Executes the pipeline. This method will prepare the pipeline for execution and then start all
+  /** Executes the pipeline. This method will prepare the pipeline for execution and then start all
    * the threads associated with the pipeline and its transforms.
    *
-   * @throws HopException if the pipeline could not be prepared (initialized)
-   */
+   * @throws HopException if the pipeline could not be prepared (initialized) */
   @Override
   public void execute() throws HopException {
     prepareExecution();
     startThreads();
   }
 
-  /**
-   * Prepares the pipeline for execution. This includes setting the arguments and parameters as well
+  /** Prepares the pipeline for execution. This includes setting the arguments and parameters as well
    * as preparing and tracking the transforms and hops in the pipeline.
    *
-   * @throws HopException in case the pipeline could not be prepared (initialized)
-   */
+   * @throws HopException in case the pipeline could not be prepared (initialized) */
   @Override
   public void prepareExecution() throws HopException {
     setPreparing(true);
@@ -491,43 +504,29 @@ public abstract class Pipeline
     }
 
     if (log.isDebug()) {
-      log.logDebug(
-          BaseMessages.getString(
-              PKG,
-              "Pipeline.Log.NumberOfTransformsToRun",
-              String.valueOf(pipelineMeta.nrTransforms()),
-              String.valueOf(pipelineMeta.nrPipelineHops())));
+      log.logDebug(BaseMessages.getString(PKG, "Pipeline.Log.NumberOfTransformsToRun", String.valueOf(pipelineMeta.nrTransforms()), String.valueOf(pipelineMeta.nrPipelineHops())));
     }
 
     log.snap(Metrics.METRIC_PIPELINE_EXECUTION_START);
     log.snap(Metrics.METRIC_PIPELINE_INIT_START);
 
-    log.logBasic(
-        "Executing this pipeline using the Local Pipeline Engine with run configuration '"
-            + pipelineRunConfiguration.getName()
-            + "'");
+    log.logBasic("Executing this pipeline using the Local Pipeline Engine with run configuration '" + pipelineRunConfiguration.getName() + "'");
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.PipelinePrepareExecution.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelinePrepareExecution.id, this);
 
     activateParameters(this);
 
     if (pipelineMeta.getName() == null) {
       if (pipelineMeta.getFilename() != null) {
-        log.logBasic(
-            BaseMessages.getString(
-                PKG, "Pipeline.Log.ExecutionStartedForFilename", pipelineMeta.getFilename()));
+        log.logBasic(BaseMessages.getString(PKG, "Pipeline.Log.ExecutionStartedForFilename", pipelineMeta.getFilename()));
       }
     } else {
-      log.logBasic(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.ExecutionStartedForPipeline", pipelineMeta.getName()));
+      log.logBasic(BaseMessages.getString(PKG, "Pipeline.Log.ExecutionStartedForPipeline", pipelineMeta.getName()));
     }
 
     if (isSafeModeEnabled()) {
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(PKG, "Pipeline.Log.SafeModeIsEnabled", pipelineMeta.getName()));
+        log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.SafeModeIsEnabled", pipelineMeta.getName()));
       }
     }
 
@@ -542,9 +541,7 @@ public abstract class Pipeline
     List<TransformMeta> hopTransforms = pipelineMeta.getPipelineHopTransforms(false);
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.FoundDefferentTransforms", String.valueOf(hopTransforms.size())));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.FoundDefferentTransforms", String.valueOf(hopTransforms.size())));
       log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocatingRowsets"));
     }
     // First allocate all the rowsets required!
@@ -557,12 +554,7 @@ public abstract class Pipeline
       }
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "Pipeline.Log.AllocateingRowsetsForTransform",
-                String.valueOf(i),
-                thisTransform.getName()));
+        log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocateingRowsetsForTransform", String.valueOf(i), thisTransform.getName()));
       }
 
       List<TransformMeta> nextTransforms = pipelineMeta.findNextTransforms(thisTransform);
@@ -579,9 +571,7 @@ public abstract class Pipeline
           // This can only happen if a variable is used that didn't resolve to a positive integer
           // value
           //
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "Pipeline.Log.TransformCopiesNotCorrectlyDefined", thisTransform.getName()));
+          throw new HopException(BaseMessages.getString(PKG, "Pipeline.Log.TransformCopiesNotCorrectlyDefined", thisTransform.getName()));
         }
 
         // How many times do we start the target transform?
@@ -590,22 +580,14 @@ public abstract class Pipeline
         // Are we re-partitioning?
         boolean repartitioning;
         if (thisTransform.isPartitioned()) {
-          repartitioning =
-              !thisTransform
-                  .getTransformPartitioningMeta()
-                  .equals(nextTransform.getTransformPartitioningMeta());
+          repartitioning = !thisTransform.getTransformPartitioningMeta().equals(nextTransform.getTransformPartitioningMeta());
         } else {
           repartitioning = nextTransform.isPartitioned();
         }
 
         int nrCopies;
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "Pipeline.Log.copiesInfo",
-                  String.valueOf(thisCopies),
-                  String.valueOf(nextCopies)));
+          log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.copiesInfo", String.valueOf(thisCopies), String.valueOf(nextCopies)));
         }
         int dispatchType;
         if (thisCopies == 1 && nextCopies == 1) {
@@ -638,9 +620,7 @@ public abstract class Pipeline
                 // Currently there are stalling problems when dealing with small
                 // amounts of rows.
                 //
-                Boolean batchingRowSet =
-                    ValueMetaString.convertStringToBoolean(
-                        System.getProperty(Const.HOP_BATCHING_ROWSET));
+                Boolean batchingRowSet = ValueMetaString.convertStringToBoolean(System.getProperty(Const.HOP_BATCHING_ROWSET));
                 if (batchingRowSet != null && batchingRowSet.booleanValue()) {
                   rowSet = new BlockingBatchingRowSet(rowSetSize);
                 } else {
@@ -653,35 +633,28 @@ public abstract class Pipeline
                 break;
 
               default:
-                throw new HopException(
-                    "Unhandled pipeline type: " + pipelineMeta.getPipelineType());
+                throw new HopException("Unhandled pipeline type: " + pipelineMeta.getPipelineType());
             }
 
             switch (dispatchType) {
               case TYPE_DISP_1_1:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), 0, nextTransform.getName(), 0);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), 0, nextTransform.getName(), 0);
                 break;
               case TYPE_DISP_1_N:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), 0, nextTransform.getName(), c);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), 0, nextTransform.getName(), c);
                 break;
               case TYPE_DISP_N_1:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), c, nextTransform.getName(), 0);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), c, nextTransform.getName(), 0);
                 break;
               case TYPE_DISP_N_N:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), c, nextTransform.getName(), c);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), c, nextTransform.getName(), c);
                 break;
               default:
                 break;
             }
             rowsets.add(rowSet);
             if (log.isDetailed()) {
-              log.logDetailed(
-                  BaseMessages.getString(
-                      PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
+              log.logDetailed(BaseMessages.getString(PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
             }
           }
         } else {
@@ -693,31 +666,20 @@ public abstract class Pipeline
           for (int s = 0; s < thisCopies; s++) {
             for (int t = 0; t < nextCopies; t++) {
               BlockingRowSet rowSet = new BlockingRowSet(rowSetSize);
-              rowSet.setThreadNameFromToCopy(
-                  thisTransform.getName(), s, nextTransform.getName(), t);
+              rowSet.setThreadNameFromToCopy(thisTransform.getName(), s, nextTransform.getName(), t);
               rowsets.add(rowSet);
               if (log.isDetailed()) {
-                log.logDetailed(
-                    BaseMessages.getString(
-                        PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
+                log.logDetailed(BaseMessages.getString(PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
               }
             }
           }
         }
       }
-      log.logDetailed(
-          BaseMessages.getString(
-                  PKG,
-                  "Pipeline.Log.AllocatedRowsets",
-                  String.valueOf(rowsets.size()),
-                  String.valueOf(i),
-                  thisTransform.getName())
-              + " ");
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocatedRowsets", String.valueOf(rowsets.size()), String.valueOf(i), thisTransform.getName()) + " ");
     }
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(PKG, "Pipeline.Log.AllocatingTransformsAndTransformData"));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocatingTransformsAndTransformData"));
     }
 
     // Allocate the transforms & the data...
@@ -726,21 +688,14 @@ public abstract class Pipeline
       String transformid = transformMeta.getTransformPluginId();
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "Pipeline.Log.PipelineIsToAllocateTransform",
-                transformMeta.getName(),
-                transformid));
+        log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.PipelineIsToAllocateTransform", transformMeta.getName(), transformid));
       }
 
       // How many copies are launched of this transform?
       int nrCopies = transformMeta.getCopies(this);
 
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(
-                PKG, "Pipeline.Log.TransformHasNumberRowCopies", String.valueOf(nrCopies)));
+        log.logDebug(BaseMessages.getString(PKG, "Pipeline.Log.TransformHasNumberRowCopies", String.valueOf(nrCopies)));
       }
 
       // At least run once...
@@ -761,8 +716,7 @@ public abstract class Pipeline
           combi.data = data;
 
           // Allocate the transform
-          ITransform transform =
-              combi.meta.createTransform(transformMeta, data, c, pipelineMeta, this);
+          ITransform transform = combi.meta.createTransform(transformMeta, data, c, pipelineMeta, this);
 
           // Copy the variables of the pipeline to the transform...
           // don't share. Each copy of the transform has its own variables.
@@ -776,11 +730,7 @@ public abstract class Pipeline
           // If the transform is partitioned, set the partitioning ID and some other
           // things as well...
           if (transformMeta.isPartitioned()) {
-            List<String> partitionIDs =
-                transformMeta
-                    .getTransformPartitioningMeta()
-                    .getPartitionSchema()
-                    .calculatePartitionIds(this);
+            List<String> partitionIDs = transformMeta.getTransformPartitioningMeta().getPartitionSchema().calculatePartitionIds(this);
             if (partitionIDs != null && partitionIDs.size() > 0) {
               transform.setPartitionId(partitionIDs.get(c)); // Pass the partition ID
               // to the transform
@@ -802,12 +752,7 @@ public abstract class Pipeline
           transforms.add(combi);
 
           if (log.isDetailed()) {
-            log.logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "Pipeline.Log.PipelineHasAllocatedANewTransform",
-                    transformMeta.getName(),
-                    String.valueOf(c)));
+            log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.PipelineHasAllocatedANewTransform", transformMeta.getName(), String.valueOf(c)));
           }
         }
       }
@@ -885,18 +830,14 @@ public abstract class Pipeline
       // If the next transform is partitioned differently, set re-partitioning, when
       // running locally.
       //
-      if ((!isThisPartitioned && isNextPartitioned)
-          || (isThisPartitioned
-              && isNextPartitioned
-              && !thisPartitionSchema.equals(nextPartitionSchema))) {
+      if ((!isThisPartitioned && isNextPartitioned) || (isThisPartitioned && isNextPartitioned && !thisPartitionSchema.equals(nextPartitionSchema))) {
         baseTransform.setRepartitioning(nextTransformPartitioningMeta.getMethodType());
       }
 
       // For partitioning to a set of remove transforms (repartitioning from a master
       // to a set or remote output transforms)
       //
-      TransformPartitioningMeta targetTransformPartitioningMeta =
-          baseTransform.getTransformMeta().getTargetTransformPartitioningMeta();
+      TransformPartitioningMeta targetTransformPartitioningMeta = baseTransform.getTransformMeta().getTargetTransformPartitioningMeta();
       if (targetTransformPartitioningMeta != null) {
         baseTransform.setRepartitioning(targetTransformPartitioningMeta.getMethodType());
       }
@@ -912,9 +853,7 @@ public abstract class Pipeline
     }
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.InitialisingTransforms", String.valueOf(transforms.size())));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.InitialisingTransforms", String.valueOf(transforms.size())));
     }
 
     TransformInitThread[] initThreads = new TransformInitThread[transforms.size()];
@@ -934,11 +873,9 @@ public abstract class Pipeline
       // Put it in a separate thread!
       //
       threads[i] = new Thread(initThreads[i]);
-      threads[i].setName(
-          "init of " + sid.transformName + "." + sid.copy + " (" + threads[i].getName() + ")");
+      threads[i].setName("init of " + sid.transformName + "." + sid.copy + " (" + threads[i].getName() + ")");
 
-      ExtensionPointHandler.callExtensionPoint(
-          log, this, HopExtensionPoint.TransformBeforeInitialize.id, initThreads[i]);
+      ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformBeforeInitialize.id, initThreads[i]);
 
       threads[i].start();
     }
@@ -946,8 +883,7 @@ public abstract class Pipeline
     for (int i = 0; i < threads.length; i++) {
       try {
         threads[i].join();
-        ExtensionPointHandler.callExtensionPoint(
-            log, this, HopExtensionPoint.TransformAfterInitialize.id, initThreads[i]);
+        ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformAfterInitialize.id, initThreads[i]);
       } catch (Exception ex) {
         log.logError("Error with init thread: " + ex.getMessage(), ex.getMessage());
         log.logError(Const.getStackTracker(ex));
@@ -963,19 +899,13 @@ public abstract class Pipeline
     for (TransformInitThread thread : initThreads) {
       TransformMetaDataCombi combi = thread.getCombi();
       if (!thread.isOk()) {
-        log.logError(
-            BaseMessages.getString(
-                PKG, "Pipeline.Log.TransformFailedToInit", combi.transformName + "." + combi.copy));
+        log.logError(BaseMessages.getString(PKG, "Pipeline.Log.TransformFailedToInit", combi.transformName + "." + combi.copy));
         combi.data.setStatus(ComponentExecutionStatus.STATUS_STOPPED);
         ok = false;
       } else {
         combi.data.setStatus(ComponentExecutionStatus.STATUS_IDLE);
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "Pipeline.Log.TransformInitialized",
-                  combi.transformName + "." + combi.copy));
+          log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.TransformInitialized", combi.transformName + "." + combi.copy));
         }
       }
     }
@@ -1017,14 +947,9 @@ public abstract class Pipeline
       //
       if (preview) {
         String logText = HopLogStore.getAppender().getBuffer(getLogChannelId(), true).toString();
-        throw new HopException(
-            BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform")
-                + Const.CR
-                + logText);
+        throw new HopException(BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform") + Const.CR + logText);
       } else {
-        throw new HopException(
-            BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform")
-                + Const.CR);
+        throw new HopException(BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform") + Const.CR);
       }
     }
 
@@ -1033,20 +958,17 @@ public abstract class Pipeline
     setReadyToStart(true);
   }
 
-  /**
-   * Starts the threads prepared by prepareThreads(). Before you start the threads, you can add
+  /** Starts the threads prepared by prepareThreads(). Before you start the threads, you can add
    * RowListeners to them.
    *
-   * @throws HopException if there is a communication error with a remote output socket.
-   */
+   * @throws HopException if there is a communication error with a remote output socket. */
   @Override
   public void startThreads() throws HopException {
     // Now prepare to start all the threads...
     //
     nrOfFinishedTransforms = 0;
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.PipelineStartThreads.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelineStartThreads.id, this);
 
     firePipelineExecutionStartedListeners();
 
@@ -1057,56 +979,45 @@ public abstract class Pipeline
 
       // also attach a listener to detect when we're done...
       //
-      ITransformFinishedListener finishedListener =
-          (pipeline, transformMeta, transform) -> {
-            synchronized (Pipeline.this) {
-              nrOfFinishedTransforms++;
+      ITransformFinishedListener finishedListener = (pipeline, transformMeta, transform) -> {
+        synchronized (Pipeline.this) {
+          nrOfFinishedTransforms++;
 
-              if (nrOfFinishedTransforms >= transforms.size()) {
-                // Set the finished flag
-                //
-                setFinished(true);
+          if (nrOfFinishedTransforms >= transforms.size()) {
+            // Set the finished flag
+            //
+            setFinished(true);
 
-                // Grab the performance statistics one last time (if enabled)
-                //
-                addTransformPerformanceSnapShot();
+            // Grab the performance statistics one last time (if enabled)
+            //
+            addTransformPerformanceSnapShot();
 
-                // We're really done now.
-                //
-                executionEndDate = new Date();
+            // We're really done now.
+            //
+            executionEndDate = new Date();
 
-                try {
-                  firePipelineExecutionFinishedListeners();
-                } catch (Exception e) {
-                  transform.setErrors(transform.getErrors() + 1L);
-                  log.logError(
-                      getName()
-                          + " : "
-                          + BaseMessages.getString(
-                              PKG, "Pipeline.Log.UnexpectedErrorAtPipelineEnd"),
-                      e);
-                }
-
-                log.logBasic(
-                    "Execution finished on a local pipeline engine with run configuration '"
-                        + pipelineRunConfiguration.getName()
-                        + "'");
-              }
-
-              // If a transform fails with an error, we want to kill/stop the others
-              // too...
-              //
-              if (transform.getErrors() > 0) {
-
-                log.logMinimal(BaseMessages.getString(PKG, "Pipeline.Log.PipelineDetectedErrors"));
-                log.logMinimal(
-                    BaseMessages.getString(
-                        PKG, "Pipeline.Log.PipelineIsKillingTheOtherTransforms"));
-
-                killAllNoWait();
-              }
+            try {
+              firePipelineExecutionFinishedListeners();
+            } catch (Exception e) {
+              transform.setErrors(transform.getErrors() + 1L);
+              log.logError(getName() + " : " + BaseMessages.getString(PKG, "Pipeline.Log.UnexpectedErrorAtPipelineEnd"), e);
             }
-          };
+
+            log.logBasic("Execution finished on a local pipeline engine with run configuration '" + pipelineRunConfiguration.getName() + "'");
+          }
+
+          // If a transform fails with an error, we want to kill/stop the others
+          // too...
+          //
+          if (transform.getErrors() > 0) {
+
+            log.logMinimal(BaseMessages.getString(PKG, "Pipeline.Log.PipelineDetectedErrors"));
+            log.logMinimal(BaseMessages.getString(PKG, "Pipeline.Log.PipelineIsKillingTheOtherTransforms"));
+
+            killAllNoWait();
+          }
+        }
+      };
 
       // Make sure this is called first!
       //
@@ -1131,19 +1042,16 @@ public abstract class Pipeline
 
       // Set a timer to collect the performance data from the running threads...
       //
-      transformPerformanceSnapShotTimer =
-          new Timer("transformPerformanceSnapShot Timer: " + pipelineMeta.getName());
-      TimerTask timerTask =
-          new TimerTask() {
-            @Override
-            public void run() {
-              if (!isFinished()) {
-                addTransformPerformanceSnapShot();
-              }
-            }
-          };
-      transformPerformanceSnapShotTimer.schedule(
-          timerTask, 100, pipelineMeta.getTransformPerformanceCapturingDelay());
+      transformPerformanceSnapShotTimer = new Timer("transformPerformanceSnapShot Timer: " + pipelineMeta.getName());
+      TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+          if (!isFinished()) {
+            addTransformPerformanceSnapShot();
+          }
+        }
+      };
+      transformPerformanceSnapShotTimer.schedule(timerTask, 100, pipelineMeta.getTransformPerformanceCapturingDelay());
     }
 
     // Now start a thread to monitor the running pipeline...
@@ -1156,31 +1064,28 @@ public abstract class Pipeline
 
     // Do all sorts of nifty things at the end of the pipeline execution
     ///
-    IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> executionListener =
-        pipeline -> {
-          try {
-            ExtensionPointHandler.callExtensionPoint(
-                log, this, HopExtensionPoint.PipelineFinish.id, pipeline);
-          } catch (HopException e) {
-            throw new RuntimeException("Error calling extension point at end of pipeline", e);
-          }
+    IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> executionListener = pipeline -> {
+      try {
+        ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelineFinish.id, pipeline);
+      } catch (HopException e) {
+        throw new RuntimeException("Error calling extension point at end of pipeline", e);
+      }
 
-          // First of all, stop the performance snapshot timer if there is is
-          // one...
-          //
-          if (pipelineMeta.isCapturingTransformPerformanceSnapShots()
-              && transformPerformanceSnapShotTimer != null) {
-            transformPerformanceSnapShotTimer.cancel();
-          }
+      // First of all, stop the performance snapshot timer if there is is
+      // one...
+      //
+      if (pipelineMeta.isCapturingTransformPerformanceSnapShots() && transformPerformanceSnapShotTimer != null) {
+        transformPerformanceSnapShotTimer.cancel();
+      }
 
-          setFinished(true);
-          setRunning(false); // no longer running
+      setFinished(true);
+      setRunning(false); // no longer running
 
-          log.snap(Metrics.METRIC_PIPELINE_EXECUTION_STOP);
+      log.snap(Metrics.METRIC_PIPELINE_EXECUTION_STOP);
 
-          // release unused vfs connections
-          HopVfs.freeUnusedResources();
-        };
+      // release unused vfs connections
+      HopVfs.freeUnusedResources();
+    };
     // This should always be done first so that the other listeners achieve a clean state to start
     // from (setFinished and
     // so on)
@@ -1198,20 +1103,16 @@ public abstract class Pipeline
           RunThread runThread = new RunThread(combi);
           Thread thread = new Thread(runThread);
           thread.setName(getName() + " - " + combi.transformName);
-          ExtensionPointHandler.callExtensionPoint(
-              log, this, HopExtensionPoint.TransformBeforeStart.id, combi);
+          ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformBeforeStart.id, combi);
           // Call an extension point at the end of the transform
           //
-          combi.transform.addTransformFinishedListener(
-              (pipeline, transformMeta, transform) -> {
-                try {
-                  ExtensionPointHandler.callExtensionPoint(
-                      log, this, HopExtensionPoint.TransformFinished.id, combi);
-                } catch (HopException e) {
-                  throw new RuntimeException(
-                      "Unexpected error in calling extension point upon transform finish", e);
-                }
-              });
+          combi.transform.addTransformFinishedListener((pipeline, transformMeta, transform) -> {
+            try {
+              ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformFinished.id, combi);
+            } catch (HopException e) {
+              throw new RuntimeException("Unexpected error in calling extension point upon transform finish", e);
+            }
+          });
 
           thread.start();
         }
@@ -1236,20 +1137,13 @@ public abstract class Pipeline
     }
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "Pipeline.Log.PipelineHasAllocated",
-              String.valueOf(transforms.size()),
-              String.valueOf(rowsets.size())));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.PipelineHasAllocated", String.valueOf(transforms.size()), String.valueOf(rowsets.size())));
     }
   }
 
-  /**
-   * Make attempt to fire all registered finished listeners if possible.
+  /** Make attempt to fire all registered finished listeners if possible.
    *
-   * @throws HopException if any errors occur during notification
-   */
+   * @throws HopException if any errors occur during notification */
   @Override
   public void firePipelineExecutionFinishedListeners() throws HopException {
 
@@ -1277,11 +1171,9 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Fires the start-event listeners (if any are registered).
+  /** Fires the start-event listeners (if any are registered).
    *
-   * @throws HopException if any errors occur during notification
-   */
+   * @throws HopException if any errors occur during notification */
   @Override
   public void firePipelineExecutionStartedListeners() throws HopException {
     synchronized (executionStartedListeners) {
@@ -1301,37 +1193,19 @@ public abstract class Pipeline
     boolean pausedAndNotEmpty = isPaused() && !transformPerformanceSnapShots.isEmpty();
     boolean stoppedAndNotEmpty = isStopped() && !transformPerformanceSnapShots.isEmpty();
 
-    if (pipelineMeta.isCapturingTransformPerformanceSnapShots()
-        && !pausedAndNotEmpty
-        && !stoppedAndNotEmpty) {
+    if (pipelineMeta.isCapturingTransformPerformanceSnapShots() && !pausedAndNotEmpty && !stoppedAndNotEmpty) {
       // get the statistics from the transforms and keep them...
       //
       int seqNr = transformPerformanceSnapshotSeqNr.incrementAndGet();
-      for (TransformMetaDataCombi
-          iTransformITransformMetaITransformDataTransformMetaDataCombi : transforms) {
-        TransformMeta transformMeta =
-            iTransformITransformMetaITransformDataTransformMetaDataCombi.transformMeta;
-        ITransform transform =
-            iTransformITransformMetaITransformDataTransformMetaDataCombi.transform;
+      for (TransformMetaDataCombi iTransformITransformMetaITransformDataTransformMetaDataCombi : transforms) {
+        TransformMeta transformMeta = iTransformITransformMetaITransformDataTransformMetaDataCombi.transformMeta;
+        ITransform transform = iTransformITransformMetaITransformDataTransformMetaDataCombi.transform;
 
-        PerformanceSnapShot snapShot =
-            new PerformanceSnapShot(
-                seqNr,
-                new Date(),
-                getName(),
-                transformMeta.getName(),
-                transform.getCopy(),
-                transform.getLinesRead(),
-                transform.getLinesWritten(),
-                transform.getLinesInput(),
-                transform.getLinesOutput(),
-                transform.getLinesUpdated(),
-                transform.getLinesRejected(),
-                transform.getErrors());
+        PerformanceSnapShot snapShot = new PerformanceSnapShot(seqNr, new Date(), getName(), transformMeta.getName(), transform.getCopy(), transform.getLinesRead(), transform.getLinesWritten(), transform.getLinesInput(), transform.getLinesOutput(), transform.getLinesUpdated(),
+            transform.getLinesRejected(), transform.getErrors());
 
         synchronized (transformPerformanceSnapShots) {
-          List<PerformanceSnapShot> snapShotList =
-              transformPerformanceSnapShots.get(transform.toString());
+          List<PerformanceSnapShot> snapShotList = transformPerformanceSnapShots.get(transform.toString());
           PerformanceSnapShot previous;
           if (snapShotList == null) {
             snapShotList = new ArrayList<>();
@@ -1345,8 +1219,7 @@ public abstract class Pipeline
           snapShot.diff(previous, transform.rowsetInputSize(), transform.rowsetOutputSize());
           snapShotList.add(snapShot);
 
-          if (transformPerformanceSnapshotSizeLimit > 0
-              && snapShotList.size() > transformPerformanceSnapshotSizeLimit) {
+          if (transformPerformanceSnapshotSizeLimit > 0 && snapShotList.size() > transformPerformanceSnapshotSizeLimit) {
             snapShotList.remove(0);
           }
         }
@@ -1356,9 +1229,7 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * This method performs any cleanup operations, typically called after the pipeline has finished.
-   */
+  /** This method performs any cleanup operations, typically called after the pipeline has finished. */
   @Override
   public void cleanup() {
     // Close all open server sockets.
@@ -1405,11 +1276,9 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Gets the number of errors that have occurred during execution of the pipeline.
+  /** Gets the number of errors that have occurred during execution of the pipeline.
    *
-   * @return the number of errors
-   */
+   * @return the number of errors */
   @Override
   public int getErrors() {
     int nrErrors = errors.get();
@@ -1427,11 +1296,9 @@ public abstract class Pipeline
     return nrErrors;
   }
 
-  /**
-   * Checks if the pipeline is finished\.
+  /** Checks if the pipeline is finished\.
    *
-   * @return true if the pipeline is finished, false otherwise
-   */
+   * @return true if the pipeline is finished, false otherwise */
   @Override
   public boolean isFinished() {
     int exist = status.get() & FINISHED.mask;
@@ -1446,10 +1313,8 @@ public abstract class Pipeline
     return isFinished() || isStopped();
   }
 
-  /**
-   * Asks all transforms to stop but doesn't wait around for it to happen. This is a special method
-   * for use with mappings.
-   */
+  /** Asks all transforms to stop but doesn't wait around for it to happen. This is a special method
+   * for use with mappings. */
   private void killAllNoWait() {
     if (transforms == null) {
       return;
@@ -1459,32 +1324,25 @@ public abstract class Pipeline
       ITransform transform = sid.transform;
 
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(PKG, "Pipeline.Log.LookingAtTransform")
-                + transform.getTransformName());
+        log.logDebug(BaseMessages.getString(PKG, "Pipeline.Log.LookingAtTransform") + transform.getTransformName());
       }
 
       transform.stopAll();
     }
   }
 
-  /**
-   * Finds the IRowSet between two transforms (or copies of transforms).
+  /** Finds the IRowSet between two transforms (or copies of transforms).
    *
    * @param from the name of the "from" transform
    * @param fromcopy the copy number of the "from" transform
    * @param to the name of the "to" transform
    * @param tocopy the copy number of the "to" transform
-   * @return the row set, or null if none found
-   */
+   * @return the row set, or null if none found */
   @Override
   public IRowSet findRowSet(String from, int fromcopy, String to, int tocopy) {
     // Start with the pipeline.
     for (IRowSet rs : rowsets) {
-      if (rs.getOriginTransformName().equalsIgnoreCase(from)
-          && rs.getDestinationTransformName().equalsIgnoreCase(to)
-          && rs.getOriginTransformCopy() == fromcopy
-          && rs.getDestinationTransformCopy() == tocopy) {
+      if (rs.getOriginTransformName().equalsIgnoreCase(from) && rs.getDestinationTransformName().equalsIgnoreCase(to) && rs.getOriginTransformCopy() == fromcopy && rs.getDestinationTransformCopy() == tocopy) {
         return rs;
       }
     }
@@ -1492,18 +1350,14 @@ public abstract class Pipeline
     return null;
   }
 
-  /**
-   * Checks whether the specified transform (or transform copy) has started.
+  /** Checks whether the specified transform (or transform copy) has started.
    *
    * @param sname the transform name
    * @param copy the copy number
-   * @return true the specified transform (or transform copy) has started, false otherwise
-   */
+   * @return true the specified transform (or transform copy) has started, false otherwise */
   public boolean hasTransformStarted(String sname, int copy) {
     for (TransformMetaDataCombi sid : transforms) {
-      boolean started =
-          (sid.transformName != null && sid.transformName.equalsIgnoreCase(sname))
-              && sid.copy == copy;
+      boolean started = (sid.transformName != null && sid.transformName.equalsIgnoreCase(sname)) && sid.copy == copy;
       if (started) {
         return true;
       }
@@ -1511,10 +1365,8 @@ public abstract class Pipeline
     return false;
   }
 
-  /**
-   * Stops only input transforms so that all downstream transforms can finish processing rows that
-   * have already been input
-   */
+  /** Stops only input transforms so that all downstream transforms can finish processing rows that
+   * have already been input */
   public void safeStop() {
     if (transforms == null) {
       return;
@@ -1574,11 +1426,9 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Gets the number of transforms in this pipeline.
+  /** Gets the number of transforms in this pipeline.
    *
-   * @return the number of transforms
-   */
+   * @return the number of transforms */
   public int nrTransforms() {
     if (transforms == null) {
       return 0;
@@ -1586,12 +1436,10 @@ public abstract class Pipeline
     return transforms.size();
   }
 
-  /**
-   * Checks whether the pipeline transforms are running lookup.
+  /** Checks whether the pipeline transforms are running lookup.
    *
    * @return a boolean array associated with the transform list, indicating whether that transform
-   *     is running a lookup.
-   */
+   *         is running a lookup. */
   public boolean[] getPipelineTransformIsRunningLookup() {
     if (transforms == null) {
       return null;
@@ -1600,18 +1448,14 @@ public abstract class Pipeline
     boolean[] tResult = new boolean[transforms.size()];
     for (int i = 0; i < transforms.size(); i++) {
       TransformMetaDataCombi sid = transforms.get(i);
-      tResult[i] =
-          (sid.transform.isRunning()
-              || sid.transform.getStatus() != ComponentExecutionStatus.STATUS_FINISHED);
+      tResult[i] = (sid.transform.isRunning() || sid.transform.getStatus() != ComponentExecutionStatus.STATUS_FINISHED);
     }
     return tResult;
   }
 
-  /**
-   * Checks the execution status of each transform in the pipelines.
+  /** Checks the execution status of each transform in the pipelines.
    *
-   * @return an array associated with the transform list, indicating the status of that transform.
-   */
+   * @return an array associated with the transform list, indicating the status of that transform. */
   public ComponentExecutionStatus[] getPipelineTransformExecutionStatusLookup() {
     if (transforms == null) {
       return null;
@@ -1628,12 +1472,10 @@ public abstract class Pipeline
     return tList;
   }
 
-  /**
-   * Gets the run thread for the transform at the specified index.
+  /** Gets the run thread for the transform at the specified index.
    *
    * @param i the index of the desired transform
-   * @return a ITransform object corresponding to the run thread for the specified transform
-   */
+   * @return a ITransform object corresponding to the run thread for the specified transform */
   public ITransform getRunThread(int i) {
     if (transforms == null) {
       return null;
@@ -1641,13 +1483,11 @@ public abstract class Pipeline
     return transforms.get(i).transform;
   }
 
-  /**
-   * Gets the run thread for the transform with the specified name and copy number.
+  /** Gets the run thread for the transform with the specified name and copy number.
    *
    * @param name the transform name
    * @param copy the copy number
-   * @return a ITransform object corresponding to the run thread for the specified transform
-   */
+   * @return a ITransform object corresponding to the run thread for the specified transform */
   public ITransform getRunThread(String name, int copy) {
     if (transforms == null) {
       return null;
@@ -1663,31 +1503,25 @@ public abstract class Pipeline
     return null;
   }
 
-  /**
-   * Calculate the batch id and date range for the pipeline.
+  /** Calculate the batch id and date range for the pipeline.
    *
-   * @throws HopPipelineException if there are any errors during calculation
-   */
+   * @throws HopPipelineException if there are any errors during calculation */
   public void calculateBatchIdAndDateRange() throws HopPipelineException {
 
     // TODO: implement date ranges using the audit manager API
   }
 
-  /**
-   * Begin processing. Also handle logging operations related to the start of the pipeline
+  /** Begin processing. Also handle logging operations related to the start of the pipeline
    *
-   * @throws HopPipelineException the hop pipeline exception
-   */
+   * @throws HopPipelineException the hop pipeline exception */
   public void beginProcessing() throws HopPipelineException {
     // TODO: inform the active audit manager that the pipeline started processing
   }
 
-  /**
-   * Gets the result of the pipeline. The Result object contains such measures as the number of
+  /** Gets the result of the pipeline. The Result object contains such measures as the number of
    * errors, number of lines read/written/input/output/updated/rejected, etc.
    *
-   * @return the Result object containing resulting measures from execution of the pipeline
-   */
+   * @return the Result object containing resulting measures from execution of the pipeline */
   @Override
   public Result getResult() {
     if (transforms == null) {
@@ -1711,8 +1545,7 @@ public abstract class Pipeline
       result.setNrLinesInput(Math.max(result.getNrLinesInput(), transform.getLinesInput()));
       result.setNrLinesOutput(Math.max(result.getNrLinesOutput(), transform.getLinesOutput()));
       result.setNrLinesUpdated(Math.max(result.getNrLinesUpdated(), transform.getLinesUpdated()));
-      result.setNrLinesRejected(
-          Math.max(result.getNrLinesRejected(), transform.getLinesRejected()));
+      result.setNrLinesRejected(Math.max(result.getNrLinesRejected(), transform.getLinesRejected()));
     }
 
     result.setRows(resultRows);
@@ -1728,12 +1561,10 @@ public abstract class Pipeline
     return result;
   }
 
-  /**
-   * Find the run thread for the transform with the specified name.
+  /** Find the run thread for the transform with the specified name.
    *
    * @param transformName the transform name
-   * @return a ITransform object corresponding to the run thread for the specified transform
-   */
+   * @return a ITransform object corresponding to the run thread for the specified transform */
   public ITransform findRunThread(String transformName) {
     if (transforms == null) {
       return null;
@@ -1748,11 +1579,9 @@ public abstract class Pipeline
     return null;
   }
 
-  /**
-   * Gets sortingTransformsTopologically
+  /** Gets sortingTransformsTopologically
    *
-   * @return value of sortingTransformsTopologically
-   */
+   * @return value of sortingTransformsTopologically */
   public boolean isSortingTransformsTopologically() {
     return sortingTransformsTopologically;
   }
@@ -1762,40 +1591,32 @@ public abstract class Pipeline
     this.sortingTransformsTopologically = sortingTransformsTopologically;
   }
 
-  /**
-   * Gets the meta-data for the pipeline.
+  /** Gets the meta-data for the pipeline.
    *
-   * @return Returns the pipeline meta-data
-   */
+   * @return Returns the pipeline meta-data */
   @Override
   public PipelineMeta getPipelineMeta() {
     return pipelineMeta;
   }
 
-  /**
-   * Sets the meta-data for the pipeline.
+  /** Sets the meta-data for the pipeline.
    *
-   * @param pipelineMeta The pipeline meta-data to set.
-   */
+   * @param pipelineMeta The pipeline meta-data to set. */
   @Override
   public void setPipelineMeta(PipelineMeta pipelineMeta) {
     this.pipelineMeta = pipelineMeta;
   }
 
-  /**
-   * Gets the rowsets for the pipeline.
+  /** Gets the rowsets for the pipeline.
    *
-   * @return a list of rowsets
-   */
+   * @return a list of rowsets */
   public List<IRowSet> getRowsets() {
     return rowsets;
   }
 
-  /**
-   * Gets a list of transforms in the pipeline.
+  /** Gets a list of transforms in the pipeline.
    *
-   * @return a list of the transforms in the pipeline
-   */
+   * @return a list of the transforms in the pipeline */
   public List<TransformMetaDataCombi> getTransforms() {
     return transforms;
   }
@@ -1804,12 +1625,10 @@ public abstract class Pipeline
     this.transforms = transforms;
   }
 
-  /**
-   * Gets a string representation of the pipeline.
+  /** Gets a string representation of the pipeline.
    *
    * @return the string representation of the pipeline
-   * @see Object#toString()
-   */
+   * @see Object#toString() */
   @Override
   public String toString() {
     if (pipelineMeta == null || pipelineMeta.getName() == null) {
@@ -1831,13 +1650,11 @@ public abstract class Pipeline
     return string.toString();
   }
 
-  /**
-   * Find the ITransform (thread) by looking it up using the name.
+  /** Find the ITransform (thread) by looking it up using the name.
    *
    * @param name The name of the transform to look for
    * @param copyNr The copy number of the transform to look for
-   * @return the ITransform or null if nothing was found.
-   */
+   * @return the ITransform or null if nothing was found. */
   public ITransform getTransform(String name, int copyNr) {
     if (transforms == null) {
       return null;
@@ -1854,13 +1671,11 @@ public abstract class Pipeline
     return null;
   }
 
-  /**
-   * Find the available executing transform copies for the transform with the specified name
+  /** Find the available executing transform copies for the transform with the specified name
    *
    * @param name The transform name
    * @return the list of executing transform copies found or null if no transforms are available yet
-   *     (incorrect usage)
-   */
+   *         (incorrect usage) */
   public List<ITransform> getTransforms(String name) {
     if (transforms == null) {
       return null;
@@ -1877,43 +1692,36 @@ public abstract class Pipeline
     return list;
   }
 
-  /**
-   * Turn on safe mode during running: the pipeline will run slower but with more checking enabled.
+  /** Turn on safe mode during running: the pipeline will run slower but with more checking enabled.
    *
-   * @param safeModeEnabled true for safe mode
-   */
+   * @param safeModeEnabled true for safe mode */
   public void setSafeModeEnabled(boolean safeModeEnabled) {
     this.safeModeEnabled = safeModeEnabled;
   }
 
-  /**
-   * Checks whether safe mode is enabled.
+  /** Checks whether safe mode is enabled.
    *
    * @return Returns true if the safe mode is enabled: the pipeline will run slower but with more
-   *     checking enabled
-   */
+   *         checking enabled */
   @Override
   public boolean isSafeModeEnabled() {
     return safeModeEnabled;
   }
 
-  /**
-   * This adds a row producer to the pipeline that just got set up. It is preferable to run this
+  /** This adds a row producer to the pipeline that just got set up. It is preferable to run this
    * BEFORE execute() but after prepareExecution()
    *
    * @param transformName The transform to produce rows for
    * @param copynr The copynr of the transform to produce row for (normally 0 unless you have
-   *     multiple copies running)
+   *        multiple copies running)
    * @return the row producer
    * @throws HopException in case the thread/transform to produce rows for could not be found.
    * @see Pipeline#execute()
-   * @see Pipeline#prepareExecution()
-   */
+   * @see Pipeline#prepareExecution() */
   public RowProducer addRowProducer(String transformName, int copynr) throws HopException {
     ITransform transform = getTransform(transformName, copynr);
     if (transform == null) {
-      throw new HopException(
-          "Unable to find thread with name " + transformName + " and copy number " + copynr);
+      throw new HopException("Unable to find thread with name " + transformName + " and copy number " + copynr);
     }
 
     // We are going to add an extra IRowSet to this iTransform.
@@ -1935,33 +1743,27 @@ public abstract class Pipeline
     return new RowProducer(transform, rowSet);
   }
 
-  /**
-   * Gets the parent workflow, or null if there is no parent.
+  /** Gets the parent workflow, or null if there is no parent.
    *
-   * @return the parent workflow, or null if there is no parent
-   */
+   * @return the parent workflow, or null if there is no parent */
   @Override
   public IWorkflowEngine<WorkflowMeta> getParentWorkflow() {
     return parentWorkflow;
   }
 
-  /**
-   * Sets the parent workflow for the pipeline.
+  /** Sets the parent workflow for the pipeline.
    *
-   * @param parentWorkflow The parent workflow to set
-   */
+   * @param parentWorkflow The parent workflow to set */
   @Override
   public void setParentWorkflow(IWorkflowEngine<WorkflowMeta> parentWorkflow) {
     this.parentWorkflow = parentWorkflow;
   }
 
-  /**
-   * Finds the ITransformData (currently) associated with the specified transform.
+  /** Finds the ITransformData (currently) associated with the specified transform.
    *
    * @param name The name of the transform to look for
    * @param copyNr The copy number (0 based) of the transform
-   * @return The ITransformData or null if non found.
-   */
+   * @return The ITransformData or null if non found. */
   public ITransformData getTransformData(String name, int copyNr) {
     if (transforms == null) {
       return null;
@@ -1976,11 +1778,9 @@ public abstract class Pipeline
     return null;
   }
 
-  /**
-   * Checks whether the pipeline has any components that are halted.
+  /** Checks whether the pipeline has any components that are halted.
    *
-   * @return true if one or more components are halted, false otherwise
-   */
+   * @return true if one or more components are halted, false otherwise */
   @Override
   public boolean hasHaltedComponents() {
     // not yet 100% sure of this, if there are no transforms... or none halted?
@@ -1996,11 +1796,9 @@ public abstract class Pipeline
     return false;
   }
 
-  /**
-   * Gets the status of the pipeline (Halting, Finished, Paused, etc.)
+  /** Gets the status of the pipeline (Halting, Finished, Paused, etc.)
    *
-   * @return the status of the pipeline
-   */
+   * @return the status of the pipeline */
   public String getStatus() {
     String message;
 
@@ -2032,73 +1830,57 @@ public abstract class Pipeline
     return message;
   }
 
-  /**
-   * Checks whether the pipeline is initializing.
+  /** Checks whether the pipeline is initializing.
    *
-   * @return true if the pipeline is initializing, false otherwise
-   */
+   * @return true if the pipeline is initializing, false otherwise */
   public boolean isInitializing() {
     int exist = status.get() & INITIALIZING.mask;
     return exist != 0;
   }
 
-  /**
-   * Sets whether the pipeline is initializing.
+  /** Sets whether the pipeline is initializing.
    *
-   * @param initializing true if the pipeline is initializing, false otherwise
-   */
+   * @param initializing true if the pipeline is initializing, false otherwise */
   public void setInitializing(boolean initializing) {
-    status.updateAndGet(
-        v -> initializing ? v | INITIALIZING.mask : (BIT_STATUS_SUM ^ INITIALIZING.mask) & v);
+    status.updateAndGet(v -> initializing ? v | INITIALIZING.mask : (BIT_STATUS_SUM ^ INITIALIZING.mask) & v);
   }
 
-  /**
-   * Checks whether the pipeline is preparing for execution.
+  /** Checks whether the pipeline is preparing for execution.
    *
-   * @return true if the pipeline is preparing for execution, false otherwise
-   */
+   * @return true if the pipeline is preparing for execution, false otherwise */
   @Override
   public boolean isPreparing() {
     int exist = status.get() & PREPARING.mask;
     return exist != 0;
   }
 
-  /**
-   * Sets whether the pipeline is preparing for execution.
+  /** Sets whether the pipeline is preparing for execution.
    *
-   * @param preparing true if the pipeline is preparing for execution, false otherwise
-   */
+   * @param preparing true if the pipeline is preparing for execution, false otherwise */
   public void setPreparing(boolean preparing) {
-    status.updateAndGet(
-        v -> preparing ? v | PREPARING.mask : (BIT_STATUS_SUM ^ PREPARING.mask) & v);
+    status.updateAndGet(v -> preparing ? v | PREPARING.mask : (BIT_STATUS_SUM ^ PREPARING.mask) & v);
   }
 
-  /**
-   * Checks whether the pipeline is running.
+  /** Checks whether the pipeline is running.
    *
-   * @return true if the pipeline is running, false otherwise
-   */
+   * @return true if the pipeline is running, false otherwise */
   @Override
   public boolean isRunning() {
     int exist = status.get() & RUNNING.mask;
     return exist != 0;
   }
 
-  /**
-   * Sets whether the pipeline is running.
+  /** Sets whether the pipeline is running.
    *
-   * @param running true if the pipeline is running, false otherwise
-   */
+   * @param running true if the pipeline is running, false otherwise */
   public void setRunning(boolean running) {
     status.updateAndGet(v -> running ? v | RUNNING.mask : (BIT_STATUS_SUM ^ RUNNING.mask) & v);
   }
 
-  /**
-   * Checks whether the pipeline is ready to start (i.e. execution preparation was successful)
+  /** Checks whether the pipeline is ready to start (i.e. execution preparation was successful)
    *
    * @return true if the pipeline was prepared for execution successfully, false otherwise
-   * @see Pipeline#prepareExecution()
-   */
+   * @see Pipeline#prepareExecution() */
   @Override
   public boolean isReadyToStart() {
     return readyToStart;
@@ -2108,11 +1890,9 @@ public abstract class Pipeline
     readyToStart = ready;
   }
 
-  /**
-   * Sets the internal Hop variables.
+  /** Sets the internal Hop variables.
    *
-   * @param var the new internal hop variables
-   */
+   * @param var the new internal hop variables */
   @Override
   public void setInternalHopVariables(IVariables var) {
     boolean hasFilename = pipelineMeta != null && !Utils.isEmpty(pipelineMeta.getFilename());
@@ -2122,13 +1902,11 @@ public abstract class Pipeline
         FileName fileName = fileObject.getName();
 
         // The filename of the pipeline
-        variables.setVariable(
-            Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME, fileName.getBaseName());
+        variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME, fileName.getBaseName());
 
         // The directory of the pipeline
         FileName fileDir = fileName.getParent();
-        variables.setVariable(
-            Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, fileDir.getURI());
+        variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, fileDir.getURI());
       } catch (HopFileException e) {
         variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "");
         variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME, "");
@@ -2139,8 +1917,7 @@ public abstract class Pipeline
     }
 
     // The name of the pipeline
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_NAME, Const.NVL(pipelineMeta.getName(), ""));
+    variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_NAME, Const.NVL(pipelineMeta.getName(), ""));
 
     // Here we don't clear the definition of the workflow specific parameters, as they may come in
     // handy.
@@ -2151,62 +1928,48 @@ public abstract class Pipeline
   }
 
   protected void setInternalEntryCurrentDirectory(boolean hasFilename) {
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER,
-        variables.getVariable(
-            hasFilename
-                ? Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY
-                : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, variables.getVariable(hasFilename ? Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
-  /**
-   * Copies variables from a given variable variables to this pipeline.
+  /** Copies variables from a given variable variables to this pipeline.
    *
    * @param variables the variable variables
-   * @see IVariables#copyFrom(IVariables)
-   */
+   * @see IVariables#copyFrom(IVariables) */
   @Override
   public void copyFrom(IVariables variables) {
     this.variables.copyFrom(variables);
   }
 
-  /**
-   * Substitutes any variable values into the given string, and returns the resolved string.
+  /** Substitutes any variable values into the given string, and returns the resolved string.
    *
    * @param aString the string to resolve against environment variables
    * @return the string after variables have been resolved/susbstituted
-   * @see IVariables#resolve(String)
-   */
+   * @see IVariables#resolve(String) */
   @Override
   public String resolve(String aString) {
     return variables.resolve(aString);
   }
 
-  /**
-   * Substitutes any variable values into each of the given strings, and returns an array containing
+  /** Substitutes any variable values into each of the given strings, and returns an array containing
    * the resolved string(s).
    *
    * @param aString an array of strings to resolve against environment variables
    * @return the array of strings after variables have been resolved/susbstituted
-   * @see IVariables#resolve(String[])
-   */
+   * @see IVariables#resolve(String[]) */
   @Override
   public String[] resolve(String[] aString) {
     return variables.resolve(aString);
   }
 
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     return variables.resolve(aString, rowMeta, rowData);
   }
 
-  /**
-   * Gets the parent variable variables.
+  /** Gets the parent variable variables.
    *
    * @return the parent variable variables
-   * @see IVariables#getParentVariables()
-   */
+   * @see IVariables#getParentVariables() */
   @Override
   public IVariables getParentVariables() {
     if (getParentPipeline() != null) {
@@ -2218,56 +1981,48 @@ public abstract class Pipeline
     return variables.getParentVariables();
   }
 
-  /**
-   * Sets the parent variable variables.
+  /** Sets the parent variable variables.
    *
    * @param parent the new parent variable variables
-   * @see IVariables#setParentVariables( IVariables)
-   */
+   * @see IVariables#setParentVariables( IVariables) */
   @Override
   public void setParentVariables(IVariables parent) {
     variables.setParentVariables(parent);
   }
 
-  /**
-   * Gets the value of the specified variable, or returns a default value if no such variable
+  /** Gets the value of the specified variable, or returns a default value if no such variable
    * exists.
    *
    * @param variableName the variable name
    * @param defaultValue the default value
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
-   * @see IVariables#getVariable(String, String)
-   */
+   *         exists
+   * @see IVariables#getVariable(String, String) */
   @Override
   public String getVariable(String variableName, String defaultValue) {
     return variables.getVariable(variableName, defaultValue);
   }
 
-  /**
-   * Gets the value of the specified variable, or returns a default value if no such variable
+  /** Gets the value of the specified variable, or returns a default value if no such variable
    * exists.
    *
    * @param variableName the variable name
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
-   * @see IVariables#getVariable(String)
-   */
+   *         exists
+   * @see IVariables#getVariable(String) */
   @Override
   public String getVariable(String variableName) {
     return variables.getVariable(variableName);
   }
 
-  /**
-   * Returns a boolean representation of the specified variable after performing any necessary
+  /** Returns a boolean representation of the specified variable after performing any necessary
    * substitution. Truth values include case-insensitive versions of "Y", "YES", "TRUE" or "1".
    *
    * @param variableName the variable name
    * @param defaultValue the default value
    * @return a boolean representation of the specified variable after performing any necessary
-   *     substitution
-   * @see IVariables#getVariableBoolean(String, boolean)
-   */
+   *         substitution
+   * @see IVariables#getVariableBoolean(String, boolean) */
   @Override
   public boolean getVariableBoolean(String variableName, boolean defaultValue) {
     if (!Utils.isEmpty(variableName)) {
@@ -2279,61 +2034,51 @@ public abstract class Pipeline
     return defaultValue;
   }
 
-  /**
-   * Sets the values of the pipeline's variables to the values from the parent variables.
+  /** Sets the values of the pipeline's variables to the values from the parent variables.
    *
    * @param parent the parent
-   * @see IVariables#initializeFrom( IVariables)
-   */
+   * @see IVariables#initializeFrom( IVariables) */
   @Override
   public void initializeFrom(IVariables parent) {
     variables.initializeFrom(parent);
   }
 
-  /**
-   * Gets a list of variable names for the pipeline.
+  /** Gets a list of variable names for the pipeline.
    *
    * @return a list of variable names
-   * @see IVariables#getVariableNames()
-   */
+   * @see IVariables#getVariableNames() */
   @Override
   public String[] getVariableNames() {
     return variables.getVariableNames();
   }
 
-  /**
-   * Sets the value of the specified variable to the specified value.
+  /** Sets the value of the specified variable to the specified value.
    *
    * @param variableName the variable name
    * @param variableValue the variable value
-   * @see IVariables#setVariable(String, String)
-   */
+   * @see IVariables#setVariable(String, String) */
   @Override
   public void setVariable(String variableName, String variableValue) {
     variables.setVariable(variableName, variableValue);
   }
 
-  /**
-   * Shares a variable variables from another variable variables. This means that the object should
+  /** Shares a variable variables from another variable variables. This means that the object should
    * take over the variables used as argument.
    *
    * @param variables the variable variables
-   * @see IVariables#shareWith(IVariables)
-   */
+   * @see IVariables#shareWith(IVariables) */
   @Override
   public void shareWith(IVariables variables) {
     this.variables = variables;
   }
 
-  /**
-   * Injects variables using the given Map. The behavior should be that the properties object will
+  /** Injects variables using the given Map. The behavior should be that the properties object will
    * be stored and at the time the IVariables is initialized (or upon calling this method if the
    * variables is already initialized). After injecting the link of the properties object should be
    * removed.
    *
    * @param map the property map
-   * @see IVariables#setVariables(Map)
-   */
+   * @see IVariables#setVariables(Map) */
   @Override
   public void setVariables(Map<String, String> map) {
     variables.setVariables(map);
@@ -2357,51 +2102,40 @@ public abstract class Pipeline
     setPaused(false);
   }
 
-  /**
-   * Checks whether the pipeline is being previewed.
+  /** Checks whether the pipeline is being previewed.
    *
-   * @return true if the pipeline is being previewed, false otherwise
-   */
+   * @return true if the pipeline is being previewed, false otherwise */
   @Override
   public boolean isPreview() {
     return preview;
   }
 
-  /**
-   * Sets whether the pipeline is being previewed.
+  /** Sets whether the pipeline is being previewed.
    *
-   * @param preview true if the pipeline is being previewed, false otherwise
-   */
+   * @param preview true if the pipeline is being previewed, false otherwise */
   @Override
   public void setPreview(boolean preview) {
     this.preview = preview;
   }
 
-  /**
-   * Gets a named list (map) of transform performance snapshots.
+  /** Gets a named list (map) of transform performance snapshots.
    *
-   * @return a named list (map) of transform performance snapshots
-   */
+   * @return a named list (map) of transform performance snapshots */
   public Map<String, List<PerformanceSnapShot>> getTransformPerformanceSnapShots() {
     return transformPerformanceSnapShots;
   }
 
-  /**
-   * Sets the named list (map) of transform performance snapshots.
+  /** Sets the named list (map) of transform performance snapshots.
    *
    * @param transformPerformanceSnapShots a named list (map) of transform performance snapshots to
-   *     set
-   */
-  public void setTransformPerformanceSnapShots(
-      Map<String, List<PerformanceSnapShot>> transformPerformanceSnapShots) {
+   *        set */
+  public void setTransformPerformanceSnapShots(Map<String, List<PerformanceSnapShot>> transformPerformanceSnapShots) {
     this.transformPerformanceSnapShots = transformPerformanceSnapShots;
   }
 
-  /**
-   * Adds a pipeline started listener.
+  /** Adds a pipeline started listener.
    *
-   * @param executionStartedListener the pipeline started listener
-   */
+   * @param executionStartedListener the pipeline started listener */
   @Override
   public void addExecutionStartedListener(IExecutionStartedListener executionStartedListener) {
     synchronized (executionStartedListener) {
@@ -2409,11 +2143,9 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Adds a pipeline finished listener.
+  /** Adds a pipeline finished listener.
    *
-   * @param executionFinishedListener the pipeline finished listener
-   */
+   * @param executionFinishedListener the pipeline finished listener */
   @Override
   public void addExecutionFinishedListener(IExecutionFinishedListener executionFinishedListener) {
     synchronized (executionFinishedListener) {
@@ -2421,11 +2153,9 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Adds a pipeline stopped listener.
+  /** Adds a pipeline stopped listener.
    *
-   * @param executionStoppedListener the pipeline stopped listener
-   */
+   * @param executionStoppedListener the pipeline stopped listener */
   @Override
   public void addExecutionStoppedListener(IExecutionStoppedListener executionStoppedListener) {
     synchronized (executionStoppedListener) {
@@ -2433,42 +2163,31 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Sets the list of stop-event listeners for the pipeline.
+  /** Sets the list of stop-event listeners for the pipeline.
    *
-   * @param executionStoppedListeners the list of stop-event listeners to set
-   */
-  public void setExecutionStoppedListeners(
-      List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> executionStoppedListeners) {
+   * @param executionStoppedListeners the list of stop-event listeners to set */
+  public void setExecutionStoppedListeners(List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> executionStoppedListeners) {
     this.executionStoppedListeners = Collections.synchronizedList(executionStoppedListeners);
   }
 
-  /**
-   * Gets the list of stop-event listeners for the pipeline. This is not concurrent safe. Please
+  /** Gets the list of stop-event listeners for the pipeline. This is not concurrent safe. Please
    * note this is mutable implementation only for backward compatibility reasons.
    *
-   * @return the list of stop-event listeners
-   */
-  public List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>>
-      getExecutionStoppedListeners() {
+   * @return the list of stop-event listeners */
+  public List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> getExecutionStoppedListeners() {
     return executionStoppedListeners;
   }
 
-  /**
-   * Adds a stop-event listener to the pipeline.
+  /** Adds a stop-event listener to the pipeline.
    *
-   * @param pipelineStoppedListener the stop-event listener to add
-   */
-  public void addPipelineStoppedListener(
-      IExecutionStoppedListener<IPipelineEngine<PipelineMeta>> pipelineStoppedListener) {
+   * @param pipelineStoppedListener the stop-event listener to add */
+  public void addPipelineStoppedListener(IExecutionStoppedListener<IPipelineEngine<PipelineMeta>> pipelineStoppedListener) {
     executionStoppedListeners.add(pipelineStoppedListener);
   }
 
-  /**
-   * Checks if the pipeline is paused.
+  /** Checks if the pipeline is paused.
    *
-   * @return true if the pipeline is paused, false otherwise
-   */
+   * @return true if the pipeline is paused, false otherwise */
   @Override
   public boolean isPaused() {
     int exist = status.get() & PAUSED.mask;
@@ -2479,11 +2198,9 @@ public abstract class Pipeline
     status.updateAndGet(v -> paused ? v | PAUSED.mask : (BIT_STATUS_SUM ^ PAUSED.mask) & v);
   }
 
-  /**
-   * Checks if the pipeline is stopped.
+  /** Checks if the pipeline is stopped.
    *
-   * @return true if the pipeline is stopped, false otherwise
-   */
+   * @return true if the pipeline is stopped, false otherwise */
   @Override
   public boolean isStopped() {
     int exist = status.get() & STOPPED.mask;
@@ -2494,109 +2211,90 @@ public abstract class Pipeline
     status.updateAndGet(v -> stopped ? v | STOPPED.mask : (BIT_STATUS_SUM ^ STOPPED.mask) & v);
   }
 
-  /**
-   * Adds a parameter definition to this pipeline.
+  /** Adds a parameter definition to this pipeline.
    *
    * @param key the name of the parameter
    * @param defValue the default value for the parameter
    * @param description the description of the parameter
    * @throws DuplicateParamException the duplicate param exception
-   * @see INamedParameters#addParameterDefinition(String, String, String)
-   */
+   * @see INamedParameters#addParameterDefinition(String, String, String) */
   @Override
-  public void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException {
+  public void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException {
     namedParams.addParameterDefinition(key, defValue, description);
   }
 
-  /**
-   * Gets the default value of the specified parameter.
+  /** Gets the default value of the specified parameter.
    *
    * @param key the name of the parameter
    * @return the default value of the parameter
    * @throws UnknownParamException if the parameter does not exist
-   * @see INamedParameters#getParameterDefault(String)
-   */
+   * @see INamedParameters#getParameterDefault(String) */
   @Override
   public String getParameterDefault(String key) throws UnknownParamException {
     return namedParams.getParameterDefault(key);
   }
 
-  /**
-   * Gets the description of the specified parameter.
+  /** Gets the description of the specified parameter.
    *
    * @param key the name of the parameter
    * @return the parameter description
    * @throws UnknownParamException if the parameter does not exist
-   * @see INamedParameters#getParameterDescription(String)
-   */
+   * @see INamedParameters#getParameterDescription(String) */
   @Override
   public String getParameterDescription(String key) throws UnknownParamException {
     return namedParams.getParameterDescription(key);
   }
 
-  /**
-   * Gets the value of the specified parameter.
+  /** Gets the value of the specified parameter.
    *
    * @param key the name of the parameter
    * @return the parameter value
    * @throws UnknownParamException if the parameter does not exist
-   * @see INamedParameters#getParameterValue(String)
-   */
+   * @see INamedParameters#getParameterValue(String) */
   @Override
   public String getParameterValue(String key) throws UnknownParamException {
     return namedParams.getParameterValue(key);
   }
 
-  /**
-   * Gets a list of the parameters for the pipeline.
+  /** Gets a list of the parameters for the pipeline.
    *
    * @return an array of strings containing the names of all parameters for the pipeline
-   * @see INamedParameters#listParameters()
-   */
+   * @see INamedParameters#listParameters() */
   @Override
   public String[] listParameters() {
     return namedParams.listParameters();
   }
 
-  /**
-   * Sets the value for the specified parameter.
+  /** Sets the value for the specified parameter.
    *
    * @param key the name of the parameter
    * @param value the name of the value
    * @throws UnknownParamException if the parameter does not exist
-   * @see INamedParameters#setParameterValue(String, String)
-   */
+   * @see INamedParameters#setParameterValue(String, String) */
   @Override
   public void setParameterValue(String key, String value) throws UnknownParamException {
     namedParams.setParameterValue(key, value);
   }
 
-  /**
-   * Remove all parameters.
+  /** Remove all parameters.
    *
-   * @see INamedParameters#removeAllParameters()
-   */
+   * @see INamedParameters#removeAllParameters() */
   @Override
   public void removeAllParameters() {
     namedParams.removeAllParameters();
   }
 
-  /**
-   * Clear the values of all parameters.
+  /** Clear the values of all parameters.
    *
-   * @see INamedParameters#clearParameterValues()
-   */
+   * @see INamedParameters#clearParameterValues() */
   @Override
   public void clearParameterValues() {
     namedParams.clearParameterValues();
   }
 
-  /**
-   * Activates all parameters by setting their values. If no values already exist, the method will
+  /** Activates all parameters by setting their values. If no values already exist, the method will
    * attempt to set the parameter to the default value. If no default value exists, the method will
-   * set the value of the parameter to the empty string ("").
-   */
+   * set the value of the parameter to the empty string (""). */
   @Override
   public void activateParameters(IVariables variables) {
     namedParams.activateParameters(variables);
@@ -2607,55 +2305,45 @@ public abstract class Pipeline
     namedParams.copyParametersFromDefinitions(definitions);
   }
 
-  /**
-   * Gets the parent pipeline, which is null if no parent pipeline exists.
+  /** Gets the parent pipeline, which is null if no parent pipeline exists.
    *
    * @return a reference to the parent pipeline's Pipeline object, or null if no parent pipeline
-   *     exists
-   */
+   *         exists */
   @Override
   public IPipelineEngine getParentPipeline() {
     return parentPipeline;
   }
 
-  /**
-   * Sets the parent pipeline.
+  /** Sets the parent pipeline.
    *
-   * @param parentPipeline the parentPipeline to set
-   */
+   * @param parentPipeline the parentPipeline to set */
   @Override
   public void setParentPipeline(IPipelineEngine parentPipeline) {
     this.parentPipeline = parentPipeline;
   }
 
-  /**
-   * Gets the object name.
+  /** Gets the object name.
    *
    * @return the object name
-   * @see ILoggingObject#getObjectName()
-   */
+   * @see ILoggingObject#getObjectName() */
   @Override
   public String getObjectName() {
     return getName();
   }
 
-  /**
-   * Gets the object copy. For Pipeline, this always returns null
+  /** Gets the object copy. For Pipeline, this always returns null
    *
    * @return null
-   * @see ILoggingObject#getObjectCopy()
-   */
+   * @see ILoggingObject#getObjectCopy() */
   @Override
   public String getObjectCopy() {
     return null;
   }
 
-  /**
-   * Gets the filename of the pipeline, or null if no filename exists
+  /** Gets the filename of the pipeline, or null if no filename exists
    *
    * @return the filename
-   * @see ILoggingObject#getFilename()
-   */
+   * @see ILoggingObject#getFilename() */
   @Override
   public String getFilename() {
     if (pipelineMeta == null) {
@@ -2664,66 +2352,54 @@ public abstract class Pipeline
     return pipelineMeta.getFilename();
   }
 
-  /**
-   * Gets the log channel ID.
+  /** Gets the log channel ID.
    *
    * @return the log channel ID
-   * @see ILoggingObject#getLogChannelId()
-   */
+   * @see ILoggingObject#getLogChannelId() */
   @Override
   public String getLogChannelId() {
     return log.getLogChannelId();
   }
 
-  /**
-   * Gets the object type. For Pipeline, this always returns LoggingObjectType.PIPELINE
+  /** Gets the object type. For Pipeline, this always returns LoggingObjectType.PIPELINE
    *
    * @return the object type
-   * @see ILoggingObject#getObjectType()
-   */
+   * @see ILoggingObject#getObjectType() */
   @Override
   public LoggingObjectType getObjectType() {
     return LoggingObjectType.PIPELINE;
   }
 
-  /**
-   * Gets the parent logging object interface.
+  /** Gets the parent logging object interface.
    *
    * @return the parent
-   * @see ILoggingObject#getParent()
-   */
+   * @see ILoggingObject#getParent() */
   @Override
   public ILoggingObject getParent() {
     return parent;
   }
 
-  /**
-   * Gets the log level.
+  /** Gets the log level.
    *
    * @return the log level
-   * @see ILoggingObject#getLogLevel()
-   */
+   * @see ILoggingObject#getLogLevel() */
   @Override
   public LogLevel getLogLevel() {
     return logLevel;
   }
 
-  /**
-   * Sets the log level.
+  /** Sets the log level.
    *
-   * @param logLevel the new log level
-   */
+   * @param logLevel the new log level */
   @Override
   public void setLogLevel(LogLevel logLevel) {
     this.logLevel = logLevel;
     log.setLogLevel(logLevel);
   }
 
-  /**
-   * Gets the logging hierarchy.
+  /** Gets the logging hierarchy.
    *
-   * @return the logging hierarchy
-   */
+   * @return the logging hierarchy */
   public List<LoggingHierarchy> getLoggingHierarchy() {
     List<LoggingHierarchy> hierarchy = new ArrayList<>();
     List<String> childIds = LoggingRegistry.getInstance().getLogChannelChildren(getLogChannelId());
@@ -2748,8 +2424,7 @@ public abstract class Pipeline
   }
 
   @Override
-  public void addActiveSubWorkflow(
-      final String subWorkflowName, IWorkflowEngine<WorkflowMeta> subWorkflow) {
+  public void addActiveSubWorkflow(final String subWorkflowName, IWorkflowEngine<WorkflowMeta> subWorkflow) {
     activeSubWorkflows.put(subWorkflowName, subWorkflow);
   }
 
@@ -2758,50 +2433,40 @@ public abstract class Pipeline
     return activeSubWorkflows.get(subWorkflowName);
   }
 
-  /**
-   * Gets the active sub-workflows.
+  /** Gets the active sub-workflows.
    *
-   * @return a map (by name) of the active sub-workflows
-   */
+   * @return a map (by name) of the active sub-workflows */
   public Map<String, IWorkflowEngine<WorkflowMeta>> getActiveSubWorkflows() {
     return activeSubWorkflows;
   }
 
-  /**
-   * Gets the container object ID.
+  /** Gets the container object ID.
    *
-   * @return the HopServer object ID
-   */
+   * @return the HopServer object ID */
   @Override
   public String getContainerId() {
     return containerObjectId;
   }
 
-  /**
-   * Sets the container object ID.
+  /** Sets the container object ID.
    *
-   * @param containerId the HopServer object ID to set
-   */
+   * @param containerId the HopServer object ID to set */
   @Override
   public void setContainerId(String containerId) {
     this.containerObjectId = containerId;
   }
 
-  /**
-   * Gets the registration date. For Pipeline, this always returns null
+  /** Gets the registration date. For Pipeline, this always returns null
    *
-   * @return null
-   */
+   * @return null */
   @Override
   public Date getRegistrationDate() {
     return null;
   }
 
-  /**
-   * Gets the name of the executing server.
+  /** Gets the name of the executing server.
    *
-   * @return the executingServer
-   */
+   * @return the executingServer */
   @Override
   public String getExecutingServer() {
     if (executingServer == null) {
@@ -2810,31 +2475,25 @@ public abstract class Pipeline
     return executingServer;
   }
 
-  /**
-   * Sets the name of the executing server.
+  /** Sets the name of the executing server.
    *
-   * @param executingServer the executingServer to set
-   */
+   * @param executingServer the executingServer to set */
   @Override
   public void setExecutingServer(String executingServer) {
     this.executingServer = executingServer;
   }
 
-  /**
-   * Gets the name of the executing user.
+  /** Gets the name of the executing user.
    *
-   * @return the executingUser
-   */
+   * @return the executingUser */
   @Override
   public String getExecutingUser() {
     return executingUser;
   }
 
-  /**
-   * Sets the name of the executing user.
+  /** Sets the name of the executing user.
    *
-   * @param executingUser the executingUser to set
-   */
+   * @param executingUser the executingUser to set */
   @Override
   public void setExecutingUser(String executingUser) {
     this.executingUser = executingUser;
@@ -2890,10 +2549,8 @@ public abstract class Pipeline
     this.previousResult = previousResult;
   }
 
-  /**
-   * Clear the error in the pipeline, clear all the rows from all the row sets, to make sure the
-   * pipeline can continue with other data. This is intended for use when running single threaded.
-   */
+  /** Clear the error in the pipeline, clear all the rows from all the row sets, to make sure the
+   * pipeline can continue with other data. This is intended for use when running single threaded. */
   public void clearError() {
     setStopped(false);
     errors.set(0);
@@ -2920,13 +2577,11 @@ public abstract class Pipeline
     }
   }
 
-  /**
-   * Sets encoding of HttpServletResponse according to System encoding.Check if system encoding is
+  /** Sets encoding of HttpServletResponse according to System encoding.Check if system encoding is
    * null or an empty and set it to HttpServletResponse when not and writes error to log if null.
    * Throw IllegalArgumentException if input parameter is null.
    *
-   * @param response the HttpServletResponse to set encoding, mayn't be null
-   */
+   * @param response the HttpServletResponse to set encoding, mayn't be null */
   public void setServletReponse(HttpServletResponse response) {
     if (response == null) {
       throw new IllegalArgumentException("HttpServletResponse cannot be null ");
@@ -3094,11 +2749,9 @@ public abstract class Pipeline
     } // finished sorting
   }
 
-  /**
-   * Gets executionStartDate
+  /** Gets executionStartDate
    *
-   * @return value of executionStartDate
-   */
+   * @return value of executionStartDate */
   @Override
   public Date getExecutionStartDate() {
     return executionStartDate;
@@ -3109,11 +2762,9 @@ public abstract class Pipeline
     this.executionStartDate = executionStartDate;
   }
 
-  /**
-   * Gets executionEndDate
+  /** Gets executionEndDate
    *
-   * @return value of executionEndDate
-   */
+   * @return value of executionEndDate */
   @Override
   public Date getExecutionEndDate() {
     return executionEndDate;
@@ -3130,62 +2781,18 @@ public abstract class Pipeline
   }
 
   // TODO: i18n
-  public static final IEngineMetric METRIC_INPUT =
-      new EngineMetric(
-          METRIC_NAME_INPUT, "Input", "The number of rows read from physical I/O", "010", true);
-  public static final IEngineMetric METRIC_READ =
-      new EngineMetric(
-          METRIC_NAME_READ, "Read", "The number of rows read from other transforms", "020", true);
-  public static final IEngineMetric METRIC_WRITTEN =
-      new EngineMetric(
-          METRIC_NAME_WRITTEN,
-          "Written",
-          "The number of rows written to other transforms",
-          "030",
-          true);
-  public static final IEngineMetric METRIC_OUTPUT =
-      new EngineMetric(
-          METRIC_NAME_OUTPUT, "Output", "The number of rows written to physical I/O", "040", true);
-  public static final IEngineMetric METRIC_UPDATED =
-      new EngineMetric(METRIC_NAME_UPDATED, "Updated", "The number of rows updated", "050", true);
-  public static final IEngineMetric METRIC_REJECTED =
-      new EngineMetric(
-          METRIC_NAME_REJECTED,
-          "Rejected",
-          "The number of rows rejected by a transform",
-          "060",
-          true);
-  public static final IEngineMetric METRIC_ERROR =
-      new EngineMetric(METRIC_NAME_ERROR, "Errors", "The number of errors", "070", true);
-  public static final IEngineMetric METRIC_BUFFER_IN =
-      new EngineMetric(
-          METRIC_NAME_BUFFER_IN,
-          "Buffers Input",
-          "The number of rows in the transforms input buffers",
-          "080",
-          true);
-  public static final IEngineMetric METRIC_BUFFER_OUT =
-      new EngineMetric(
-          METRIC_NAME_BUFFER_OUT,
-          "Buffers Output",
-          "The number of rows in the transforms output buffers",
-          "090",
-          true);
+  public static final IEngineMetric METRIC_INPUT = new EngineMetric(METRIC_NAME_INPUT, "Input", "The number of rows read from physical I/O", "010", true);
+  public static final IEngineMetric METRIC_READ = new EngineMetric(METRIC_NAME_READ, "Read", "The number of rows read from other transforms", "020", true);
+  public static final IEngineMetric METRIC_WRITTEN = new EngineMetric(METRIC_NAME_WRITTEN, "Written", "The number of rows written to other transforms", "030", true);
+  public static final IEngineMetric METRIC_OUTPUT = new EngineMetric(METRIC_NAME_OUTPUT, "Output", "The number of rows written to physical I/O", "040", true);
+  public static final IEngineMetric METRIC_UPDATED = new EngineMetric(METRIC_NAME_UPDATED, "Updated", "The number of rows updated", "050", true);
+  public static final IEngineMetric METRIC_REJECTED = new EngineMetric(METRIC_NAME_REJECTED, "Rejected", "The number of rows rejected by a transform", "060", true);
+  public static final IEngineMetric METRIC_ERROR = new EngineMetric(METRIC_NAME_ERROR, "Errors", "The number of errors", "070", true);
+  public static final IEngineMetric METRIC_BUFFER_IN = new EngineMetric(METRIC_NAME_BUFFER_IN, "Buffers Input", "The number of rows in the transforms input buffers", "080", true);
+  public static final IEngineMetric METRIC_BUFFER_OUT = new EngineMetric(METRIC_NAME_BUFFER_OUT, "Buffers Output", "The number of rows in the transforms output buffers", "090", true);
 
-  public static final IEngineMetric METRIC_INIT =
-      new EngineMetric(
-          METRIC_NAME_INIT,
-          "Inits",
-          "The number of times the transform was initialised",
-          "000",
-          true);
-  public static final IEngineMetric METRIC_FLUSH_BUFFER =
-      new EngineMetric(
-          METRIC_NAME_FLUSH_BUFFER,
-          "Flushes",
-          "The number of times a buffer flush occurred on a ",
-          "100",
-          true);
+  public static final IEngineMetric METRIC_INIT = new EngineMetric(METRIC_NAME_INIT, "Inits", "The number of times the transform was initialised", "000", true);
+  public static final IEngineMetric METRIC_FLUSH_BUFFER = new EngineMetric(METRIC_NAME_FLUSH_BUFFER, "Flushes", "The number of times a buffer flush occurred on a ", "100", true);
 
   @Override
   public EngineMetrics getEngineMetrics() {
@@ -3200,8 +2807,7 @@ public abstract class Pipeline
 
     if (transforms != null) {
       synchronized (transforms) {
-        for (TransformMetaDataCombi combi :
-            transforms) {
+        for (TransformMetaDataCombi combi : transforms) {
           ITransform transform = combi.transform;
 
           boolean collect = true;
@@ -3216,18 +2822,12 @@ public abstract class Pipeline
 
             metrics.addComponent(combi.transform);
 
-            metrics.setComponentMetric(
-                combi.transform, METRIC_INPUT, combi.transform.getLinesInput());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_OUTPUT, combi.transform.getLinesOutput());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_READ, combi.transform.getLinesRead());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_WRITTEN, combi.transform.getLinesWritten());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_UPDATED, combi.transform.getLinesUpdated());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_REJECTED, combi.transform.getLinesRejected());
+            metrics.setComponentMetric(combi.transform, METRIC_INPUT, combi.transform.getLinesInput());
+            metrics.setComponentMetric(combi.transform, METRIC_OUTPUT, combi.transform.getLinesOutput());
+            metrics.setComponentMetric(combi.transform, METRIC_READ, combi.transform.getLinesRead());
+            metrics.setComponentMetric(combi.transform, METRIC_WRITTEN, combi.transform.getLinesWritten());
+            metrics.setComponentMetric(combi.transform, METRIC_UPDATED, combi.transform.getLinesUpdated());
+            metrics.setComponentMetric(combi.transform, METRIC_REJECTED, combi.transform.getLinesRejected());
             metrics.setComponentMetric(combi.transform, METRIC_ERROR, combi.transform.getErrors());
 
             long inputBufferSize = 0;
@@ -3243,8 +2843,7 @@ public abstract class Pipeline
 
             TransformStatus transformStatus = new TransformStatus(combi.transform);
             metrics.setComponentSpeed(combi.transform, transformStatus.getSpeed());
-            metrics.setComponentStatus(
-                combi.transform, combi.transform.getStatus().getDescription());
+            metrics.setComponentStatus(combi.transform, combi.transform.getStatus().getDescription());
             metrics.setComponentRunning(combi.transform, combi.transform.isRunning());
           }
         }
@@ -3273,8 +2872,7 @@ public abstract class Pipeline
         if (collect) {
           IEngineComponent component = findComponent(snapshotName, snapshotCopyNr);
           if (component != null) {
-            List<PerformanceSnapShot> snapShots =
-                transformPerformanceSnapShots.get(componentString);
+            List<PerformanceSnapShot> snapShots = transformPerformanceSnapShots.get(componentString);
             metrics.getComponentPerformanceSnapshots().put(component, snapShots);
           }
         }
@@ -3290,8 +2888,7 @@ public abstract class Pipeline
     if (transform == null) {
       return null;
     }
-    StringBuffer logBuffer =
-        HopLogStore.getAppender().getBuffer(transform.getLogChannel().getLogChannelId(), false);
+    StringBuffer logBuffer = HopLogStore.getAppender().getBuffer(transform.getLogChannel().getLogChannelId(), false);
     if (logBuffer == null) {
       return null;
     }
@@ -3329,11 +2926,9 @@ public abstract class Pipeline
     return list;
   }
 
-  /**
-   * Gets pluginId
+  /** Gets pluginId
    *
-   * @return value of pluginId
-   */
+   * @return value of pluginId */
   @Override
   public String getPluginId() {
     return pluginId;
@@ -3351,57 +2946,40 @@ public abstract class Pipeline
   }
 
   @Override
-  public void retrieveComponentOutput(
-      IVariables variables,
-      String componentName,
-      int copyNr,
-      int nrRows,
-      IPipelineComponentRowsReceived rowsReceived)
-      throws HopException {
+  public void retrieveComponentOutput(IVariables variables, String componentName, int copyNr, int nrRows, IPipelineComponentRowsReceived rowsReceived) throws HopException {
     ITransform iTransform = getTransform(componentName, copyNr);
     if (iTransform == null) {
-      throw new HopException(
-          "Unable to find transform '"
-              + componentName
-              + "', copy "
-              + copyNr
-              + " to retrieve output rows from");
+      throw new HopException("Unable to find transform '" + componentName + "', copy " + copyNr + " to retrieve output rows from");
     }
     RowBuffer rowBuffer = new RowBuffer(pipelineMeta.getTransformFields(variables, componentName));
-    iTransform.addRowListener(
-        new RowAdapter() {
-          @Override
-          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-            if (rowBuffer.getBuffer().size() < nrRows) {
-              rowBuffer.getBuffer().add(row);
-              if (rowBuffer.getBuffer().size() >= nrRows) {
-                try {
-                  rowsReceived.rowsReceived(Pipeline.this, rowBuffer);
-                } catch (HopException e) {
-                  throw new HopTransformException(
-                      "Error recieving rows from '" + componentName + " copy " + copyNr, e);
-                }
-              }
+    iTransform.addRowListener(new RowAdapter() {
+      @Override
+      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+        if (rowBuffer.getBuffer().size() < nrRows) {
+          rowBuffer.getBuffer().add(row);
+          if (rowBuffer.getBuffer().size() >= nrRows) {
+            try {
+              rowsReceived.rowsReceived(Pipeline.this, rowBuffer);
+            } catch (HopException e) {
+              throw new HopTransformException("Error recieving rows from '" + componentName + " copy " + copyNr, e);
             }
           }
-        });
+        }
+      }
+    });
   }
 
-  public void addStartedListener(IExecutionStartedListener<IPipelineEngine<PipelineMeta>> listener)
-      throws HopException {
+  public void addStartedListener(IExecutionStartedListener<IPipelineEngine<PipelineMeta>> listener) throws HopException {
     executionStartedListeners.add(listener);
   }
 
-  public void addFinishedListener(
-      IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> listener) throws HopException {
+  public void addFinishedListener(IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> listener) throws HopException {
     executionFinishedListeners.add(listener);
   }
 
-  /**
-   * Gets rowSetSize
+  /** Gets rowSetSize
    *
-   * @return value of rowSetSize
-   */
+   * @return value of rowSetSize */
   public int getRowSetSize() {
     return rowSetSize;
   }
@@ -3411,11 +2989,9 @@ public abstract class Pipeline
     this.rowSetSize = rowSetSize;
   }
 
-  /**
-   * Gets feedbackShown
+  /** Gets feedbackShown
    *
-   * @return value of feedbackShown
-   */
+   * @return value of feedbackShown */
   @Override
   public boolean isFeedbackShown() {
     return feedbackShown;
@@ -3426,11 +3002,9 @@ public abstract class Pipeline
     this.feedbackShown = feedbackShown;
   }
 
-  /**
-   * Gets feedbackSize
+  /** Gets feedbackSize
    *
-   * @return value of feedbackSize
-   */
+   * @return value of feedbackSize */
   @Override
   public int getFeedbackSize() {
     return feedbackSize;
@@ -3441,43 +3015,33 @@ public abstract class Pipeline
     this.feedbackSize = feedbackSize;
   }
 
-  /**
-   * Gets executionStartedListeners
+  /** Gets executionStartedListeners
    *
-   * @return value of executionStartedListeners
-   */
-  public List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>>
-      getExecutionStartedListeners() {
+   * @return value of executionStartedListeners */
+  public List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> getExecutionStartedListeners() {
     return executionStartedListeners;
   }
 
   /** @param executionStartedListeners The executionStartedListeners to set */
-  public void setExecutionStartedListeners(
-      List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> executionStartedListeners) {
+  public void setExecutionStartedListeners(List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> executionStartedListeners) {
     this.executionStartedListeners = executionStartedListeners;
   }
 
-  /**
-   * Gets executionFinishedListeners
+  /** Gets executionFinishedListeners
    *
-   * @return value of executionFinishedListeners
-   */
-  public List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>>
-      getExecutionFinishedListeners() {
+   * @return value of executionFinishedListeners */
+  public List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> getExecutionFinishedListeners() {
     return executionFinishedListeners;
   }
 
   /** @param executionFinishedListeners The executionFinishedListeners to set */
-  public void setExecutionFinishedListeners(
-      List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> executionFinishedListeners) {
+  public void setExecutionFinishedListeners(List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> executionFinishedListeners) {
     this.executionFinishedListeners = executionFinishedListeners;
   }
 
-  /**
-   * Gets pipelineRunConfiguration
+  /** Gets pipelineRunConfiguration
    *
-   * @return value of pipelineRunConfiguration
-   */
+   * @return value of pipelineRunConfiguration */
   @Override
   public PipelineRunConfiguration getPipelineRunConfiguration() {
     return pipelineRunConfiguration;
@@ -3489,11 +3053,9 @@ public abstract class Pipeline
     this.pipelineRunConfiguration = pipelineRunConfiguration;
   }
 
-  /**
-   * Gets activeSubPipelines
+  /** Gets activeSubPipelines
    *
-   * @return value of activeSubPipelines
-   */
+   * @return value of activeSubPipelines */
   public Map<String, IPipelineEngine> getActiveSubPipelines() {
     return activeSubPipelines;
   }
@@ -3508,11 +3070,9 @@ public abstract class Pipeline
     this.activeSubWorkflows = activeSubWorkflows;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }

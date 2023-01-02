@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,10 +40,8 @@ import org.eclipse.swt.widgets.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * We use Props to store all kinds of user interactive information such as the selected colors,
- * fonts, positions of windows, etc.
- */
+/** We use Props to store all kinds of user interactive information such as the selected colors,
+ * fonts, positions of windows, etc. */
 public class PropsUi extends Props {
 
   private static final String OS = System.getProperty("os.name").toLowerCase();
@@ -52,8 +50,7 @@ public class PropsUi extends Props {
 
   private static double globalZoomFactor;
 
-  private static final String STRING_SHOW_COPY_OR_DISTRIBUTE_WARNING =
-      "ShowCopyOrDistributeWarning";
+  private static final String STRING_SHOW_COPY_OR_DISTRIBUTE_WARNING = "ShowCopyOrDistributeWarning";
 
   private static final String SHOW_TOOL_TIPS = "ShowToolTips";
 
@@ -96,10 +93,8 @@ public class PropsUi extends Props {
       // We take the default font and render it, calculate the height.
       // Compare that to the standard small icon size of 16
       //
-      org.eclipse.swt.graphics.Point extent =
-          TextSizeUtilFacade.textExtent("The quick brown fox jumped over the lazy dog!");
-      nativeZoomFactor =
-          ((double) extent.y / (double) ConstUi.SMALL_ICON_SIZE) * getGlobalZoomFactor();
+      org.eclipse.swt.graphics.Point extent = TextSizeUtilFacade.textExtent("The quick brown fox jumped over the lazy dog!");
+      nativeZoomFactor = ((double) extent.y / (double) ConstUi.SMALL_ICON_SIZE) * getGlobalZoomFactor();
     }
 
     setDefault();
@@ -119,41 +114,27 @@ public class PropsUi extends Props {
       //
       if (isDarkMode()) {
         display.setData("org.eclipse.swt.internal.win32.useDarkModeExplorerTheme", Boolean.TRUE);
-        display.setData(
-            "org.eclipse.swt.internal.win32.menuBarForegroundColor",
-            new Color(display, 0xD0, 0xD0, 0xD0));
-        display.setData(
-            "org.eclipse.swt.internal.win32.menuBarBackgroundColor",
-            new Color(display, 0x30, 0x30, 0x30));
-        display.setData(
-            "org.eclipse.swt.internal.win32.menuBarBorderColor",
-            new Color(display, 0x50, 0x50, 0x50));
+        display.setData("org.eclipse.swt.internal.win32.menuBarForegroundColor", new Color(display, 0xD0, 0xD0, 0xD0));
+        display.setData("org.eclipse.swt.internal.win32.menuBarBackgroundColor", new Color(display, 0x30, 0x30, 0x30));
+        display.setData("org.eclipse.swt.internal.win32.menuBarBorderColor", new Color(display, 0x50, 0x50, 0x50));
         display.setData("org.eclipse.swt.internal.win32.Canvas.use_WS_BORDER", Boolean.TRUE);
         display.setData("org.eclipse.swt.internal.win32.List.use_WS_BORDER", Boolean.TRUE);
         display.setData("org.eclipse.swt.internal.win32.Table.use_WS_BORDER", Boolean.TRUE);
         display.setData("org.eclipse.swt.internal.win32.Combo.use_WS_BORDER", Boolean.TRUE);
         display.setData("org.eclipse.swt.internal.win32.Text.use_WS_BORDER", Boolean.TRUE);
         display.setData("org.eclipse.swt.internal.win32.Tree.use_WS_BORDER", Boolean.TRUE);
-        display.setData(
-            "org.eclipse.swt.internal.win32.Table.headerLineColor",
-            new Color(display, 0x50, 0x50, 0x50));
-        display.setData(
-            "org.eclipse.swt.internal.win32.Label.disabledForegroundColor",
-            new Color(display, 0x80, 0x80, 0x80));
+        display.setData("org.eclipse.swt.internal.win32.Table.headerLineColor", new Color(display, 0x50, 0x50, 0x50));
+        display.setData("org.eclipse.swt.internal.win32.Label.disabledForegroundColor", new Color(display, 0x80, 0x80, 0x80));
         display.setData("org.eclipse.swt.internal.win32.Combo.useDarkTheme", Boolean.TRUE);
-        display.setData(
-            "org.eclipse.swt.internal.win32.ToolBar.backgroundColor",
-            new Color(display, 0xD0, 0xD0, 0xD0));
-        display.setData(
-            "org.eclipse.swt.internal.win32.Combo.backgroundColor",
-            new Color(display, 0xD0, 0xD0, 0xD0));
+        display.setData("org.eclipse.swt.internal.win32.ToolBar.backgroundColor", new Color(display, 0xD0, 0xD0, 0xD0));
+        display.setData("org.eclipse.swt.internal.win32.Combo.backgroundColor", new Color(display, 0xD0, 0xD0, 0xD0));
         display.setData("org.eclipse.swt.internal.win32.ProgressBar.useColors", Boolean.TRUE);
       }
     } else {
       if (!EnvironmentUtils.getInstance().isWeb()) {
         if (Display.isSystemDarkTheme()) {
           // Only set OS look shown once in case we switch to dark mode
-          // and vice versa.  We don't want to override user choices all the time.
+          // and vice versa. We don't want to override user choices all the time.
           // If we do it like before it becomes impossible to choose your own font and colors.
           //
           if (!isDarkMode()) {
@@ -288,11 +269,9 @@ public class PropsUi extends Props {
     }
   }
 
-  /**
-   * Get the margin compensated for the zoom factor
+  /** Get the margin compensated for the zoom factor
    *
-   * @return
-   */
+   * @return */
   public int getMargin() {
     return (int) Math.round(getZoomFactor() * Const.MARGIN);
   }
@@ -363,21 +342,14 @@ public class PropsUi extends Props {
   }
 
   public void setScreen(WindowProperty windowProperty) {
-    AuditManager.storeState(
-        LogChannel.UI,
-        HopNamespace.getNamespace(),
-        "shells",
-        windowProperty.getName(),
-        windowProperty.getStateProperties());
+    AuditManager.storeState(LogChannel.UI, HopNamespace.getNamespace(), "shells", windowProperty.getName(), windowProperty.getStateProperties());
   }
 
   public WindowProperty getScreen(String windowName) {
     if (windowName == null) {
       return null;
     }
-    AuditState auditState =
-        AuditManager.retrieveState(
-            LogChannel.UI, HopNamespace.getNamespace(), "shells", windowName);
+    AuditState auditState = AuditManager.retrieveState(LogChannel.UI, HopNamespace.getNamespace(), "shells", windowName);
     if (auditState == null) {
       return null;
     }
@@ -480,13 +452,11 @@ public class PropsUi extends Props {
         font = null;
 
         if (control instanceof Group && OS.contains("mac")) {
-          control.addPaintListener(
-              paintEvent -> {
-                paintEvent.gc.setForeground(gui.getColorBlack());
-                paintEvent.gc.setBackground(gui.getColorBackground());
-                paintEvent.gc.fillRectangle(
-                    2, 0, control.getBounds().width - 8, control.getBounds().height - 20);
-              });
+          control.addPaintListener(paintEvent -> {
+            paintEvent.gc.setForeground(gui.getColorBlack());
+            paintEvent.gc.setBackground(gui.getColorBackground());
+            paintEvent.gc.fillRectangle(2, 0, control.getBounds().width - 8, control.getBounds().height - 20);
+          });
         } else if (control instanceof Combo) {
           if (Const.isWindows() && isDarkMode()) {
             background = gui.getColorBackground();
@@ -581,9 +551,7 @@ public class PropsUi extends Props {
     }
   }
 
-  /**
-   * @return Returns the display.
-   */
+  /** @return Returns the display. */
   public static Display getDisplay() {
     return Display.getCurrent();
   }
@@ -667,21 +635,17 @@ public class PropsUi extends Props {
     setProperty(CANVAS_GRID_SIZE, Integer.toString(gridSize));
   }
 
-  /**
-   * Gets the supported version of the requested software.
+  /** Gets the supported version of the requested software.
    *
    * @param property the key for the software version
-   * @return an integer that represents the supported version for the software.
-   */
+   * @return an integer that represents the supported version for the software. */
   public int getSupportedVersion(String property) {
     return Integer.parseInt(getProperty(property));
   }
 
-  /**
-   * Ask if the browsing environment checks are disabled.
+  /** Ask if the browsing environment checks are disabled.
    *
-   * @return 'true' if disabled 'false' otherwise.
-   */
+   * @return 'true' if disabled 'false' otherwise. */
   public boolean isBrowserEnvironmentCheckDisabled() {
     return "Y".equalsIgnoreCase(getProperty(DISABLE_BROWSER_ENVIRONMENT_CHECK, "N"));
   }
@@ -705,8 +669,7 @@ public class PropsUi extends Props {
     if (gridSize > 1) {
       // Snap to grid...
       //
-      return new Point(
-          gridSize * Math.round(p.x / gridSize), gridSize * Math.round(p.y / gridSize));
+      return new Point(gridSize * Math.round(p.x / gridSize), gridSize * Math.round(p.y / gridSize));
     } else {
       // Normal draw
       //
@@ -723,18 +686,14 @@ public class PropsUi extends Props {
     setProperty(STRING_INDICATE_SLOW_PIPELINE_TRANSFORMS, indicate ? YES : NO);
   }
 
-  /**
-   * Gets nativeZoomFactor
+  /** Gets nativeZoomFactor
    *
-   * @return value of nativeZoomFactor
-   */
+   * @return value of nativeZoomFactor */
   public static double getNativeZoomFactor() {
     return nativeZoomFactor;
   }
 
-  /**
-   * @param nativeZoomFactor The nativeZoomFactor to set
-   */
+  /** @param nativeZoomFactor The nativeZoomFactor to set */
   public static void setNativeZoomFactor(double nativeZoomFactor) {
     PropsUi.nativeZoomFactor = nativeZoomFactor;
   }
@@ -770,8 +729,7 @@ public class PropsUi extends Props {
     // Add all the inverse color mappings as well
     //
     Map<RGB, RGB> inverse = new HashMap<>();
-    contrastingColors.keySet().stream()
-        .forEach(key -> inverse.put(contrastingColors.get(key), key));
+    contrastingColors.keySet().stream().forEach(key -> inverse.put(contrastingColors.get(key), key));
     contrastingColors.putAll(inverse);
   }
 
@@ -782,10 +740,8 @@ public class PropsUi extends Props {
     return new RGB(red, green, blue);
   }
 
-  /**
-   * @param rgb the color to contrast if the system is in "Dark Mode"
-   * @return The contrasted color
-   */
+  /** @param rgb the color to contrast if the system is in "Dark Mode"
+   * @return The contrasted color */
   public RGB contrastColor(RGB rgb) {
     if (PropsUi.getInstance().isDarkMode()) {
       RGB contrastingRGB = contrastingColors.get(rgb);
@@ -823,18 +779,14 @@ public class PropsUi extends Props {
     return ("#" + r + g + b).toLowerCase();
   }
 
-  /**
-   * Gets contrastingColors
+  /** Gets contrastingColors
    *
-   * @return value of contrastingColors
-   */
+   * @return value of contrastingColors */
   public Map<RGB, RGB> getContrastingColors() {
     return contrastingColors;
   }
 
-  /**
-   * @param contrastingColors The contrastingColors to set
-   */
+  /** @param contrastingColors The contrastingColors to set */
   public void setContrastingColors(Map<RGB, RGB> contrastingColors) {
     this.contrastingColors = contrastingColors;
   }
@@ -847,8 +799,5 @@ public class PropsUi extends Props {
     setProperty(GLOBAL_ZOOMFACTOR, Double.toString(globalZoomFactor));
   }
 
-  public static final String[] globalZoomFactorLevels =
-      new String[] {
-        "200%", "175%", "150%", "140%", "130%", "120%", "110%", "100%", "90%", "80%", "70%"
-      };
+  public static final String[] globalZoomFactorLevels = new String[] {"200%", "175%", "150%", "140%", "130%", "120%", "110%", "100%", "90%", "80%", "70%"};
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,19 +19,15 @@ package org.apache.hop.core.annotations;
 
 import java.lang.annotation.*;
 
-/**
- * This annotation signals to the Hop plugin registry that it needs to consider the annotated class
- * as a carte servlet plugin. The class needs to implement the IHopServerPlugin interface
- */
+/** This annotation signals to the Hop plugin registry that it needs to consider the annotated class
+ * as a carte servlet plugin. The class needs to implement the IHopServerPlugin interface */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface HopServerServlet {
 
-  /**
-   * @return The ID of the plugin. You can specify more than one ID in a comma separated format:
-   *     id1,id2,id3 for deprecation purposes.
-   */
+  /** @return The ID of the plugin. You can specify more than one ID in a comma separated format:
+   *         id1,id2,id3 for deprecation purposes. */
   String id();
 
   String name();

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,12 +52,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
   protected IVariables variables;
   protected String description;
 
-  public JsonMetadataSerializer(
-      IHopMetadataProvider metadataProvider,
-      String baseFolder,
-      Class<T> managedClass,
-      IVariables variables,
-      String description) {
+  public JsonMetadataSerializer(IHopMetadataProvider metadataProvider, String baseFolder, Class<T> managedClass, IVariables variables, String description) {
     this.metadataProvider = metadataProvider;
     this.baseFolder = baseFolder;
     this.managedClass = managedClass;
@@ -104,8 +99,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
       try {
         fileInputStream = HopVfs.getInputStream(filename);
         JsonFactory jsonFactory = new JsonFactory();
-        com.fasterxml.jackson.core.JsonParser jsonParser =
-            jsonFactory.createParser(fileInputStream);
+        com.fasterxml.jackson.core.JsonParser jsonParser = jsonFactory.createParser(fileInputStream);
 
         jsonParser.nextToken(); // skip {
 
@@ -117,16 +111,13 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
         fileInputStream.close();
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error loading metadata object '" + name + "' from file '" + filename + "'", e);
+      throw new HopException("Error loading metadata object '" + name + "' from file '" + filename + "'", e);
     }
   }
 
-  /**
-   * If the loaded object implements variables we can inherit from it.
+  /** If the loaded object implements variables we can inherit from it.
    *
-   * @param t
-   */
+   * @param t */
   private void inheritVariables(T t) {
     if (t instanceof IVariables) {
       ((IVariables) t).initializeFrom(variables);
@@ -161,8 +152,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
         throw new HopException("Error serializing JSON to file '" + filename + "'", e);
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to save object '" + t.getName() + "' to JSON file '" + filename + "'", e);
+      throw new HopException("Unable to save object '" + t.getName() + "' to JSON file '" + filename + "'", e);
     }
   }
 
@@ -173,8 +163,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
   @Override
   public T delete(String name) throws HopException {
     if (name == null) {
-      throw new HopException(
-          "Error: you need to specify the name of the metadata object to delete");
+      throw new HopException("Error: you need to specify the name of the metadata object to delete");
     }
     if (!exists(name)) {
       throw new HopException("Error: Object '" + name + "' doesn't exist");
@@ -184,8 +173,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
     try {
       boolean deleted = HopVfs.getFileObject(filename).delete();
       if (!deleted) {
-        throw new HopException(
-            "Error: Object '" + name + "' could not be deleted, filename : " + filename);
+        throw new HopException("Error: Object '" + name + "' could not be deleted, filename : " + filename);
       }
     } catch (FileSystemException e) {
       throw new HopException("Error deleting Object '" + name + "' with filename : " + filename);
@@ -215,30 +203,24 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
     return HopVfs.fileExists(calculateFilename(name));
   }
 
-  /**
-   * Gets managedClass
+  /** Gets managedClass
    *
-   * @return value of managedClass
-   */
+   * @return value of managedClass */
   @Override
   public Class<T> getManagedClass() {
     return managedClass;
   }
 
-  /**
-   * Gets baseFolder
+  /** Gets baseFolder
    *
-   * @return value of baseFolder
-   */
+   * @return value of baseFolder */
   public String getBaseFolder() {
     return baseFolder;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   @Override
   public IHopMetadataProvider getMetadataProvider() {
     return metadataProvider;

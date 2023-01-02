@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,10 +30,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import java.lang.reflect.InvocationTargetException;
 
-/**
- * Takes care of displaying a dialog that will handle the wait while we're finding out what tables,
- * views etc we can reach in the database.
- */
+/** Takes care of displaying a dialog that will handle the wait while we're finding out what tables,
+ * views etc we can reach in the database. */
 public class GetDatabaseInfoProgressDialog {
   private static final Class<?> PKG = GetDatabaseInfoProgressDialog.class; // For Translator
 
@@ -41,12 +39,9 @@ public class GetDatabaseInfoProgressDialog {
   private final IVariables variables;
   private DatabaseMeta databaseMeta;
 
-  /**
-   * Creates a new dialog that will handle the wait while we're finding out what tables, views etc
-   * we can reach in the database.
-   */
-  public GetDatabaseInfoProgressDialog(
-      Shell shell, IVariables variables, DatabaseMeta databaseMeta) {
+  /** Creates a new dialog that will handle the wait while we're finding out what tables, views etc
+   * we can reach in the database. */
+  public GetDatabaseInfoProgressDialog(Shell shell, IVariables variables, DatabaseMeta databaseMeta) {
     this.shell = shell;
     this.variables = variables;
     this.databaseMeta = databaseMeta;
@@ -54,24 +49,20 @@ public class GetDatabaseInfoProgressDialog {
 
   public DatabaseMetaInformation open() {
     final DatabaseMetaInformation dmi = new DatabaseMetaInformation(variables, databaseMeta);
-    IRunnableWithProgress op =
-        monitor -> {
-          try {
-            dmi.getData(
-                HopGui.getInstance().getLoggingObject(), new ProgressMonitorAdapter(monitor));
-          } catch (Exception e) {
-            throw new InvocationTargetException(
-                e,
-                BaseMessages.getString(
-                    PKG, "GetDatabaseInfoProgressDialog.Error.GettingInfoTable", e.toString()));
-          }
-        };
+    IRunnableWithProgress op = monitor -> {
+      try {
+        dmi.getData(HopGui.getInstance().getLoggingObject(), new ProgressMonitorAdapter(monitor));
+      } catch (Exception e) {
+        throw new InvocationTargetException(e, BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.GettingInfoTable", e.toString()));
+      }
+    };
 
     try {
       ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
       pmd.run(true, op);
 
-      if (pmd.getProgressMonitor().isCanceled()) return null;
+      if (pmd.getProgressMonitor().isCanceled())
+        return null;
     } catch (InvocationTargetException e) {
       showErrorDialog(e);
       return null;
@@ -83,16 +74,10 @@ public class GetDatabaseInfoProgressDialog {
     return dmi;
   }
 
-  /**
-   * Showing an error dialog
+  /** Showing an error dialog
    *
-   * @param e
-   */
+   * @param e */
   private void showErrorDialog(Exception e) {
-    new ErrorDialog(
-        shell,
-        BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Title"),
-        BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Message"),
-        e);
+    new ErrorDialog(shell, BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Title"), BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Message"), e);
   }
 }

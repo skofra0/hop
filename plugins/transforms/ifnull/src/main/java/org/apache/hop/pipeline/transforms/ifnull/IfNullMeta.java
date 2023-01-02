@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,8 @@
  */
 
 package org.apache.hop.pipeline.transforms.ifnull;
+
+import java.util.List;
 
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.Const;
@@ -36,19 +38,8 @@ import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.w3c.dom.Node;
 
-import java.util.List;
-
-@Transform(
-    id = "IfNull",
-    image = "IfNull.svg",
-    name = "i18n::IfNull.Name",
-    description = "i18n::IfNull.Description",
-    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Flow",
-    keywords = "i18n::IfNullMeta.keyword",
-    documentationUrl = "/pipeline/transforms/ifnull.html")
-@InjectionSupported(
-    localizationPrefix = "IfNull.Injection.",
-    groups = {"FIELDS", "VALUE_TYPES"})
+@Transform(id = "IfNull", image = "IfNull.svg", name = "i18n::IfNull.Name", description = "i18n::IfNull.Description", categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Flow", keywords = "i18n::IfNullMeta.keyword", documentationUrl = "/pipeline/transforms/ifnull.html")
+@InjectionSupported(localizationPrefix = "IfNull.Injection.", groups = {"FIELDS", "VALUE_TYPES"})
 public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
 
   private static final Class<?> PKG = IfNullMeta.class; // For Translator
@@ -171,9 +162,11 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
     }
   }
 
-  @InjectionDeep private Fields[] fields;
+  @InjectionDeep
+  private Fields[] fields;
 
-  @InjectionDeep private ValueTypes[] valueTypes;
+  @InjectionDeep
+  private ValueTypes[] valueTypes;
 
   @Injection(name = "SELECT_FIELDS")
   private boolean selectFields;
@@ -206,8 +199,7 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -289,16 +281,14 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
     this.valueTypes = valueTypes;
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       selectFields = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "selectFields"));
       selectValuesType = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "selectValuesType"));
       replaceAllByValue = XmlHandler.getTagValue(transformNode, "replaceAllByValue");
       replaceAllMask = XmlHandler.getTagValue(transformNode, "replaceAllMask");
       String setEmptyStringAllString = XmlHandler.getTagValue(transformNode, "setEmptyStringAll");
-      setEmptyStringAll =
-          !Utils.isEmpty(setEmptyStringAllString) && "Y".equalsIgnoreCase(setEmptyStringAllString);
+      setEmptyStringAll = !Utils.isEmpty(setEmptyStringAllString) && "Y".equalsIgnoreCase(setEmptyStringAllString);
 
       Node types = XmlHandler.getSubNode(transformNode, "valuetypes");
       int nrtypes = XmlHandler.countNodes(types, "valuetype");
@@ -313,8 +303,7 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
         valueTypes[i].setTypereplaceValue(XmlHandler.getTagValue(tnode, "value"));
         valueTypes[i].setTypereplaceMask(XmlHandler.getTagValue(tnode, "mask"));
         String typeemptyString = XmlHandler.getTagValue(tnode, "set_type_empty_string");
-        valueTypes[i].setTypeEmptyString(
-            !Utils.isEmpty(typeemptyString) && "Y".equalsIgnoreCase(typeemptyString));
+        valueTypes[i].setTypeEmptyString(!Utils.isEmpty(typeemptyString) && "Y".equalsIgnoreCase(typeemptyString));
       }
       for (int i = 0; i < nrFields; i++) {
         Node fnode = XmlHandler.getSubNodeByNr(fieldNodes, "field", i);
@@ -343,14 +332,9 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
     for (int i = 0; i < valueTypes.length; i++) {
       retval.append("      <valuetype>" + Const.CR);
       retval.append("        " + XmlHandler.addTagValue("name", valueTypes[i].getTypeName()));
-      retval.append(
-          "        " + XmlHandler.addTagValue("value", valueTypes[i].getTypereplaceValue()));
-      retval.append(
-          "        " + XmlHandler.addTagValue("mask", valueTypes[i].getTypereplaceMask()));
-      retval.append(
-          "        "
-              + XmlHandler.addTagValue(
-                  "set_type_empty_string", valueTypes[i].isSetTypeEmptyString()));
+      retval.append("        " + XmlHandler.addTagValue("value", valueTypes[i].getTypereplaceValue()));
+      retval.append("        " + XmlHandler.addTagValue("mask", valueTypes[i].getTypereplaceMask()));
+      retval.append("        " + XmlHandler.addTagValue("set_type_empty_string", valueTypes[i].isSetTypeEmptyString()));
       retval.append("        </valuetype>" + Const.CR);
     }
     retval.append("      </valuetypes>" + Const.CR);
@@ -361,8 +345,7 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
       retval.append("        " + XmlHandler.addTagValue("name", fields[i].getFieldName()));
       retval.append("        " + XmlHandler.addTagValue("value", fields[i].getReplaceValue()));
       retval.append("        " + XmlHandler.addTagValue("mask", fields[i].getReplaceMask()));
-      retval.append(
-          "        " + XmlHandler.addTagValue("set_empty_string", fields[i].isSetEmptyString()));
+      retval.append("        " + XmlHandler.addTagValue("set_empty_string", fields[i].isSetEmptyString()));
       retval.append("        </field>" + Const.CR);
     }
     retval.append("      </fields>" + Const.CR);
@@ -384,31 +367,13 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      String[] input,
-      String[] output,
-      IRowMeta info,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, String[] input, String[] output, IRowMeta info, IVariables variables, IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "IfNullMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -423,25 +388,16 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "IfNullMeta.CheckResult.FieldsFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "IfNullMeta.CheckResult.FieldsFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (fields.length > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "IfNullMeta.CheckResult.AllFieldsFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.AllFieldsFound"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  CheckResult.TYPE_RESULT_WARNING,
-                  BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoFieldsEntered"),
-                  transformMeta);
+          cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoFieldsEntered"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -449,19 +405,10 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "IfNullMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

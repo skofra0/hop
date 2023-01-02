@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,10 +48,9 @@ public class HopGuiWorkflowUndoDelegate {
     handler.updateGui();
   }
 
-  public void undoWorkflowAction(
-      IHopFileTypeHandler handler, WorkflowMeta workflowMeta, ChangeAction changeAction) {
+  public void undoWorkflowAction(IHopFileTypeHandler handler, WorkflowMeta workflowMeta, ChangeAction changeAction) {
     switch (changeAction.getType()) {
-        // We created a new transform : undo this...
+      // We created a new transform : undo this...
       case NewAction:
         // Delete the transform at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -60,7 +59,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We created a new note : undo this...
+      // We created a new note : undo this...
       case NewNote:
         // Delete the note at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -69,7 +68,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We created a new hop : undo this...
+      // We created a new hop : undo this...
       case NewHop:
         // Delete the hop at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -78,11 +77,11 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        //
-        // DELETE
-        //
+      //
+      // DELETE
+      //
 
-        // We delete a transform : undo this...
+      // We delete a transform : undo this...
       case DeleteAction:
         // un-Delete the transform at correct location: re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -92,7 +91,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We delete new note : undo this...
+      // We delete new note : undo this...
       case DeleteNote:
         // re-insert the note at correct location:
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -102,7 +101,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We deleted a hop : undo this...
+      // We deleted a hop : undo this...
       case DeleteHop:
         // re-insert the hop at correct location:
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -116,11 +115,11 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        //
-        // CHANGE
-        //
+      //
+      // CHANGE
+      //
 
-        // We changed a transform : undo this...
+      // We changed a transform : undo this...
       case ChangeAction:
         // Delete the current transform, insert previous version.
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -131,7 +130,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We changed a note : undo this...
+      // We changed a note : undo this...
       case ChangeNote:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -142,7 +141,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We changed a hop : undo this...
+      // We changed a hop : undo this...
       case ChangeHop:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -154,11 +153,11 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        //
-        // POSITION
-        //
+      //
+      // POSITION
+      //
 
-        // The position of a transform has changed: undo this...
+      // The position of a transform has changed: undo this...
       case PositionAction:
         // Find the location of the transform:
         for (int i = 0; i < changeAction.getCurrentIndex().length; i++) {
@@ -167,7 +166,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // The position of a note has changed: undo this...
+      // The position of a note has changed: undo this...
       case PositionNote:
         for (int i = 0; i < changeAction.getCurrentIndex().length; i++) {
           int idx = changeAction.getCurrentIndex()[i];
@@ -197,8 +196,7 @@ public class HopGuiWorkflowUndoDelegate {
     handler.updateGui();
   }
 
-  public void redoWorkflowAction(
-      IHopFileTypeHandler handler, WorkflowMeta workflowMeta, ChangeAction changeAction) {
+  public void redoWorkflowAction(IHopFileTypeHandler handler, WorkflowMeta workflowMeta, ChangeAction changeAction) {
     switch (changeAction.getType()) {
       case NewAction:
         // re-delete the transform at correct location:
@@ -227,9 +225,9 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        //
-        // DELETE
-        //
+      //
+      // DELETE
+      //
       case DeleteAction:
         // re-remove the transform at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -254,11 +252,11 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        //
-        // CHANGE
-        //
+      //
+      // CHANGE
+      //
 
-        // We changed a transform : undo this...
+      // We changed a transform : undo this...
       case ChangeTransform:
         // Delete the current transform, insert previous version.
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -267,7 +265,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We changed a note : undo this...
+      // We changed a note : undo this...
       case ChangeNote:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -279,7 +277,7 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        // We changed a hop : undo this...
+      // We changed a hop : undo this...
       case ChangeHop:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -291,9 +289,9 @@ public class HopGuiWorkflowUndoDelegate {
         }
         break;
 
-        //
-        // CHANGE POSITION
-        //
+      //
+      // CHANGE POSITION
+      //
       case PositionTransform:
         for (int i = 0; i < changeAction.getCurrentIndex().length; i++) {
           // Find & change the location of the transform:
@@ -321,11 +319,9 @@ public class HopGuiWorkflowUndoDelegate {
     }
   }
 
-  /**
-   * Gets workflowGraph
+  /** Gets workflowGraph
    *
-   * @return value of workflowGraph
-   */
+   * @return value of workflowGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -335,11 +331,9 @@ public class HopGuiWorkflowUndoDelegate {
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@ public class Utils {
 
   // Fairly simple algorithm implemented from pseudo-code algorithm documented on Wikipedia:
   //
-  //   https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
+  // https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
   //
   public static int getDamerauLevenshteinDistance(String one, String two) {
     // A few utility variables
@@ -100,67 +100,52 @@ public class Utils {
         // Get the minimum of the 4 distances for deletion, insertion, substitution and
         // transposition
         //
-        distancesMatrix[x + 1][y + 1] =
-            NumberUtils.min(
-                distancesMatrix[x][y] + distance,
-                distancesMatrix[x + 1][y] + 1,
-                distancesMatrix[x][y + 1] + 1,
-                distancesMatrix[x1][y1] + (x - x1 - 1) + 1 + (y - y1 - 1));
+        distancesMatrix[x + 1][y + 1] = NumberUtils.min(distancesMatrix[x][y] + distance, distancesMatrix[x + 1][y] + 1, distancesMatrix[x][y + 1] + 1, distancesMatrix[x1][y1] + (x - x1 - 1) + 1 + (y - y1 - 1));
       }
       characterMap.put(one.charAt(x - 1), x);
     }
     return distancesMatrix[oneLength + 1][twoLength + 1];
   }
 
-  /**
-   * Check if the CharSequence supplied is empty. A CharSequence is empty when it is null or when
+  /** Check if the CharSequence supplied is empty. A CharSequence is empty when it is null or when
    * the length is 0
    *
    * @param val The string to check
-   * @return true if the string supplied is empty
-   */
+   * @return true if the string supplied is empty */
   public static boolean isEmpty(CharSequence val) {
     return val == null || val.length() == 0;
   }
 
-  /**
-   * Check if the CharSequence array supplied is empty. A CharSequence array is empty when it is
+  /** Check if the CharSequence array supplied is empty. A CharSequence array is empty when it is
    * null or when the number of elements is 0
    *
    * @param strings The string array to check
-   * @return true if the string array supplied is empty
-   */
+   * @return true if the string array supplied is empty */
   public static boolean isEmpty(CharSequence[] strings) {
     return strings == null || strings.length == 0;
   }
 
-  /**
-   * Check if the array supplied is empty. An array is empty when it is null or when the length is 0
+  /** Check if the array supplied is empty. An array is empty when it is null or when the length is 0
    *
    * @param array The array to check
-   * @return true if the array supplied is empty
-   */
+   * @return true if the array supplied is empty */
   public static boolean isEmpty(Object[] array) {
     return array == null || array.length == 0;
   }
 
-  /**
-   * Check if the list supplied is empty. An array is empty when it is null or when the length is 0
+  /** Check if the list supplied is empty. An array is empty when it is null or when the length is 0
    *
    * @param list the list to check
-   * @return true if the supplied list is empty
-   */
+   * @return true if the supplied list is empty */
   public static boolean isEmpty(List<?> list) {
     return list == null || list.size() == 0;
   }
 
-  /**
-   * Resolves password from variable if it's necessary and decrypts if the password was encrypted
+  /** Resolves password from variable if it's necessary and decrypts if the password was encrypted
    *
    * @param variables IVariables is used for resolving
    * @param password the password for resolving and decrypting
-   * @return resolved decrypted password
-   */
+   * @return resolved decrypted password */
   public static String resolvePassword(IVariables variables, String password) {
     String resolvedPassword = variables.resolve(password);
     if (resolvedPassword != null) {
@@ -295,12 +280,8 @@ public class Utils {
   public static String getDurationHMS(double seconds) {
     int day = (int) TimeUnit.SECONDS.toDays((long) seconds);
     long hours = TimeUnit.SECONDS.toHours((long) seconds) - (day * 24);
-    long minute =
-        TimeUnit.SECONDS.toMinutes((long) seconds)
-            - (TimeUnit.SECONDS.toHours((long) seconds) * 60);
-    long second =
-        TimeUnit.SECONDS.toSeconds((long) seconds)
-            - (TimeUnit.SECONDS.toMinutes((long) seconds) * 60);
+    long minute = TimeUnit.SECONDS.toMinutes((long) seconds) - (TimeUnit.SECONDS.toHours((long) seconds) * 60);
+    long second = TimeUnit.SECONDS.toSeconds((long) seconds) - (TimeUnit.SECONDS.toMinutes((long) seconds) * 60);
     long ms = (long) ((seconds - ((long) seconds)) * 1000);
 
     StringBuilder hms = new StringBuilder();

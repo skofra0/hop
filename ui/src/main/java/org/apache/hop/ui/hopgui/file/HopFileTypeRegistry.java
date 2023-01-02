@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,14 +55,12 @@ public class HopFileTypeRegistry {
     }
   }
 
-  /**
-   * This method first tries to find a HopFile by looking at the extension. If none can be found the
+  /** This method first tries to find a HopFile by looking at the extension. If none can be found the
    * content is looked at by each IHopFileType
    *
    * @param filename The filename to search with
    * @return The IHopFileType we can use to open the file itself.
-   * @throws HopException
-   */
+   * @throws HopException */
   public IHopFileType findHopFileType(String filename) throws HopException {
     for (IHopFileType hopFile : hopFileTypes) {
       if (hopFile.isHandledBy(filename, false)) {
@@ -77,11 +75,9 @@ public class HopFileTypeRegistry {
     return null;
   }
 
-  /**
-   * Get All the filter extensions of all the HopFile plugins
+  /** Get All the filter extensions of all the HopFile plugins
    *
-   * @return all the file extensions
-   */
+   * @return all the file extensions */
   public String[] getFilterExtensions() {
     List<String> filterExtensions = new ArrayList<>();
     for (IHopFileType hopFile : hopFileTypes) {
@@ -100,11 +96,9 @@ public class HopFileTypeRegistry {
     return filterExtensions.toArray(new String[0]);
   }
 
-  /**
-   * Get All the filter names of all the HopFile plugins
+  /** Get All the filter names of all the HopFile plugins
    *
-   * @return all the file names
-   */
+   * @return all the file names */
   public String[] getFilterNames() {
     List<String> filterNames = new ArrayList<>();
     for (IHopFileType hopFile : hopFileTypes) {

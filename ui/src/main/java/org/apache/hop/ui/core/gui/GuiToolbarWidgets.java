@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -97,8 +97,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     guiToolBarMap.put(toolbarItem.getId(), toolbarItem);
 
     if (!(parent instanceof ToolBar)) {
-      throw new RuntimeException(
-          "We can only add toolbar items to a toolbar, not class " + parent.getClass().getName());
+      throw new RuntimeException("We can only add toolbar items to a toolbar, not class " + parent.getClass().getName());
     }
     ToolBar toolBar = (ToolBar) parent;
 
@@ -113,12 +112,9 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
     // Add a label in front of the item
     //
-    if (toolbarItem.getType() != GuiToolbarElementType.LABEL
-        && toolbarItem.getType() != GuiToolbarElementType.CHECKBOX
-        && StringUtils.isNotEmpty(toolbarItem.getLabel())) {
+    if (toolbarItem.getType() != GuiToolbarElementType.LABEL && toolbarItem.getType() != GuiToolbarElementType.CHECKBOX && StringUtils.isNotEmpty(toolbarItem.getLabel())) {
       ToolItem labelSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-      CLabel label =
-          new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+      CLabel label = new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
       label.setText(Const.NVL(toolbarItem.getLabel(), ""));
       label.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
       props.setLook(label, Props.WIDGET_STYLE_TOOLBAR);
@@ -133,39 +129,26 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
       case LABEL:
         ToolItem labelSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
 
-        CLabel label =
-            new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+        CLabel label = new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
         label.setText(Const.NVL(toolbarItem.getLabel(), ""));
-        label.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));        
+        label.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
         props.setLook(label, Props.WIDGET_STYLE_TOOLBAR);
         label.pack();
         labelSeparator.setWidth(label.getSize().x);
         labelSeparator.setControl(label);
         toolItemMap.put(toolbarItem.getId(), labelSeparator);
         widgetsMap.put(toolbarItem.getId(), label);
-        Listener listener =
-            getListener(
-                toolbarItem.getClassLoader(),
-                toolbarItem.getListenerClass(),
-                toolbarItem.getListenerMethod());
+        Listener listener = getListener(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), toolbarItem.getListenerMethod());
         label.addListener(SWT.MouseUp, listener);
         break;
 
       case BUTTON:
         ToolItem item = new ToolItem(toolBar, SWT.NONE);
-        setImages(
-            item,
-            toolbarItem.getClassLoader(),
-            toolbarItem.getImage(),
-            toolbarItem.getDisabledImage());
+        setImages(item, toolbarItem.getClassLoader(), toolbarItem.getImage(), toolbarItem.getDisabledImage());
         if (StringUtils.isNotEmpty(toolbarItem.getToolTip())) {
           item.setToolTipText(toolbarItem.getToolTip());
         }
-        listener =
-            getListener(
-                toolbarItem.getClassLoader(),
-                toolbarItem.getListenerClass(),
-                toolbarItem.getListenerMethod());
+        listener = getListener(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), toolbarItem.getListenerMethod());
         item.addListener(SWT.Selection, listener);
         toolItemMap.put(toolbarItem.getId(), item);
         setToolItemKeyboardShortcut(item, toolbarItem);
@@ -173,21 +156,14 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
       case COMBO:
         ToolItem comboSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-        Combo combo =
-            new Combo(parent, SWT.SINGLE | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+        Combo combo = new Combo(parent, SWT.SINGLE | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
         combo.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
         combo.setItems(getComboItems(toolbarItem));
         props.setLook(combo);
         combo.pack();
-        comboSeparator.setWidth(
-            calculateComboWidth(combo)
-                + toolbarItem.getExtraWidth()); // extra room for widget decorations
+        comboSeparator.setWidth(calculateComboWidth(combo) + toolbarItem.getExtraWidth()); // extra room for widget decorations
         comboSeparator.setControl(combo);
-        listener =
-            getListener(
-                toolbarItem.getClassLoader(),
-                toolbarItem.getListenerClass(),
-                toolbarItem.getListenerMethod());
+        listener = getListener(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), toolbarItem.getListenerMethod());
         combo.addListener(SWT.Selection, listener);
         combo.addListener(SWT.DefaultSelection, listener);
         toolItemMap.put(toolbarItem.getId(), comboSeparator);
@@ -197,21 +173,14 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
       case CHECKBOX:
         ToolItem checkboxSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-        Button checkbox =
-            new Button(parent, SWT.CHECK | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+        Button checkbox = new Button(parent, SWT.CHECK | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
         checkbox.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
         checkbox.setText(Const.NVL(toolbarItem.getLabel(), ""));
         props.setLook(checkbox);
         checkbox.pack();
-        checkboxSeparator.setWidth(
-            checkbox.getSize().x
-                + toolbarItem.getExtraWidth()); // extra room for widget decorations
+        checkboxSeparator.setWidth(checkbox.getSize().x + toolbarItem.getExtraWidth()); // extra room for widget decorations
         checkboxSeparator.setControl(checkbox);
-        listener =
-            getListener(
-                toolbarItem.getClassLoader(),
-                toolbarItem.getListenerClass(),
-                toolbarItem.getListenerMethod());
+        listener = getListener(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), toolbarItem.getListenerMethod());
         checkbox.addListener(SWT.Selection, listener);
         toolItemMap.put(toolbarItem.getId(), checkboxSeparator);
         widgetsMap.put(toolbarItem.getId(), checkbox);
@@ -222,24 +191,18 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     }
   }
 
-/**
- * See if there's a shortcut worth mentioning and add it to tooltip...
- * 
- * @param toolItem
- * @param guiToolbarItem
- */
-  private void setToolItemKeyboardShortcut(ToolItem toolItem, GuiToolbarItem guiToolbarItem) {    
-    KeyboardShortcut shortcut =
-        GuiRegistry.getInstance()
-            .findKeyboardShortcut(
-                guiToolbarItem.getListenerClass(), guiToolbarItem.getListenerMethod(), Const.isOSX());
+  /** See if there's a shortcut worth mentioning and add it to tooltip...
+   * 
+   * @param toolItem
+   * @param guiToolbarItem */
+  private void setToolItemKeyboardShortcut(ToolItem toolItem, GuiToolbarItem guiToolbarItem) {
+    KeyboardShortcut shortcut = GuiRegistry.getInstance().findKeyboardShortcut(guiToolbarItem.getListenerClass(), guiToolbarItem.getListenerMethod(), Const.isOSX());
     if (shortcut != null) {
-      toolItem.setToolTipText(toolItem.getToolTipText()+" ("+shortcut.toString()+')');
+      toolItem.setToolTipText(toolItem.getToolTipText() + " (" + shortcut.toString() + ')');
     }
   }
-  
-  private void setImages(
-      ToolItem item, ClassLoader classLoader, String location, String disabledLocation) {
+
+  private void setImages(ToolItem item, ClassLoader classLoader, String location, String disabledLocation) {
     GuiResource gr = GuiResource.getInstance();
     int width = ConstUi.SMALL_ICON_SIZE;
     int height = ConstUi.SMALL_ICON_SIZE;
@@ -279,31 +242,26 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     }
   }
 
-  /**
-   * Find the toolbar item with the given ID. Check the capability in the given file type Enable or
+  /** Find the toolbar item with the given ID. Check the capability in the given file type Enable or
    * disable accordingly.
    *
    * @param fileType
    * @param id The ID of the widget to look for
    * @param permission
-   * @return The toolbar item or null if nothing is found
-   */
+   * @return The toolbar item or null if nothing is found */
   public ToolItem enableToolbarItem(IHopFileType fileType, String id, String permission) {
     return enableToolbarItem(fileType, id, permission, true);
   }
 
-  /**
-   * Find the toolbar item with the given ID. Check the capability in the given file type Enable or
+  /** Find the toolbar item with the given ID. Check the capability in the given file type Enable or
    * disable accordingly.
    *
    * @param fileType
    * @param id The ID of the widget to look for
    * @param permission
    * @param active The state if the permission is available
-   * @return The toolbar item or null if nothing is found
-   */
-  public ToolItem enableToolbarItem(
-      IHopFileType fileType, String id, String permission, boolean active) {
+   * @return The toolbar item or null if nothing is found */
+  public ToolItem enableToolbarItem(IHopFileType fileType, String id, String permission, boolean active) {
     ToolItem item = findToolItem(id);
     if (item == null || item.isDisposed()) {
       return null;
@@ -329,8 +287,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
           System.err.println("toolbar item with id '" + id + "' : widget not of instance Combo");
         }
       } else {
-        System.err.println(
-            "toolbar item with id '" + id + "' : control not found when refreshing combo");
+        System.err.println("toolbar item with id '" + id + "' : control not found when refreshing combo");
       }
     } else {
       System.err.println("toolbar item with id '" + id + "' : not found when refreshing combo");
@@ -354,11 +311,9 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     }
   }
 
-  /**
-   * Gets widgetsMap
+  /** Gets widgetsMap
    *
-   * @return value of widgetsMap
-   */
+   * @return value of widgetsMap */
   public Map<String, Control> getWidgetsMap() {
     return widgetsMap;
   }
@@ -368,11 +323,9 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     this.widgetsMap = widgetsMap;
   }
 
-  /**
-   * Gets toolItemMap
+  /** Gets toolItemMap
    *
-   * @return value of toolItemMap
-   */
+   * @return value of toolItemMap */
   public Map<String, ToolItem> getToolItemMap() {
     return toolItemMap;
   }
@@ -382,11 +335,9 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     this.toolItemMap = toolItemMap;
   }
 
-  /**
-   * Gets guiToolBarMap
+  /** Gets guiToolBarMap
    *
-   * @return value of guiToolBarMap
-   */
+   * @return value of guiToolBarMap */
   public Map<String, GuiToolbarItem> getGuiToolBarMap() {
     return guiToolBarMap;
   }

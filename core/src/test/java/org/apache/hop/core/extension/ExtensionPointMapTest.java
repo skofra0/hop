@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public class ExtensionPointMapTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   public static final String TEST_NAME = "testName";
   private IPluginMock pluginInterface;
   private IExtensionPoint extensionPoint;
@@ -63,12 +64,10 @@ public class ExtensionPointMapTest {
   @Test
   public void addExtensionPointTest() throws HopPluginException {
     ExtensionPointMap.getInstance().addExtensionPoint(pluginInterface);
-    assertEquals(
-        ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
+    assertEquals(ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
 
     // Verify cached instance
-    assertEquals(
-        ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
+    assertEquals(ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
     verify(pluginInterface, times(1)).loadClass(any(Class.class));
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,11 +22,9 @@ import org.apache.hop.core.ICheckResultSource;
 
 import java.util.List;
 
-/**
- * Boolean ANDs the results of all validators. If one validator fails, <code>false</code> is
+/** Boolean ANDs the results of all validators. If one validator fails, <code>false</code> is
  * immediately returned. The validators list (a <code>List&lt;IActionValidator></code>) should be
- * stored under the <code>KEY_VALIDATORS</code> key.
- */
+ * stored under the <code>KEY_VALIDATORS</code> key. */
 public class AndValidator implements IActionValidator {
 
   public static final AndValidator INSTANCE = new AndValidator();
@@ -36,11 +34,7 @@ public class AndValidator implements IActionValidator {
   private static final String VALIDATOR_NAME = "and";
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
 
     Object[] validators = (Object[]) context.get(KEY_VALIDATORS);
     for (Object validator : validators) {
@@ -62,24 +56,20 @@ public class AndValidator implements IActionValidator {
     return KEY_VALIDATORS;
   }
 
-  /**
-   * Uses varargs to conveniently add validators to the list of validators consumed by <code>
+  /** Uses varargs to conveniently add validators to the list of validators consumed by <code>
    * AndValidator</code>. This method creates and returns a new context.
    *
-   * @see #putValidators(ValidatorContext, IActionValidator[])
-   */
+   * @see #putValidators(ValidatorContext, IActionValidator[]) */
   public static ValidatorContext putValidators(IActionValidator... validators) {
     ValidatorContext context = new ValidatorContext();
     context.put(AndValidator.KEY_VALIDATORS, validators);
     return context;
   }
 
-  /**
-   * Uses varargs to conveniently add validators to the list of validators consumed by <code>
+  /** Uses varargs to conveniently add validators to the list of validators consumed by <code>
    * AndValidator</code>. This method adds to an existing map.
    *
-   * @see #putValidators(IActionValidator[])
-   */
+   * @see #putValidators(IActionValidator[]) */
   public static void putValidators(ValidatorContext context, IActionValidator... validators) {
     context.put(AndValidator.KEY_VALIDATORS, validators);
   }

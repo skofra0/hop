@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,13 +35,11 @@ public class BaseTransformConcurrencyTest {
 
   private BaseTransform<ITransformMeta, ITransformData> baseTransform;
 
-  /**
-   * Row listeners collection modifiers are exposed out of BaseTransform class, whereas the
+  /** Row listeners collection modifiers are exposed out of BaseTransform class, whereas the
    * collection traversal is happening on every row being processed.
-   *
-   * <p>We should be sure that modification of the collection will not throw a concurrent
-   * modification exception.
-   */
+   * <p>
+   * We should be sure that modification of the collection will not throw a concurrent
+   * modification exception. */
   @Test
   public void testRowListeners() throws Exception {
     int modifiersAmount = 100;
@@ -51,12 +49,9 @@ public class BaseTransformConcurrencyTest {
     PipelineMeta pipelineMeta = mock(PipelineMeta.class);
     when(transformMeta.getName()).thenReturn(TRANSFORM_META);
     when(pipelineMeta.findTransform(TRANSFORM_META)).thenReturn(transformMeta);
-    when(transformMeta.getTargetTransformPartitioningMeta())
-        .thenReturn(mock(TransformPartitioningMeta.class));
+    when(transformMeta.getTargetTransformPartitioningMeta()).thenReturn(mock(TransformPartitioningMeta.class));
 
-    baseTransform =
-        new BaseTransform(
-            transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
+    baseTransform = new BaseTransform(transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
 
     AtomicBoolean condition = new AtomicBoolean(true);
 
@@ -69,21 +64,17 @@ public class BaseTransformConcurrencyTest {
       rowListenersTraversers.add(new RowListenersTraverser(condition));
     }
 
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner<Object, Object>(
-            rowListenersModifiers, rowListenersTraversers, condition);
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner<Object, Object>(rowListenersModifiers, rowListenersTraversers, condition);
     runner.runConcurrentTest();
 
     runner.checkNoExceptionRaised();
   }
 
-  /**
-   * Row sets collection modifiers are exposed out of BaseTransform class, whereas the collection
+  /** Row sets collection modifiers are exposed out of BaseTransform class, whereas the collection
    * traversal is happening on every row being processed.
-   *
-   * <p>We should be sure that modification of the collection will not throw a concurrent
-   * modification exception.
-   */
+   * <p>
+   * We should be sure that modification of the collection will not throw a concurrent
+   * modification exception. */
   @Test
   public void testInputOutputRowSets() throws Exception {
     int modifiersAmount = 100;
@@ -93,12 +84,9 @@ public class BaseTransformConcurrencyTest {
     PipelineMeta pipelineMeta = mock(PipelineMeta.class);
     when(transformMeta.getName()).thenReturn(TRANSFORM_META);
     when(pipelineMeta.findTransform(TRANSFORM_META)).thenReturn(transformMeta);
-    when(transformMeta.getTargetTransformPartitioningMeta())
-        .thenReturn(mock(TransformPartitioningMeta.class));
+    when(transformMeta.getTargetTransformPartitioningMeta()).thenReturn(mock(TransformPartitioningMeta.class));
 
-    baseTransform =
-        new BaseTransform(
-            transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
+    baseTransform = new BaseTransform(transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
 
     AtomicBoolean condition = new AtomicBoolean(true);
 
@@ -111,8 +99,7 @@ public class BaseTransformConcurrencyTest {
       rowSetsTraversers.add(new RowSetsTraverser(condition));
     }
 
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner<Object, Object>(rowSetsModifiers, rowSetsTraversers, condition);
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner<Object, Object>(rowSetsModifiers, rowSetsTraversers, condition);
     runner.runConcurrentTest();
 
     runner.checkNoExceptionRaised();

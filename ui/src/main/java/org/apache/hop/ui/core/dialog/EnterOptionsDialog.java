@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -243,20 +243,15 @@ public class EnterOptionsDialog extends Dialog {
     fddFFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
 
     wdFFont.setLayoutData(fddFFont);
-    wdFFont.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            fixedFontData =
-                new FontData(
-                    PropsUi.getInstance().getFixedFont().getName(),
-                    PropsUi.getInstance().getFixedFont().getHeight(),
-                    PropsUi.getInstance().getFixedFont().getStyle());
-            fixedFont.dispose();
-            fixedFont = new Font(display, fixedFontData);
-            wFFont.redraw();
-          }
-        });
+    wdFFont.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        fixedFontData = new FontData(PropsUi.getInstance().getFixedFont().getName(), PropsUi.getInstance().getFixedFont().getHeight(), PropsUi.getInstance().getFixedFont().getStyle());
+        fixedFont.dispose();
+        fixedFont = new Font(display, fixedFontData);
+        wFFont.redraw();
+      }
+    });
 
     Button wbFFont = new Button(wLookComp, SWT.PUSH);
     props.setLook(wbFFont);
@@ -266,19 +261,17 @@ public class EnterOptionsDialog extends Dialog {
     fdbFFont.top = new FormAttachment(0, nr * h + margin);
     fdbFFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wbFFont.setLayoutData(fdbFFont);
-    wbFFont.addListener(
-        SWT.Selection,
-        e -> {
-          FontDialog fd = new FontDialog(shell);
-          fd.setFontList(new FontData[] {fixedFontData});
-          FontData newfd = fd.open();
-          if (newfd != null) {
-            fixedFontData = newfd;
-            fixedFont.dispose();
-            fixedFont = new Font(display, fixedFontData);
-            wFFont.redraw();
-          }
-        });
+    wbFFont.addListener(SWT.Selection, e -> {
+      FontDialog fd = new FontDialog(shell);
+      fd.setFontList(new FontData[] {fixedFontData});
+      FontData newfd = fd.open();
+      if (newfd != null) {
+        fixedFontData = newfd;
+        fixedFont.dispose();
+        fixedFont = new Font(display, fixedFontData);
+        wFFont.redraw();
+      }
+    });
 
     wFFont = new Canvas(wLookComp, SWT.BORDER);
     props.setLook(wFFont);
@@ -288,15 +281,14 @@ public class EnterOptionsDialog extends Dialog {
     fdFFont.top = new FormAttachment(0, margin);
     fdFFont.bottom = new FormAttachment(0, h);
     wFFont.setLayoutData(fdFFont);
-    wFFont.addPaintListener(
-        pe -> {
-          pe.gc.setFont(fixedFont);
-          Rectangle max = wFFont.getBounds();
-          String name = fixedFontData.getName() + " - " + fixedFontData.getHeight();
-          Point size = pe.gc.textExtent(name);
+    wFFont.addPaintListener(pe -> {
+      pe.gc.setFont(fixedFont);
+      Rectangle max = wFFont.getBounds();
+      String name = fixedFontData.getName() + " - " + fixedFontData.getHeight();
+      Point size = pe.gc.textExtent(name);
 
-          pe.gc.drawText(name, (max.width - size.x) / 2, (max.height - size.y) / 2, true);
-        });
+      pe.gc.drawText(name, (max.width - size.x) / 2, (max.height - size.y) / 2, true);
+    });
 
     // Graph font
     nr++;
@@ -317,15 +309,13 @@ public class EnterOptionsDialog extends Dialog {
     fddGFont.top = new FormAttachment(0, nr * h + margin);
     fddGFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wdGFont.setLayoutData(fddGFont);
-    wdGFont.addListener(
-        SWT.Selection,
-        e -> {
-          graphFont.dispose();
+    wdGFont.addListener(SWT.Selection, e -> {
+      graphFont.dispose();
 
-          graphFontData = props.getDefaultFontData();
-          graphFont = new Font(display, graphFontData);
-          wGFont.redraw();
-        });
+      graphFontData = props.getDefaultFontData();
+      graphFont = new Font(display, graphFontData);
+      wGFont.redraw();
+    });
 
     Button wbGFont = new Button(wLookComp, SWT.PUSH);
     props.setLook(wbGFont);
@@ -335,19 +325,17 @@ public class EnterOptionsDialog extends Dialog {
     fdbGFont.top = new FormAttachment(0, nr * h + margin);
     fdbGFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wbGFont.setLayoutData(fdbGFont);
-    wbGFont.addListener(
-        SWT.Selection,
-        e -> {
-          FontDialog fd = new FontDialog(shell);
-          fd.setFontList(new FontData[] {graphFontData});
-          FontData newfd = fd.open();
-          if (newfd != null) {
-            graphFontData = newfd;
-            graphFont.dispose();
-            graphFont = new Font(display, graphFontData);
-            wGFont.redraw();
-          }
-        });
+    wbGFont.addListener(SWT.Selection, e -> {
+      FontDialog fd = new FontDialog(shell);
+      fd.setFontList(new FontData[] {graphFontData});
+      FontData newfd = fd.open();
+      if (newfd != null) {
+        graphFontData = newfd;
+        graphFont.dispose();
+        graphFont = new Font(display, graphFontData);
+        wGFont.redraw();
+      }
+    });
 
     wGFont = new Canvas(wLookComp, SWT.BORDER);
     props.setLook(wGFont);
@@ -357,15 +345,14 @@ public class EnterOptionsDialog extends Dialog {
     fdGFont.top = new FormAttachment(0, nr * h + margin);
     fdGFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wGFont.setLayoutData(fdGFont);
-    wGFont.addPaintListener(
-        pe -> {
-          pe.gc.setFont(graphFont);
-          Rectangle max = wGFont.getBounds();
-          String name = graphFontData.getName() + " - " + graphFontData.getHeight();
-          Point size = pe.gc.textExtent(name);
+    wGFont.addPaintListener(pe -> {
+      pe.gc.setFont(graphFont);
+      Rectangle max = wGFont.getBounds();
+      String name = graphFontData.getName() + " - " + graphFontData.getHeight();
+      Point size = pe.gc.textExtent(name);
 
-          pe.gc.drawText(name, (max.width - size.x) / 2, (max.height - size.y) / 2, true);
-        });
+      pe.gc.drawText(name, (max.width - size.x) / 2, (max.height - size.y) / 2, true);
+    });
 
     // Note font
     nr++;
@@ -386,16 +373,15 @@ public class EnterOptionsDialog extends Dialog {
     fddNFont.top = new FormAttachment(0, nr * h + margin);
     fddNFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wdNFont.setLayoutData(fddNFont);
-    wdNFont.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            noteFontData = props.getDefaultFontData();
-            noteFont.dispose();
-            noteFont = new Font(display, noteFontData);
-            wNFont.redraw();
-          }
-        });
+    wdNFont.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        noteFontData = props.getDefaultFontData();
+        noteFont.dispose();
+        noteFont = new Font(display, noteFontData);
+        wNFont.redraw();
+      }
+    });
 
     Button wbNFont = new Button(wLookComp, SWT.PUSH);
     props.setLook(wbNFont);
@@ -405,21 +391,20 @@ public class EnterOptionsDialog extends Dialog {
     fdbNFont.top = new FormAttachment(0, nr * h + margin);
     fdbNFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wbNFont.setLayoutData(fdbNFont);
-    wbNFont.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            FontDialog fd = new FontDialog(shell);
-            fd.setFontList(new FontData[] {noteFontData});
-            FontData newfd = fd.open();
-            if (newfd != null) {
-              noteFontData = newfd;
-              noteFont.dispose();
-              noteFont = new Font(display, noteFontData);
-              wNFont.redraw();
-            }
-          }
-        });
+    wbNFont.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        FontDialog fd = new FontDialog(shell);
+        fd.setFontList(new FontData[] {noteFontData});
+        FontData newfd = fd.open();
+        if (newfd != null) {
+          noteFontData = newfd;
+          noteFont.dispose();
+          noteFont = new Font(display, noteFontData);
+          wNFont.redraw();
+        }
+      }
+    });
 
     wNFont = new Canvas(wLookComp, SWT.BORDER);
     props.setLook(wNFont);
@@ -429,15 +414,14 @@ public class EnterOptionsDialog extends Dialog {
     fdNFont.top = new FormAttachment(0, nr * h + margin);
     fdNFont.bottom = new FormAttachment(0, (nr + 1) * h + margin);
     wNFont.setLayoutData(fdNFont);
-    wNFont.addPaintListener(
-        pe -> {
-          pe.gc.setFont(noteFont);
-          Rectangle max = wNFont.getBounds();
-          String name = noteFontData.getName() + " - " + noteFontData.getHeight();
-          Point size = pe.gc.textExtent(name);
+    wNFont.addPaintListener(pe -> {
+      pe.gc.setFont(noteFont);
+      Rectangle max = wNFont.getBounds();
+      String name = noteFontData.getName() + " - " + noteFontData.getHeight();
+      Point size = pe.gc.textExtent(name);
 
-          pe.gc.drawText(name, (max.width - size.x) / 2, (max.height - size.y) / 2, true);
-        });
+      pe.gc.drawText(name, (max.width - size.x) / 2, (max.height - size.y) / 2, true);
+    });
 
     // IconSize line
     Label wlIconSize = new Label(wLookComp, SWT.RIGHT);
@@ -477,8 +461,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // MiddlePct line
     Label wlMiddlePct = new Label(wLookComp, SWT.RIGHT);
-    wlMiddlePct.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.DialogMiddlePercentage.Label"));
+    wlMiddlePct.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.DialogMiddlePercentage.Label"));
     props.setLook(wlMiddlePct);
     FormData fdlMiddlePct = new FormData();
     fdlMiddlePct.left = new FormAttachment(0, 0);
@@ -540,10 +523,8 @@ public class EnterOptionsDialog extends Dialog {
 
     // Show Canvas Grid
     Label wlShowCanvasGrid = new Label(wLookComp, SWT.RIGHT);
-    wlShowCanvasGrid.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.Label"));
-    wlShowCanvasGrid.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.ToolTip"));
+    wlShowCanvasGrid.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.Label"));
+    wlShowCanvasGrid.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.ToolTip"));
     props.setLook(wlShowCanvasGrid);
     FormData fdlShowCanvasGrid = new FormData();
     fdlShowCanvasGrid.left = new FormAttachment(0, 0);
@@ -597,9 +578,7 @@ public class EnterOptionsDialog extends Dialog {
     fdDefaultLocale.top = new FormAttachment(wlDefaultLocale, 0, SWT.CENTER);
     wDefaultLocale.setLayoutData(fdDefaultLocale);
     // language selections...
-    int idxDefault =
-        Const.indexOfString(
-            LanguageChoice.getInstance().getDefaultLocale().toString(), GlobalMessages.localeCodes);
+    int idxDefault = Const.indexOfString(LanguageChoice.getInstance().getDefaultLocale().toString(), GlobalMessages.localeCodes);
     if (idxDefault >= 0) {
       wDefaultLocale.select(idxDefault);
     }
@@ -639,8 +618,7 @@ public class EnterOptionsDialog extends Dialog {
     transformLayout.marginWidth = 3;
     transformLayout.marginHeight = 3;
 
-    ScrolledComposite sTransformComp =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite sTransformComp = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     sTransformComp.setLayout(new FillLayout());
 
     Composite wTransformComp = new Composite(sTransformComp, SWT.NONE);
@@ -649,8 +627,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // Use DB Cache?
     Label wlTableOutputSortMappings = new Label(wTransformComp, SWT.RIGHT);
-    wlTableOutputSortMappings.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.TableOutput.SortMappings.Label"));
+    wlTableOutputSortMappings.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.TableOutput.SortMappings.Label"));
     props.setLook(wlTableOutputSortMappings);
     FormData fdlSortMappings = new FormData();
     fdlSortMappings.left = new FormAttachment(0, 0);
@@ -733,8 +710,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // Default preview size
     Label wlDefaultPreview = new Label(wGeneralComp, SWT.RIGHT);
-    wlDefaultPreview.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.DefaultPreviewSize.Label"));
+    wlDefaultPreview.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.DefaultPreviewSize.Label"));
     props.setLook(wlDefaultPreview);
     FormData fdlDefaultPreview = new FormData();
     fdlDefaultPreview.left = new FormAttachment(0, 0);
@@ -819,8 +795,7 @@ public class EnterOptionsDialog extends Dialog {
     wlAutoSplit.setLayoutData(fdlAutoSplit);
     wAutoSplit = new Button(wGeneralComp, SWT.CHECK);
     props.setLook(wAutoSplit);
-    wAutoSplit.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.AutoSplitHops.Tooltip"));
+    wAutoSplit.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.AutoSplitHops.Tooltip"));
     wAutoSplit.setSelection(props.getAutoSplit());
     FormData fdAutoSplit = new FormData();
     fdAutoSplit.left = new FormAttachment(middle, 0);
@@ -831,8 +806,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // Show warning for copy / distribute...
     Label wlCopyDistrib = new Label(wGeneralComp, SWT.RIGHT);
-    wlCopyDistrib.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Label"));
+    wlCopyDistrib.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Label"));
     props.setLook(wlCopyDistrib);
     FormData fdlCopyDistrib = new FormData();
     fdlCopyDistrib.left = new FormAttachment(0, 0);
@@ -841,8 +815,7 @@ public class EnterOptionsDialog extends Dialog {
     wlCopyDistrib.setLayoutData(fdlCopyDistrib);
     wCopyDistrib = new Button(wGeneralComp, SWT.CHECK);
     props.setLook(wCopyDistrib);
-    wCopyDistrib.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Tooltip"));
+    wCopyDistrib.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Tooltip"));
     wCopyDistrib.setSelection(props.showCopyOrDistributeWarning());
     FormData fdCopyDistrib = new FormData();
     fdCopyDistrib.left = new FormAttachment(middle, 0);
@@ -872,8 +845,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // Clear custom parameters. (from transform)
     Label wlClearCustom = new Label(wGeneralComp, SWT.RIGHT);
-    wlClearCustom.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Label"));
+    wlClearCustom.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Label"));
     props.setLook(wlClearCustom);
     FormData fdlClearCustom = new FormData();
     fdlClearCustom.left = new FormAttachment(0, 0);
@@ -889,36 +861,28 @@ public class EnterOptionsDialog extends Dialog {
     fdClearCustom.left = new FormAttachment(middle, 0);
     fdClearCustom.top = new FormAttachment(wlClearCustom, 0, SWT.CENTER);
     wClearCustom.setLayoutData(fdClearCustom);
-    wClearCustom.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Tooltip"));
-    wClearCustom.addListener(
-        SWT.Selection,
-        e -> {
-          MessageBox mb = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Question"));
-          mb.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Title"));
-          int id = mb.open();
-          if (id == SWT.YES) {
-            try {
-              props.clearCustomParameters();
-              MessageBox ok = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-              ok.setMessage(
-                  BaseMessages.getString(
-                      PKG, "EnterOptionsDialog.ClearCustomParameters.Confirmation"));
-              ok.open();
-            } catch (Exception ex) {
-              new ErrorDialog(
-                  shell, "Error", "Error clearing custom parameters, saving config file", ex);
-            }
-          }
-        });
+    wClearCustom.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Tooltip"));
+    wClearCustom.addListener(SWT.Selection, e -> {
+      MessageBox mb = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+      mb.setMessage(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Question"));
+      mb.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Title"));
+      int id = mb.open();
+      if (id == SWT.YES) {
+        try {
+          props.clearCustomParameters();
+          MessageBox ok = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
+          ok.setMessage(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Confirmation"));
+          ok.open();
+        } catch (Exception ex) {
+          new ErrorDialog(shell, "Error", "Error clearing custom parameters, saving config file", ex);
+        }
+      }
+    });
     lastControl = wClearCustom;
 
     // Auto-collapse core objects tree branches?
     Label wlAutoCollapse = new Label(wGeneralComp, SWT.RIGHT);
-    wlAutoCollapse.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.EnableAutoCollapseCoreObjectTree.Label"));
+    wlAutoCollapse.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.EnableAutoCollapseCoreObjectTree.Label"));
     props.setLook(wlAutoCollapse);
     FormData fdlAutoCollapse = new FormData();
     fdlAutoCollapse.left = new FormAttachment(0, 0);
@@ -975,8 +939,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // Help tool tips
     Label wlUseDoubleClick = new Label(wGeneralComp, SWT.RIGHT);
-    wlUseDoubleClick.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.UseDoubleClickOnCanvas.Label"));
+    wlUseDoubleClick.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.UseDoubleClickOnCanvas.Label"));
     props.setLook(wlUseDoubleClick);
     FormData fdlUseDoubleClick = new FormData();
     fdlUseDoubleClick.left = new FormAttachment(0, 0);
@@ -995,8 +958,7 @@ public class EnterOptionsDialog extends Dialog {
 
     // Use global file bookmarks?
     Label wlUseGlobalFileBookmarks = new Label(wGeneralComp, SWT.RIGHT);
-    wlUseGlobalFileBookmarks.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.UseGlobalFileBookmarks.Label"));
+    wlUseGlobalFileBookmarks.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.UseGlobalFileBookmarks.Label"));
     props.setLook(wlUseGlobalFileBookmarks);
     FormData fdlUseGlobalFileBookmarks = new FormData();
     fdlUseGlobalFileBookmarks.left = new FormAttachment(0, 0);
@@ -1061,13 +1023,9 @@ public class EnterOptionsDialog extends Dialog {
           // Add a tab
           //
           CTabItem wPluginTab = new CTabItem(wTabFolder, SWT.NONE);
-          wPluginTab.setText(
-              Const.NVL(
-                  TranslateUtil.translate(annotation.description(), emptySourceData.getClass()),
-                  ""));
+          wPluginTab.setText(Const.NVL(TranslateUtil.translate(annotation.description(), emptySourceData.getClass()), ""));
 
-          ScrolledComposite sOtherComp =
-              new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+          ScrolledComposite sOtherComp = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
           sOtherComp.setLayout(new FormLayout());
 
           Composite wPluginsComp = new Composite(sOtherComp, SWT.NONE);
@@ -1075,8 +1033,7 @@ public class EnterOptionsDialog extends Dialog {
           wPluginsComp.setLayout(new FormLayout());
 
           GuiCompositeWidgets compositeWidgets = new GuiCompositeWidgets(hopGui.getVariables());
-          compositeWidgets.createCompositeWidgets(
-              sourceData, null, wPluginsComp, GUI_WIDGETS_PARENT_ID, null);
+          compositeWidgets.createCompositeWidgets(sourceData, null, wPluginsComp, GUI_WIDGETS_PARENT_ID, null);
           compositeWidgets.setWidgetsContents(sourceData, wPluginsComp, GUI_WIDGETS_PARENT_ID);
           if (sourceData instanceof IGuiPluginCompositeWidgetsListener) {
             compositeWidgets.setWidgetsListener((IGuiPluginCompositeWidgetsListener) sourceData);
@@ -1098,12 +1055,7 @@ public class EnterOptionsDialog extends Dialog {
         }
 
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            "Error",
-            "Error handling configuration options for config / GUI plugin "
-                + configPlugin.getIds()[0],
-            e);
+        new ErrorDialog(shell, "Error", "Error handling configuration options for config / GUI plugin " + configPlugin.getIds()[0], e);
       }
 
       // ///////////////////////////////////////////////////////////
@@ -1113,12 +1065,10 @@ public class EnterOptionsDialog extends Dialog {
     }
   }
 
-  /**
-   * Setting the layout of a <i>Reset</i> option button. Either a button image is set - if existing
+  /** Setting the layout of a <i>Reset</i> option button. Either a button image is set - if existing
    * - or a text.
    *
-   * @param button The button
-   */
+   * @param button The button */
   private FormData layoutResetOptionButton(Button button) {
     FormData fd = new FormData();
     Image editButton = GuiResource.getInstance().getImageResetOption();
@@ -1135,12 +1085,10 @@ public class EnterOptionsDialog extends Dialog {
     return fd;
   }
 
-  /**
-   * Setting the layout of an <i>Edit</i> option button. Either a button image is set - if existing
+  /** Setting the layout of an <i>Edit</i> option button. Either a button image is set - if existing
    * - or a text.
    *
-   * @param button The button
-   */
+   * @param button The button */
   private FormData layoutEditOptionButton(Button button) {
     FormData fd = new FormData();
     Image editButton = GuiResource.getInstance().getImageEdit();
@@ -1194,8 +1142,7 @@ public class EnterOptionsDialog extends Dialog {
     props.setMiddlePct(Const.toInt(wMiddlePct.getText(), props.getMiddlePct()));
     props.setCanvasGridSize(Const.toInt(wGridSize.getText(), 1));
 
-    props.setDefaultPreviewSize(
-        Const.toInt(wDefaultPreview.getText(), props.getDefaultPreviewSize()));
+    props.setDefaultPreviewSize(Const.toInt(wDefaultPreview.getText(), props.getDefaultPreviewSize()));
     props.setGlobalZoomFactor(Double.parseDouble(wGlobalZoom.getText().replace("%", "")) / 100);
 
     props.setUseDBCache(wUseCache.getSelection());
@@ -1228,25 +1175,13 @@ public class EnterOptionsDialog extends Dialog {
     //
     for (PluginWidgetContents contents : pluginWidgetContentsList) {
       if (contents.sourceData instanceof IGuiPluginCompositeWidgetsListener) {
-        ((IGuiPluginCompositeWidgetsListener) contents.sourceData)
-            .persistContents(contents.compositeWidgets);
+        ((IGuiPluginCompositeWidgetsListener) contents.sourceData).persistContents(contents.compositeWidgets);
       }
     }
 
     if ("Y".equalsIgnoreCase(props.getCustomParameter(STRING_USAGE_WARNING_PARAMETER, "Y"))) {
-      MessageDialogWithToggle md =
-          new MessageDialogWithToggle(
-              shell,
-              BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.DialogTitle"),
-              BaseMessages.getString(
-                      PKG, "EnterOptionsDialog.RestartWarning.DialogMessage", Const.CR)
-                  + Const.CR,
-              SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.Option1")
-              },
-              BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.Option2"),
-              "N".equalsIgnoreCase(props.getCustomParameter(STRING_USAGE_WARNING_PARAMETER, "Y")));
+      MessageDialogWithToggle md = new MessageDialogWithToggle(shell, BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.DialogTitle"), BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.DialogMessage", Const.CR) + Const.CR, SWT.ICON_WARNING,
+          new String[] {BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.Option1")}, BaseMessages.getString(PKG, "EnterOptionsDialog.RestartWarning.Option2"), "N".equalsIgnoreCase(props.getCustomParameter(STRING_USAGE_WARNING_PARAMETER, "Y")));
       md.open();
       props.setCustomParameter(STRING_USAGE_WARNING_PARAMETER, md.getToggleState() ? "N" : "Y");
     }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,22 +33,17 @@ import org.json.simple.parser.ParseException;
 
 import java.io.ByteArrayInputStream;
 
-/**
- * This metadata implementation is an in-memory metadata which serializes using JSON. In other
+/** This metadata implementation is an in-memory metadata which serializes using JSON. In other
  * words, JSON is read into memory as a MetaStore and then you can ask to serialize that information
- * to and from JSON.
- */
-public class SerializableMetadataProvider extends MemoryMetadataProvider
-    implements IHopMetadataProvider {
+ * to and from JSON. */
+public class SerializableMetadataProvider extends MemoryMetadataProvider implements IHopMetadataProvider {
   public SerializableMetadataProvider() {
     super();
   }
 
-  /**
-   * Create a copy of all elements in an existing metadata.
+  /** Create a copy of all elements in an existing metadata.
    *
-   * @param source the source store to copy over
-   */
+   * @param source the source store to copy over */
   public SerializableMetadataProvider(IHopMetadataProvider source) throws HopException {
 
     // What is the list of available classes?
@@ -75,11 +70,7 @@ public class SerializableMetadataProvider extends MemoryMetadataProvider
       IHopMetadataSerializer<IHopMetadata> serializer = getSerializer(metadataClass);
       HopMetadata hopMetadata = metadataClass.getAnnotation(HopMetadata.class);
       if (hopMetadata == null) {
-        throw new HopException(
-            "Error: class "
-                + metadataClass
-                + " is not annotated with "
-                + HopMetadata.class.getName());
+        throw new HopException("Error: class " + metadataClass + " is not annotated with " + HopMetadata.class.getName());
       }
       String classKey = hopMetadata.key();
 
@@ -122,8 +113,7 @@ public class SerializableMetadataProvider extends MemoryMetadataProvider
           String classKey = jsonParser.getText();
           Class<IHopMetadata> managedClass = getMetadataClassForKey(classKey);
 
-          JsonMetadataParser<IHopMetadata> metadataParser =
-              new JsonMetadataParser<>(managedClass, this);
+          JsonMetadataParser<IHopMetadata> metadataParser = new JsonMetadataParser<>(managedClass, this);
 
           IHopMetadataSerializer<IHopMetadata> serializer = getSerializer(managedClass);
 

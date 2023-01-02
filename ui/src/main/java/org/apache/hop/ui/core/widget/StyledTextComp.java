@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,12 +60,7 @@ public class StyledTextComp extends Composite {
     this(variables, parent, args, varsSensitive, false);
   }
 
-  public StyledTextComp(
-      IVariables variables,
-      Composite parent,
-      int args,
-      boolean varsSensitive,
-      boolean variableIconOnTop) {
+  public StyledTextComp(IVariables variables, Composite parent, int args, boolean varsSensitive, boolean variableIconOnTop) {
 
     super(parent, SWT.NONE);
     textWidget = new Text(this, args);
@@ -76,8 +71,7 @@ public class StyledTextComp extends Composite {
     buildingStyledTextMenu();
 
     // Default layout without variables
-    textWidget.setLayoutData(
-        new FormDataBuilder().top().left().right(100, 0).bottom(100, 0).result());
+    textWidget.setLayoutData(new FormDataBuilder().top().left().right(100, 0).bottom(100, 0).result());
 
     // Special layout for variables decorator
     if (varsSensitive) {
@@ -89,27 +83,14 @@ public class StyledTextComp extends Composite {
         wIcon.setToolTipText(BaseMessages.getString(PKG, "StyledTextComp.tooltip.InsertVariable"));
         wIcon.setImage(image);
         wIcon.setLayoutData(new FormDataBuilder().top().right(100, 0).result());
-        textWidget.setLayoutData(
-            new FormDataBuilder()
-                .top(new FormAttachment(wIcon, 0, 0))
-                .left()
-                .right(100, 0)
-                .bottom(100, 0)
-                .result());
+        textWidget.setLayoutData(new FormDataBuilder().top(new FormAttachment(wIcon, 0, 0)).left().right(100, 0).bottom(100, 0).result());
       } else {
         Label controlDecoration = new Label(this, SWT.NONE);
         controlDecoration.setImage(image);
-        controlDecoration.setToolTipText(
-            BaseMessages.getString(PKG, "StyledTextComp.tooltip.InsertVariable"));
+        controlDecoration.setToolTipText(BaseMessages.getString(PKG, "StyledTextComp.tooltip.InsertVariable"));
         PropsUi.getInstance().setLook(controlDecoration);
         controlDecoration.setLayoutData(new FormDataBuilder().top().right(100, 0).result());
-        textWidget.setLayoutData(
-            new FormDataBuilder()
-                .top()
-                .left()
-                .right(new FormAttachment(controlDecoration, 0, 0))
-                .bottom(100, 0)
-                .result());
+        textWidget.setLayoutData(new FormDataBuilder().top().left().right(new FormAttachment(controlDecoration, 0, 0)).bottom(100, 0).result());
       }
     }
   }
@@ -170,37 +151,31 @@ public class StyledTextComp extends Composite {
   private void buildingStyledTextMenu() {
     new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
     MenuItem cutItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
-    cutItem.setText(
-        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Cut")));
+    cutItem.setText(OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Cut")));
     cutItem.addListener(SWT.Selection, e -> textWidget.cut());
 
     MenuItem copyItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
-    copyItem.setText(
-        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Copy")));
+    copyItem.setText(OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Copy")));
     copyItem.addListener(SWT.Selection, e -> textWidget.copy());
 
     MenuItem pasteItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
-    pasteItem.setText(
-        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Paste")));
+    pasteItem.setText(OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Paste")));
     pasteItem.addListener(SWT.Selection, e -> textWidget.paste());
 
     MenuItem selectAllItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
-    selectAllItem.setText(
-        OsHelper.customizeMenuitemText(
-            BaseMessages.getString(PKG, "WidgetDialog.Styled.SelectAll")));
+    selectAllItem.setText(OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.SelectAll")));
     selectAllItem.addListener(SWT.Selection, e -> textWidget.selectAll());
 
-    textWidget.addMenuDetectListener(
-        e -> {
-          styledTextPopupmenu.getItem(2).setEnabled(checkPaste());
-          if (textWidget.getSelectionCount() > 0) {
-            styledTextPopupmenu.getItem(0).setEnabled(true);
-            styledTextPopupmenu.getItem(1).setEnabled(true);
-          } else {
-            styledTextPopupmenu.getItem(0).setEnabled(false);
-            styledTextPopupmenu.getItem(1).setEnabled(false);
-          }
-        });
+    textWidget.addMenuDetectListener(e -> {
+      styledTextPopupmenu.getItem(2).setEnabled(checkPaste());
+      if (textWidget.getSelectionCount() > 0) {
+        styledTextPopupmenu.getItem(0).setEnabled(true);
+        styledTextPopupmenu.getItem(1).setEnabled(true);
+      } else {
+        styledTextPopupmenu.getItem(0).setEnabled(false);
+        styledTextPopupmenu.getItem(1).setEnabled(false);
+      }
+    });
     textWidget.setMenu(styledTextPopupmenu);
   }
 
@@ -240,16 +215,11 @@ public class StyledTextComp extends Composite {
   public void setEnabled(boolean enabled) {
     textWidget.setEnabled(enabled);
     if (Display.getDefault() != null) {
-      Color foreground =
-          Display.getDefault().getSystemColor(enabled ? SWT.COLOR_BLACK : SWT.COLOR_DARK_GRAY);
-      Color background =
-          Display.getDefault()
-              .getSystemColor(enabled ? SWT.COLOR_WHITE : SWT.COLOR_WIDGET_BACKGROUND);
+      Color foreground = Display.getDefault().getSystemColor(enabled ? SWT.COLOR_BLACK : SWT.COLOR_DARK_GRAY);
+      Color background = Display.getDefault().getSystemColor(enabled ? SWT.COLOR_WHITE : SWT.COLOR_WIDGET_BACKGROUND);
       GuiResource guiResource = GuiResource.getInstance();
-      textWidget.setForeground(
-          guiResource.getColor(foreground.getRed(), foreground.getGreen(), foreground.getBlue()));
-      textWidget.setBackground(
-          guiResource.getColor(background.getRed(), background.getGreen(), background.getBlue()));
+      textWidget.setForeground(guiResource.getColor(foreground.getRed(), foreground.getGreen(), foreground.getBlue()));
+      textWidget.setBackground(guiResource.getColor(background.getRed(), background.getGreen(), background.getBlue()));
     }
   }
 
@@ -281,9 +251,7 @@ public class StyledTextComp extends Composite {
 
     int columnNumber = 1;
     int textPosition = textWidget.getCaretPosition();
-    while (textPosition > 0
-        && text.charAt(textPosition - 1) != '\n'
-        && text.charAt(textPosition - 1) != '\r') {
+    while (textPosition > 0 && text.charAt(textPosition - 1) != '\n' && text.charAt(textPosition - 1) != '\r') {
       textPosition--;
       columnNumber++;
     }

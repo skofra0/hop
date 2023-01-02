@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,21 +26,17 @@ public class ManagedFont {
   private Font font;
   private boolean systemFont;
 
-  /**
-   * @param font The font
-   * @param systemFont true if this is a system font and doesn't need to be disposed off
-   */
+  /** @param font The font
+   * @param systemFont true if this is a system font and doesn't need to be disposed off */
   public ManagedFont(Font font, boolean systemFont) {
     this.font = font;
     this.systemFont = systemFont;
   }
 
-  /**
-   * Create a new managed font by using fontdata
+  /** Create a new managed font by using fontdata
    *
    * @param display the display to use
-   * @param fontData The fontdata to create the font with.
-   */
+   * @param fontData The fontdata to create the font with. */
   public ManagedFont(Display display, FontData fontData) {
     this.font = new Font(display, fontData);
     this.systemFont = false;

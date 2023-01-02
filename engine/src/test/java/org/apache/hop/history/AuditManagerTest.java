@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,8 @@ import static org.mockito.Mockito.*;
 
 public class AuditManagerTest {
 
-  @Rule public TemporaryFolder testFolder = new TemporaryFolder();
+  @Rule
+  public TemporaryFolder testFolder = new TemporaryFolder();
 
   @Test
   public void testSingleton() {
@@ -91,8 +92,7 @@ public class AuditManagerTest {
   @Ignore // TODO Race condition with other test data, works fine when run stand-alone
   @Test
   public void testFindAllEventsWithDefaultAuditManager() throws HopException {
-    AuditManager.getInstance()
-        .setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
+    AuditManager.getInstance().setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
     String group = "testFindAllEventsWithDefaultAuditManager";
     AuditManager.clearEvents();
     AuditManager.registerEvent(group, "type1", "name1", "operation1");
@@ -108,8 +108,7 @@ public class AuditManagerTest {
 
   @Test
   public void testFindUniqueEventsWithDefaultAuditManager() throws HopException {
-    AuditManager.getInstance()
-        .setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
+    AuditManager.getInstance().setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
     String group = "testFindUniqueEventsWithDefaultAuditManager";
     AuditManager.clearEvents();
     AuditManager.registerEvent(group, "type1", "name1", "operation1");
@@ -140,20 +139,13 @@ public class AuditManagerTest {
   public void testClearEvents() throws HopException {
     // TODO: figure out why this fails in windows
     if (!SystemUtils.IS_OS_WINDOWS) {
-      AuditManager.getInstance()
-          .setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
+      AuditManager.getInstance().setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
       String group = "testClearEvents";
       AuditManager.registerEvent(group, "type1", "name1", "operation1");
       AuditManager.registerEvent(group, "type1", "name1", "operation1");
-      assertEquals(
-          "Problem in registering event",
-          2,
-          AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
+      assertEquals("Problem in registering event", 2, AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
       AuditManager.clearEvents();
-      assertEquals(
-          "Problem in clearning event",
-          0,
-          AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
+      assertEquals("Problem in clearning event", 0, AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
     }
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,34 +28,26 @@ public interface IMetadataEditor<T extends IHopMetadata> {
 
   void setMetadata(T metadata);
 
-  /**
-   * Return the title of the editor
+  /** Return the title of the editor
    *
-   * @return The title of this editor
-   */
+   * @return The title of this editor */
   String getTitle();
 
-  /**
-   * Returns the title image of this editor
+  /** Returns the title image of this editor
    *
-   * @return
-   */
+   * @return */
   Image getTitleImage();
 
-  /**
-   * Returns the title tool tip text of this editor
+  /** Returns the title tool tip text of this editor
    *
-   * @return
-   */
+   * @return */
   String getTitleToolTip();
 
   void createControl(Composite _parent);
 
-  /**
-   * Returns whether the contents of this editor have changed since the last save operation.
+  /** Returns whether the contents of this editor have changed since the last save operation.
    *
-   * @return
-   */
+   * @return */
   boolean hasChanged();
 
   /** Flag the editor as changed */

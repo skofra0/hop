@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,14 +60,10 @@ public class ModPartitioner extends BasePartitioner {
   }
 
   @Override
-  public int getPartition(IVariables variables, IRowMeta rowMeta, Object[] row)
-      throws HopException {
+  public int getPartition(IVariables variables, IRowMeta rowMeta, Object[] row) throws HopException {
 
     if (rowMeta == null) {
-      throw new HopException(
-          "No row metadata was provided and so a partition can't be calculated on field '"
-              + fieldName
-              + "' using a mod partitioner");
+      throw new HopException("No row metadata was provided and so a partition can't be calculated on field '" + fieldName + "' using a mod partitioner");
     }
 
     init(variables, rowMeta);
@@ -75,11 +71,7 @@ public class ModPartitioner extends BasePartitioner {
     if (partitionColumnIndex < 0) {
       partitionColumnIndex = rowMeta.indexOfValue(fieldName);
       if (partitionColumnIndex < 0) {
-        throw new HopTransformException(
-            "Unable to find partitioning field name ["
-                + fieldName
-                + "] in the output row..."
-                + rowMeta);
+        throw new HopTransformException("Unable to find partitioning field name [" + fieldName + "] in the output row..." + rowMeta);
       }
     }
 

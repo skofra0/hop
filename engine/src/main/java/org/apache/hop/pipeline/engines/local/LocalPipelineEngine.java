@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,10 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@PipelineEnginePlugin(
-    id = "Local",
-    name = "Hop local pipeline engine",
-    description = "Executes your pipeline locally in a multi-threaded fashion")
+@PipelineEnginePlugin(id = "Local", name = "Hop local pipeline engine", description = "Executes your pipeline locally in a multi-threaded fashion")
 public class LocalPipelineEngine extends Pipeline implements IPipelineEngine<PipelineMeta> {
 
   private PipelineEngineCapabilities engineCapabilities = new LocalPipelineEngineCapabilities();
@@ -59,15 +56,12 @@ public class LocalPipelineEngine extends Pipeline implements IPipelineEngine<Pip
     setDefaultRunConfiguration();
   }
 
-  public LocalPipelineEngine(
-      PipelineMeta pipelineMeta, IVariables variables, ILoggingObject parent) {
+  public LocalPipelineEngine(PipelineMeta pipelineMeta, IVariables variables, ILoggingObject parent) {
     super(pipelineMeta, variables, parent);
     setDefaultRunConfiguration();
   }
 
-  public <Parent extends IVariables & INamedParameters> LocalPipelineEngine(
-      Parent parent, String name, String filename, IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public <Parent extends IVariables & INamedParameters> LocalPipelineEngine(Parent parent, String name, String filename, IHopMetadataProvider metadataProvider) throws HopException {
     super(parent, name, filename, metadataProvider);
     setDefaultRunConfiguration();
   }
@@ -78,23 +72,17 @@ public class LocalPipelineEngine extends Pipeline implements IPipelineEngine<Pip
   }
 
   private void setDefaultRunConfiguration() {
-    setPipelineRunConfiguration(
-        new PipelineRunConfiguration(
-            "local", "", new ArrayList<>(), createDefaultPipelineEngineRunConfiguration()));
+    setPipelineRunConfiguration(new PipelineRunConfiguration("local", "", new ArrayList<>(), createDefaultPipelineEngineRunConfiguration()));
   }
 
   @Override
   public void prepareExecution() throws HopException {
 
-    if (!(pipelineRunConfiguration.getEngineRunConfiguration()
-        instanceof LocalPipelineRunConfiguration)) {
-      throw new HopException(
-          "A local pipeline execution expects a local pipeline configuration, not an instance of class "
-              + pipelineRunConfiguration.getEngineRunConfiguration().getClass().getName());
+    if (!(pipelineRunConfiguration.getEngineRunConfiguration() instanceof LocalPipelineRunConfiguration)) {
+      throw new HopException("A local pipeline execution expects a local pipeline configuration, not an instance of class " + pipelineRunConfiguration.getEngineRunConfiguration().getClass().getName());
     }
 
-    LocalPipelineRunConfiguration config =
-        (LocalPipelineRunConfiguration) pipelineRunConfiguration.getEngineRunConfiguration();
+    LocalPipelineRunConfiguration config = (LocalPipelineRunConfiguration) pipelineRunConfiguration.getEngineRunConfiguration();
 
     int sizeRowsSet = Const.toInt(resolve(config.getRowSetSize()), Const.ROWS_IN_ROWSET);
     setRowSetSize(sizeRowsSet);
@@ -112,8 +100,7 @@ public class LocalPipelineEngine extends Pipeline implements IPipelineEngine<Pip
     }
     String connectionGroup = null;
     if (parentExtensionData != null) {
-      connectionGroup =
-          (String) parentExtensionData.getExtensionDataMap().get(Const.CONNECTION_GROUP);
+      connectionGroup = (String) parentExtensionData.getExtensionDataMap().get(Const.CONNECTION_GROUP);
     }
 
     // Create a new transaction group?
@@ -124,73 +111,45 @@ public class LocalPipelineEngine extends Pipeline implements IPipelineEngine<Pip
       connectionGroup = getPipelineMeta().getName() + " - " + UUID.randomUUID();
 
       // We also need to commit/rollback at the end of this pipeline...
-      // We only do this when we created a new group.  Never in a child
+      // We only do this when we created a new group. Never in a child
       //
-      addExecutionFinishedListener(
-          (IExecutionFinishedListener<IPipelineEngine>)
-              pipeline -> {
-                String group = (String) pipeline.getExtensionDataMap().get(Const.CONNECTION_GROUP);
-                List<Database> databases = DatabaseConnectionMap.getInstance().getDatabases(group);
-                Result result = pipeline.getResult();
-                for (Database database : databases) {
-                  // All fine?  Commit!
-                  //
-                  try {
-                    if (result.getResult() && !result.isStopped() && result.getNrErrors() == 0) {
-                      try {
-                        database.commit(true);
-                        pipeline
-                            .getLogChannel()
-                            .logBasic(
-                                "All transactions of database connection '"
-                                    + database.getDatabaseMeta().getName()
-                                    + "' were committed at the end of the pipeline!");
-                      } catch (HopDatabaseException e) {
-                        throw new HopException(
-                            "Error committing database connection "
-                                + database.getDatabaseMeta().getName(),
-                            e);
-                      }
-                    } else {
-                      try {
-                        database.rollback(true);
-                        pipeline
-                            .getLogChannel()
-                            .logBasic(
-                                "All transactions of database connection '"
-                                    + database.getDatabaseMeta().getName()
-                                    + "' were rolled back at the end of the pipeline!");
-                      } catch (HopDatabaseException e) {
-                        throw new HopException(
-                            "Error rolling back database connection "
-                                + database.getDatabaseMeta().getName(),
-                            e);
-                      }
-                    }
-                  } finally {
-                    // Always close connection!
-                    try {
-                      database.closeConnectionOnly();
-                      pipeline
-                          .getLogChannel()
-                          .logDebug(
-                              "Database connection '"
-                                  + database.getDatabaseMeta().getName()
-                                  + "' closed successfully!");
-                    } catch (HopDatabaseException hde) {
-                      pipeline
-                          .getLogChannel()
-                          .logError(
-                              "Error disconnecting from database - closeConnectionOnly failed:"
-                                  + Const.CR
-                                  + hde.getMessage());
-                      pipeline.getLogChannel().logError(Const.getStackTracker(hde));
-                    }
-                  }
-                  //Definitely remove the connection reference the connections map
-                  DatabaseConnectionMap.getInstance().removeConnection(group, null, database);
-                }
-              });
+      addExecutionFinishedListener((IExecutionFinishedListener<IPipelineEngine>) pipeline -> {
+        String group = (String) pipeline.getExtensionDataMap().get(Const.CONNECTION_GROUP);
+        List<Database> databases = DatabaseConnectionMap.getInstance().getDatabases(group);
+        Result result = pipeline.getResult();
+        for (Database database : databases) {
+          // All fine? Commit!
+          //
+          try {
+            if (result.getResult() && !result.isStopped() && result.getNrErrors() == 0) {
+              try {
+                database.commit(true);
+                pipeline.getLogChannel().logBasic("All transactions of database connection '" + database.getDatabaseMeta().getName() + "' were committed at the end of the pipeline!");
+              } catch (HopDatabaseException e) {
+                throw new HopException("Error committing database connection " + database.getDatabaseMeta().getName(), e);
+              }
+            } else {
+              try {
+                database.rollback(true);
+                pipeline.getLogChannel().logBasic("All transactions of database connection '" + database.getDatabaseMeta().getName() + "' were rolled back at the end of the pipeline!");
+              } catch (HopDatabaseException e) {
+                throw new HopException("Error rolling back database connection " + database.getDatabaseMeta().getName(), e);
+              }
+            }
+          } finally {
+            // Always close connection!
+            try {
+              database.closeConnectionOnly();
+              pipeline.getLogChannel().logDebug("Database connection '" + database.getDatabaseMeta().getName() + "' closed successfully!");
+            } catch (HopDatabaseException hde) {
+              pipeline.getLogChannel().logError("Error disconnecting from database - closeConnectionOnly failed:" + Const.CR + hde.getMessage());
+              pipeline.getLogChannel().logError(Const.getStackTracker(hde));
+            }
+          }
+          // Definitely remove the connection reference the connections map
+          DatabaseConnectionMap.getInstance().removeConnection(group, null, database);
+        }
+      });
     }
 
     // Signal that we're dealing with a connection group
@@ -206,11 +165,9 @@ public class LocalPipelineEngine extends Pipeline implements IPipelineEngine<Pip
     super.prepareExecution();
   }
 
-  /**
-   * Gets engineCapabilities
+  /** Gets engineCapabilities
    *
-   * @return value of engineCapabilities
-   */
+   * @return value of engineCapabilities */
   @Override
   public PipelineEngineCapabilities getEngineCapabilities() {
     return engineCapabilities;

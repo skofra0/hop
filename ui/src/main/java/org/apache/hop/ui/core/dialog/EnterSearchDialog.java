@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -135,8 +135,7 @@ public class EnterSearchDialog {
 
     // Filter line
     Label wlFilter = new Label(shell, SWT.RIGHT);
-    wlFilter.setText(
-        BaseMessages.getString(PKG, "EnterSearchDialog.FilterSelection.Label")); // Select filter
+    wlFilter.setText(BaseMessages.getString(PKG, "EnterSearchDialog.FilterSelection.Label")); // Select filter
     props.setLook(wlFilter);
     FormData fdlFilter = new FormData();
     fdlFilter.left = new FormAttachment(0, 0);
@@ -153,26 +152,23 @@ public class EnterSearchDialog {
 
     Button wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-    wOk.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            ok();
-          }
-        });
+    wOk.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ok();
+      }
+    });
 
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
-    wCancel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            cancel();
-          }
-        });
+    wCancel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        cancel();
+      }
+    });
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, props.getMargin(), wFilter);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, props.getMargin(), wFilter);
 
     getData();
 

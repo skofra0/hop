@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,42 +32,12 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "NoExtensionExplorerFileType",
-    name = "Text files without extensions",
-    description = "No extension files handling in the explorer perspective",
-    image = "ui/images/script-active.svg")
-public class NoExtensionExplorerFileType
-    extends BaseTextExplorerFileType<NoExtensionExplorerFileTypeHandler>
-    implements IExplorerFileType<NoExtensionExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "NoExtensionExplorerFileType", name = "Text files without extensions", description = "No extension files handling in the explorer perspective", image = "ui/images/script-active.svg")
+public class NoExtensionExplorerFileType extends BaseTextExplorerFileType<NoExtensionExplorerFileTypeHandler> implements IExplorerFileType<NoExtensionExplorerFileTypeHandler> {
 
   public NoExtensionExplorerFileType() {
-    super(
-        "Text files without extensions",
-        "",
-        new String[] {
-          "config",
-          ".gitignore",
-          ".profile",
-          ".bashrc",
-          ".gitconfig",
-          "Dockerfile",
-          "Jenkinsfile",
-          "README",
-          "READ.me"
-        },
-        new String[] {
-          "Config file",
-          "Git ignore file",
-          "Profile config",
-          "Bash startup script",
-          "Git config file",
-          "Docker file",
-          "Jenkins file",
-          "README file",
-          "README file"
-        },
-        FileTypeCapabilities.getCapabilities(IHopFileType.CAPABILITY_SAVE));
+    super("Text files without extensions", "", new String[] {"config", ".gitignore", ".profile", ".bashrc", ".gitconfig", "Dockerfile", "Jenkinsfile", "README", "READ.me"},
+        new String[] {"Config file", "Git ignore file", "Profile config", "Bash startup script", "Git config file", "Docker file", "Jenkins file", "README file", "README file"}, FileTypeCapabilities.getCapabilities(IHopFileType.CAPABILITY_SAVE));
   }
 
   @Override
@@ -84,14 +54,12 @@ public class NoExtensionExplorerFileType
   }
 
   @Override
-  public NoExtensionExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public NoExtensionExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new NoExtensionExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     // Not implemented
     return new EmptyHopFileTypeHandler();
   }

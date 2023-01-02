@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -65,13 +65,7 @@ public class SwingGUIResource {
           map.put(id, image);
         }
       } catch (Exception e) {
-        log.logError(
-            "Unable to load transform icon image for plugin: "
-                + plugin.getName()
-                + " (id="
-                + plugin.getIds()[0]
-                + ")",
-            e);
+        log.logError("Unable to load transform icon image for plugin: " + plugin.getName() + " (id=" + plugin.getIds()[0] + ")", e);
       }
     }
 
@@ -85,19 +79,12 @@ public class SwingGUIResource {
       try {
         SwingUniversalImageSvg image = getUniversalImageIcon(plugin);
         if (image == null) {
-          throw new HopException(
-              "Unable to find image file: " + plugin.getImageFile() + " for plugin: " + plugin);
+          throw new HopException("Unable to find image file: " + plugin.getImageFile() + " for plugin: " + plugin);
         }
 
         map.put(plugin.getIds()[0], image);
       } catch (Exception e) {
-        log.logError(
-            "Unable to load action icon image for plugin: "
-                + plugin.getName()
-                + " (id="
-                + plugin.getIds()[0]
-                + ")",
-            e);
+        log.logError("Unable to load action icon image for plugin: " + plugin.getName() + " (id=" + plugin.getIds()[0] + ")", e);
       }
     }
 
@@ -148,15 +135,12 @@ public class SwingGUIResource {
       }
 
       if (image == null) {
-        throw new HopException(
-            "Unable to find file: " + plugin.getImageFile() + " for plugin: " + plugin);
+        throw new HopException("Unable to find file: " + plugin.getImageFile() + " for plugin: " + plugin);
       }
 
       return image;
     } catch (Throwable e) {
-      throw new HopException(
-          "Unable to load image from file : '" + plugin.getImageFile() + "' for plugin: " + plugin,
-          e);
+      throw new HopException("Unable to load image from file : '" + plugin.getImageFile() + "' for plugin: " + plugin, e);
     }
   }
 

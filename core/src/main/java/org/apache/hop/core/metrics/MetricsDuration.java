@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,32 +31,21 @@ public class MetricsDuration {
   private Long duration;
   private Long count;
 
-  /**
-   * @param date
+  /** @param date
    * @param description
    * @param subject
    * @param logChannelId
-   * @param duration
-   */
-  public MetricsDuration(
-      Date date, String description, String subject, String logChannelId, Long duration) {
+   * @param duration */
+  public MetricsDuration(Date date, String description, String subject, String logChannelId, Long duration) {
     this(date, description, subject, logChannelId, duration, 1L);
   }
 
-  /**
-   * @param date
+  /** @param date
    * @param description
    * @param subject
    * @param logChannelId
-   * @param duration
-   */
-  public MetricsDuration(
-      Date date,
-      String description,
-      String subject,
-      String logChannelId,
-      Long duration,
-      Long count) {
+   * @param duration */
+  public MetricsDuration(Date date, String description, String subject, String logChannelId, Long duration, Long count) {
     this.date = date;
     this.description = description;
     this.subject = subject;
@@ -69,21 +58,9 @@ public class MetricsDuration {
   @Override
   public String toString() {
     if (Utils.isEmpty(subject)) {
-      return description
-          + " @ "
-          + StringUtil.getFormattedDateTime(date, true)
-          + " : "
-          + (duration == null ? "-" : duration.toString())
-          + (count == null ? "" : " (x" + count + ")");
+      return description + " @ " + StringUtil.getFormattedDateTime(date, true) + " : " + (duration == null ? "-" : duration.toString()) + (count == null ? "" : " (x" + count + ")");
     } else {
-      return description
-          + " / "
-          + subject
-          + " @ "
-          + StringUtil.getFormattedDateTime(date, true)
-          + " : "
-          + (duration == null ? "-" : duration.toString())
-          + (count == null ? "" : " (x" + count + ")");
+      return description + " / " + subject + " @ " + StringUtil.getFormattedDateTime(date, true) + " : " + (duration == null ? "-" : duration.toString()) + (count == null ? "" : " (x" + count + ")");
     }
   }
 

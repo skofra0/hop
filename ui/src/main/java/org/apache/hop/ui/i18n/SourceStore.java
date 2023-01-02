@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,11 +37,7 @@ public class SourceStore {
 
   private String sourceFolder;
 
-  public SourceStore(
-      ILogChannel log,
-      String locale,
-      String sourceFolder,
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
+  public SourceStore(ILogChannel log, String locale, String sourceFolder, Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
     this.log = log;
     this.locale = locale;
     this.sourceFolder = sourceFolder;
@@ -53,8 +49,7 @@ public class SourceStore {
   public void read(List<String> directories) throws HopException {
     Map<String, List<KeyOccurrence>> po = sourcePackageOccurrences.get(sourceFolder);
     for (String messagesPackage : po.keySet()) {
-      MessagesStore messagesStore =
-          new MessagesStore(locale, sourceFolder, messagesPackage, sourcePackageOccurrences);
+      MessagesStore messagesStore = new MessagesStore(locale, sourceFolder, messagesPackage, sourcePackageOccurrences);
       try {
         messagesStore.read(directories);
         messagesMap.put(messagesPackage, messagesStore);

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,22 +24,18 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Contains a buffer of rows. Getting rows from the buffer or putting rows in the buffer is
+/** Contains a buffer of rows. Getting rows from the buffer or putting rows in the buffer is
  * synchronized to allow concurrent use of multiple Threads.
- *
- * <p>This class also monitors the idle state of a IRowSet
- */
+ * <p>
+ * This class also monitors the idle state of a IRowSet */
 public class BlockingListeningRowSet extends BaseRowSet implements Comparable<IRowSet>, IRowSet {
   private BlockingQueue<Object[]> queArray;
 
   private AtomicBoolean blocking;
 
-  /**
-   * Create new non-blocking-queue with maxSize capacity.
+  /** Create new non-blocking-queue with maxSize capacity.
    *
-   * @param maxSize
-   */
+   * @param maxSize */
   public BlockingListeningRowSet(int maxSize) {
     super();
 

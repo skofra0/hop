@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class UtilsTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -84,8 +85,7 @@ public class UtilsTest {
   public void testResolvePassword() {
     String password = "password";
     // is supposed the password stays the same
-    assertSame(
-        password, Utils.resolvePassword(Variables.getADefaultVariableSpace(), password).intern());
+    assertSame(password, Utils.resolvePassword(Variables.getADefaultVariableSpace(), password).intern());
   }
 
   @Test
@@ -93,9 +93,7 @@ public class UtilsTest {
     String decPassword = "password";
     // is supposed encrypted with Encr.bat util
     String encPassword = "Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde";
-    assertSame(
-        decPassword,
-        Utils.resolvePassword(Variables.getADefaultVariableSpace(), encPassword).intern());
+    assertSame(decPassword, Utils.resolvePassword(Variables.getADefaultVariableSpace(), encPassword).intern());
   }
 
   @Test

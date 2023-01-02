@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,8 +22,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Singleton to help speed up lookups in an XML DOM tree.<br>
+/** Singleton to help speed up lookups in an XML DOM tree.<br>
  * The theory is that you often loop over occurrences of a certain tag in a Node.<br>
  * If there are 20 occurrences, you go from index 0..19.<br>
  * Every time we do the following<br>
@@ -57,21 +56,17 @@ public class XmlHandlerCache {
     return instance;
   }
 
-  /**
-   * Store a cache entry
+  /** Store a cache entry
    *
-   * @param entry The cache entry to store
-   */
+   * @param entry The cache entry to store */
   public void storeCache(XMlHandlerCacheEntry entry, int lastChildNr) {
     cache.put(entry, lastChildNr);
   }
 
-  /**
-   * Retrieve the last child were we left off...
+  /** Retrieve the last child were we left off...
    *
    * @param entry The cache entry to look for.
-   * @return the last child position or -1 if nothing was found.
-   */
+   * @return the last child position or -1 if nothing was found. */
   public int getLastChildNr(XMlHandlerCacheEntry entry) {
     Integer lastChildNr = cache.get(entry);
     if (lastChildNr != null) {
@@ -86,11 +81,9 @@ public class XmlHandlerCache {
     return cacheHits.get();
   }
 
-  /**
-   * Allows you to (re-)set the number of cache hits
+  /** Allows you to (re-)set the number of cache hits
    *
-   * @param cacheHits the number of cache hits.
-   */
+   * @param cacheHits the number of cache hits. */
   public void setCacheHits(int cacheHits) {
     this.cacheHits.set(cacheHits);
   }

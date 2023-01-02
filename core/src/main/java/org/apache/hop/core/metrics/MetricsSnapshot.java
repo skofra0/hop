@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,17 +33,14 @@ public class MetricsSnapshot implements IMetricsSnapshot {
   private String logChannelId;
   private Long value;
 
-  /**
-   * Create a new metrics snapshot
+  /** Create a new metrics snapshot
    *
    * @param type
    * @param metric the metric to use (ex. Connect to database)
    * @param subject the name of the metric subject (ex. the name of the database we're connecting
-   *     to)
-   * @param logChannelId
-   */
-  public MetricsSnapshot(
-      MetricsSnapshotType type, IMetrics metric, String subject, String logChannelId) {
+   *        to)
+   * @param logChannelId */
+  public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, String subject, String logChannelId) {
     this.date = new Date();
     this.type = type;
     this.metric = metric;
@@ -51,42 +48,34 @@ public class MetricsSnapshot implements IMetricsSnapshot {
     this.logChannelId = logChannelId;
   }
 
-  /**
-   * Create a new metrics snapshot without a subject
+  /** Create a new metrics snapshot without a subject
    *
    * @param type
    * @param description
-   * @param logChannelId
-   */
+   * @param logChannelId */
   public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, String logChannelId) {
     this(type, metric, null, logChannelId);
   }
 
-  /**
-   * Create a snapshot metric with a value.
+  /** Create a snapshot metric with a value.
    *
    * @param type The type. For metrics with a value it is usually MIN, MAX, SUM, COUNT, ...
    * @param metric The metric to use
    * @param subject The subject
    * @param value The value
-   * @param logChannelId The logging channel to reference.
-   */
-  public MetricsSnapshot(
-      MetricsSnapshotType type, IMetrics metric, String subject, long value, String logChannelId) {
+   * @param logChannelId The logging channel to reference. */
+  public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, String subject, long value, String logChannelId) {
     this(type, metric, subject, logChannelId);
     this.value = value;
   }
 
-  /**
-   * Create a snapshot metric with a value.
+  /** Create a snapshot metric with a value.
    *
    * @param type The type. For metrics with a value it is usually MIN, MAX, SUM, COUNT, ...
    * @param description The description
    * @param value The value
-   * @param logChannelId The logging channel to reference.
-   */
-  public MetricsSnapshot(
-      MetricsSnapshotType type, IMetrics metric, long value, String logChannelId) {
+   * @param logChannelId The logging channel to reference. */
+  public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, long value, String logChannelId) {
     this(type, metric, null, value, logChannelId);
   }
 
@@ -117,13 +106,7 @@ public class MetricsSnapshot implements IMetricsSnapshot {
       subject = "-";
     }
 
-    return subject
-        + " - "
-        + getKey()
-        + " @ "
-        + StringUtil.getFormattedDateTime(date, true)
-        + " : "
-        + type.toString();
+    return subject + " - " + getKey() + " @ " + StringUtil.getFormattedDateTime(date, true) + " : " + type.toString();
   }
 
   /** @return the date */

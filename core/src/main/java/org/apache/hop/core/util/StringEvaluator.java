@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,10 +31,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * This class evaluates strings and extracts a data type. It allows you to criteria after which the
- * analysis should be completed.
- */
+/** This class evaluates strings and extracts a data type. It allows you to criteria after which the
+ * analysis should be completed. */
 public class StringEvaluator {
 
   private Set<String> values;
@@ -49,10 +47,7 @@ public class StringEvaluator {
   private String[] dateFormats;
   private String[] numberFormats;
 
-  private static final String[] DEFAULT_NUMBER_FORMATS =
-      new String[] {
-        "#,###,###.#", "#.#", "#", "#.0", "#.00", "#.000", "#.0000", "#.00000", "#.000000", " #.0#"
-      };
+  private static final String[] DEFAULT_NUMBER_FORMATS = new String[] {"#,###,###.#", "#.#", "#", "#.0", "#.00", "#.000", "#.0000", "#.00000", "#.000000", " #.0#"};
 
   protected static final Pattern PRECISION_PATTERN = Pattern.compile("[^0-9#]");
 
@@ -64,12 +59,8 @@ public class StringEvaluator {
     this(tryTrimming, DEFAULT_NUMBER_FORMATS, Const.getDateFormats());
   }
 
-  public StringEvaluator(
-      boolean tryTrimming, List<String> numberFormats, List<String> dateFormats) {
-    this(
-        tryTrimming,
-        numberFormats.toArray(new String[numberFormats.size()]),
-        dateFormats.toArray(new String[dateFormats.size()]));
+  public StringEvaluator(boolean tryTrimming, List<String> numberFormats, List<String> dateFormats) {
+    this(tryTrimming, numberFormats.toArray(new String[numberFormats.size()]), dateFormats.toArray(new String[dateFormats.size()]));
   }
 
   public StringEvaluator(boolean tryTrimming, String[] numberFormats, String[] dateFormats) {
@@ -116,10 +107,7 @@ public class StringEvaluator {
         }
         if (StringUtils.isEmpty(value)) {
           cmm.incrementNrNull();
-        } else if (!("Y".equalsIgnoreCase(string)
-            || "N".equalsIgnoreCase(string)
-            || "TRUE".equalsIgnoreCase(string)
-            || "FALSE".equalsIgnoreCase(string))) {
+        } else if (!("Y".equalsIgnoreCase(string) || "N".equalsIgnoreCase(string) || "TRUE".equalsIgnoreCase(string) || "FALSE".equalsIgnoreCase(string))) {
           evaluationResults.remove(cmm);
         } else {
           cmm.incrementSuccesses();
@@ -153,17 +141,9 @@ public class StringEvaluator {
             int pos = 0;
             for (char c : value.toCharArray()) {
 
-              boolean currencySymbolMatch =
-                  !String.valueOf(c).equals(cmm.getConversionMeta().getCurrencySymbol())
-                      && c != '('
-                      && c != ')';
+              boolean currencySymbolMatch = !String.valueOf(c).equals(cmm.getConversionMeta().getCurrencySymbol()) && c != '(' && c != ')';
 
-              if (!Character.isDigit(c)
-                  && c != '.'
-                  && c != ','
-                  && !Character.isSpaceChar(c)
-                  && currencySymbolMatch
-                  && (pos > 0 && (c == '+' || c == '-')) // allow + & - at the 1st position
+              if (!Character.isDigit(c) && c != '.' && c != ',' && !Character.isSpaceChar(c) && currencySymbolMatch && (pos > 0 && (c == '+' || c == '-')) // allow + & - at the 1st position
               ) {
                 evaluationResults.remove(cmm);
                 stop = true;
@@ -173,8 +153,7 @@ public class StringEvaluator {
               // If the value contains a decimal or grouping symbol or some sort, it's not an
               // integer
               //
-              if ((c == '.' && cmm.getConversionMeta().isInteger())
-                  || (c == ',' && cmm.getConversionMeta().isInteger())) {
+              if ((c == '.' && cmm.getConversionMeta().isInteger()) || (c == ',' && cmm.getConversionMeta().isInteger())) {
                 evaluationResults.remove(cmm);
                 stop = true;
                 break;
@@ -299,8 +278,7 @@ public class StringEvaluator {
       // If there are Numbers and Integers, pick the integers...
       //
       if (containsInteger() && containsNumber()) {
-        for (Iterator<StringEvaluationResult> iterator = evaluationResults.iterator();
-            iterator.hasNext(); ) {
+        for (Iterator<StringEvaluationResult> iterator = evaluationResults.iterator(); iterator.hasNext();) {
           StringEvaluationResult result = iterator.next();
           if (maxPrecision == 0 && result.getConversionMeta().isNumber()) {
             // no precision, don't bother with a number
@@ -314,8 +292,7 @@ public class StringEvaluator {
       // If there are Dates and Integers, pick the dates...
       //
       if (containsInteger() && containsDate()) {
-        for (Iterator<StringEvaluationResult> iterator = evaluationResults.iterator();
-            iterator.hasNext(); ) {
+        for (Iterator<StringEvaluationResult> iterator = evaluationResults.iterator(); iterator.hasNext();) {
           StringEvaluationResult result = iterator.next();
           if (result.getConversionMeta().isInteger()) {
             iterator.remove();
@@ -326,32 +303,18 @@ public class StringEvaluator {
       Comparator<StringEvaluationResult> compare = null;
       if (containsDate()) {
         // want the longest format for dates
-        compare =
-            (r1, r2) -> {
-              Integer length1 =
-                  r1.getConversionMeta().getConversionMask() == null
-                      ? 0
-                      : r1.getConversionMeta().getConversionMask().length();
-              Integer length2 =
-                  r2.getConversionMeta().getConversionMask() == null
-                      ? 0
-                      : r2.getConversionMeta().getConversionMask().length();
-              return length2.compareTo(length1);
-            };
+        compare = (r1, r2) -> {
+          Integer length1 = r1.getConversionMeta().getConversionMask() == null ? 0 : r1.getConversionMeta().getConversionMask().length();
+          Integer length2 = r2.getConversionMeta().getConversionMask() == null ? 0 : r2.getConversionMeta().getConversionMask().length();
+          return length2.compareTo(length1);
+        };
       } else {
         // want the shortest format mask for numerics & integers
-        compare =
-            (r1, r2) -> {
-              Integer length1 =
-                  r1.getConversionMeta().getConversionMask() == null
-                      ? 0
-                      : r1.getConversionMeta().getConversionMask().length();
-              Integer length2 =
-                  r2.getConversionMeta().getConversionMask() == null
-                      ? 0
-                      : r2.getConversionMeta().getConversionMask().length();
-              return length1.compareTo(length2);
-            };
+        compare = (r1, r2) -> {
+          Integer length1 = r1.getConversionMeta().getConversionMask() == null ? 0 : r1.getConversionMeta().getConversionMask().length();
+          Integer length2 = r2.getConversionMeta().getConversionMask() == null ? 0 : r2.getConversionMeta().getConversionMask().length();
+          return length1.compareTo(length2);
+        };
       }
 
       Collections.sort(evaluationResults, compare);
@@ -381,15 +344,9 @@ public class StringEvaluator {
 
     int[] trimTypes;
     if (tryTrimming) {
-      trimTypes =
-          new int[] {
-            IValueMeta.TRIM_TYPE_NONE, IValueMeta.TRIM_TYPE_BOTH,
-          };
+      trimTypes = new int[] {IValueMeta.TRIM_TYPE_NONE, IValueMeta.TRIM_TYPE_BOTH,};
     } else {
-      trimTypes =
-          new int[] {
-            IValueMeta.TRIM_TYPE_NONE,
-          };
+      trimTypes = new int[] {IValueMeta.TRIM_TYPE_NONE,};
     }
 
     for (int trimType : trimTypes) {
@@ -401,10 +358,8 @@ public class StringEvaluator {
         evaluationResults.add(new StringEvaluationResult(conversionMeta));
       }
 
-      EvalResultBuilder numberUsBuilder =
-          new EvalResultBuilder("number-us", IValueMeta.TYPE_NUMBER, 15, trimType, ".", ",");
-      EvalResultBuilder numberEuBuilder =
-          new EvalResultBuilder("number-eu", IValueMeta.TYPE_NUMBER, 15, trimType, ",", ".");
+      EvalResultBuilder numberUsBuilder = new EvalResultBuilder("number-us", IValueMeta.TYPE_NUMBER, 15, trimType, ".", ",");
+      EvalResultBuilder numberEuBuilder = new EvalResultBuilder("number-eu", IValueMeta.TYPE_NUMBER, 15, trimType, ",", ".");
 
       for (String format : getNumberFormats()) {
 
@@ -424,16 +379,11 @@ public class StringEvaluator {
       IValueMeta conversionMeta = new ValueMetaNumber("number-currency");
       // replace the universal currency symbol with the locale's currency symbol for user
       // recognition
-      String currencyMask =
-          currencyFormat
-              .toLocalizedPattern()
-              .replace("\u00A4", currencyFormat.getCurrency().getSymbol());
+      String currencyMask = currencyFormat.toLocalizedPattern().replace("\u00A4", currencyFormat.getCurrency().getSymbol());
       conversionMeta.setConversionMask(currencyMask);
       conversionMeta.setTrimType(trimType);
-      conversionMeta.setDecimalSymbol(
-          String.valueOf(currencyFormat.getDecimalFormatSymbols().getDecimalSeparator()));
-      conversionMeta.setGroupingSymbol(
-          String.valueOf(currencyFormat.getDecimalFormatSymbols().getGroupingSeparator()));
+      conversionMeta.setDecimalSymbol(String.valueOf(currencyFormat.getDecimalFormatSymbols().getDecimalSeparator()));
+      conversionMeta.setGroupingSymbol(String.valueOf(currencyFormat.getDecimalFormatSymbols().getGroupingSeparator()));
       conversionMeta.setCurrencySymbol(currencyFormat.getCurrency().getSymbol());
       conversionMeta.setLength(15);
       int currencyPrecision = currencyFormat.getCurrency().getDefaultFractionDigits();
@@ -442,12 +392,9 @@ public class StringEvaluator {
       evaluationResults.add(new StringEvaluationResult(conversionMeta));
 
       // add same mask w/o currency symbol
-      String currencyMaskAsNumeric =
-          currencyMask.replaceAll(Pattern.quote(currencyFormat.getCurrency().getSymbol()), "");
-      evaluationResults.add(
-          numberUsBuilder.format(currencyMaskAsNumeric, currencyPrecision).build());
-      evaluationResults.add(
-          numberEuBuilder.format(currencyMaskAsNumeric, currencyPrecision).build());
+      String currencyMaskAsNumeric = currencyMask.replaceAll(Pattern.quote(currencyFormat.getCurrency().getSymbol()), "");
+      evaluationResults.add(numberUsBuilder.format(currencyMaskAsNumeric, currencyPrecision).build());
+      evaluationResults.add(numberEuBuilder.format(currencyMaskAsNumeric, currencyPrecision).build());
 
       // Integer
       //
@@ -489,10 +436,7 @@ public class StringEvaluator {
 
   protected static int determinePrecision(String numericFormat) {
     if (numericFormat != null) {
-      char decimalSymbol =
-          ((DecimalFormat) NumberFormat.getInstance())
-              .getDecimalFormatSymbols()
-              .getDecimalSeparator();
+      char decimalSymbol = ((DecimalFormat) NumberFormat.getInstance()).getDecimalFormatSymbols().getDecimalSeparator();
       int loc = numericFormat.lastIndexOf(decimalSymbol);
       if (loc >= 0 && loc < numericFormat.length()) {
         Matcher m = PRECISION_PATTERN.matcher(numericFormat.substring(loc + 1));
@@ -514,11 +458,9 @@ public class StringEvaluator {
     return values;
   }
 
-  /**
-   * Only list of successful evaluations returned.
+  /** Only list of successful evaluations returned.
    *
-   * @return The list of string evaluation results
-   */
+   * @return The list of string evaluation results */
   public List<StringEvaluationResult> getStringEvaluationResults() {
     List<StringEvaluationResult> result = new ArrayList<>();
     for (StringEvaluationResult ev : evaluationResults) {
@@ -561,18 +503,11 @@ public class StringEvaluator {
         meta.setPrecision(precision);
         return new StringEvaluationResult(meta);
       } catch (HopPluginException e) {
-        throw new RuntimeException(
-            "Unable to create a new value '" + name + "' of type '" + type + "'", e);
+        throw new RuntimeException("Unable to create a new value '" + name + "' of type '" + type + "'", e);
       }
     }
 
-    public EvalResultBuilder(
-        String name,
-        int type,
-        int length,
-        int trimType,
-        String decimalSymbol,
-        String groupingSymbol) {
+    public EvalResultBuilder(String name, int type, int length, int trimType, String decimalSymbol, String groupingSymbol) {
       this.name = name;
       this.type = type;
       this.length = length;

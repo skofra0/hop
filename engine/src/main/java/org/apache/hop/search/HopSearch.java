@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,28 +48,19 @@ import java.util.*;
 
 public class HopSearch implements Runnable, IHasHopMetadataProvider {
 
-  @Option(
-      names = {"-h", "--help"},
-      usageHelp = true,
-      description = "Displays this help message and quits.")
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "Displays this help message and quits.")
   private boolean helpRequested;
 
   @Parameters(description = "The string to search for")
   private String searchString;
 
-  @Option(
-      names = {"-i", "--case-insensitive"},
-      description = "Perform a case insensitive search")
+  @Option(names = {"-i", "--case-insensitive"}, description = "Perform a case insensitive search")
   private Boolean caseInsensitive;
 
-  @Option(
-      names = {"-x", "--regular-expression"},
-      description = "The specified search string is a regular expression")
+  @Option(names = {"-x", "--regular-expression"}, description = "The specified search string is a regular expression")
   private Boolean regularExpression;
 
-  @Option(
-      names = {"-l", "--print-locations"},
-      description = "Print which locations are being looked at")
+  @Option(names = {"-l", "--print-locations"}, description = "Print which locations are being looked at")
   private Boolean printLocations;
 
   private CommandLine cmd;
@@ -110,8 +101,7 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
       }
 
       if (searchablesLocations.isEmpty()) {
-        System.out.println(
-            "There were no locations found to search. Specify an option so that Hop knows where to look.");
+        System.out.println("There were no locations found to search. Specify an option so that Hop knows where to look.");
         System.exit(3);
       }
 
@@ -119,34 +109,24 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
       boolean isRegularExpression = regularExpression != null && regularExpression;
 
       SearchQuery searchQuery = new SearchQuery(searchString, isCaseSensitive, isRegularExpression);
-      System.out.println(
-          "Searching for ["
-              + searchString
-              + "]  Case sensitive? "
-              + isCaseSensitive
-              + "  Regular expression? "
-              + isRegularExpression);
+      System.out.println("Searching for [" + searchString + "]  Case sensitive? " + isCaseSensitive + "  Regular expression? " + isRegularExpression);
 
       // Get all the searchable analysers from the plugin registry...
       //
       Map<Class<ISearchableAnalyser>, ISearchableAnalyser> searchableAnalyserMap = new HashMap<>();
       PluginRegistry registry = PluginRegistry.getInstance();
       for (IPlugin analyserPlugin : registry.getPlugins(SearchableAnalyserPluginType.class)) {
-        ISearchableAnalyser searchableAnalyser =
-            (ISearchableAnalyser) registry.loadClass(analyserPlugin);
+        ISearchableAnalyser searchableAnalyser = (ISearchableAnalyser) registry.loadClass(analyserPlugin);
         searchableAnalyserMap.put(searchableAnalyser.getSearchableClass(), searchableAnalyser);
       }
 
       // Search!
       //
       for (ISearchablesLocation searchablesLocation : searchablesLocations) {
-        System.out.println(
-            "Searching in location : " + searchablesLocation.getLocationDescription());
-        System.out.println(
-            "-----------------------------------------------------------------------------------");
+        System.out.println("Searching in location : " + searchablesLocation.getLocationDescription());
+        System.out.println("-----------------------------------------------------------------------------------");
 
-        Iterator<ISearchable> iterator =
-            searchablesLocation.getSearchables(metadataProvider, variables);
+        Iterator<ISearchable> iterator = searchablesLocation.getSearchables(metadataProvider, variables);
         while (iterator.hasNext()) {
           // Load the next object
           //
@@ -161,23 +141,16 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
             //
             ISearchableAnalyser searchableAnalyser = searchableAnalyserMap.get(object.getClass());
             if (searchableAnalyser != null) {
-              List<ISearchResult> searchResults =
-                  searchableAnalyser.search(searchable, searchQuery);
+              List<ISearchResult> searchResults = searchableAnalyser.search(searchable, searchQuery);
 
               // Print the results...
               //
               for (ISearchResult searchResult : searchResults) {
-                String filename =
-                    variables.resolve(searchResult.getMatchingSearchable().getFilename());
+                String filename = variables.resolve(searchResult.getMatchingSearchable().getFilename());
                 if (StringUtils.isNotEmpty(filename)) {
                   System.out.print(filename + " : ");
                 }
-                System.out.print(
-                    searchResult.getComponent()
-                        + "("
-                        + Const.NVL(searchResult.getValue(), "")
-                        + ") : "
-                        + searchResult.getDescription());
+                System.out.print(searchResult.getComponent() + "(" + Const.NVL(searchResult.getValue(), "") + ") : " + searchResult.getDescription());
                 System.out.println();
               }
             }
@@ -207,11 +180,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), providers, variables);
   }
 
-  /**
-   * Gets cmd
+  /** Gets cmd
    *
-   * @return value of cmd
-   */
+   * @return value of cmd */
   public CommandLine getCmd() {
     return cmd;
   }
@@ -221,11 +192,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.cmd = cmd;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   @Override
   public MultiMetadataProvider getMetadataProvider() {
     return metadataProvider;
@@ -237,11 +206,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.metadataProvider = metadataProvider;
   }
 
-  /**
-   * Gets helpRequested
+  /** Gets helpRequested
    *
-   * @return value of helpRequested
-   */
+   * @return value of helpRequested */
   public boolean isHelpRequested() {
     return helpRequested;
   }
@@ -251,11 +218,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.helpRequested = helpRequested;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
@@ -265,11 +230,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.variables = variables;
   }
 
-  /**
-   * Gets searchablesLocations
+  /** Gets searchablesLocations
    *
-   * @return value of searchablesLocations
-   */
+   * @return value of searchablesLocations */
   public List<ISearchablesLocation> getSearchablesLocations() {
     return searchablesLocations;
   }
@@ -279,11 +242,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.searchablesLocations = searchablesLocations;
   }
 
-  /**
-   * Gets searchString
+  /** Gets searchString
    *
-   * @return value of searchString
-   */
+   * @return value of searchString */
   public String getSearchString() {
     return searchString;
   }
@@ -293,11 +254,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.searchString = searchString;
   }
 
-  /**
-   * Gets caseInsensitive
+  /** Gets caseInsensitive
    *
-   * @return value of caseInsensitive
-   */
+   * @return value of caseInsensitive */
   public Boolean getCaseInsensitive() {
     return caseInsensitive;
   }
@@ -307,11 +266,9 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
     this.caseInsensitive = caseInsensitive;
   }
 
-  /**
-   * Gets regularExpression
+  /** Gets regularExpression
    *
-   * @return value of regularExpression
-   */
+   * @return value of regularExpression */
   public Boolean getRegularExpression() {
     return regularExpression;
   }
@@ -330,12 +287,11 @@ public class HopSearch implements Runnable, IHasHopMetadataProvider {
 
       // Also register the search plugin type (usually only done for the GUI)
       // We don't want to load these in HopEnvironmnent.init() because for now it would
-      // only be useful in Hop GUI and Hop Search.  There is no need to slow down
+      // only be useful in Hop GUI and Hop Search. There is no need to slow down
       // Hop Run or Hop Server with this.
       //
       PluginRegistry registry = PluginRegistry.getInstance();
-      SearchableAnalyserPluginType searchableAnalyserPluginType =
-          SearchableAnalyserPluginType.getInstance();
+      SearchableAnalyserPluginType searchableAnalyserPluginType = SearchableAnalyserPluginType.getInstance();
       registry.addPluginType(searchableAnalyserPluginType);
       searchableAnalyserPluginType.searchPlugins();
 

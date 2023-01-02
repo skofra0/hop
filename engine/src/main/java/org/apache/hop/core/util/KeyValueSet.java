@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,12 +34,10 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
 
   private final Map<String, KeyValue<?>> entries = new TreeMap<>();
 
-  /**
-   * Add key value(s).
+  /** Add key value(s).
    *
    * @param keyValues key values to add.
-   * @return this.
-   */
+   * @return this. */
   public KeyValueSet add(final KeyValue<?>... keyValues) {
     for (KeyValue<?> keyValue : keyValues) {
       if (this.entries.containsKey(keyValue.getKey())) {
@@ -50,20 +48,16 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     return this;
   }
 
-  /**
-   * {@inheritDoc}
+  /** {@inheritDoc}
    *
-   * @see Iterable#iterator()
-   */
+   * @see Iterable#iterator() */
   @Override
   public Iterator<KeyValue<?>> iterator() {
     return this.keyValues().iterator();
   }
 
-  /**
-   * @param key the key.
-   * @return key value or null.
-   */
+  /** @param key the key.
+   * @return key value or null. */
   public KeyValue<?> get(final String key) {
     if (key == null) {
       return null;
@@ -71,21 +65,17 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     return this.entries.get(StringUtils.lowerCase(key));
   }
 
-  /**
-   * @param filter filter to use.
+  /** @param filter filter to use.
    * @return matching key values.
-   * @throws IllegalArgumentException if filter is null.
-   */
+   * @throws IllegalArgumentException if filter is null. */
   public List<KeyValue<?>> get(final Predicate filter) throws IllegalArgumentException {
     final AddClosureArrayList<KeyValue<?>> result = new AddClosureArrayList<>();
     this.walk(result, filter);
     return result;
   }
 
-  /**
-   * @param key the key.
-   * @return key value, never null.
-   */
+  /** @param key the key.
+   * @return key value, never null. */
   public KeyValue<?> getRequired(final String key) {
     final KeyValue<?> keyValue = this.get(key);
     if (keyValue == null) {
@@ -122,13 +112,11 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     return map;
   }
 
-  /**
-   * Walk entries.
+  /** Walk entries.
    *
    * @param handler handler to call.
    * @param filter filter to use.
-   * @throws IllegalArgumentException if closure or filter is null.
-   */
+   * @throws IllegalArgumentException if closure or filter is null. */
   public void walk(final Closure handler, final Predicate filter) throws IllegalArgumentException {
     Assert.assertNotNull(handler, "IHandler cannot be null");
     Assert.assertNotNull(filter, "Filter cannot be null");
@@ -139,20 +127,16 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     }
   }
 
-  /**
-   * Walk entries.
+  /** Walk entries.
    *
    * @param handler handler to call.
-   * @throws IllegalArgumentException if handler is null.
-   */
+   * @throws IllegalArgumentException if handler is null. */
   public void walk(final Closure handler) throws IllegalArgumentException {
     this.walk(handler, TruePredicate.INSTANCE);
   }
 
-  /**
-   * @param key the key.
-   * @return previous or null.
-   */
+  /** @param key the key.
+   * @return previous or null. */
   public KeyValue<?> remove(final String key) {
     if (key == null) {
       return null;
@@ -160,10 +144,8 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     return this.entries.remove(key);
   }
 
-  /**
-   * @param key key to test.
-   * @return true if ...
-   */
+  /** @param key key to test.
+   * @return true if ... */
   public boolean containsKey(final String key) {
     if (key == null) {
       return false;
@@ -181,11 +163,9 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     return this.entries.isEmpty();
   }
 
-  /**
-   * Clear entries.
+  /** Clear entries.
    *
-   * @return this.
-   */
+   * @return this. */
   public KeyValueSet clear() {
     this.entries.clear();
     return this;
@@ -200,11 +180,9 @@ public class KeyValueSet implements Iterable<KeyValue<?>>, Serializable {
     return builder.toString();
   }
 
-  /**
-   * {@inheritDoc}
+  /** {@inheritDoc}
    *
-   * @see Object#toString()
-   */
+   * @see Object#toString() */
   @Override
   public String toString() {
     final ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);

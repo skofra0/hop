@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,45 +26,37 @@ public class ManagedColor {
   private Color color;
   private boolean systemColor;
 
-  /**
-   * @param color The color
-   * @param systemColor true if this is a system color and doesn't need to be disposed off
-   */
+  /** @param color The color
+   * @param systemColor true if this is a system color and doesn't need to be disposed off */
   public ManagedColor(Color color, boolean systemColor) {
     this.color = color;
     this.systemColor = systemColor;
   }
 
-  /**
-   * Create a new managed color by using the Red Green & Blue values.
+  /** Create a new managed color by using the Red Green & Blue values.
    *
    * @param display
-   * @param rgb
-   */
+   * @param rgb */
   public ManagedColor(Display display, RGB rgb) {
     this.color = new Color(display, rgb);
     this.systemColor = false;
   }
 
-  /**
-   * Create a new managed color by using the Red Green & Blue values.
+  /** Create a new managed color by using the Red Green & Blue values.
    *
    * @param display
    * @param r Red composite
    * @param g Green composite
-   * @param b Blue composite
-   */
+   * @param b Blue composite */
   public ManagedColor(Display display, int r, int g, int b) {
     this.color = new Color(display, r, g, b);
     this.systemColor = false;
   }
 
-  /**
-   * Create a managed color by specifying the color (SWT.COLOR_*)
+  /** Create a managed color by specifying the color (SWT.COLOR_*)
    *
    * @param display
-   * @param color
-   */
+   * @param color */
   public ManagedColor(Display display, int color) {
     this.color = display.getSystemColor(color);
     this.systemColor = false;

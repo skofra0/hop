@@ -33,8 +33,6 @@ public class KettleConverter {
   public static final String XML_TAG_KETTLE_TRANSFORMATION_STEPS = "transformation-steps"; // NEXUS_MOD
   public static final String XML_TAG_KETTLE_JOB_ENTRIES = "job-jobentries"; // NEXUS_MOD
 
-  
-  
   private enum EntryType {
     TRANS, JOB, START, DUMMY, OTHER
   }
@@ -46,29 +44,28 @@ public class KettleConverter {
     super();
   }
 
-  
   public static Node checkForKettleTransformationSteps(Document doc, Node node) {
-    if (node==null || !node.hasChildNodes()) { // NEXUS-MOD KETTLE CONVERT
+    if (node == null || !node.hasChildNodes()) { // NEXUS-MOD KETTLE CONVERT
       node = XmlHandler.getSubNode(doc, KettleConverter.XML_TAG_KETTLE_TRANSFORMATION_STEPS);
-      if (node!=null && node.hasChildNodes()) {
+      if (node != null && node.hasChildNodes()) {
         KettleConverter converter = new KettleConverter();
         converter.processNode(doc, node, null);
       }
     }
     return node;
   }
-  
+
   public static Node checkForKettleJobEntries(Document doc, Node node) {
-    if (node==null || !node.hasChildNodes()) { // NEXUS-MOD KETTLE CONVERT
+    if (node == null || !node.hasChildNodes()) { // NEXUS-MOD KETTLE CONVERT
       node = XmlHandler.getSubNode(doc, KettleConverter.XML_TAG_KETTLE_JOB_ENTRIES);
-      if (node!=null && node.hasChildNodes()) {
+      if (node != null && node.hasChildNodes()) {
         KettleConverter converter = new KettleConverter();
         converter.processNode(doc, node, null);
       }
     }
     return node;
   }
-  
+
   private void renameNode(Document doc, Element element, String newElementName) {
     doc.renameNode(element, null, newElementName);
   }

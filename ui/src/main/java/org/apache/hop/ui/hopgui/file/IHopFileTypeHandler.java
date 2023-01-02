@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,42 +26,32 @@ import java.util.Map;
 /** This describes the main file operations for a supported Hop file */
 public interface IHopFileTypeHandler extends IActionContextHandlersProvider {
 
-  /**
-   * What is this handling? (pipeline, workflow, ...)
+  /** What is this handling? (pipeline, workflow, ...)
    *
-   * @return The subject being handled
-   */
+   * @return The subject being handled */
   Object getSubject();
 
-  /**
-   * Get the user friendly name of the file being handled
+  /** Get the user friendly name of the file being handled
    *
-   * @return The user friendly name
-   */
+   * @return The user friendly name */
   String getName();
 
-  /**
-   * Set the user friendly name of the underlying file
+  /** Set the user friendly name of the underlying file
    *
-   * @param name The user friendly name
-   */
+   * @param name The user friendly name */
   void setName(String name);
 
-  /**
-   * Get a hold of the file type details
+  /** Get a hold of the file type details
    *
-   * @return
-   */
+   * @return */
   IHopFileType getFileType();
 
   /** @return The filename of the hop file */
   String getFilename();
 
-  /**
-   * Change the filename of the hop file
+  /** Change the filename of the hop file
    *
-   * @param filename The new filename
-   */
+   * @param filename The new filename */
   void setFilename(String filename);
 
   /** Save the file without asking for a new filename */
@@ -91,10 +81,8 @@ public interface IHopFileTypeHandler extends IActionContextHandlersProvider {
   /** Refresh the graphical file representation after model changes */
   void redraw();
 
-  /**
-   * Update the toolbar, menus and so on. This is needed after a file, context or capabilities
-   * changes
-   */
+  /** Update the toolbar, menus and so on. This is needed after a file, context or capabilities
+   * changes */
   void updateGui();
 
   /** Select all items in the current files */
@@ -115,22 +103,18 @@ public interface IHopFileTypeHandler extends IActionContextHandlersProvider {
   /** Paste items from the clipboard */
   void pasteFromClipboard();
 
-  /**
-   * Perform any task needed to close a file, save it if needed
+  /** Perform any task needed to close a file, save it if needed
    *
    * @return true if the file is ready to close. Return false if there was a problem saving or any
-   *     other issue.
-   */
+   *         other issue. */
   boolean isCloseable();
 
   /** Actually close the file, remove it from the user interface. */
   void close();
 
-  /**
-   * See if there anything has been changed by the user
+  /** See if there anything has been changed by the user
    *
-   * @return true if there were changes worth saving, false if nothing has been changed.
-   */
+   * @return true if there were changes worth saving, false if nothing has been changed. */
   boolean hasChanged();
 
   /** Undo a change to the file */
@@ -139,21 +123,17 @@ public interface IHopFileTypeHandler extends IActionContextHandlersProvider {
   /** Redo a change to the file */
   void redo();
 
-  /**
-   * Describe the state properties of the file being handled: zoomLevel, scrollX, scrollY, active,
+  /** Describe the state properties of the file being handled: zoomLevel, scrollX, scrollY, active,
    * ...
    *
-   * @return The state properties
-   */
+   * @return The state properties */
   Map<String, Object> getStateProperties();
 
   void applyStateProperties(Map<String, Object> stateProperties);
 
-  /**
-   * The variables associated with the file. It's usually keeping internal variables and other file
+  /** The variables associated with the file. It's usually keeping internal variables and other file
    * specific settings like active unit test settings.
    *
-   * @return The variables associated with the loaded file
-   */
+   * @return The variables associated with the loaded file */
   IVariables getVariables();
 }

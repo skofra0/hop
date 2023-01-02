@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,11 +25,9 @@ import org.apache.hop.ui.hopgui.file.empty.EmptyFileType;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * This class helps the perspective plugins to keep track of their visualisation. The main principle
+/** This class helps the perspective plugins to keep track of their visualisation. The main principle
  * is that a perspective has it's own composite and draws on it. It's shown or not depending on what
- * is selected.
- */
+ * is selected. */
 public class HopPerspectiveManager {
 
   private HopGui hopGui;
@@ -71,12 +69,10 @@ public class HopPerspectiveManager {
     return null;
   }
 
-  /**
-   * Loop over all perspectives and see if any one of them recognises the object
+  /** Loop over all perspectives and see if any one of them recognises the object
    *
    * @param fileMetadata
-   * @return
-   */
+   * @return */
   public IHopFileType findFileTypeHandler(IHasFilename fileMetadata) {
     for (IHopPerspective perspective : getPerspectives()) {
       for (IHopFileType fileType : perspective.getSupportedHopFileTypes()) {
@@ -88,11 +84,9 @@ public class HopPerspectiveManager {
     return new EmptyFileType();
   }
 
-  /**
-   * Get a copy of all the handled/registered perspectives
+  /** Get a copy of all the handled/registered perspectives
    *
-   * @return All perspectives copied over in a new list
-   */
+   * @return All perspectives copied over in a new list */
   public List<IHopPerspective> getPerspectives() {
     return new ArrayList<>(perspectivesMap.values());
   }
@@ -118,8 +112,7 @@ public class HopPerspectiveManager {
   private List<Class<? extends IHopPerspective>> getSortedClasses() {
 
     List<Class<? extends IHopPerspective>> list = new ArrayList<>(perspectivesMap.keySet());
-    Collections.sort(
-        list, Comparator.comparing(c -> c.getAnnotation(HopPerspectivePlugin.class).id()));
+    Collections.sort(list, Comparator.comparing(c -> c.getAnnotation(HopPerspectivePlugin.class).id()));
     return list;
   }
 

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,37 +60,27 @@ public class EnterStringDialog extends Dialog {
 
   private char echoChar = 0;
 
-  /**
-   * This constructs without allowing for variable substitution. This constructor allows for
+  /** This constructs without allowing for variable substitution. This constructor allows for
    * backwards compatibility for objects that wish to create this object without variable
    * substitution.
    *
    * @param parent Parent gui object
    * @param string The string to display in the dialog
    * @param shellText
-   * @param lineText
-   */
+   * @param lineText */
   public EnterStringDialog(Shell parent, String string, String shellText, String lineText) {
     this(parent, string, shellText, lineText, false, null);
   }
 
-  /**
-   * Constructs with the ability to use environmental variable substitution.
+  /** Constructs with the ability to use environmental variable substitution.
    *
    * @param parent Parent gui object
    * @param string The string to display in the dialog
    * @param shellText
    * @param lineText
    * @param allowVariables Indicates to allow environmental substitution
-   * @param variables This object has the has the environmental variables
-   */
-  public EnterStringDialog(
-      Shell parent,
-      String string,
-      String shellText,
-      String lineText,
-      boolean allowVariables,
-      IVariables variables) {
+   * @param variables This object has the has the environmental variables */
+  public EnterStringDialog(Shell parent, String string, String shellText, String lineText, boolean allowVariables, IVariables variables) {
     super(parent, SWT.NONE);
     this.props = PropsUi.getInstance();
     this.string = string;
@@ -160,8 +150,7 @@ public class EnterStringDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     // Add listeners
     wOk.addListener(SWT.Selection, e -> ok());
@@ -217,11 +206,9 @@ public class EnterStringDialog extends Dialog {
     this.mandatory = mandatory;
   }
 
-  /**
-   * Gets echoChar
+  /** Gets echoChar
    *
-   * @return value of echoChar
-   */
+   * @return value of echoChar */
   public char getEchoChar() {
     return echoChar;
   }

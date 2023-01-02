@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,8 +39,7 @@ public class ResourceUtil {
 
   private static final Class<?> PKG = ResourceUtil.class; // For Translator
 
-  /**
-   * Serializes the referenced resource export interface (Workflow, Pipeline, Mapping, Transform,
+  /** Serializes the referenced resource export interface (Workflow, Pipeline, Mapping, Transform,
    * Action, etc) to a ZIP file.
    *
    * @param zipFilename The ZIP file to put the content in
@@ -48,28 +47,18 @@ public class ResourceUtil {
    * @param variables the variables to use for variable replacement
    * @param metadataProvider The metadata for which we want to include the metadata.json file
    * @param executionConfiguration The XML interface to inject into the resulting ZIP archive
-   *     (optional, can be null)
+   *        (optional, can be null)
    * @param injectFilename The name of the file for the XML to inject in the ZIP archive (optional,
-   *     can be null)
+   *        can be null)
    * @param sourceResourceFolderMapping The source folder to use as a reference for named resources,
-   *     typically something like ${PROJECT}
+   *        typically something like ${PROJECT}
    * @param targetResourceFolderMapping the target folder of named resources to translate to.
    * @param variablesMap The variables map of the execution configuration
    * @return The full VFS filename reference to the serialized export interface XML file in the ZIP
-   *     archive.
-   * @throws HopException in case anything goes wrong during serialization
-   */
-  public static final TopLevelResource serializeResourceExportInterface(
-      String zipFilename,
-      IResourceExport resourceExportInterface,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      IXml executionConfiguration,
-      String injectFilename,
-      String sourceResourceFolderMapping,
-      String targetResourceFolderMapping,
-      Map<String, String> variablesMap)
-      throws HopException {
+   *         archive.
+   * @throws HopException in case anything goes wrong during serialization */
+  public static final TopLevelResource serializeResourceExportInterface(String zipFilename, IResourceExport resourceExportInterface, IVariables variables, IHopMetadataProvider metadataProvider, IXml executionConfiguration, String injectFilename, String sourceResourceFolderMapping,
+      String targetResourceFolderMapping, Map<String, String> variablesMap) throws HopException {
 
     ZipOutputStream out = null;
 
@@ -78,9 +67,7 @@ public class ResourceUtil {
 
       IResourceNaming namingInterface = new SequenceResourceNaming();
 
-      String topLevelResource =
-          resourceExportInterface.exportResources(
-              variables, definitions, namingInterface, metadataProvider);
+      String topLevelResource = resourceExportInterface.exportResources(variables, definitions, namingInterface, metadataProvider);
 
       if (topLevelResource != null && !definitions.isEmpty()) {
 
@@ -91,15 +78,13 @@ public class ResourceUtil {
         // We have a list of these in the naming interface
         //
         Map<String, String> dirMap = namingInterface.getDirectoryMap();
-        if (StringUtils.isNotEmpty(sourceResourceFolderMapping)
-            && StringUtils.isNotEmpty(targetResourceFolderMapping)) {
-          FileObject sourceReference =
-              HopVfs.getFileObject(variables.resolve(sourceResourceFolderMapping));
+        if (StringUtils.isNotEmpty(sourceResourceFolderMapping) && StringUtils.isNotEmpty(targetResourceFolderMapping)) {
+          FileObject sourceReference = HopVfs.getFileObject(variables.resolve(sourceResourceFolderMapping));
 
           for (String sourceDirectory : dirMap.keySet()) {
             // Calculate the relative path compared to the source resource folder
             // From: ${PROJECT_HOME}/files
-            // To:   files
+            // To: files
             //
             FileObject source = HopVfs.getFileObject(variables.resolve(sourceDirectory));
             String relativePath = sourceReference.getName().getRelativeName(source.getName());
@@ -123,8 +108,7 @@ public class ResourceUtil {
         // We add an extra file definition which gets picked up below and zipped up.
         //
         if (executionConfiguration != null) {
-          ResourceDefinition resourceDefinition =
-              new ResourceDefinition(injectFilename, executionConfiguration.getXml(variables));
+          ResourceDefinition resourceDefinition = new ResourceDefinition(injectFilename, executionConfiguration.getXml(variables));
           definitions.put(injectFilename, resourceDefinition);
         }
 
@@ -141,12 +125,7 @@ public class ResourceUtil {
 
           ZipEntry zipEntry = new ZipEntry(resourceDefinition.getFilename());
 
-          String comment =
-              BaseMessages.getString(
-                  PKG,
-                  "ResourceUtil.SerializeResourceExportInterface.ZipEntryComment.OriginatingFile",
-                  filename,
-                  Const.NVL(resourceDefinition.getOrigin(), "-"));
+          String comment = BaseMessages.getString(PKG, "ResourceUtil.SerializeResourceExportInterface.ZipEntryComment.OriginatingFile", filename, Const.NVL(resourceDefinition.getOrigin(), "-"));
           zipEntry.setComment(comment);
           out.putNextEntry(zipEntry);
 
@@ -163,34 +142,24 @@ public class ResourceUtil {
         out.closeEntry();
 
         String zipURL = fileObject.getName().toString();
-        return new TopLevelResource(
-            topLevelResource, zipURL, "zip:" + zipURL + "!" + topLevelResource);
+        return new TopLevelResource(topLevelResource, zipURL, "zip:" + zipURL + "!" + topLevelResource);
       } else {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ResourceUtil.Exception.NoResourcesFoundToExport"));
+        throw new HopException(BaseMessages.getString(PKG, "ResourceUtil.Exception.NoResourcesFoundToExport"));
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG,
-              "ResourceUtil.Exception.ErrorSerializingExportInterface",
-              resourceExportInterface.toString()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "ResourceUtil.Exception.ErrorSerializingExportInterface", resourceExportInterface.toString()), e);
     } finally {
       if (out != null) {
         try {
           out.close();
         } catch (IOException e) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ResourceUtil.Exception.ErrorClosingZipStream", zipFilename));
+          throw new HopException(BaseMessages.getString(PKG, "ResourceUtil.Exception.ErrorClosingZipStream", zipFilename));
         }
       }
     }
   }
 
-  public static String getExplanation(
-      String zipFilename, String launchFile, IResourceExport resourceExportInterface) {
+  public static String getExplanation(String zipFilename, String launchFile, IResourceExport resourceExportInterface) {
 
     String commandString = "";
     if (Const.isWindows()) {
@@ -213,14 +182,7 @@ public class ResourceUtil {
       commandString += "'";
     }
 
-    String message =
-        BaseMessages.getString(
-            PKG,
-            "ResourceUtil.ExportResourcesExplanation",
-            zipFilename,
-            commandString,
-            launchFile,
-            Const.CR);
+    String message = BaseMessages.getString(PKG, "ResourceUtil.ExportResourcesExplanation", zipFilename, commandString, launchFile, Const.CR);
     return message;
   }
 }

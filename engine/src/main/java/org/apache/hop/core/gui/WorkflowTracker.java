@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,10 +31,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /** Responsible for tracking the execution of a workflow as a hierarchy. */
 public class WorkflowTracker<T extends WorkflowMeta> {
-  /**
-   * The trackers for each individual action. Since we invoke LinkedList.removeFirst() there is no
-   * sense in lurking the field behind the interface
-   */
+  /** The trackers for each individual action. Since we invoke LinkedList.removeFirst() there is no
+   * sense in lurking the field behind the interface */
   private LinkedList<WorkflowTracker> workflowTrackers;
 
   /** If the workflowTrackers list is empty, then this is the result */
@@ -53,15 +51,11 @@ public class WorkflowTracker<T extends WorkflowMeta> {
 
   /** @param workflowMeta the workflow metadata to keep track of (with maximum 5000 children) */
   public WorkflowTracker(T workflowMeta) {
-    this(
-        workflowMeta,
-        Const.toInt(EnvUtil.getSystemProperty(Const.HOP_MAX_WORKFLOW_TRACKER_SIZE), 5000));
+    this(workflowMeta, Const.toInt(EnvUtil.getSystemProperty(Const.HOP_MAX_WORKFLOW_TRACKER_SIZE), 5000));
   }
 
-  /**
-   * @param workflowMeta The workflow metadata to track
-   * @param maxChildren The maximum number of children to keep track of (1000 is the default)
-   */
+  /** @param workflowMeta The workflow metadata to track
+   * @param maxChildren The maximum number of children to keep track of (1000 is the default) */
   public WorkflowTracker(T workflowMeta, int maxChildren) {
     if (workflowMeta != null) {
       this.workflowName = workflowMeta.getName();
@@ -73,24 +67,20 @@ public class WorkflowTracker<T extends WorkflowMeta> {
     this.lock = new ReentrantReadWriteLock();
   }
 
-  /**
-   * Creates a workflow tracker with a single result (maxChildren children are kept)
+  /** Creates a workflow tracker with a single result (maxChildren children are kept)
    *
    * @param workflowMeta the workflow metadata to keep track of
-   * @param result the action result to track.
-   */
+   * @param result the action result to track. */
   public WorkflowTracker(T workflowMeta, ActionResult result) {
     this(workflowMeta);
     this.result = result;
   }
 
-  /**
-   * Creates a workflow tracker with a single result
+  /** Creates a workflow tracker with a single result
    *
    * @param workflowMeta the workflow metadata to keep track of
    * @param maxChildren The maximum number of children to keep track of
-   * @param result the action result to track.
-   */
+   * @param result the action result to track. */
   public WorkflowTracker(T workflowMeta, int maxChildren, ActionResult result) {
     this(workflowMeta, maxChildren);
     this.result = result;
@@ -127,12 +117,10 @@ public class WorkflowTracker<T extends WorkflowMeta> {
     }
   }
 
-  /**
-   * Returns a list that contains all workflow trackers. The list is created as a defensive copy of
+  /** Returns a list that contains all workflow trackers. The list is created as a defensive copy of
    * internal trackers' storage.
    *
-   * @return list of workflow trackers
-   */
+   * @return list of workflow trackers */
   public List<WorkflowTracker> getWorkflowTrackers() {
     lock.readLock().lock();
     try {
@@ -173,12 +161,10 @@ public class WorkflowTracker<T extends WorkflowMeta> {
     }
   }
 
-  /**
-   * Finds the WorkflowTracker for the action specified. Use this to
+  /** Finds the WorkflowTracker for the action specified. Use this to
    *
    * @param actionMeta The action to search the workflow tracker for
-   * @return The WorkflowTracker of null if none could be found...
-   */
+   * @return The WorkflowTracker of null if none could be found... */
   public WorkflowTracker findWorkflowTracker(ActionMeta actionMeta) {
     if (actionMeta.getName() == null) {
       return null;

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,11 +28,9 @@ public class SimpleResourceNaming implements IResourceNaming {
 
   private final Map<String, String> namedResources = new HashMap<>();
 
-  /**
-   * The fileSystemPrefix would be appropriate for something like:
-   *
-   * <p>zip://somefile.zip! or somefilesystem://export/folder/
-   */
+  /** The fileSystemPrefix would be appropriate for something like:
+   * <p>
+   * zip://somefile.zip! or somefilesystem://export/folder/ */
   private String fileSystemPrefix;
 
   private boolean useOriginalPathInTargetName;
@@ -53,19 +51,16 @@ public class SimpleResourceNaming implements IResourceNaming {
   }
 
   @Override
-  public String nameResource(FileObject fileObject, IVariables variables, boolean includeFileName)
-      throws FileSystemException {
+  public String nameResource(FileObject fileObject, IVariables variables, boolean includeFileName) throws FileSystemException {
     if (includeFileName) {
-      return handleDataFile(
-          fileObject.getName().getBaseName(), fileObject.getParent().getURL().toString(), "");
+      return handleDataFile(fileObject.getName().getBaseName(), fileObject.getParent().getURL().toString(), "");
     } else {
       return handleDataFile("", fileObject.getURL().toString(), "");
     }
   }
 
   @Override
-  public String nameResource(
-      String prefix, String originalFilePath, String extension, FileNamingType namingType) {
+  public String nameResource(String prefix, String originalFilePath, String extension, FileNamingType namingType) {
     switch (namingType) {
       case DATA_FILE:
         return handleDataFile(prefix, originalFilePath, extension);
@@ -102,8 +97,7 @@ public class SimpleResourceNaming implements IResourceNaming {
     assert prefix != null;
     assert extension != null;
 
-    String lookup =
-        (originalFilePath != null ? originalFilePath : "") + "/" + prefix + "." + extension;
+    String lookup = (originalFilePath != null ? originalFilePath : "") + "/" + prefix + "." + extension;
     String rtn = namedResources.get(lookup);
     if (rtn == null) {
       // Never generated a name for this... Generate a new file name
@@ -112,10 +106,7 @@ public class SimpleResourceNaming implements IResourceNaming {
         fixedPath = fixPath(originalFilePath);
       }
 
-      rtn =
-          (fileSystemPrefix != null ? fileSystemPrefix : "")
-              + (fixedPath != null ? fixedPath + (fixedPath.endsWith("/") ? "" : "/") : "")
-              + fixFileName(prefix, extension);
+      rtn = (fileSystemPrefix != null ? fileSystemPrefix : "") + (fixedPath != null ? fixedPath + (fixedPath.endsWith("/") ? "" : "/") : "") + fixFileName(prefix, extension);
 
       String ext = (extension.charAt(0) == '.' ? extension : "." + extension);
 
@@ -133,20 +124,18 @@ public class SimpleResourceNaming implements IResourceNaming {
     return null;
   }
 
-  /**
-   * We have a data file and we need to create a reference to this (relative/absolute) path name.
+  /** We have a data file and we need to create a reference to this (relative/absolute) path name.
    * The cleanest way to do this is by calculating the absolute filename. Then we put the path to
    * the file in a parameter that we remember.
-   *
-   * <p>FILE_LOCATION_01, FILE_LOCATION_02, etc.
-   *
-   * <p>We keep a unique list of parameters this way.
+   * <p>
+   * FILE_LOCATION_01, FILE_LOCATION_02, etc.
+   * <p>
+   * We keep a unique list of parameters this way.
    *
    * @param prefix the name of the file (foo.csv)
    * @param originalFilePath directory in which the file lives (file://path/to/foo/bar/)
    * @param extension ignored (null)
-   * @return the new filename including the created parameter...
-   */
+   * @return the new filename including the created parameter... */
   private String handleDataFile(String prefix, String originalFilePath, String extension) {
 
     // See if we find the path in the directory map that we have...
@@ -164,12 +153,10 @@ public class SimpleResourceNaming implements IResourceNaming {
     return "${" + parameter + "}/" + prefix;
   }
 
-  /**
-   * Create a parameter name from an path TODO: actually use the original path
+  /** Create a parameter name from an path TODO: actually use the original path
    *
    * @param originalFilePath
-   * @return the new parameter name
-   */
+   * @return the new parameter name */
   private String createNewParameterName(String originalFilePath) {
     parameterNr++;
     return "DATA_PATH_" + parameterNr;
@@ -198,8 +185,7 @@ public class SimpleResourceNaming implements IResourceNaming {
   private int getPrefixLength(String fileName) {
     if (fileName.charAt(1) == ':') { // Handle D:\foo\bar\
       return 3;
-    } else if (fileName.charAt(0) == '\\'
-        && fileName.charAt(1) == '\\') { // Handle \\server\sharename\foo\bar
+    } else if (fileName.charAt(0) == '\\' && fileName.charAt(1) == '\\') { // Handle \\server\sharename\foo\bar
       int start = 0;
       int slashesFound = 0;
       for (int i = 2; i < fileName.length(); i++) {
@@ -218,15 +204,13 @@ public class SimpleResourceNaming implements IResourceNaming {
     return 0;
   }
 
-  /**
-   * This method turns a friendly name which could contain all manner of invalid characters for a
+  /** This method turns a friendly name which could contain all manner of invalid characters for a
    * file name into one that's more conducive to being a file name.
    *
    * @param name The name to fix up.
    * @param extension the requested extension to see if we don't end up with 2 extensions (export of
-   *     XML to XML)
-   * @return
-   */
+   *        XML to XML)
+   * @return */
   protected String fixFileName(String name, String extension) {
     int length = name.length();
     if (name.endsWith("." + extension)) {
@@ -242,10 +226,7 @@ public class SimpleResourceNaming implements IResourceNaming {
       if (ch == ' ') {
         buff.append(ch);
       } else {
-        if ((ch <= '/')
-            || (ch >= ':' && ch <= '?')
-            || (ch >= '[' && ch <= '`')
-            || (ch >= '{' && ch <= '~')) {
+        if ((ch <= '/') || (ch >= ':' && ch <= '?') || (ch >= '[' && ch <= '`') || (ch >= '{' && ch <= '~')) {
           buff.append('_');
         } else {
           buff.append(ch);

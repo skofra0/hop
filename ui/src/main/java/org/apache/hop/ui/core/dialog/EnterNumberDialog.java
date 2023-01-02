@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,19 +57,12 @@ public class EnterNumberDialog extends Dialog {
     this(parent, samples, shellText, lineText, null);
   }
 
-  public EnterNumberDialog(
-      Shell parent,
-      int samples,
-      String shellText,
-      String lineText,
-      final String checkboxLabel,
-      final int width) {
+  public EnterNumberDialog(Shell parent, int samples, String shellText, String lineText, final String checkboxLabel, final int width) {
     this(parent, samples, shellText, lineText, checkboxLabel);
     this.width = width;
   }
 
-  public EnterNumberDialog(
-      Shell parent, int samples, String shellText, String lineText, final String checkboxLabel) {
+  public EnterNumberDialog(Shell parent, int samples, String shellText, String lineText, final String checkboxLabel) {
     super(parent, SWT.NONE);
     this.props = PropsUi.getInstance();
     this.samples = samples;
@@ -120,14 +113,13 @@ public class EnterNumberDialog extends Dialog {
       wCheckbox.setLayoutData(fdCheckbox);
 
       Label wlCheckbox = new Label(shell, SWT.LEFT);
-      wlCheckbox.addMouseListener(
-          new MouseAdapter() {
-            @Override
-            public void mouseDown(MouseEvent mouseEvent) {
-              // toggle the checkbox when the label is clicked
-              wCheckbox.setSelection(!wCheckbox.getSelection());
-            }
-          });
+      wlCheckbox.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseDown(MouseEvent mouseEvent) {
+          // toggle the checkbox when the label is clicked
+          wCheckbox.setSelection(!wCheckbox.getSelection());
+        }
+      });
       wlCheckbox.setText(checkboxLabel);
       props.setLook(wlCheckbox);
       FormData fdlCheckbox = new FormData();
@@ -145,16 +137,8 @@ public class EnterNumberDialog extends Dialog {
       wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     }
 
-    wCancel.setLayoutData(
-        new FormDataBuilder()
-            .top(lastControl, BaseDialog.ELEMENT_SPACING * 2)
-            .right(100, 0)
-            .result());
-    wOk.setLayoutData(
-        new FormDataBuilder()
-            .top(lastControl, BaseDialog.ELEMENT_SPACING * 2)
-            .right(wCancel, Const.isOSX() ? 0 : -BaseDialog.LABEL_SPACING)
-            .result());
+    wCancel.setLayoutData(new FormDataBuilder().top(lastControl, BaseDialog.ELEMENT_SPACING * 2).right(100, 0).result());
+    wOk.setLayoutData(new FormDataBuilder().top(lastControl, BaseDialog.ELEMENT_SPACING * 2).right(wCancel, Const.isOSX() ? 0 : -BaseDialog.LABEL_SPACING).result());
 
     // Add listeners
     wOk.addListener(SWT.Selection, e -> ok());

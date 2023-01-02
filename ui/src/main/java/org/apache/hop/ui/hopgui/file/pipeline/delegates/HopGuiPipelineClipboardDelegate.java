@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,11 +61,7 @@ public class HopGuiPipelineClipboardDelegate {
     try {
       GuiResource.getInstance().toClipboard(clipText);
     } catch (Throwable e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Title"),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Title"), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Message"), e);
     }
   }
 
@@ -73,11 +69,7 @@ public class HopGuiPipelineClipboardDelegate {
     try {
       return GuiResource.getInstance().fromClipboard();
     } catch (Throwable e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Title"),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Title"), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Message"), e);
       return null;
     }
   }
@@ -184,34 +176,26 @@ public class HopGuiPipelineClipboardDelegate {
       }
 
       // Set the error handling hops
-      Node errorHandlingNode =
-          XmlHandler.getSubNode(pipelineNode, PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING);
-      int nrErrorHandlers =
-          XmlHandler.countNodes(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG);
+      Node errorHandlingNode = XmlHandler.getSubNode(pipelineNode, PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING);
+      int nrErrorHandlers = XmlHandler.countNodes(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG);
       for (int i = 0; i < nrErrorHandlers; i++) {
-        Node transformErrorMetaNode =
-            XmlHandler.getSubNodeByNr(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG, i);
-        TransformErrorMeta transformErrorMeta =
-            new TransformErrorMeta(transformErrorMetaNode, pipelineMeta.getTransforms());
+        Node transformErrorMetaNode = XmlHandler.getSubNodeByNr(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG, i);
+        TransformErrorMeta transformErrorMeta = new TransformErrorMeta(transformErrorMetaNode, pipelineMeta.getTransforms());
 
         // Handle pasting multiple times, need to update source and target transform names
-        int srcTransformPos =
-            transformOldNames.indexOf(transformErrorMeta.getSourceTransform().getName());
+        int srcTransformPos = transformOldNames.indexOf(transformErrorMeta.getSourceTransform().getName());
         int tgtTransformPos = -1;
         if (transformErrorMeta.getTargetTransform() != null) {
-          tgtTransformPos =
-              transformOldNames.indexOf(transformErrorMeta.getTargetTransform().getName());
+          tgtTransformPos = transformOldNames.indexOf(transformErrorMeta.getTargetTransform().getName());
         }
-        TransformMeta sourceTransform =
-            pipelineMeta.findTransform(transforms[srcTransformPos].getName());
+        TransformMeta sourceTransform = pipelineMeta.findTransform(transforms[srcTransformPos].getName());
         if (sourceTransform != null) {
           sourceTransform.setTransformErrorMeta(transformErrorMeta);
         }
         sourceTransform.setTransformErrorMeta(null);
         if (tgtTransformPos >= 0) {
           sourceTransform.setTransformErrorMeta(transformErrorMeta);
-          TransformMeta targetTransform =
-              pipelineMeta.findTransform(transforms[tgtTransformPos].getName());
+          TransformMeta targetTransform = pipelineMeta.findTransform(transforms[tgtTransformPos].getName());
           transformErrorMeta.setSourceTransform(sourceTransform);
           transformErrorMeta.setTargetTransform(targetTransform);
         }
@@ -235,17 +219,12 @@ public class HopGuiPipelineClipboardDelegate {
     } catch (HopException e) {
       // "Error pasting transforms...",
       // "I was unable to paste transforms to this pipeline"
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteTransforms.Title"),
-          BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteTransforms.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteTransforms.Title"), BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteTransforms.Message"), e);
     }
     pipelineGraph.redraw();
   }
 
-  public void copySelected(
-      PipelineMeta pipelineMeta, List<TransformMeta> transforms, List<NotePadMeta> notes) {
+  public void copySelected(PipelineMeta pipelineMeta, List<TransformMeta> transforms, List<NotePadMeta> notes) {
     if (transforms == null || transforms.size() == 0) {
       return;
     }
@@ -283,15 +262,13 @@ public class HopGuiPipelineClipboardDelegate {
       }
       xml.append(XmlHandler.closeTag(PipelineMeta.XML_TAG_NOTEPADS)).append(Const.CR);
 
-      xml.append(XmlHandler.openTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING))
-          .append(Const.CR);
+      xml.append(XmlHandler.openTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING)).append(Const.CR);
       for (TransformMeta transform : transforms) {
         if (transform.getTransformErrorMeta() != null) {
           xml.append(transform.getTransformErrorMeta().getXml()).append(Const.CR);
         }
       }
-      xml.append(XmlHandler.closeTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING))
-          .append(Const.CR);
+      xml.append(XmlHandler.closeTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING)).append(Const.CR);
 
       xml.append(XmlHandler.closeTag(XML_TAG_PIPELINE_TRANSFORMS)).append(Const.CR);
 
@@ -301,11 +278,9 @@ public class HopGuiPipelineClipboardDelegate {
     }
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }
@@ -315,11 +290,9 @@ public class HopGuiPipelineClipboardDelegate {
     this.hopGui = hopGui;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiPipelineGraph getPipelineGraph() {
     return pipelineGraph;
   }

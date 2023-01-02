@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,28 +32,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Describes the result of the execution of a Pipeline or a Job. The information available includes
+/** Describes the result of the execution of a Pipeline or a Job. The information available includes
  * the following:
- *
  * <p>
- *
  * <ul>
- *   <li>Number of errors the workflow or pipeline encountered
- *   <li>Number of lines input
- *   <li>Number of lines output
- *   <li>Number of lines updated
- *   <li>Number of lines read
- *   <li>Number of lines written
- *   <li>Number of lines deleted
- *   <li>Number of lines rejected
- *   <li>Number of files retrieved
- *   <li>Boolean result of the execution
- *   <li>Exit status value
- *   <li>Whether the pipeline was stopped
- *   <li>Logging information (channel ID and text)
- *       <p>After execution of a workflow or pipeline, the Result can be evaluated.
- */
+ * <li>Number of errors the workflow or pipeline encountered
+ * <li>Number of lines input
+ * <li>Number of lines output
+ * <li>Number of lines updated
+ * <li>Number of lines read
+ * <li>Number of lines written
+ * <li>Number of lines deleted
+ * <li>Number of lines rejected
+ * <li>Number of files retrieved
+ * <li>Boolean result of the execution
+ * <li>Exit status value
+ * <li>Whether the pipeline was stopped
+ * <li>Logging information (channel ID and text)
+ * <p>
+ * After execution of a workflow or pipeline, the Result can be evaluated. */
 public class Result implements Cloneable {
 
   /** A constant specifying the tag value for the XML node of the result object */
@@ -143,21 +140,17 @@ public class Result implements Cloneable {
     entryNr = 0;
   }
 
-  /**
-   * Instantiates a new Result object, setting default values for all members and the entry number
+  /** Instantiates a new Result object, setting default values for all members and the entry number
    *
-   * @param nr the entry number for the Result
-   */
+   * @param nr the entry number for the Result */
   public Result(int nr) {
     this();
     this.entryNr = nr;
   }
 
-  /**
-   * Performs a semi-deep copy/clone but does not clone the rows from the Result
+  /** Performs a semi-deep copy/clone but does not clone the rows from the Result
    *
-   * @return An almost-clone of the Result, minus the rows
-   */
+   * @return An almost-clone of the Result, minus the rows */
   public Result lightClone() {
     // This light-weight clone doesn't clone rows
     try {
@@ -177,13 +170,11 @@ public class Result implements Cloneable {
     }
   }
 
-  /**
-   * Clones the Result, including rows and files. To perform a clone without rows, use lightClone()
+  /** Clones the Result, including rows and files. To perform a clone without rows, use lightClone()
    *
    * @return A clone of the Result object
    * @see Object#clone()
-   * @see Result#lightClone
-   */
+   * @see Result#lightClone */
   @Override
   public Result clone() {
     try {
@@ -213,256 +204,196 @@ public class Result implements Cloneable {
     }
   }
 
-  /**
-   * Returns a string representation of the Result object
+  /** Returns a string representation of the Result object
    *
-   * @see Object#toString()
-   */
+   * @see Object#toString() */
   @Override
   public String toString() {
-    return "nr="
-        + entryNr
-        + ", errors="
-        + nrErrors
-        + ", exit_status="
-        + exitStatus
-        + (stopped ? " (Stopped)" : "" + ", result=" + result);
+    return "nr=" + entryNr + ", errors=" + nrErrors + ", exit_status=" + exitStatus + (stopped ? " (Stopped)" : "" + ", result=" + result);
   }
 
-  /**
-   * Returns the number of files retrieved during execution of this pipeline or workflow
+  /** Returns the number of files retrieved during execution of this pipeline or workflow
    *
-   * @return the number of files retrieved
-   */
+   * @return the number of files retrieved */
   public long getNrFilesRetrieved() {
     return nrFilesRetrieved;
   }
 
-  /**
-   * Sets the number of files retrieved to the specified value
+  /** Sets the number of files retrieved to the specified value
    *
-   * @param filesRetrieved The number of files retrieved to set.
-   */
+   * @param filesRetrieved The number of files retrieved to set. */
   public void setNrFilesRetrieved(long filesRetrieved) {
     this.nrFilesRetrieved = filesRetrieved;
   }
 
-  /**
-   * Returns the entry number
+  /** Returns the entry number
    *
-   * @return the entry number
-   */
+   * @return the entry number */
   public long getEntryNr() {
     return entryNr;
   }
 
-  /**
-   * Sets the entry number to the specified value
+  /** Sets the entry number to the specified value
    *
-   * @param entryNr The entry number to set.
-   */
+   * @param entryNr The entry number to set. */
   public void setEntryNr(long entryNr) {
     this.entryNr = entryNr;
   }
 
-  /**
-   * Returns the exit status value.
+  /** Returns the exit status value.
    *
-   * @return the exit status.
-   */
+   * @return the exit status. */
   public int getExitStatus() {
     return exitStatus;
   }
 
-  /**
-   * Sets the exit status value to the specified value
+  /** Sets the exit status value to the specified value
    *
-   * @param exitStatus The exit status to set.
-   */
+   * @param exitStatus The exit status to set. */
   public void setExitStatus(int exitStatus) {
     this.exitStatus = exitStatus;
   }
 
-  /**
-   * Returns the number of errors that occurred during this pipeline or workflow
+  /** Returns the number of errors that occurred during this pipeline or workflow
    *
-   * @return the number of errors
-   */
+   * @return the number of errors */
   public long getNrErrors() {
     return nrErrors;
   }
 
-  /**
-   * Sets the number of errors that occurred during execution of this pipeline or workflow
+  /** Sets the number of errors that occurred during execution of this pipeline or workflow
    *
-   * @param nrErrors The number of errors to set
-   */
+   * @param nrErrors The number of errors to set */
   public void setNrErrors(long nrErrors) {
     this.nrErrors = nrErrors;
   }
 
-  /**
-   * Returns the number of lines input during execution of this pipeline or workflow
+  /** Returns the number of lines input during execution of this pipeline or workflow
    *
-   * @return the number of lines input
-   */
+   * @return the number of lines input */
   public long getNrLinesInput() {
     return nrLinesInput;
   }
 
-  /**
-   * Sets the number of lines input during execution of this pipeline or workflow
+  /** Sets the number of lines input during execution of this pipeline or workflow
    *
-   * @param nrLinesInput The number of lines input to set.
-   */
+   * @param nrLinesInput The number of lines input to set. */
   public void setNrLinesInput(long nrLinesInput) {
     this.nrLinesInput = nrLinesInput;
   }
 
-  /**
-   * Returns the number of lines output during execution of this pipeline or workflow
+  /** Returns the number of lines output during execution of this pipeline or workflow
    *
-   * @return the number of lines output
-   */
+   * @return the number of lines output */
   public long getNrLinesOutput() {
     return nrLinesOutput;
   }
 
-  /**
-   * Sets the number of lines output during execution of this pipeline or workflow
+  /** Sets the number of lines output during execution of this pipeline or workflow
    *
-   * @param nrLinesOutput The number of lines output to set
-   */
+   * @param nrLinesOutput The number of lines output to set */
   public void setNrLinesOutput(long nrLinesOutput) {
     this.nrLinesOutput = nrLinesOutput;
   }
 
-  /**
-   * Returns the number of lines read during execution of this pipeline or workflow
+  /** Returns the number of lines read during execution of this pipeline or workflow
    *
-   * @return the number of lines read
-   */
+   * @return the number of lines read */
   public long getNrLinesRead() {
     return nrLinesRead;
   }
 
-  /**
-   * Sets the number of lines read during execution of this pipeline or workflow
+  /** Sets the number of lines read during execution of this pipeline or workflow
    *
-   * @param nrLinesRead The number of lines read to set.
-   */
+   * @param nrLinesRead The number of lines read to set. */
   public void setNrLinesRead(long nrLinesRead) {
     this.nrLinesRead = nrLinesRead;
   }
 
-  /**
-   * Returns the number of lines updated during execution of this pipeline or workflow
+  /** Returns the number of lines updated during execution of this pipeline or workflow
    *
-   * @return the number of lines updated
-   */
+   * @return the number of lines updated */
   public long getNrLinesUpdated() {
     return nrLinesUpdated;
   }
 
-  /**
-   * Sets the number of lines updated during execution of this pipeline or workflow
+  /** Sets the number of lines updated during execution of this pipeline or workflow
    *
-   * @param nrLinesUpdated The number of lines updated to set.
-   */
+   * @param nrLinesUpdated The number of lines updated to set. */
   public void setNrLinesUpdated(long nrLinesUpdated) {
     this.nrLinesUpdated = nrLinesUpdated;
   }
 
-  /**
-   * Returns the number of lines written during execution of this pipeline or workflow
+  /** Returns the number of lines written during execution of this pipeline or workflow
    *
-   * @return the number of lines written
-   */
+   * @return the number of lines written */
   public long getNrLinesWritten() {
     return nrLinesWritten;
   }
 
-  /**
-   * Sets the number of lines written during execution of this pipeline or workflow
+  /** Sets the number of lines written during execution of this pipeline or workflow
    *
-   * @param nrLinesWritten The number of lines written to set.
-   */
+   * @param nrLinesWritten The number of lines written to set. */
   public void setNrLinesWritten(long nrLinesWritten) {
     this.nrLinesWritten = nrLinesWritten;
   }
 
-  /**
-   * Returns the number of lines deleted during execution of this pipeline or workflow
+  /** Returns the number of lines deleted during execution of this pipeline or workflow
    *
-   * @return the number of lines deleted
-   */
+   * @return the number of lines deleted */
   public long getNrLinesDeleted() {
     return nrLinesDeleted;
   }
 
-  /**
-   * Sets the number of lines deleted during execution of this pipeline or workflow
+  /** Sets the number of lines deleted during execution of this pipeline or workflow
    *
-   * @param nrLinesDeleted The number of lines deleted to set.
-   */
+   * @param nrLinesDeleted The number of lines deleted to set. */
   public void setNrLinesDeleted(long nrLinesDeleted) {
     this.nrLinesDeleted = nrLinesDeleted;
   }
 
-  /**
-   * Returns the boolean result of this pipeline or workflow
+  /** Returns the boolean result of this pipeline or workflow
    *
-   * @return true if the pipeline or workflow was successful, false otherwise
-   */
+   * @return true if the pipeline or workflow was successful, false otherwise */
   public boolean getResult() {
     return result;
   }
 
-  /**
-   * Sets the result of the pipeline or workflow. A value of true should indicate a successful
+  /** Sets the result of the pipeline or workflow. A value of true should indicate a successful
    * execution, a value of false should indicate an error condition.
    *
-   * @param result The boolean result to set.
-   */
+   * @param result The boolean result to set. */
   public void setResult(boolean result) {
     this.result = result;
   }
 
-  /**
-   * Returns the resulting rowset from the workflow or pipeline. For example, Result rows are used
+  /** Returns the resulting rowset from the workflow or pipeline. For example, Result rows are used
    * in workflows where entries wish to receive the results of previous executions of workflows or
    * pipelines. The Result rows can be used to do many kinds of pipeline or workflow
    * post-processing.
    *
-   * @return a List of rows associated with the result of execution of a workflow or pipeline
-   */
+   * @return a List of rows associated with the result of execution of a workflow or pipeline */
   public List<RowMetaAndData> getRows() {
     return rows;
   }
 
-  /**
-   * Sets the resulting rowset from the workflow or pipeline execution
+  /** Sets the resulting rowset from the workflow or pipeline execution
    *
-   * @param rows The List of rows to set.
-   */
+   * @param rows The List of rows to set. */
   public void setRows(List<RowMetaAndData> rows) {
     this.rows = rows;
   }
 
-  /**
-   * Returns whether the pipeline or workflow was stopped before completion
+  /** Returns whether the pipeline or workflow was stopped before completion
    *
-   * @return true if stopped, false otherwise
-   */
+   * @return true if stopped, false otherwise */
   public boolean isStopped() {
     return stopped;
   }
 
-  /**
-   * Sets whether the pipeline or workflow was stopped before completion
+  /** Sets whether the pipeline or workflow was stopped before completion
    *
-   * @param stopped true if the pipeline or workflow was stopped, false otherwise
-   */
+   * @param stopped true if the pipeline or workflow was stopped, false otherwise */
   public void setStopped(boolean stopped) {
     this.stopped = stopped;
   }
@@ -481,11 +412,9 @@ public class Result implements Cloneable {
     logText = null;
   }
 
-  /**
-   * Add the numbers of lines from a different result to this result
+  /** Add the numbers of lines from a different result to this result
    *
-   * @param res The Result object from which to add
-   */
+   * @param res The Result object from which to add */
   public void add(Result res) {
     nrLinesInput += res.getNrLinesInput();
     nrLinesOutput += res.getNrLinesOutput();
@@ -502,11 +431,9 @@ public class Result implements Cloneable {
     rows.addAll(res.getRows());
   }
 
-  /**
-   * Returns a String object with the Result object serialized as XML
+  /** Returns a String object with the Result object serialized as XML
    *
-   * @return This Result object serialized as XML
-   */
+   * @return This Result object serialized as XML */
   @JsonIgnore
   public String getXml() {
     try {
@@ -580,12 +507,10 @@ public class Result implements Cloneable {
     return xml.toString();
   }
 
-  /**
-   * Instantiates a new Result object from a DOM node
+  /** Instantiates a new Result object from a DOM node
    *
    * @param node the DOM root node representing the desired Result
-   * @throws HopException if any errors occur during instantiation
-   */
+   * @throws HopException if any errors occur during instantiation */
   public Result(Node node) throws HopException {
     this();
 
@@ -620,8 +545,7 @@ public class Result implements Cloneable {
     int nrResultFiles = XmlHandler.countNodes(resultFilesNode, XML_FILE_TAG);
     for (int i = 0; i < nrResultFiles; i++) {
       try {
-        ResultFile resultFile =
-            new ResultFile(XmlHandler.getSubNodeByNr(resultFilesNode, XML_FILE_TAG, i));
+        ResultFile resultFile = new ResultFile(XmlHandler.getSubNodeByNr(resultFilesNode, XML_FILE_TAG, i));
         resultFiles.put(resultFile.getFile().toString(), resultFile);
       } catch (HopFileException e) {
         throw new HopException("Unexpected error reading back a ResultFile object from XML", e);
@@ -643,197 +567,155 @@ public class Result implements Cloneable {
     }
   }
 
-  /**
-   * Returns the result files as a Map with the filename as key and the ResultFile object as value
+  /** Returns the result files as a Map with the filename as key and the ResultFile object as value
    *
    * @return a Map with String as key and ResultFile as value.
-   * @see ResultFile
-   */
+   * @see ResultFile */
   public Map<String, ResultFile> getResultFiles() {
     return resultFiles;
   }
 
-  /**
-   * Returns the result files as a List of type ResultFile
+  /** Returns the result files as a List of type ResultFile
    *
    * @return a list of type ResultFile containing this Result's ResultFile objects
-   * @see ResultFile
-   */
+   * @see ResultFile */
   @JsonIgnore
   public List<ResultFile> getResultFilesList() {
     return new ArrayList<>(resultFiles.values());
   }
 
-  /**
-   * Sets the result files for this Result to the specified Map of ResultFile objects
+  /** Sets the result files for this Result to the specified Map of ResultFile objects
    *
    * @param usedFiles The Map of result files to set. This is a Map with the filename as key and
-   *     ResultFile object as value
-   * @see ResultFile
-   */
+   *        ResultFile object as value
+   * @see ResultFile */
   public void setResultFiles(Map<String, ResultFile> usedFiles) {
     this.resultFiles = usedFiles;
   }
 
-  /**
-   * Returns the number of lines rejected during execution of this pipeline or workflow
+  /** Returns the number of lines rejected during execution of this pipeline or workflow
    *
-   * @return the number of lines rejected
-   */
+   * @return the number of lines rejected */
   public long getNrLinesRejected() {
     return nrLinesRejected;
   }
 
-  /**
-   * Sets the number of lines rejected during execution of this pipeline or workflow
+  /** Sets the number of lines rejected during execution of this pipeline or workflow
    *
-   * @param nrLinesRejected the number of lines rejected to set
-   */
+   * @param nrLinesRejected the number of lines rejected to set */
   public void setNrLinesRejected(long nrLinesRejected) {
     this.nrLinesRejected = nrLinesRejected;
   }
 
-  /**
-   * Returns the log channel id of the object that was executed (pipeline, workflow, action, etc)
+  /** Returns the log channel id of the object that was executed (pipeline, workflow, action, etc)
    *
-   * @return the log channel id
-   */
+   * @return the log channel id */
   public String getLogChannelId() {
     return logChannelId;
   }
 
-  /**
-   * Sets the log channel id of the object that was executed (pipeline, workflow, action, etc)
+  /** Sets the log channel id of the object that was executed (pipeline, workflow, action, etc)
    *
-   * @param logChannelId the logChannelId to set
-   */
+   * @param logChannelId the logChannelId to set */
   public void setLogChannelId(String logChannelId) {
     this.logChannelId = logChannelId;
   }
 
-  /**
-   * Increases the number of lines read by the specified value
+  /** Increases the number of lines read by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesRead(long incr) {
     nrLinesRead += incr;
   }
 
-  /**
-   * Increases the number of lines written by the specified value
+  /** Increases the number of lines written by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesWritten(long incr) {
     nrLinesWritten += incr;
   }
 
-  /**
-   * Increases the number of lines input by the specified value
+  /** Increases the number of lines input by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesInput(long incr) {
     nrLinesInput += incr;
   }
 
-  /**
-   * Increases the number of lines output by the specified value
+  /** Increases the number of lines output by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesOutput(long incr) {
     nrLinesOutput += incr;
   }
 
-  /**
-   * Increases the number of lines updated by the specified value
+  /** Increases the number of lines updated by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesUpdated(long incr) {
     nrLinesUpdated += incr;
   }
 
-  /**
-   * Increases the number of lines deleted by the specified value
+  /** Increases the number of lines deleted by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesDeleted(long incr) {
     nrLinesDeleted += incr;
   }
 
-  /**
-   * Increases the number of lines rejected by the specified value
+  /** Increases the number of lines rejected by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseLinesRejected(long incr) {
     nrLinesRejected += incr;
   }
 
-  /**
-   * Increases the number of errors by the specified value
+  /** Increases the number of errors by the specified value
    *
-   * @param incr the amount to increment
-   */
+   * @param incr the amount to increment */
   public void increaseErrors(long incr) {
     nrErrors += incr;
   }
 
-  /**
-   * Returns all the text from any logging performed by the pipeline or workflow
+  /** Returns all the text from any logging performed by the pipeline or workflow
    *
-   * @return the logging text as a string
-   */
+   * @return the logging text as a string */
   public String getLogText() {
     return logText;
   }
 
-  /**
-   * Sets the logging text to the specified String
+  /** Sets the logging text to the specified String
    *
-   * @param logText the logText to set
-   */
+   * @param logText the logText to set */
   public void setLogText(String logText) {
     this.logText = logText;
   }
 
-  /**
-   * Returns the elapsed time of the ETL execution in milliseconds
+  /** Returns the elapsed time of the ETL execution in milliseconds
    *
-   * @returns elapsed time of the ETL execution in milliseconds
-   */
+   * @returns elapsed time of the ETL execution in milliseconds */
   public long getElapsedTimeMillis() {
     return elapsedTimeMillis;
   }
 
-  /**
-   * Sets the elapsed time of the ETL execution in milliseconds
+  /** Sets the elapsed time of the ETL execution in milliseconds
    *
-   * @param elapsedTimeMillis elapsed time of the ETL execution in milliseconds
-   */
+   * @param elapsedTimeMillis elapsed time of the ETL execution in milliseconds */
   public void setElapsedTimeMillis(long elapsedTimeMillis) {
     this.elapsedTimeMillis = elapsedTimeMillis;
   }
 
-  /**
-   * Returns the unique identifier of an ETL execution, should one ever care to declare one such
+  /** Returns the unique identifier of an ETL execution, should one ever care to declare one such
    *
-   * @return unique identifier of an ETL execution, should one ever care to declare one such
-   */
+   * @return unique identifier of an ETL execution, should one ever care to declare one such */
   public String getExecutionId() {
     return executionId;
   }
 
-  /**
-   * Sets a unique identifier of an ETL execution, should one ever care to declare one such
+  /** Sets a unique identifier of an ETL execution, should one ever care to declare one such
    *
    * @param executionId unique identifier of an ETL execution, should one ever care to declare one
-   *     such
-   */
+   *        such */
   public void setExecutionId(String executionId) {
     this.executionId = executionId;
   }

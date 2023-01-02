@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,7 +46,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class DatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   private static final String TABLE_NAME = "tableName";
   private static final String DROP_STATEMENT = "dropStatement";
   private static final String DROP_STATEMENT_FALLBACK = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -72,28 +73,24 @@ public class DatabaseMetaTest {
   }
 
   @Test
-  public void testGetDatabaseInterfacesMapWontReturnNullIfCalledSimultaneouslyWithClear()
-      throws InterruptedException, ExecutionException {
+  public void testGetDatabaseInterfacesMapWontReturnNullIfCalledSimultaneouslyWithClear() throws InterruptedException, ExecutionException {
     final AtomicBoolean done = new AtomicBoolean(false);
     ExecutorService executorService = Executors.newCachedThreadPool();
-    executorService.submit(
-        () -> {
-          while (!done.get()) {
-            DatabaseMeta.clearDatabaseInterfacesMap();
-          }
-        });
-    Future<Exception> getFuture =
-        executorService.submit(
-            () -> {
-              int i = 0;
-              while (!done.get()) {
-                assertNotNull("Got null on try: " + i++, DatabaseMeta.getIDatabaseMap());
-                if (i > 30000) {
-                  done.set(true);
-                }
-              }
-              return null;
-            });
+    executorService.submit(() -> {
+      while (!done.get()) {
+        DatabaseMeta.clearDatabaseInterfacesMap();
+      }
+    });
+    Future<Exception> getFuture = executorService.submit(() -> {
+      int i = 0;
+      while (!done.get()) {
+        assertNotNull("Got null on try: " + i++, DatabaseMeta.getIDatabaseMap());
+        if (i > 30000) {
+          done.set(true);
+        }
+      }
+      return null;
+    });
     getFuture.get();
   }
 
@@ -214,11 +211,9 @@ public class DatabaseMetaTest {
     assertEquals(1, DatabaseMeta.indexOfName(new String[] {"a", "b", "c"}, "B"));
   }
 
-  /**
-   * Given that the {@link IDatabase} object is of a new extended type. <br>
+  /** Given that the {@link IDatabase} object is of a new extended type. <br>
    * When {@link DatabaseMeta#getDropTableIfExistsStatement(String)} is called, then the underlying
-   * new method of {@link IDatabase} should be used.
-   */
+   * new method of {@link IDatabase} should be used. */
   @Test
   public void shouldCallNewMethodWhenDatabaseInterfaceIsOfANewType() {
     IDatabase databaseInterfaceNew = mock(IDatabase.class);

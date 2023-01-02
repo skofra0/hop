@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,18 +59,13 @@ public class JarCache {
     return instance;
   }
 
-  /**
-   * Create a list of plugin folders based on the default or variable HOP_PLUGIN_BASE_FOLDERS
+  /** Create a list of plugin folders based on the default or variable HOP_PLUGIN_BASE_FOLDERS
    *
-   * @return The list of plugin folders found
-   */
+   * @return The list of plugin folders found */
   public List<String> getPluginFolders() {
     List<String> pluginFolders = new ArrayList<>();
 
-    String folderPaths =
-        Const.NVL(
-            Variables.getADefaultVariableSpace().getVariable(Const.HOP_PLUGIN_BASE_FOLDERS),
-            EnvUtil.getSystemProperty(Const.HOP_PLUGIN_BASE_FOLDERS));
+    String folderPaths = Const.NVL(Variables.getADefaultVariableSpace().getVariable(Const.HOP_PLUGIN_BASE_FOLDERS), EnvUtil.getSystemProperty(Const.HOP_PLUGIN_BASE_FOLDERS));
     if (folderPaths == null) {
       folderPaths = Const.DEFAULT_PLUGIN_BASE_FOLDERS;
     }
@@ -90,8 +85,7 @@ public class JarCache {
     //
     if (nativeFiles.isEmpty()) {
       try {
-        Enumeration<URL> indexFiles =
-            getClass().getClassLoader().getResources(JarCache.ANNOTATION_INDEX_LOCATION);
+        Enumeration<URL> indexFiles = getClass().getClassLoader().getResources(JarCache.ANNOTATION_INDEX_LOCATION);
         while (indexFiles.hasMoreElements()) {
           URL url = indexFiles.nextElement();
 
@@ -109,8 +103,7 @@ public class JarCache {
             Index index = reader.read();
             indexCache.put(file, index);
           } catch (IOException e) {
-            throw new HopFileException(
-                MessageFormat.format("Error reading annotation index from url ''{0}''", url), e);
+            throw new HopFileException(MessageFormat.format("Error reading annotation index from url ''{0}''", url), e);
           }
         }
       } catch (Exception e) {
@@ -121,12 +114,10 @@ public class JarCache {
     return nativeFiles;
   }
 
-  /**
-   * Get all the jar files with annotation index
+  /** Get all the jar files with annotation index
    *
    * @return list of jar files
-   * @throws HopFileException
-   */
+   * @throws HopFileException */
   public Set<File> getPluginJars() throws HopFileException {
     // Scan plugin jars only once
     //
@@ -163,8 +154,7 @@ public class JarCache {
           }
         }
       } catch (IOException e) {
-        throw new HopFileException(
-            MessageFormat.format("Error reading annotation index from file ''{0}''", jarFile), e);
+        throw new HopFileException(MessageFormat.format("Error reading annotation index from file ''{0}''", jarFile), e);
       }
 
       // Cache annotation index of jars
@@ -205,12 +195,10 @@ public class JarCache {
     return files;
   }
 
-  /**
-   * Find all the jar files in the folder and sub-folders exception for lib folder.
+  /** Find all the jar files in the folder and sub-folders exception for lib folder.
    *
    * @param folder
-   * @return the list of jar files
-   */
+   * @return the list of jar files */
   private static Set<File> findFiles(final File folder) {
     Set<File> files = new HashSet<>();
     File[] children = folder.listFiles();

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,21 +40,14 @@ public class SimpleFileSelection extends SelectionAdapter {
 
   private final String[] filterNames;
 
-  /**
-   * Constructor.
+  /** Constructor.
    *
    * @param shell shell to set.
    * @param textVar text variable to edit.
    * @param filterExtensions filter extensions to set.
    * @param filterNames filter names to set.
-   * @throws IllegalArgumentException if shell or text variable is null.
-   */
-  public SimpleFileSelection(
-      final Shell shell,
-      final TextVar textVar,
-      final String[] filterExtensions,
-      final String[] filterNames)
-      throws IllegalArgumentException {
+   * @throws IllegalArgumentException if shell or text variable is null. */
+  public SimpleFileSelection(final Shell shell, final TextVar textVar, final String[] filterExtensions, final String[] filterNames) throws IllegalArgumentException {
     super();
     Assert.assertNotNull(shell, "Shell cannot be null");
     Assert.assertNotNull(textVar, "Text var cannot be null");
@@ -68,41 +61,29 @@ public class SimpleFileSelection extends SelectionAdapter {
     System.arraycopy(filterNames, 0, this.filterNames, 0, filterNames.length);
   }
 
-  /**
-   * Constructor.
+  /** Constructor.
    *
    * @param shell the shell to set.
    * @param textVar the text variable to edit.
-   * @throws IllegalArgumentException if shell or text variable is null.
-   */
-  public SimpleFileSelection(final Shell shell, final TextVar textVar)
-      throws IllegalArgumentException {
-    this(
-        shell,
-        textVar,
-        new String[] {DEFAULT_FILTER_EXTENSION},
-        new String[] {DEFAULT_FILTER_NAME});
+   * @throws IllegalArgumentException if shell or text variable is null. */
+  public SimpleFileSelection(final Shell shell, final TextVar textVar) throws IllegalArgumentException {
+    this(shell, textVar, new String[] {DEFAULT_FILTER_EXTENSION}, new String[] {DEFAULT_FILTER_NAME});
   }
 
-  /**
-   * Constructor.
+  /** Constructor.
    *
    * @param shell the shell to set.
    * @param textVar the text variable to edit.
    * @param filterNames the filter names to use.
-   * @throws IllegalArgumentException if shell or text variable is null.
-   */
-  public SimpleFileSelection(final Shell shell, final TextVar textVar, final String... filterNames)
-      throws IllegalArgumentException {
+   * @throws IllegalArgumentException if shell or text variable is null. */
+  public SimpleFileSelection(final Shell shell, final TextVar textVar, final String... filterNames) throws IllegalArgumentException {
     this(shell, textVar, new String[] {DEFAULT_FILTER_EXTENSION}, filterNames);
   }
 
-  /**
-   * {@inheritDoc}
+  /** {@inheritDoc}
    *
    * @see
-   *     org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-   */
+   *      org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent) */
   @Override
   public void widgetSelected(final SelectionEvent event) {
     BaseDialog.presentFileDialog(shell, textVar, null, null, filterExtensions, filterNames, true);

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,122 +33,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 @GuiPlugin(description = "Local pipeline run configuration widgets")
-public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
-    implements IPipelineEngineRunConfiguration {
+public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration implements IPipelineEngineRunConfiguration {
 
-  @GuiWidgetElement(
-      id = "rowSetSize",
-      order = "010",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.RowSetSize.Label")
+  @GuiWidgetElement(id = "rowSetSize", order = "010", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.RowSetSize.Label")
   @HopMetadataProperty(key = "rowset_size")
   protected String rowSetSize;
 
-  @GuiWidgetElement(
-      id = "safeModeEnabled",
-      order = "020",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
+  @GuiWidgetElement(id = "safeModeEnabled", order = "020", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
   @HopMetadataProperty(key = "safe_mode")
   protected boolean safeModeEnabled;
 
-  @GuiWidgetElement(
-      id = "gatheringMetrics",
-      order = "030",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.GatheringMetrics.Label")
+  @GuiWidgetElement(id = "gatheringMetrics", order = "030", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.GatheringMetrics.Label")
   @HopMetadataProperty(key = "gather_metrics")
   protected boolean gatheringMetrics;
 
-  @GuiWidgetElement(
-      id = "sortTransformsTopologically",
-      order = "040",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SortTransformsTopologically.Label")
+  @GuiWidgetElement(id = "sortTransformsTopologically", order = "040", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SortTransformsTopologically.Label")
   @HopMetadataProperty(key = "topo_sort")
   protected boolean sortingTransformsTopologically;
 
   /** Whether the feedback is shown. */
-  @GuiWidgetElement(
-      id = "feedbackShown",
-      order = "050",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackShown.Label")
+  @GuiWidgetElement(id = "feedbackShown", order = "050", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackShown.Label")
   @HopMetadataProperty(key = "show_feedback")
   protected boolean feedbackShown;
 
   /** The feedback size. */
-  @GuiWidgetElement(
-      id = "feedbackSize",
-      order = "060",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackSize.Label")
+  @GuiWidgetElement(id = "feedbackSize", order = "060", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackSize.Label")
   @HopMetadataProperty(key = "feedback_size")
   protected String feedbackSize;
 
   /** The feedback size. */
-  @GuiWidgetElement(
-      id = "waitTime",
-      order = "070",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.WaitTime.Label")
+  @GuiWidgetElement(id = "waitTime", order = "070", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.WaitTime.Label")
   @HopMetadataProperty(key = "wait_time")
   protected String waitTime;
 
   /** The feedback size. */
-  @GuiWidgetElement(
-      id = "sampleTypeInGui",
-      order = "080",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.COMBO,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleTypeInGui.Label",
-      comboValuesMethod = "getSampleTypes")
+  @GuiWidgetElement(id = "sampleTypeInGui", order = "080", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.COMBO, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleTypeInGui.Label", comboValuesMethod = "getSampleTypes")
   @HopMetadataProperty(key = "sample_type_in_gui")
   protected String sampleTypeInGui;
 
   /** The feedback size. */
-  @GuiWidgetElement(
-      id = "sampleSize",
-      order = "090",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleSize.Label")
+  @GuiWidgetElement(id = "sampleSize", order = "090", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleSize.Label")
   @HopMetadataProperty(key = "sample_size")
   protected String sampleSize;
 
-  @GuiWidgetElement(
-      id = "transactional",
-      order = "100",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.ToolTip")
+  @GuiWidgetElement(id = "transactional", order = "100", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.Label",
+      toolTip = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.ToolTip")
   @HopMetadataProperty(key = "transactional")
   protected boolean transactional;
 
   public enum SampleType {
-    None,
-    First,
-    Last,
-    Random;
+    None, First, Last, Random;
   }
 
   public LocalPipelineRunConfiguration() {
@@ -188,162 +122,123 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
     }
     return list;
   }
-  /**
-   * Gets rowSetSize
+
+  /** Gets rowSetSize
    *
-   * @return value of rowSetSize
-   */
+   * @return value of rowSetSize */
   public String getRowSetSize() {
     return rowSetSize;
   }
 
-  /**
-   * @param rowSetSize The rowSetSize to set
-   */
+  /** @param rowSetSize The rowSetSize to set */
   public void setRowSetSize(String rowSetSize) {
     this.rowSetSize = rowSetSize;
   }
 
-  /**
-   * Gets safeModeEnabled
+  /** Gets safeModeEnabled
    *
-   * @return value of safeModeEnabled
-   */
+   * @return value of safeModeEnabled */
   public boolean isSafeModeEnabled() {
     return safeModeEnabled;
   }
 
-  /**
-   * @param safeModeEnabled The safeModeEnabled to set
-   */
+  /** @param safeModeEnabled The safeModeEnabled to set */
   public void setSafeModeEnabled(boolean safeModeEnabled) {
     this.safeModeEnabled = safeModeEnabled;
   }
 
-  /**
-   * Gets gatheringMetrics
+  /** Gets gatheringMetrics
    *
-   * @return value of gatheringMetrics
-   */
+   * @return value of gatheringMetrics */
   public boolean isGatheringMetrics() {
     return gatheringMetrics;
   }
 
-  /**
-   * @param gatheringMetrics The gatheringMetrics to set
-   */
+  /** @param gatheringMetrics The gatheringMetrics to set */
   public void setGatheringMetrics(boolean gatheringMetrics) {
     this.gatheringMetrics = gatheringMetrics;
   }
 
-  /**
-   * Gets sortingTransformsTopologically
+  /** Gets sortingTransformsTopologically
    *
-   * @return value of sortingTransformsTopologically
-   */
+   * @return value of sortingTransformsTopologically */
   public boolean isSortingTransformsTopologically() {
     return sortingTransformsTopologically;
   }
 
-  /**
-   * @param sortingTransformsTopologically The sortingTransformsTopologically to set
-   */
+  /** @param sortingTransformsTopologically The sortingTransformsTopologically to set */
   public void setSortingTransformsTopologically(boolean sortingTransformsTopologically) {
     this.sortingTransformsTopologically = sortingTransformsTopologically;
   }
 
-  /**
-   * Gets feedbackShown
+  /** Gets feedbackShown
    *
-   * @return value of feedbackShown
-   */
+   * @return value of feedbackShown */
   public boolean isFeedbackShown() {
     return feedbackShown;
   }
 
-  /**
-   * @param feedbackShown The feedbackShown to set
-   */
+  /** @param feedbackShown The feedbackShown to set */
   public void setFeedbackShown(boolean feedbackShown) {
     this.feedbackShown = feedbackShown;
   }
 
-  /**
-   * Gets feedbackSize
+  /** Gets feedbackSize
    *
-   * @return value of feedbackSize
-   */
+   * @return value of feedbackSize */
   public String getFeedbackSize() {
     return feedbackSize;
   }
 
-  /**
-   * @param feedbackSize The feedbackSize to set
-   */
+  /** @param feedbackSize The feedbackSize to set */
   public void setFeedbackSize(String feedbackSize) {
     this.feedbackSize = feedbackSize;
   }
 
-  /**
-   * Gets waitTime
+  /** Gets waitTime
    *
-   * @return value of the waitTime
-   */
+   * @return value of the waitTime */
   public String getWaitTime() {
     return waitTime;
   }
 
-  /**
-   * @param waitTime The waitTime for buffer check
-   */
+  /** @param waitTime The waitTime for buffer check */
   public void setWaitTime(String waitTime) {
     this.waitTime = waitTime;
   }
 
-  /**
-   * Gets sampleTypeInGui
+  /** Gets sampleTypeInGui
    *
-   * @return value of sampleTypeInGui
-   */
+   * @return value of sampleTypeInGui */
   public String getSampleTypeInGui() {
     return sampleTypeInGui;
   }
 
-  /**
-   * @param sampleTypeInGui The sampleTypeInGui to set
-   */
+  /** @param sampleTypeInGui The sampleTypeInGui to set */
   public void setSampleTypeInGui(String sampleTypeInGui) {
     this.sampleTypeInGui = sampleTypeInGui;
   }
 
-  /**
-   * Gets sampleSize
+  /** Gets sampleSize
    *
-   * @return value of sampleSize
-   */
+   * @return value of sampleSize */
   public String getSampleSize() {
     return sampleSize;
   }
 
-  /**
-   * @param sampleSize The sampleSize to set
-   */
+  /** @param sampleSize The sampleSize to set */
   public void setSampleSize(String sampleSize) {
     this.sampleSize = sampleSize;
   }
 
-  /**
-   * Gets transactional
+  /** Gets transactional
    *
-   * @return value of transactional
-   */
+   * @return value of transactional */
   public boolean isTransactional() {
     return transactional;
   }
 
-  /**
-   * @param transactional The transactional to set
-   */
+  /** @param transactional The transactional to set */
   public void setTransactional(boolean transactional) {
     this.transactional = transactional;
   }

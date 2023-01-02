@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,52 +39,24 @@ public class HopGuiContextDelegate {
     int x = 50 + hopGui.getShell().getLocation().x;
     int y = 50 + hopGui.getShell().getLocation().y;
 
-    GuiContextUtil.getInstance()
-        .handleActionSelection(
-            hopGui.getShell(),
-            BaseMessages.getString(PKG, "HopGuiContextDelegate.SelectItemCreate.Dialog.Header"),
-            new Point(x, y),
-            hopGui,
-            GuiActionType.Create,
-            "FileNew",
-            true);
+    GuiContextUtil.getInstance().handleActionSelection(hopGui.getShell(), BaseMessages.getString(PKG, "HopGuiContextDelegate.SelectItemCreate.Dialog.Header"), new Point(x, y), hopGui, GuiActionType.Create, "FileNew", true);
   }
 
   /** Edit a metadata object... */
   public void fileMetadataEdit() {
 
-    GuiContextUtil.getInstance()
-        .handleActionSelection(
-            hopGui.getShell(),
-            BaseMessages.getString(
-                PKG, "HopGuiContextDelegate.SelectElementTypeEdit.Dialog.Header"),
-            new Point(0, 0),
-            hopGui,
-            GuiActionType.Modify,
-            "FileMetadataEdit",
-            true);
+    GuiContextUtil.getInstance().handleActionSelection(hopGui.getShell(), BaseMessages.getString(PKG, "HopGuiContextDelegate.SelectElementTypeEdit.Dialog.Header"), new Point(0, 0), hopGui, GuiActionType.Modify, "FileMetadataEdit", true);
   }
 
   /** Delete a metadata object... */
   public void fileMetadataDelete() {
 
-    GuiContextUtil.getInstance()
-        .handleActionSelection(
-            hopGui.getShell(),
-            BaseMessages.getString(
-                PKG, "HopGuiContextDelegate.SelectElementTypeDelete.Dialog.Header"),
-            new Point(0, 0),
-            hopGui,
-            GuiActionType.Delete,
-            "FileMetadataDelete",
-            true);
+    GuiContextUtil.getInstance().handleActionSelection(hopGui.getShell(), BaseMessages.getString(PKG, "HopGuiContextDelegate.SelectElementTypeDelete.Dialog.Header"), new Point(0, 0), hopGui, GuiActionType.Delete, "FileMetadataDelete", true);
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }

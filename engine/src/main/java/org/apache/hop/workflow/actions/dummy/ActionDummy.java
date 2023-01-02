@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,13 +31,7 @@ import org.w3c.dom.Node;
 
 import java.util.List;
 
-@Action(
-    id = "DUMMY",
-    image = "ui/images/dummy.svg",
-    name = "i18n::ActionDummy.Name",
-    description = "i18n::ActionDummy.Description",
-    categoryDescription = "i18n:org.apache.hop.workflow:ActionCategory.Category.General",
-    keywords = "i18n::ActionDummy.keyword",
+@Action(id = "DUMMY", image = "ui/images/dummy.svg", name = "i18n::ActionDummy.Name", description = "i18n::ActionDummy.Description", categoryDescription = "i18n:org.apache.hop.workflow:ActionCategory.Category.General", keywords = "i18n::ActionDummy.keyword",
     documentationUrl = "/workflow/actions/dummy.html")
 public class ActionDummy extends ActionBase implements IAction {
 
@@ -63,15 +57,10 @@ public class ActionDummy extends ActionBase implements IAction {
   }
 
   @Override
-  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     super.loadXml(actionNode);
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {}
 }

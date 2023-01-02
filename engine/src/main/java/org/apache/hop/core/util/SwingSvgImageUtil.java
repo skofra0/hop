@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,12 +31,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * Class for loading images from SVG, PNG, or other bitmap formats.
- *
- * <p>Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
- * name into PNG and try to load. If initial name is PNG, then PNG icon will be loaded.
- */
+/** Class for loading images from SVG, PNG, or other bitmap formats.
+ * <p>
+ * Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
+ * name into PNG and try to load. If initial name is PNG, then PNG icon will be loaded. */
 public class SwingSvgImageUtil {
 
   private static FileObject base;
@@ -78,8 +76,7 @@ public class SwingSvgImageUtil {
     return result;
   }
 
-  private static SwingUniversalImageSvg getUniversalImageInternal(
-      ClassLoader classLoader, String filename) {
+  private static SwingUniversalImageSvg getUniversalImageInternal(ClassLoader classLoader, String filename) {
     SwingUniversalImageSvg result = loadFromClassLoader(classLoader, filename);
     if (result == null) {
       result = loadFromClassLoader(classLoader, "/" + filename);
@@ -123,8 +120,7 @@ public class SwingSvgImageUtil {
   }
 
   /** Internal image loading by ClassLoader.getResourceAsStream. */
-  private static SwingUniversalImageSvg loadFromClassLoader(
-      ClassLoader classLoader, String location) {
+  private static SwingUniversalImageSvg loadFromClassLoader(ClassLoader classLoader, String location) {
     InputStream s = classLoader.getResourceAsStream(location);
     if (s == null) {
       return null;

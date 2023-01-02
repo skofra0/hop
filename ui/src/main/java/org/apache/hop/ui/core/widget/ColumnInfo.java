@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,12 +64,10 @@ public class ColumnInfo {
   private IComboValuesSelectionListener comboValuesSelectionListener;
   private int fieldTypeColumn;
 
-  /**
-   * Creates a column info class for use with the TableView class.
+  /** Creates a column info class for use with the TableView class.
    *
    * @param columnName The column name
-   * @param columnType The column type (see: COLUMN_TYPE_...)
-   */
+   * @param columnType The column type (see: COLUMN_TYPE_...) */
   public ColumnInfo(String columnName, int columnType) {
     this.name = columnName;
     this.type = columnType;
@@ -82,14 +80,12 @@ public class ColumnInfo {
     valueMeta = new ValueMetaString(columnName);
   }
 
-  /**
-   * Creates a column info class for use with the TableView class. The type of column info to be
+  /** Creates a column info class for use with the TableView class. The type of column info to be
    * created is : COLUMN_TYPE_CCOMBO
    *
    * @param columnName The column name
    * @param columnType The column type (see: COLUMN_TYPE_...)
-   * @param comboValues The choices in the comboValues box
-   */
+   * @param comboValues The choices in the comboValues box */
   public ColumnInfo(String columnName, int columnType, String... comboValues) {
     this(columnName, columnType);
     this.comboValues = comboValues;
@@ -101,14 +97,12 @@ public class ColumnInfo {
     valueMeta = new ValueMetaString(columnName);
   }
 
-  /**
-   * Creates a column info class for use with the TableView class.
+  /** Creates a column info class for use with the TableView class.
    *
    * @param columnName The column name
    * @param columnType The column type (see: COLUMN_TYPE_...)
    * @param numeric true if the column type is numeric. Use setValueType() to specify the type of
-   *     numeric: IValueMeta.TYPE_INTEGER is the default.
-   */
+   *        numeric: IValueMeta.TYPE_INTEGER is the default. */
   public ColumnInfo(String columnName, int columnType, boolean numeric) {
     this(columnName, columnType);
     this.comboValues = null;
@@ -124,60 +118,52 @@ public class ColumnInfo {
     }
   }
 
-  /**
-   * Creates a column info class for use with the TableView class. The type of column info to be
+  /** Creates a column info class for use with the TableView class. The type of column info to be
    * created is : COLUMN_TYPE_CCOMBO
    *
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param combo The choices in the combo box
    * @param ro true if the column is read-only (you can't type in the combo box, you CAN make a
-   *     choice)
-   */
+   *        choice) */
   public ColumnInfo(String colname, int coltype, String[] combo, boolean ro) {
     this(colname, coltype, combo);
     readonly = ro;
   }
 
-  /**
-   * Creates a column info class for use with the TableView class.
+  /** Creates a column info class for use with the TableView class.
    *
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param num true if the column type is numeric. Use setValueType() to specify the type of
-   *     numeric: IValueMeta.TYPE_INTEGER is the default.
-   * @param ro true if the column is read-only.
-   */
+   *        numeric: IValueMeta.TYPE_INTEGER is the default.
+   * @param ro true if the column is read-only. */
   public ColumnInfo(String colname, int coltype, boolean num, boolean ro) {
     this(colname, coltype, num);
     readonly = ro;
   }
 
-  /**
-   * Creates a column info class for use with the TableView class.
+  /** Creates a column info class for use with the TableView class.
    *
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param num true if the column type is numeric. Use setValueType() to specify the type of
-   *     numeric: IValueMeta.TYPE_INTEGER is the default.
+   *        numeric: IValueMeta.TYPE_INTEGER is the default.
    * @param ro true if the column is read-only.
-   * @param width The column width
-   */
+   * @param width The column width */
   public ColumnInfo(String colname, int coltype, boolean num, boolean ro, int width) {
     this(colname, coltype, num);
     readonly = ro;
     this.width = width;
   }
 
-  /**
-   * Creates a column info class for use with the TableView class. The type of column info to be
+  /** Creates a column info class for use with the TableView class. The type of column info to be
    * created is : COLUMN_TYPE_FORMAT
    *
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param fieldTypeColumn The column that contains the field type (for use when filtering the
-   *     format combo dropdown)
-   */
+   *        format combo dropdown) */
   public ColumnInfo(String colname, int coltype, int fieldTypeColumn) {
     this(colname, coltype);
     this.fieldTypeColumn = fieldTypeColumn;
@@ -315,8 +301,7 @@ public class ColumnInfo {
   }
 
   /** @param comboValuesSelectionListener the comboValuesSelectionListener to set */
-  public void setComboValuesSelectionListener(
-      IComboValuesSelectionListener comboValuesSelectionListener) {
+  public void setComboValuesSelectionListener(IComboValuesSelectionListener comboValuesSelectionListener) {
     this.comboValuesSelectionListener = comboValuesSelectionListener;
   }
 
@@ -343,8 +328,7 @@ public class ColumnInfo {
   }
 
   public boolean shouldRenderTextVarButton() {
-    return this.renderTextVarButtonCallback == null
-        || this.renderTextVarButtonCallback.shouldRenderButton();
+    return this.renderTextVarButtonCallback == null || this.renderTextVarButtonCallback.shouldRenderButton();
   }
 
   public int getWidth() {

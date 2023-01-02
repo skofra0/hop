@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,77 +26,36 @@ import org.apache.hop.workflow.config.WorkflowRunConfiguration;
 import org.apache.hop.workflow.engines.empty.EmptyWorkflowRunConfiguration;
 
 @GuiPlugin(description = "Remote workflow run configuration widgets")
-public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
-    implements IWorkflowEngineRunConfiguration {
+public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration implements IWorkflowEngineRunConfiguration {
 
-  @GuiWidgetElement(
-      order = "10",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.METADATA,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.HopServer.Label",
-      typeMetadata = HopServerTypeMetadata.class)
+  @GuiWidgetElement(order = "10", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.METADATA, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.HopServer.Label", typeMetadata = HopServerTypeMetadata.class)
   @HopMetadataProperty(key = "hop_server")
   protected String hopServerName;
 
-  @GuiWidgetElement(
-      order = "20",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.METADATA,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.RunConfiguration.Label",
-      typeMetadata = WorkflowRunConfigurationTypeMetadata.class)
+  @GuiWidgetElement(order = "20", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.METADATA, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.RunConfiguration.Label", typeMetadata = WorkflowRunConfigurationTypeMetadata.class)
   @HopMetadataProperty(key = "run_config")
   protected String runConfigurationName;
 
-  @GuiWidgetElement(
-      order = "30",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollDelay.Label")
+  @GuiWidgetElement(order = "30", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollDelay.Label")
   @HopMetadataProperty(key = "server_poll_delay")
   protected String serverPollDelay;
 
-  @GuiWidgetElement(
-      order = "40",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollInterval.Label")
+  @GuiWidgetElement(order = "40", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollInterval.Label")
   @HopMetadataProperty(key = "server_poll_interval")
   protected String serverPollInterval;
 
-  @GuiWidgetElement(
-      order = "50",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.ToolTip")
+  @GuiWidgetElement(order = "50", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.ToolTip")
   @HopMetadataProperty(key = "export_resources")
   protected boolean exportingResources;
 
-  @GuiWidgetElement(
-      order = "60",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.ToolTip")
+  @GuiWidgetElement(order = "60", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.ToolTip")
   @HopMetadataProperty(key = "resources_source_folder")
   protected String namedResourcesSourceFolder;
 
-  @GuiWidgetElement(
-      order = "70",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.ToolTip")
+  @GuiWidgetElement(order = "70", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.ToolTip")
   @HopMetadataProperty(key = "resources_target_folder")
   protected String namedResourcesTargetFolder;
 
@@ -120,11 +79,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     return new RemoteWorkflowRunConfiguration(this);
   }
 
-  /**
-   * Gets hopServerName
+  /** Gets hopServerName
    *
-   * @return value of hopServerName
-   */
+   * @return value of hopServerName */
   public String getHopServerName() {
     return hopServerName;
   }
@@ -134,11 +91,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     this.hopServerName = hopServerName;
   }
 
-  /**
-   * Gets runConfigurationName
+  /** Gets runConfigurationName
    *
-   * @return value of runConfigurationName
-   */
+   * @return value of runConfigurationName */
   public String getRunConfigurationName() {
     return runConfigurationName;
   }
@@ -148,11 +103,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     this.runConfigurationName = runConfigurationName;
   }
 
-  /**
-   * Gets serverPollDelay
+  /** Gets serverPollDelay
    *
-   * @return value of serverPollDelay
-   */
+   * @return value of serverPollDelay */
   public String getServerPollDelay() {
     return serverPollDelay;
   }
@@ -162,11 +115,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     this.serverPollDelay = serverPollDelay;
   }
 
-  /**
-   * Gets serverPollInterval
+  /** Gets serverPollInterval
    *
-   * @return value of serverPollInterval
-   */
+   * @return value of serverPollInterval */
   public String getServerPollInterval() {
     return serverPollInterval;
   }
@@ -176,11 +127,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     this.serverPollInterval = serverPollInterval;
   }
 
-  /**
-   * Gets exportingResources
+  /** Gets exportingResources
    *
-   * @return value of exportingResources
-   */
+   * @return value of exportingResources */
   public boolean isExportingResources() {
     return exportingResources;
   }
@@ -190,11 +139,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     this.exportingResources = exportingResources;
   }
 
-  /**
-   * Gets namedResourcesSourceFolder
+  /** Gets namedResourcesSourceFolder
    *
-   * @return value of namedResourcesSourceFolder
-   */
+   * @return value of namedResourcesSourceFolder */
   public String getNamedResourcesSourceFolder() {
     return namedResourcesSourceFolder;
   }
@@ -204,11 +151,9 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
     this.namedResourcesSourceFolder = namedResourcesSourceFolder;
   }
 
-  /**
-   * Gets namedResourcesTargetFolder
+  /** Gets namedResourcesTargetFolder
    *
-   * @return value of namedResourcesTargetFolder
-   */
+   * @return value of namedResourcesTargetFolder */
   public String getNamedResourcesTargetFolder() {
     return namedResourcesTargetFolder;
   }

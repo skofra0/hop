@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,57 +55,29 @@ public class TransformOption {
     this.value = value;
   }
 
-  public static void checkInteger(
-      List<ICheckResult> remarks,
-      TransformMeta transformMeta,
-      IVariables variables,
-      String identifier,
-      String value) {
+  public static void checkInteger(List<ICheckResult> remarks, TransformMeta transformMeta, IVariables variables, String identifier, String value) {
     try {
       if (!StringUtil.isEmpty(variables.resolve(value))) {
         Integer.parseInt(variables.resolve(value));
       }
     } catch (NumberFormatException e) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier), transformMeta));
     }
   }
 
-  public static void checkLong(
-      List<ICheckResult> remarks,
-      TransformMeta transformMeta,
-      IVariables variables,
-      String identifier,
-      String value) {
+  public static void checkLong(List<ICheckResult> remarks, TransformMeta transformMeta, IVariables variables, String identifier, String value) {
     try {
       if (!StringUtil.isEmpty(variables.resolve(value))) {
         Long.parseLong(variables.resolve(value));
       }
     } catch (NumberFormatException e) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier), transformMeta));
     }
   }
 
-  public static void checkBoolean(
-      List<ICheckResult> remarks,
-      TransformMeta transformMeta,
-      IVariables variables,
-      String identifier,
-      String value) {
-    if (!StringUtil.isEmpty(variables.resolve(value))
-        && null == BooleanUtils.toBooleanObject(variables.resolve(value))) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TransformOption.CheckResult.NotABoolean", identifier),
-              transformMeta));
+  public static void checkBoolean(List<ICheckResult> remarks, TransformMeta transformMeta, IVariables variables, String identifier, String value) {
+    if (!StringUtil.isEmpty(variables.resolve(value)) && null == BooleanUtils.toBooleanObject(variables.resolve(value))) {
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TransformOption.CheckResult.NotABoolean", identifier), transformMeta));
     }
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,57 +37,10 @@ import static org.junit.Assert.*;
 
 public class ValueMetaAvroRecordTest {
 
-  private static final String schemaJson =
-      "{\n"
-          + "  \"doc\": \"No documentation URL for now\",\n"
-          + "  \"fields\": [\n"
-          + "    {\n"
-          + "      \"name\": \"id\",\n"
-          + "      \"type\": [\n"
-          + "        \"long\",\n"
-          + "        \"null\"\n"
-          + "      ]\n"
-          + "    },\n"
-          + "    {\n"
-          + "      \"name\": \"sysdate\",\n"
-          + "      \"type\": [\n"
-          + "        \"string\",\n"
-          + "        \"null\"\n"
-          + "      ]\n"
-          + "    },\n"
-          + "    {\n"
-          + "      \"name\": \"num\",\n"
-          + "      \"type\": [\n"
-          + "        \"double\",\n"
-          + "        \"null\"\n"
-          + "      ]\n"
-          + "    },\n"
-          + "    {\n"
-          + "      \"name\": \"int\",\n"
-          + "      \"type\": [\n"
-          + "        \"long\",\n"
-          + "        \"null\"\n"
-          + "      ]\n"
-          + "    },\n"
-          + "    {\n"
-          + "      \"name\": \"str\",\n"
-          + "      \"type\": [\n"
-          + "        \"string\",\n"
-          + "        \"null\"\n"
-          + "      ]\n"
-          + "    },\n"
-          + "    {\n"
-          + "      \"name\": \"uuid\",\n"
-          + "      \"type\": [\n"
-          + "        \"string\",\n"
-          + "        \"null\"\n"
-          + "      ]\n"
-          + "    }\n"
-          + "  ],\n"
-          + "  \"name\": \"all_values\",\n"
-          + "  \"namespace\": \"hop.apache.org\",\n"
-          + "  \"type\": \"record\"\n"
-          + "}";
+  private static final String schemaJson = "{\n" + "  \"doc\": \"No documentation URL for now\",\n" + "  \"fields\": [\n" + "    {\n" + "      \"name\": \"id\",\n" + "      \"type\": [\n" + "        \"long\",\n" + "        \"null\"\n" + "      ]\n" + "    },\n" + "    {\n"
+      + "      \"name\": \"sysdate\",\n" + "      \"type\": [\n" + "        \"string\",\n" + "        \"null\"\n" + "      ]\n" + "    },\n" + "    {\n" + "      \"name\": \"num\",\n" + "      \"type\": [\n" + "        \"double\",\n" + "        \"null\"\n" + "      ]\n" + "    },\n" + "    {\n"
+      + "      \"name\": \"int\",\n" + "      \"type\": [\n" + "        \"long\",\n" + "        \"null\"\n" + "      ]\n" + "    },\n" + "    {\n" + "      \"name\": \"str\",\n" + "      \"type\": [\n" + "        \"string\",\n" + "        \"null\"\n" + "      ]\n" + "    },\n" + "    {\n"
+      + "      \"name\": \"uuid\",\n" + "      \"type\": [\n" + "        \"string\",\n" + "        \"null\"\n" + "      ]\n" + "    }\n" + "  ],\n" + "  \"name\": \"all_values\",\n" + "  \"namespace\": \"hop.apache.org\",\n" + "  \"type\": \"record\"\n" + "}";
 
   @BeforeClass
   public static void before() throws Exception {
@@ -115,7 +68,7 @@ public class ValueMetaAvroRecordTest {
 
     GenericRecord cloned = (GenericRecord) valueMeta.cloneValueData(genericRecord);
 
-    assertFalse(genericRecord==cloned);
+    assertFalse(genericRecord == cloned);
     verifyGenericRecords(genericRecord, cloned);
   }
 
@@ -128,14 +81,8 @@ public class ValueMetaAvroRecordTest {
     Schema schema = new Schema.Parser().parse(schemaJson);
     valueMeta.setSchema(schema);
 
-    assertEquals(
-        "Avro Generic Record {\"type\":\"record\",\"name\":\"all_values\",\"namespace\":\"hop.apache.org\"" +
-                ",\"doc\":\"No documentation URL for now\",\"fields\":[{\"name\":\"id\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]}",
-        valueMeta.toStringMeta());
+    assertEquals("Avro Generic Record {\"type\":\"record\",\"name\":\"all_values\",\"namespace\":\"hop.apache.org\"" + ",\"doc\":\"No documentation URL for now\",\"fields\":[{\"name\":\"id\",\"type\":" + "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]},"
+        + "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":" + "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]}," + "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]}", valueMeta.toStringMeta());
   }
 
   @Test
@@ -166,15 +113,9 @@ public class ValueMetaAvroRecordTest {
     valueMeta.storeMetaInJson(jValue);
 
     String valueJson = jValue.toJSONString();
-    assertEquals(
-        "{\"schema\":{\"name\":\"all_values\",\"namespace\":\"hop.apache.org\",\"doc\":" +
-                "\"No documentation URL for now\",\"type\":\"record\",\"fields\":[{\"name\":\"id\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]},\"precision\":-1,\"name\":" +
-                "\"test\",\"length\":-1,\"conversionMask\":null,\"type\":20}",
-        valueJson);
+    assertEquals("{\"schema\":{\"name\":\"all_values\",\"namespace\":\"hop.apache.org\",\"doc\":" + "\"No documentation URL for now\",\"type\":\"record\",\"fields\":[{\"name\":\"id\",\"type\":" + "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]},"
+        + "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":" + "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]}," + "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]},\"precision\":-1,\"name\":"
+        + "\"test\",\"length\":-1,\"conversionMask\":null,\"type\":20}", valueJson);
 
     // Read it back...
     //

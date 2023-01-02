@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,16 +42,9 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-/**
- * This class defines the database specific parameters for a certain database type. It also provides
- * static information regarding a number of well known databases.
- */
-@HopMetadata(
-    key = "rdbms",
-    name = "Relational Database Connection",
-    description = "This contains all the metadata needed to connect to a relational database",
-    image = "ui/images/database.svg",
-    documentationUrl = "/metadata-types/rdbms-connection.html")
+/** This class defines the database specific parameters for a certain database type. It also provides
+ * static information regarding a number of well known databases. */
+@HopMetadata(key = "rdbms", name = "Relational Database Connection", description = "This contains all the metadata needed to connect to a relational database", image = "ui/images/database.svg", documentationUrl = "/metadata-types/rdbms-connection.html")
 public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMetadata {
   private static final Class<?> PKG = Database.class; // For Translator
 
@@ -60,8 +53,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
   public static final String GUI_PLUGIN_ELEMENT_PARENT_ID = "DatabaseMeta-PluginSpecific-Options";
 
   // Comparator for sorting databases alphabetically by name
-  public static final Comparator<DatabaseMeta> comparator =
-      (DatabaseMeta dbm1, DatabaseMeta dbm2) -> dbm1.getName().compareToIgnoreCase(dbm2.getName());
+  public static final Comparator<DatabaseMeta> comparator = (DatabaseMeta dbm1, DatabaseMeta dbm2) -> dbm1.getName().compareToIgnoreCase(dbm2.getName());
 
   @HopMetadataProperty(key = "rdbms")
   private IDatabase iDatabase;
@@ -73,25 +65,22 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
   }
 
   public static void init() {
-    PluginRegistry.getInstance()
-        .addPluginListener(
-            DatabasePluginType.class,
-            new IPluginTypeListener() {
-              @Override
-              public void pluginAdded(Object serviceObject) {
-                clearDatabaseInterfacesMap();
-              }
+    PluginRegistry.getInstance().addPluginListener(DatabasePluginType.class, new IPluginTypeListener() {
+      @Override
+      public void pluginAdded(Object serviceObject) {
+        clearDatabaseInterfacesMap();
+      }
 
-              @Override
-              public void pluginRemoved(Object serviceObject) {
-                clearDatabaseInterfacesMap();
-              }
+      @Override
+      public void pluginRemoved(Object serviceObject) {
+        clearDatabaseInterfacesMap();
+      }
 
-              @Override
-              public void pluginChanged(Object serviceObject) {
-                clearDatabaseInterfacesMap();
-              }
-            });
+      @Override
+      public void pluginChanged(Object serviceObject) {
+        clearDatabaseInterfacesMap();
+      }
+    });
   }
 
   private boolean readOnly = false;
@@ -105,17 +94,14 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
   /** Longer description for user interactions. */
   public static final String[] dbAccessTypeDesc = {"Native (JDBC)"};
 
-  /**
-   * Use this length in a String value to indicate that you want to use a CLOB in stead of a normal
-   * text field.
-   */
+  /** Use this length in a String value to indicate that you want to use a CLOB in stead of a normal
+   * text field. */
   public static final int CLOB_LENGTH = 9999999;
 
   /** The value to store in the attributes so that an empty value doesn't get lost... */
   public static final String EMPTY_OPTIONS_STRING = "><EMPTY><";
 
-  /**
-   * Construct a new database connections. Note that not all these parameters are not always
+  /** Construct a new database connections. Note that not all these parameters are not always
    * mandatory.
    *
    * @param name The database name
@@ -125,17 +111,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
    * @param db The database name
    * @param port The port on which the database listens.
    * @param user The username
-   * @param pass The password
-   */
-  public DatabaseMeta(
-      String name,
-      String type,
-      String access,
-      String host,
-      String db,
-      String port,
-      String user,
-      String pass) {
+   * @param pass The password */
+  public DatabaseMeta(String name, String type, String access, String host, String db, String port, String user, String pass) {
     setValues(name, type, access, host, db, port, user, pass);
     addOptions();
   }
@@ -146,16 +123,14 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     addOptions();
   }
 
-  public static DatabaseMeta loadDatabase(
-      IHopMetadataProvider metadataProvider, String connectionName) throws HopXmlException {
+  public static DatabaseMeta loadDatabase(IHopMetadataProvider metadataProvider, String connectionName) throws HopXmlException {
     if (metadataProvider == null || StringUtils.isEmpty(connectionName)) {
       return null; // Nothing to find or load
     }
     try {
       return metadataProvider.getSerializer(DatabaseMeta.class).load(connectionName);
     } catch (Exception e) {
-      throw new HopXmlException(
-          "Unable to load relational database connection '" + connectionName + "'", e);
+      throw new HopXmlException("Unable to load relational database connection '" + connectionName + "'", e);
     }
   }
 
@@ -181,41 +156,32 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase;
   }
 
-  /**
-   * Set the system dependend database interface for this database metadata definition
+  /** Set the system dependend database interface for this database metadata definition
    *
-   * @param iDatabase the system dependend database interface
-   */
+   * @param iDatabase the system dependend database interface */
   public void setIDatabase(IDatabase iDatabase) {
     this.iDatabase = iDatabase;
   }
 
-  /**
-   * Search for the right type of IDatabase object and clone it.
+  /** Search for the right type of IDatabase object and clone it.
    *
    * @param databaseType the type of IDatabase to look for (description)
    * @return The requested IDatabase
-   * @throws HopDatabaseException when the type could not be found or referenced.
-   */
+   * @throws HopDatabaseException when the type could not be found or referenced. */
   public static final IDatabase getIDatabase(String databaseType) throws HopDatabaseException {
     IDatabase di = findIDatabase(databaseType);
     if (di == null) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(
-              PKG, "DatabaseMeta.Error.DatabaseInterfaceNotFound", databaseType));
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "DatabaseMeta.Error.DatabaseInterfaceNotFound", databaseType));
     }
     return (IDatabase) di.clone();
   }
 
-  /**
-   * Search for the right type of IDatabase object and return it.
+  /** Search for the right type of IDatabase object and return it.
    *
    * @param databaseTypeDesc the type of IDatabase to look for (id or description)
    * @return The requested IDatabase
-   * @throws HopDatabaseException when the type could not be found or referenced.
-   */
-  private static final IDatabase findIDatabase(String databaseTypeDesc)
-      throws HopDatabaseException {
+   * @throws HopDatabaseException when the type could not be found or referenced. */
+  private static final IDatabase findIDatabase(String databaseTypeDesc) throws HopDatabaseException {
     PluginRegistry registry = PluginRegistry.getInstance();
     IPlugin plugin = registry.getPlugin(DatabasePluginType.class, databaseTypeDesc);
     if (plugin == null) {
@@ -223,8 +189,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     }
 
     if (plugin == null) {
-      throw new HopDatabaseException(
-          "database type with plugin id [" + databaseTypeDesc + "] couldn't be found!");
+      throw new HopDatabaseException("database type with plugin id [" + databaseTypeDesc + "] couldn't be found!");
     }
 
     return getIDatabaseMap().get(plugin.getIds()[0]);
@@ -236,15 +201,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
   }
 
   public void replaceMeta(DatabaseMeta databaseMeta) {
-    this.setValues(
-        databaseMeta.getName(),
-        databaseMeta.getPluginId(),
-        databaseMeta.getAccessTypeDesc(),
-        databaseMeta.getHostname(),
-        databaseMeta.getDatabaseName(),
-        databaseMeta.getPort(),
-        databaseMeta.getUsername(),
-        databaseMeta.getPassword());
+    this.setValues(databaseMeta.getName(), databaseMeta.getPluginId(), databaseMeta.getAccessTypeDesc(), databaseMeta.getHostname(), databaseMeta.getDatabaseName(), databaseMeta.getPort(), databaseMeta.getUsername(), databaseMeta.getPassword());
     this.setServername(databaseMeta.getServername());
     this.setDataTablespace(databaseMeta.getDataTablespace());
     this.setIndexTablespace(databaseMeta.getIndexTablespace());
@@ -257,15 +214,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     this.setChanged();
   }
 
-  public void setValues(
-      String name,
-      String type,
-      String access,
-      String host,
-      String db,
-      String port,
-      String user,
-      String pass) {
+  public void setValues(String name, String type, String access, String host, String db, String port, String user, String pass) {
     try {
       iDatabase = getIDatabase(type);
     } catch (HopDatabaseException kde) {
@@ -324,125 +273,98 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
    * @param db_type The database type public void
    */
 
-  /**
-   * Return the type of database access. One of
-   *
-   * <p>TYPE_ACCESS_NATIVE
-   *
-   * <p>TYPE_ACCESS_OCI
-   *
+  /** Return the type of database access. One of
+   * <p>
+   * TYPE_ACCESS_NATIVE
+   * <p>
+   * TYPE_ACCESS_OCI
    * <p>
    *
-   * @return The type of database access.
-   */
+   * @return The type of database access. */
   public int getAccessType() {
     return iDatabase.getAccessType();
   }
 
-  /**
-   * Set the type of database access.
+  /** Set the type of database access.
    *
-   * @param accessType The access type.
-   */
+   * @param accessType The access type. */
   public void setAccessType(int accessType) {
     iDatabase.setAccessType(accessType);
   }
 
-  /**
-   * Gets you a short description of the type of database access.
+  /** Gets you a short description of the type of database access.
    *
-   * @return A short description of the type of database access.
-   */
+   * @return A short description of the type of database access. */
   public String getAccessTypeDesc() {
     return dbAccessTypeCode[getAccessType()];
   }
 
-  /**
-   * Return the hostname of the machine on which the database runs.
+  /** Return the hostname of the machine on which the database runs.
    *
-   * @return The hostname of the database.
-   */
+   * @return The hostname of the database. */
   public String getHostname() {
     return iDatabase.getHostname();
   }
 
-  /**
-   * Sets the hostname of the machine on which the database runs.
+  /** Sets the hostname of the machine on which the database runs.
    *
-   * @param hostname The hostname of the machine on which the database runs.
-   */
+   * @param hostname The hostname of the machine on which the database runs. */
   public void setHostname(String hostname) {
     iDatabase.setHostname(hostname);
   }
 
-  /**
-   * Return the port on which the database listens as a String. Allows for parameterisation.
+  /** Return the port on which the database listens as a String. Allows for parameterisation.
    *
-   * @return The database port.
-   */
+   * @return The database port. */
   public String getPort() {
     return iDatabase.getPort();
   }
 
-  /**
-   * Sets the port on which the database listens.
+  /** Sets the port on which the database listens.
    *
-   * @param port The port number on which the database listens
-   */
+   * @param port The port number on which the database listens */
   public void setPort(String port) {
     iDatabase.setPort(port);
   }
 
-  /**
-   * Return the name of the database.
+  /** Return the name of the database.
    *
-   * @return The database name.
-   */
+   * @return The database name. */
   public String getDatabaseName() {
     return iDatabase.getDatabaseName();
   }
 
-  /**
-   * Set the name of the database.
+  /** Set the name of the database.
    *
-   * @param databaseName The new name of the database
-   */
+   * @param databaseName The new name of the database */
   public void setDBName(String databaseName) {
     iDatabase.setDatabaseName(databaseName);
   }
 
-  /**
-   * Get the username to log into the database on this connection.
+  /** Get the username to log into the database on this connection.
    *
-   * @return The username to log into the database on this connection.
-   */
+   * @return The username to log into the database on this connection. */
   public String getUsername() {
     return iDatabase.getUsername();
   }
 
-  /**
-   * Sets the username to log into the database on this connection.
+  /** Sets the username to log into the database on this connection.
    *
-   * @param username The username
-   */
+   * @param username The username */
   public void setUsername(String username) {
     iDatabase.setUsername(username);
   }
 
-  /**
-   * Get the password to log into the database on this connection.
+  /** Get the password to log into the database on this connection.
    *
-   * @return the password to log into the database on this connection.
-   */
+   * @return the password to log into the database on this connection. */
   public String getPassword() {
     return iDatabase.getPassword();
   }
 
-  /**
-   * Sets the password to log into the database on this connection.
+  /** Sets the password to log into the database on this connection.
    *
-   * @param password the password to log into the database on this connection.
-   */
+   * @param password the password to log into the database on this connection. */
   public void setPassword(String password) {
     iDatabase.setPassword(password);
   }
@@ -494,9 +416,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getManualUrl();
   }
 
-  /**
-   * @param manualUrl A manually entered URL which will be used over the internally generated one
-   */
+  /** @param manualUrl A manually entered URL which will be used over the internally generated one */
   public void setManualUrl(String manualUrl) {
     iDatabase.setManualUrl(manualUrl);
   }
@@ -511,11 +431,9 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getAttributes();
   }
 
-  /**
-   * Set extra attributes on this database connection
+  /** Set extra attributes on this database connection
    *
-   * @param attributes The extra attributes to set on this database connection.
-   */
+   * @param attributes The extra attributes to set on this database connection. */
   public void setAttributes(Map<String, String> attributes) {
     iDatabase.setAttributes(attributes);
   }
@@ -532,10 +450,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
 
   public String getURL(IVariables variables) throws HopDatabaseException {
 
-    /**
-     * A manually constructed URL overrides all other options. We make sure to see that there's no
-     * variables or tab in the field
-     */
+    /** A manually constructed URL overrides all other options. We make sure to see that there's no
+     * variables or tab in the field */
     if (StringUtils.isNotEmpty(getManualUrl()) && StringUtils.isNotBlank(getManualUrl())) {
       return getManualUrl();
     }
@@ -544,9 +460,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     String port = variables.resolve(getPort());
     String databaseName = variables.resolve(getDatabaseName());
 
-    String baseUrl =
-        iDatabase.getURL(
-            variables.resolve(hostname), variables.resolve(port), variables.resolve(databaseName));
+    String baseUrl = iDatabase.getURL(variables.resolve(hostname), variables.resolve(port), variables.resolve(databaseName));
     String url = variables.resolve(baseUrl);
 
     if (iDatabase.isSupportsOptionsInURL()) {
@@ -556,8 +470,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return url;
   }
 
-  protected String appendExtraOptions(
-      IVariables variables, String url, Map<String, String> extraOptions) {
+  protected String appendExtraOptions(IVariables variables, String url, Map<String, String> extraOptions) {
     if (extraOptions.isEmpty()) {
       return url;
     }
@@ -592,16 +505,9 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       boolean dbForBothDbInterfacesIsSame = false;
       try {
         IDatabase primaryDb = getDbInterface(typeCode);
-        dbForBothDbInterfacesIsSame =
-            databaseForBothDbInterfacesIsTheSame(primaryDb, getIDatabase());
+        dbForBothDbInterfacesIsSame = databaseForBothDbInterfacesIsTheSame(primaryDb, getIDatabase());
       } catch (HopDatabaseException e) {
-        getGeneralLogger()
-            .logError(
-                "IDatabase with "
-                    + typeCode
-                    + " database type is not found! Parameter "
-                    + parameter
-                    + "won't be appended to URL");
+        getGeneralLogger().logError("IDatabase with " + typeCode + " database type is not found! Parameter " + parameter + "won't be appended to URL");
       }
       if (dbForBothDbInterfacesIsSame) {
         if (first && url.indexOf(valueSeparator) == -1) {
@@ -610,10 +516,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
           urlBuilder.append(optionSeparator);
         }
 
-        urlBuilder
-            .append(variables.resolve(parameter))
-            .append(valueSeparator)
-            .append(variables.resolve(value));
+        urlBuilder.append(variables.resolve(parameter)).append(valueSeparator).append(variables.resolve(value));
         first = false;
       }
     }
@@ -621,12 +524,10 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return urlBuilder.toString();
   }
 
-  /**
-   * This method is designed to identify whether the actual database for two database connection
+  /** This method is designed to identify whether the actual database for two database connection
    * types is the same. This situation can occur in two cases: 1. plugin id of {@code primary} is
    * the same as plugin id of {@code secondary} 2. {@code secondary} is a descendant {@code primary}
-   * (with any deepness).
-   */
+   * (with any deepness). */
   protected boolean databaseForBothDbInterfacesIsTheSame(IDatabase primary, IDatabase secondary) {
     if (primary == null || secondary == null) {
       throw new IllegalArgumentException("IDatabase shouldn't be null!");
@@ -643,10 +544,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return primary.getClass().isAssignableFrom(secondary.getClass());
   }
 
-  /**
-   * @return The extra JDBC options for this connection type with the variables in options and
-   *     values expanded
-   */
+  /** @return The extra JDBC options for this connection type with the variables in options and
+   *         values expanded */
   public Properties getConnectionProperties(IVariables variables) {
     Properties properties = new Properties();
 
@@ -663,18 +562,14 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return getIDatabase().getExtraOptionIndicator();
   }
 
-  /**
-   * @return The extra option separator in database URL for this platform (usually this is semicolon
-   *     ; )
-   */
+  /** @return The extra option separator in database URL for this platform (usually this is semicolon
+   *         ; ) */
   public String getExtraOptionSeparator() {
     return getIDatabase().getExtraOptionSeparator();
   }
 
-  /**
-   * @return The extra option value separator in database URL for this platform (usually this is the
-   *     equal sign = )
-   */
+  /** @return The extra option value separator in database URL for this platform (usually this is the
+   *         equal sign = ) */
   public String getExtraOptionValueSeparator() {
     return getIDatabase().getExtraOptionValueSeparator();
   }
@@ -709,13 +604,11 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return optionsMap;
   }
 
-  /**
-   * Add an extra option to the attributes list
+  /** Add an extra option to the attributes list
    *
    * @param databaseTypeCode The database type code for which the option applies
    * @param option The option to set
-   * @param value The value of the option
-   */
+   * @param value The value of the option */
   public void addExtraOption(String databaseTypeCode, String option, String value) {
     iDatabase.addExtraOption(databaseTypeCode, option, value);
   }
@@ -763,29 +656,23 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.isSupportsCatalogs();
   }
 
-  /**
-   * @return true when the database engine supports empty transaction. (for example Informix does
-   *     not on a non-ANSI database type!)
-   */
+  /** @return true when the database engine supports empty transaction. (for example Informix does
+   *         not on a non-ANSI database type!) */
   public boolean supportsEmptyTransactions() {
     return iDatabase.isSupportsEmptyTransactions();
   }
 
-  /**
-   * See if this database supports the setCharacterStream() method on a PreparedStatement.
+  /** See if this database supports the setCharacterStream() method on a PreparedStatement.
    *
-   * @return true if we can set a Stream on a field in a PreparedStatement. False if not.
-   */
+   * @return true if we can set a Stream on a field in a PreparedStatement. False if not. */
   public boolean supportsSetCharacterStream() {
     return iDatabase.isSupportsSetCharacterStream();
   }
 
-  /**
-   * Get the maximum length of a text field for this database connection. This includes optional
+  /** Get the maximum length of a text field for this database connection. This includes optional
    * CLOB, Memo and Text fields. (the maximum!)
    *
-   * @return The maximum text field length for this database type. (mostly CLOB_LENGTH)
-   */
+   * @return The maximum text field length for this database type. (mostly CLOB_LENGTH) */
   public int getMaxTextFieldLength() {
     return iDatabase.getMaxTextFieldLength();
   }
@@ -838,52 +725,44 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return list.toArray(new IDatabase[list.size()]);
   }
 
-  /**
-   * Clear the database interfaces map. The map is cached by getDatabaseInterfacesMap(), but in some
+  /** Clear the database interfaces map. The map is cached by getDatabaseInterfacesMap(), but in some
    * instances it may need to be reloaded (such as adding/updating Database plugins). After calling
-   * clearDatabaseInterfacesMap(), the next call to getDatabaseInterfacesMap() will reload the map.
-   */
+   * clearDatabaseInterfacesMap(), the next call to getDatabaseInterfacesMap() will reload the map. */
   public static final void clearDatabaseInterfacesMap() {
     allDatabaseInterfaces = null;
   }
 
   private static final Future<Map<String, IDatabase>> createDatabaseInterfacesMap() {
-    return ExecutorUtil.getExecutor()
-        .submit(
-            new Callable<Map<String, IDatabase>>() {
-              private Map<String, IDatabase> doCreate() {
-                ILogChannel log = LogChannel.GENERAL;
-                PluginRegistry registry = PluginRegistry.getInstance();
+    return ExecutorUtil.getExecutor().submit(new Callable<Map<String, IDatabase>>() {
+      private Map<String, IDatabase> doCreate() {
+        ILogChannel log = LogChannel.GENERAL;
+        PluginRegistry registry = PluginRegistry.getInstance();
 
-                List<IPlugin> plugins = registry.getPlugins(DatabasePluginType.class);
-                HashMap<String, IDatabase> tmpAllDatabaseInterfaces = new HashMap<>();
-                for (IPlugin plugin : plugins) {
-                  try {
-                    IDatabase iDatabase = (IDatabase) registry.loadClass(plugin);
-                    iDatabase.setPluginId(plugin.getIds()[0]);
-                    iDatabase.setPluginName(plugin.getName());
-                    tmpAllDatabaseInterfaces.put(plugin.getIds()[0], iDatabase);
-                  } catch (HopPluginException cnfe) {
-                    log.logError(
-                        "Could not create connection entry for "
-                            + plugin.getName()
-                            + ".  "
-                            + cnfe.getCause().getClass().getName());
-                    if (log.isDebug()) {
-                      log.logDebug("Debug-Error loading plugin: " + plugin, cnfe);
-                    }
-                  } catch (Exception e) {
-                    log.logError("Error loading plugin: " + plugin, e);
-                  }
-                }
-                return Collections.unmodifiableMap(tmpAllDatabaseInterfaces);
-              }
+        List<IPlugin> plugins = registry.getPlugins(DatabasePluginType.class);
+        HashMap<String, IDatabase> tmpAllDatabaseInterfaces = new HashMap<>();
+        for (IPlugin plugin : plugins) {
+          try {
+            IDatabase iDatabase = (IDatabase) registry.loadClass(plugin);
+            iDatabase.setPluginId(plugin.getIds()[0]);
+            iDatabase.setPluginName(plugin.getName());
+            tmpAllDatabaseInterfaces.put(plugin.getIds()[0], iDatabase);
+          } catch (HopPluginException cnfe) {
+            log.logError("Could not create connection entry for " + plugin.getName() + ".  " + cnfe.getCause().getClass().getName());
+            if (log.isDebug()) {
+              log.logDebug("Debug-Error loading plugin: " + plugin, cnfe);
+            }
+          } catch (Exception e) {
+            log.logError("Error loading plugin: " + plugin, e);
+          }
+        }
+        return Collections.unmodifiableMap(tmpAllDatabaseInterfaces);
+      }
 
-              @Override
-              public Map<String, IDatabase> call() throws Exception {
-                return doCreate();
-              }
-            });
+      @Override
+      public Map<String, IDatabase> call() throws Exception {
+        return doCreate();
+      }
+    });
   }
 
   public static final Map<String, IDatabase> getIDatabaseMap() {
@@ -984,11 +863,9 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.isFetchSizeSupported();
   }
 
-  /**
-   * Indicates the need to insert a placeholder (0) for auto increment fields.
+  /** Indicates the need to insert a placeholder (0) for auto increment fields.
    *
-   * @return true if we need a placeholder for auto increment fields in insert statements.
-   */
+   * @return true if we need a placeholder for auto increment fields in insert statements. */
   public boolean needsPlaceHolder() {
     return iDatabase.isNeedsPlaceHolder();
   }
@@ -1013,11 +890,9 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getFunctionCount();
   }
 
-  /**
-   * Check the database connection parameters and give back an array of remarks
+  /** Check the database connection parameters and give back an array of remarks
    *
-   * @return an array of remarks Strings
-   */
+   * @return an array of remarks Strings */
   public String[] checkParameters() {
     ArrayList<String> remarks = new ArrayList<>();
 
@@ -1029,35 +904,28 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       remarks.add(BaseMessages.getString(PKG, "DatabaseMeta.BadConnectionName"));
     }
 
-    if (getIDatabase().isRequiresName()
-        && (getDatabaseName() == null || getDatabaseName().length() == 0)) {
+    if (getIDatabase().isRequiresName() && (getDatabaseName() == null || getDatabaseName().length() == 0)) {
       remarks.add(BaseMessages.getString(PKG, "DatabaseMeta.BadDatabaseName"));
     }
 
     return remarks.toArray(new String[remarks.size()]);
   }
 
-  /**
-   * Calculate the schema-table combination, usually this is the schema and table separated with a
+  /** Calculate the schema-table combination, usually this is the schema and table separated with a
    * dot. (schema.table)
    *
    * @param schemaName the schema-name or null if no schema is used.
    * @param tableName the table name
-   * @return the schemaname-tablename combination
-   */
-  public String getQuotedSchemaTableCombination(
-      IVariables variables, String schemaName, String tableName) {
+   * @return the schemaname-tablename combination */
+  public String getQuotedSchemaTableCombination(IVariables variables, String schemaName, String tableName) {
     if (Utils.isEmpty(schemaName)) {
       if (Utils.isEmpty(getPreferredSchemaName())) {
         return quoteField(variables.resolve(tableName)); // no need to look further
       } else {
-        return iDatabase.getSchemaTableCombination(
-            quoteField(variables.resolve(getPreferredSchemaName())),
-            quoteField(variables.resolve(tableName)));
+        return iDatabase.getSchemaTableCombination(quoteField(variables.resolve(getPreferredSchemaName())), quoteField(variables.resolve(tableName)));
       }
     } else {
-      return iDatabase.getSchemaTableCombination(
-          quoteField(variables.resolve(schemaName)), quoteField(variables.resolve(tableName)));
+      return iDatabase.getSchemaTableCombination(quoteField(variables.resolve(schemaName)), quoteField(variables.resolve(tableName)));
     }
   }
 
@@ -1076,16 +944,9 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return getFieldDefinition(v, tk, pk, useAutoIncrement, true, true);
   }
 
-  public String getFieldDefinition(
-      IValueMeta v,
-      String tk,
-      String pk,
-      boolean useAutoIncrement,
-      boolean addFieldname,
-      boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoIncrement, boolean addFieldname, boolean addCr) {
 
-    String definition =
-        v.getDatabaseColumnTypeDefinition(iDatabase, tk, pk, useAutoIncrement, addFieldname, addCr);
+    String definition = v.getDatabaseColumnTypeDefinition(iDatabase, tk, pk, useAutoIncrement, addFieldname, addCr);
     if (!Utils.isEmpty(definition)) {
       return definition;
     }
@@ -1097,24 +958,15 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getLimitClause(nrRows);
   }
 
-  /**
-   * @param tableName The table or schema-table combination. We expect this to be quoted properly
-   *     already!
-   * @return the SQL for to get the fields of this table.
-   */
+  /** @param tableName The table or schema-table combination. We expect this to be quoted properly
+   *        already!
+   * @return the SQL for to get the fields of this table. */
   public String getSqlQueryFields(String tableName) {
     return iDatabase.getSqlQueryFields(tableName);
   }
 
-  public String getAddColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
-    String retval =
-        iDatabase.getAddColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
+    String retval = iDatabase.getAddColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
     retval += Const.CR;
     if (semicolon) {
       retval += ";" + Const.CR;
@@ -1122,15 +974,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return retval;
   }
 
-  public String getDropColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
-    String retval =
-        iDatabase.getDropColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
+    String retval = iDatabase.getDropColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
     retval += Const.CR;
     if (semicolon) {
       retval += ";" + Const.CR;
@@ -1138,15 +983,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return retval;
   }
 
-  public String getModifyColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
-    String retval =
-        iDatabase.getModifyColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
+    String retval = iDatabase.getModifyColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
     retval += Const.CR;
     if (semicolon) {
       retval += ";" + Const.CR;
@@ -1175,12 +1013,10 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getEndQuote();
   }
 
-  /**
-   * Returns a quoted field if this is needed: contains spaces, is a reserved word, ...
+  /** Returns a quoted field if this is needed: contains spaces, is a reserved word, ...
    *
    * @param field The fieldname to check for quoting
-   * @return The quoted field (if this is needed.
-   */
+   * @return The quoted field (if this is needed. */
   public String quoteField(String field) {
     if (Utils.isEmpty(field)) {
       return null;
@@ -1201,10 +1037,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     if (isReservedWord(field) && quoteReservedWords()) {
       return handleCase(getStartQuote() + field + getEndQuote());
     } else {
-      if (iDatabase.isQuoteAllFields()
-          || hasSpacesInField(field)
-          || hasSpecialCharInField(field)
-          || hasDotInField(field)) {
+      if (iDatabase.isQuoteAllFields() || hasSpacesInField(field) || hasSpecialCharInField(field) || hasDotInField(field)) {
         return getStartQuote() + field + getEndQuote();
       } else {
         return field;
@@ -1224,24 +1057,20 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     }
   }
 
-  /**
-   * Determines whether or not this field is in need of quoting:<br>
+  /** Determines whether or not this field is in need of quoting:<br>
    * - When the fieldname contains spaces<br>
    * - When the fieldname is a reserved word<br>
    *
    * @param fieldname the fieldname to check if there is a need for quoting
-   * @return true if the fieldname needs to be quoted.
-   */
+   * @return true if the fieldname needs to be quoted. */
   public boolean isInNeedOfQuoting(String fieldname) {
     return isReservedWord(fieldname) || hasSpacesInField(fieldname);
   }
 
-  /**
-   * Returns true if the string specified is a reserved word on this database type.
+  /** Returns true if the string specified is a reserved word on this database type.
    *
    * @param word The word to check
-   * @return true if word is a reserved word on this database.
-   */
+   * @return true if word is a reserved word on this database. */
   public boolean isReservedWord(String word) {
     String[] reserved = getReservedWords();
     if (Const.indexOfString(word, reserved) >= 0) {
@@ -1250,12 +1079,10 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return false;
   }
 
-  /**
-   * Detects if a field has spaces in the name. We need to quote the field in that case.
+  /** Detects if a field has spaces in the name. We need to quote the field in that case.
    *
    * @param fieldname The fieldname to check for spaces
-   * @return true if the fieldname contains spaces
-   */
+   * @return true if the fieldname contains spaces */
   public boolean hasSpacesInField(String fieldname) {
     if (fieldname == null) {
       return false;
@@ -1266,12 +1093,10 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return false;
   }
 
-  /**
-   * Detects if a field has spaces in the name. We need to quote the field in that case.
+  /** Detects if a field has spaces in the name. We need to quote the field in that case.
    *
    * @param fieldname The fieldname to check for spaces
-   * @return true if the fieldname contains spaces
-   */
+   * @return true if the fieldname contains spaces */
   public boolean hasSpecialCharInField(String fieldname) {
     if (fieldname == null) {
       return false;
@@ -1331,12 +1156,10 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return false;
   }
 
-  /**
-   * Checks the fields specified for reserved words and quotes them.
+  /** Checks the fields specified for reserved words and quotes them.
    *
    * @param fields the list of fields to check
-   * @return true if one or more values have a name that is a reserved word on this database type.
-   */
+   * @return true if one or more values have a name that is a reserved word on this database type. */
   public boolean replaceReservedWords(IRowMeta fields) {
     boolean hasReservedWords = false;
     for (int i = 0; i < fields.size(); i++) {
@@ -1349,12 +1172,10 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return hasReservedWords;
   }
 
-  /**
-   * Checks the fields specified for reserved words
+  /** Checks the fields specified for reserved words
    *
    * @param fields the list of fields to check
-   * @return The nr of reserved words for this database.
-   */
+   * @return The nr of reserved words for this database. */
   public int getNrReservedWords(IRowMeta fields) {
     int nrReservedWords = 0;
     for (int i = 0; i < fields.size(); i++) {
@@ -1381,10 +1202,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getSynonymTypes();
   }
 
-  /**
-   * @return true if we need to supply the schema-name to getTables in order to get a correct list
-   *     of items.
-   */
+  /** @return true if we need to supply the schema-name to getTables in order to get a correct list
+   *         of items. */
   public boolean useSchemaNameForTableList() {
     return iDatabase.useSchemaNameForTableList();
   }
@@ -1404,38 +1223,29 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getSqlListOfProcedures();
   }
 
-  /**
-   * @param tableName The tablename to be truncated
+  /** @param tableName The tablename to be truncated
    * @return The SQL statement to remove all rows from the specified statement, if possible without
-   *     using transactions
-   */
+   *         using transactions */
   public String getTruncateTableStatement(IVariables variables, String schema, String tableName) {
-    return iDatabase.getTruncateTableStatement(
-        getQuotedSchemaTableCombination(variables, schema, tableName));
+    return iDatabase.getTruncateTableStatement(getQuotedSchemaTableCombination(variables, schema, tableName));
   }
 
-  /**
-   * @return true if the database rounds floating point numbers to the right precision. For example
-   *     if the target field is number(7,2) the value 12.399999999 is converted into 12.40
-   */
+  /** @return true if the database rounds floating point numbers to the right precision. For example
+   *         if the target field is number(7,2) the value 12.399999999 is converted into 12.40 */
   public boolean supportsFloatRoundingOnUpdate() {
     return iDatabase.isSupportsFloatRoundingOnUpdate();
   }
 
-  /**
-   * @param tableNames The names of the tables to lock
+  /** @param tableNames The names of the tables to lock
    * @return The SQL commands to lock database tables for write purposes. null is returned in case
-   *     locking is not supported on the target database.
-   */
+   *         locking is not supported on the target database. */
   public String getSqlLockTables(String[] tableNames) {
     return iDatabase.getSqlLockTables(tableNames);
   }
 
-  /**
-   * @param tableNames The names of the tables to unlock
+  /** @param tableNames The names of the tables to unlock
    * @return The SQL commands to unlock databases tables. null is returned in case locking is not
-   *     supported on the target database.
-   */
+   *         supported on the target database. */
   public String getSqlUnlockTables(String[] tableNames) {
     return iDatabase.getSqlUnlockTables(tableNames);
   }
@@ -1557,10 +1367,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       // Schema-table combination
       r = new RowMetaAndData();
       r.addValue(par, IValueMeta.TYPE_STRING, "Schema / Table combination");
-      r.addValue(
-          val,
-          IValueMeta.TYPE_STRING,
-          getQuotedSchemaTableCombination(variables, "SCHEMA", "TABLE"));
+      r.addValue(val, IValueMeta.TYPE_STRING, getQuotedSchemaTableCombination(variables, "SCHEMA", "TABLE"));
       list.add(r);
       // Limit clause
       r = new RowMetaAndData();
@@ -1570,26 +1377,17 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       // add column statement
       r = new RowMetaAndData();
       r.addValue(par, IValueMeta.TYPE_STRING, "Add column statement");
-      r.addValue(
-          val,
-          IValueMeta.TYPE_STRING,
-          getAddColumnStatement("TABLE", testValue, null, false, null, false));
+      r.addValue(val, IValueMeta.TYPE_STRING, getAddColumnStatement("TABLE", testValue, null, false, null, false));
       list.add(r);
       // drop column statement
       r = new RowMetaAndData();
       r.addValue(par, IValueMeta.TYPE_STRING, "Drop column statement");
-      r.addValue(
-          val,
-          IValueMeta.TYPE_STRING,
-          getDropColumnStatement("TABLE", testValue, null, false, null, false));
+      r.addValue(val, IValueMeta.TYPE_STRING, getDropColumnStatement("TABLE", testValue, null, false, null, false));
       list.add(r);
       // Modify column statement
       r = new RowMetaAndData();
       r.addValue(par, IValueMeta.TYPE_STRING, "Modify column statement");
-      r.addValue(
-          val,
-          IValueMeta.TYPE_STRING,
-          getModifyColumnStatement("TABLE", testValue, null, false, null, false));
+      r.addValue(val, IValueMeta.TYPE_STRING, getModifyColumnStatement("TABLE", testValue, null, false, null, false));
       list.add(r);
 
       // List of reserved words
@@ -1683,10 +1481,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       r = new RowMetaAndData();
       r.addValue(par, IValueMeta.TYPE_STRING, "SQL: truncate table");
       String truncateStatement = getTruncateTableStatement(variables, "SCHEMA", "TABLE");
-      r.addValue(
-          val,
-          IValueMeta.TYPE_STRING,
-          truncateStatement != null ? truncateStatement : "Not supported by this database type");
+      r.addValue(val, IValueMeta.TYPE_STRING, truncateStatement != null ? truncateStatement : "Not supported by this database type");
       list.add(r);
       // supports float rounding on update?
       r = new RowMetaAndData();
@@ -1713,17 +1508,13 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return list;
   }
 
-  /**
-   * @return true if the database result sets support getTimeStamp() to retrieve date-time. (Date)
-   */
+  /** @return true if the database result sets support getTimeStamp() to retrieve date-time. (Date) */
   public boolean supportsTimeStampToDateConversion() {
     return iDatabase.isSupportsTimeStampToDateConversion();
   }
 
-  /**
-   * @return true if the database JDBC driver supports batch updates For example Interbase doesn't
-   *     support this!
-   */
+  /** @return true if the database JDBC driver supports batch updates For example Interbase doesn't
+   *         support this! */
   public boolean supportsBatchUpdates() {
     return iDatabase.isSupportsBatchUpdates();
   }
@@ -1738,17 +1529,13 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     iDatabase.setSupportsBooleanDataType(b);
   }
 
-  /**
-   * @return true if the database supports the Timestamp data type (nanosecond precision and all)
-   */
+  /** @return true if the database supports the Timestamp data type (nanosecond precision and all) */
   public boolean supportsTimestampDataType() {
     return iDatabase.isSupportsTimestampDataType();
   }
 
-  /**
-   * @param b Set to true if the database supports the Timestamp data type (nanosecond precision and
-   *     all)
-   */
+  /** @param b Set to true if the database supports the Timestamp data type (nanosecond precision and
+   *        all) */
   public void setSupportsTimestampDataType(boolean b) {
     iDatabase.setSupportsTimestampDataType(b);
   }
@@ -1763,11 +1550,9 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     iDatabase.setPreserveReservedCase(b);
   }
 
-  /**
-   * Changes the names of the fields to their quoted equivalent if this is needed
+  /** Changes the names of the fields to their quoted equivalent if this is needed
    *
-   * @param fields The row of fields to change
-   */
+   * @param fields The row of fields to change */
   public void quoteReservedWords(IRowMeta fields) {
     for (int i = 0; i < fields.size(); i++) {
       IValueMeta v = fields.getValueMeta(i);
@@ -1780,10 +1565,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getExtraOptions();
   }
 
-  /**
-   * @return true if the database supports connection options in the URL, false if they are put in a
-   *     Properties object.
-   */
+  /** @return true if the database supports connection options in the URL, false if they are put in a
+   *         Properties object. */
   public boolean supportsOptionsInURL() {
     return iDatabase.isSupportsOptionsInURL();
   }
@@ -1793,10 +1576,8 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getExtraOptionsHelpText();
   }
 
-  /**
-   * @return true if the database JDBC driver supports getBlob on the resultset. If not we must use
-   *     getBytes() to get the data.
-   */
+  /** @return true if the database JDBC driver supports getBlob on the resultset. If not we must use
+   *         getBytes() to get the data. */
   public boolean supportsGetBlob() {
     return iDatabase.isSupportsGetBlob();
   }
@@ -1811,21 +1592,17 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     iDatabase.setConnectSql(sql);
   }
 
-  /**
-   * @return true if the database supports setting the maximum number of return rows in a resultset.
-   */
+  /** @return true if the database supports setting the maximum number of return rows in a resultset. */
   public boolean supportsSetMaxRows() {
     return iDatabase.isSupportsSetMaxRows();
   }
 
-  /**
-   * Verify the name of the database and if required, change it if it already exists in the list of
+  /** Verify the name of the database and if required, change it if it already exists in the list of
    * databases.
    *
    * @param databases the databases to check against.
    * @param oldname the old name of the database
-   * @return the new name of the database connection
-   */
+   * @return the new name of the database connection */
   public String verifyAndModifyDatabaseName(List<DatabaseMeta> databases, String oldname) {
     String name = getName();
     if (name.equalsIgnoreCase(oldname)) {
@@ -1848,17 +1625,13 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.getSqlColumnExists(columnname, tableName);
   }
 
-  /**
-   * @return true if the database is streaming results (normally this is an option just for MySQL).
-   */
+  /** @return true if the database is streaming results (normally this is an option just for MySQL). */
   public boolean isStreamingResults() {
     return iDatabase.isStreamingResults();
   }
 
-  /**
-   * @param useStreaming true if we want the database to stream results (normally this is an option
-   *     just for MySQL).
-   */
+  /** @param useStreaming true if we want the database to stream results (normally this is an option
+   *        just for MySQL). */
   public void setStreamingResults(boolean useStreaming) {
     iDatabase.setStreamingResults(useStreaming);
   }
@@ -1893,13 +1666,11 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     iDatabase.setForcingIdentifiersToUpperCase(forceUpperCase);
   }
 
-  /**
-   * Find a database with a certain name in an arraylist of databases.
+  /** Find a database with a certain name in an arraylist of databases.
    *
    * @param databases The ArrayList of databases
    * @param dbname The name of the database connection
-   * @return The database object if one was found, null otherwise.
-   */
+   * @return The database object if one was found, null otherwise. */
   public static final DatabaseMeta findDatabase(List<DatabaseMeta> databases, String dbname) {
     if (databases == null || dbname == null) {
       return null;
@@ -1947,25 +1718,19 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     }
   }
 
-  /**
-   * @return true if the Microsoft SQL server uses two decimals (..) to separate schema and table
-   *     (default==false).
-   */
+  /** @return true if the Microsoft SQL server uses two decimals (..) to separate schema and table
+   *         (default==false). */
   public boolean isUsingDoubleDecimalAsSchemaTableSeparator() {
     return iDatabase.isUsingDoubleDecimalAsSchemaTableSeparator();
   }
 
-  /**
-   * @param useDoubleDecimalSeparator true if we want the database to stream results (normally this
-   *     is an option just for MySQL).
-   */
+  /** @param useDoubleDecimalSeparator true if we want the database to stream results (normally this
+   *        is an option just for MySQL). */
   public void setUsingDoubleDecimalAsSchemaTableSeparator(boolean useDoubleDecimalSeparator) {
     iDatabase.setUsingDoubleDecimalAsSchemaTableSeparator(useDoubleDecimalSeparator);
   }
 
-  /**
-   * @return true if this database needs a transaction to perform a query (auto-commit turned off).
-   */
+  /** @return true if this database needs a transaction to perform a query (auto-commit turned off). */
   public boolean isRequiringTransactionsOnQueries() {
     return iDatabase.isRequiringTransactionsOnQueries();
   }
@@ -1980,21 +1745,11 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       IDatabaseFactory factory = getDatabaseFactory();
       return factory.getConnectionTestReport(variables, this);
     } catch (ClassNotFoundException e) {
-      report
-          .append(
-              BaseMessages.getString(
-                  PKG, "BaseDatabaseMeta.TestConnectionReportNotImplemented.Message"))
-          .append(Const.CR);
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName())
-              + e.toString()
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "BaseDatabaseMeta.TestConnectionReportNotImplemented.Message")).append(Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName()) + e.toString() + Const.CR);
       report.append(Const.getStackTracker(e) + Const.CR);
     } catch (Exception e) {
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName())
-              + e.toString()
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName()) + e.toString() + Const.CR);
       report.append(Const.getStackTracker(e) + Const.CR);
     }
     return report.toString();
@@ -2011,23 +1766,13 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
       IDatabaseFactory factory = getDatabaseFactory();
       databaseTestResults = factory.getConnectionTestResults(variables, this);
     } catch (ClassNotFoundException e) {
-      report
-          .append(
-              BaseMessages.getString(
-                  PKG, "BaseDatabaseMeta.TestConnectionReportNotImplemented.Message"))
-          .append(Const.CR);
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName())
-              + e.toString()
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "BaseDatabaseMeta.TestConnectionReportNotImplemented.Message")).append(Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName()) + e.toString() + Const.CR);
       report.append(Const.getStackTracker(e) + Const.CR);
       databaseTestResults.setMessage(report.toString());
       databaseTestResults.setSuccess(false);
     } catch (Exception e) {
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName())
-              + e.toString()
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", getName()) + e.toString() + Const.CR);
       report.append(Const.getStackTracker(e) + Const.CR);
       databaseTestResults.setMessage(report.toString());
       databaseTestResults.setSuccess(false);
@@ -2039,8 +1784,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     PluginRegistry registry = PluginRegistry.getInstance();
     IPlugin plugin = registry.getPlugin(DatabasePluginType.class, iDatabase.getPluginId());
     if (plugin == null) {
-      throw new HopDatabaseException(
-          "database type with plugin id [" + iDatabase.getPluginId() + "] couldn't be found!");
+      throw new HopDatabaseException("database type with plugin id [" + iDatabase.getPluginId() + "] couldn't be found!");
     }
 
     ClassLoader loader = registry.getClassLoader(plugin);
@@ -2097,22 +1841,17 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.isSupportsErrorHandlingOnBatchUpdates();
   }
 
-  /**
-   * Get the SQL to insert a new empty unknown record in a dimension.
+  /** Get the SQL to insert a new empty unknown record in a dimension.
    *
    * @param schemaTable the schema-table name to insert into
    * @param keyField The key field
    * @param versionField the version field
-   * @return the SQL to insert the unknown record into the SCD.
-   */
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+   * @return the SQL to insert the unknown record into the SCD. */
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return iDatabase.getSqlInsertAutoIncUnknownDimensionRow(schemaTable, keyField, versionField);
   }
 
-  /**
-   * @return true if this is a relational database you can explore. Return false for SAP, PALO, etc.
-   */
+  /** @return true if this is a relational database you can explore. Return false for SAP, PALO, etc. */
   public boolean isExplorable() {
     return iDatabase.isExplorable();
   }
@@ -2135,27 +1874,22 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.isMySqlVariant();
   }
 
-  public Object getValueFromResultSet(ResultSet rs, IValueMeta val, int i)
-      throws HopDatabaseException {
+  public Object getValueFromResultSet(ResultSet rs, IValueMeta val, int i) throws HopDatabaseException {
     return iDatabase.getValueFromResultSet(rs, val, i);
   }
 
-  /**
-   * Marker used to determine if the DatabaseMeta should be allowed to be modified/saved. It does
+  /** Marker used to determine if the DatabaseMeta should be allowed to be modified/saved. It does
    * NOT prevent object modification.
    *
-   * @return
-   */
+   * @return */
   public boolean isReadOnly() {
     return readOnly;
   }
 
-  /**
-   * Sets the marker used to determine if the DatabaseMeta should be allowed to be modified/saved.
+  /** Sets the marker used to determine if the DatabaseMeta should be allowed to be modified/saved.
    * Setting to true does NOT prevent object modification.
    *
-   * @return
-   */
+   * @return */
   public void setReadOnly(boolean readOnly) {
     this.readOnly = readOnly;
   }
@@ -2169,21 +1903,17 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
     return iDatabase.isSupportsAutoGeneratedKeys();
   }
 
-  /**
-   * Customizes the IValueMeta defined in the base
+  /** Customizes the IValueMeta defined in the base
    *
-   * @return String the create table statement
-   */
+   * @return String the create table statement */
   public String getCreateTableStatement() {
     return iDatabase.getCreateTableStatement();
   }
 
-  /**
-   * Forms the drop table statement specific for a certain RDBMS.
+  /** Forms the drop table statement specific for a certain RDBMS.
    *
    * @param tableName Name of the table to drop
-   * @return Drop table statement specific for the current database
-   */
+   * @return Drop table statement specific for the current database */
   public String getDropTableIfExistsStatement(String tableName) {
     return iDatabase.getDropTableIfExistsStatement(tableName);
   }

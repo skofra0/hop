@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,21 +24,21 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class TreeUtil {
   public static final void setOptimalWidthOnColumns(final Tree tree) {
-    if (tree.isDisposed()) return;
+    if (tree.isDisposed())
+      return;
     // Compute size in UI Thread to avoid NPE
-    tree.getDisplay()
-        .asyncExec(
-            () -> {
-              if (tree.isDisposed()) return;
-              tree.setRedraw(false);
-              for (TreeColumn column : tree.getColumns()) {
-                if (column.isDisposed()) break;
-                column.pack();
-                column.setWidth(
-                    column.getWidth() + (int) (40 * PropsUi.getInstance().getZoomFactor()));
-              }
-              tree.setRedraw(true);
-            });
+    tree.getDisplay().asyncExec(() -> {
+      if (tree.isDisposed())
+        return;
+      tree.setRedraw(false);
+      for (TreeColumn column : tree.getColumns()) {
+        if (column.isDisposed())
+          break;
+        column.pack();
+        column.setWidth(column.getWidth() + (int) (40 * PropsUi.getInstance().getZoomFactor()));
+      }
+      tree.setRedraw(true);
+    });
   }
 
   public static final TreeItem findTreeItem(Tree tree, String[] path) {

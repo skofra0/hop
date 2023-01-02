@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,9 +19,7 @@ package org.apache.hop.core.exception;
 
 import org.apache.hop.core.Const;
 
-/**
- * This is an exception thrown by file handling (I/O) when an End Of File marker has been reached.
- */
+/** This is an exception thrown by file handling (I/O) when an End Of File marker has been reached. */
 public class HopFileException extends HopException {
   public static final long serialVersionUID = 0x8D8EA0264F7A1C13L;
 
@@ -30,35 +28,29 @@ public class HopFileException extends HopException {
     super();
   }
 
-  /**
-   * Constructs a new throwable with the specified detail message.
+  /** Constructs a new throwable with the specified detail message.
    *
    * @param message - the detail message. The detail message is saved for later retrieval by the
-   *     getMessage() method.
-   */
+   *        getMessage() method. */
   public HopFileException(String message) {
     super(message);
   }
 
-  /**
-   * Constructs a new throwable with the specified cause and a detail message of (cause==null ? null
+  /** Constructs a new throwable with the specified cause and a detail message of (cause==null ? null
    * : cause.toString()) (which typically contains the class and detail message of cause).
    *
    * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-   *     value is permitted, and indicates that the cause is nonexistent or unknown.)
-   */
+   *        value is permitted, and indicates that the cause is nonexistent or unknown.) */
   public HopFileException(Throwable cause) {
     super(cause);
   }
 
-  /**
-   * Constructs a new throwable with the specified detail message and cause.
+  /** Constructs a new throwable with the specified detail message and cause.
    *
    * @param message the detail message (which is saved for later retrieval by the getMessage()
-   *     method).
+   *        method).
    * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-   *     value is permitted, and indicates that the cause is nonexistent or unknown.)
-   */
+   *        value is permitted, and indicates that the cause is nonexistent or unknown.) */
   public HopFileException(String message, Throwable cause) {
     super(message, cause);
   }
@@ -78,17 +70,7 @@ public class HopFileException extends HopException {
         // Add with stack trace elements of cause...
         StackTraceElement[] ste = cause.getStackTrace();
         for (int i = ste.length - 1; i >= 0; i--) {
-          retval +=
-              " at "
-                  + ste[i].getClassName()
-                  + "."
-                  + ste[i].getMethodName()
-                  + " ("
-                  + ste[i].getFileName()
-                  + ":"
-                  + ste[i].getLineNumber()
-                  + ")"
-                  + Const.CR;
+          retval += " at " + ste[i].getClassName() + "." + ste[i].getMethodName() + " (" + ste[i].getFileName() + ":" + ste[i].getLineNumber() + ")" + Const.CR;
         }
       }
     }

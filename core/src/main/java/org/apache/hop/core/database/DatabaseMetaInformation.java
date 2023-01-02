@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,9 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-/**
- * Contains the schema's, catalogs, tables, views, synonyms, etc we can find in the databases...
- */
+/** Contains the schema's, catalogs, tables, views, synonyms, etc we can find in the databases... */
 public class DatabaseMetaInformation {
   private static final Class<?> PKG = Database.class; // For Translator
 
@@ -61,31 +59,30 @@ public class DatabaseMetaInformation {
     this.databaseMeta = databaseMeta;
   }
 
-  public void getData(ILoggingObject parentLoggingObject, IProgressMonitor monitor)
-      throws HopDatabaseException {
+  public void getData(ILoggingObject parentLoggingObject, IProgressMonitor monitor) throws HopDatabaseException {
     if (monitor == null) {
-        monitor = new ProgressNullMonitorListener();
+      monitor = new ProgressNullMonitorListener();
     }
 
     monitor.beginTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingInfoFromDb"), 8);
     Database db = new Database(parentLoggingObject, variables, databaseMeta);
 
     try {
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.ConnectingDb"));      
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.ConnectingDb"));
       db.connect();
       monitor.worked(1);
 
       if (monitor.isCanceled()) {
         return;
       }
-      
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingMetaData"));     
+
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingMetaData"));
       DatabaseMetaData dbmd = db.getDatabaseMetaData();
       monitor.worked(1);
       if (monitor.isCanceled()) {
         return;
       }
-      
+
       // Get catalogs
       //
       monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingInfo"));
@@ -94,8 +91,7 @@ public class DatabaseMetaInformation {
         ArrayList<Catalog> catalogList = new ArrayList<>();
 
         String catalogFilterKey = databaseMeta.getPluginId() + "." + FILTER_CATALOG_LIST;
-        if ((connectionExtraOptions != null)
-            && connectionExtraOptions.containsKey(catalogFilterKey)) {
+        if ((connectionExtraOptions != null) && connectionExtraOptions.containsKey(catalogFilterKey)) {
           String catsFilterCommaList = connectionExtraOptions.get(catalogFilterKey);
           String[] catsFilterArray = catsFilterCommaList.split(",");
           for (int i = 0; i < catsFilterArray.length; i++) {
@@ -125,8 +121,7 @@ public class DatabaseMetaInformation {
           ArrayList<String> catalogTables = new ArrayList<>();
 
           try {
-            ResultSet catalogTablesResultSet =
-                dbmd.getTables(catalog.getCatalogName(), null, null, null);
+            ResultSet catalogTablesResultSet = dbmd.getTables(catalog.getCatalogName(), null, null, null);
             while (catalogTablesResultSet.next()) {
               String tableName = catalogTablesResultSet.getString(3);
 
@@ -160,13 +155,12 @@ public class DatabaseMetaInformation {
 
       // Get schemas
       //
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSchemaInfo"));      
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSchemaInfo"));
       if (databaseMeta.supportsSchemas() && dbmd.supportsSchemasInTableDefinitions()) {
         ArrayList<Schema> schemaList = new ArrayList<>();
         try {
           String schemaFilterKey = databaseMeta.getPluginId() + "." + FILTER_SCHEMA_LIST;
-          if ((connectionExtraOptions != null)
-              && connectionExtraOptions.containsKey(schemaFilterKey)) {
+          if ((connectionExtraOptions != null) && connectionExtraOptions.containsKey(schemaFilterKey)) {
             String schemasFilterCommaList = connectionExtraOptions.get(schemaFilterKey);
             String[] schemasFilterArray = schemasFilterCommaList.split(",");
             for (int i = 0; i < schemasFilterArray.length; i++) {
@@ -205,8 +199,7 @@ public class DatabaseMetaInformation {
             ArrayList<String> schemaTables = new ArrayList<>();
 
             try {
-              ResultSet schemaTablesResultSet =
-                  dbmd.getTables(null, schema.getSchemaName(), null, null);
+              ResultSet schemaTablesResultSet = dbmd.getTables(null, schema.getSchemaName(), null, null);
               while (schemaTablesResultSet.next()) {
                 String tableName = schemaTablesResultSet.getString(3);
                 if (!db.isSystemTable(tableName)) {
@@ -225,7 +218,7 @@ public class DatabaseMetaInformation {
             }
 
             schema.setItems(schemaTables.toArray(new String[schemaTables.size()]));
-            
+
             if (monitor.isCanceled()) {
               return;
             }
@@ -245,7 +238,7 @@ public class DatabaseMetaInformation {
 
       // Get tables
       //
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingTables"));      
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingTables"));
       setTables(db.getTablenames(databaseMeta.supportsSchemas())); // legacy call
       setTableMap(db.getTableMap());
       monitor.worked(1);
@@ -267,7 +260,7 @@ public class DatabaseMetaInformation {
 
       // Get synonyms
       //
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSynonyms"));     
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSynonyms"));
       if (databaseMeta.supportsSynonyms()) {
         setSynonyms(db.getSynonyms(databaseMeta.supportsSchemas())); // legacy call
         setSynonymMap(db.getSynonymMap());
@@ -278,13 +271,12 @@ public class DatabaseMetaInformation {
       }
 
       // Get procedures
-      //      
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingProcedures"));      
+      //
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingProcedures"));
       setProcedures(db.getProcedures());
       monitor.worked(1);
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "DatabaseMeta.Error.UnableRetrieveDbInfo"), e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "DatabaseMeta.Error.UnableRetrieveDbInfo"), e);
     } finally {
       monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.ClosingDbConnection"));
       db.disconnect();
@@ -292,11 +284,9 @@ public class DatabaseMetaInformation {
     }
   }
 
-  /**
-   * Gets tables
+  /** Gets tables
    *
-   * @return value of tables
-   */
+   * @return value of tables */
   public String[] getTables() {
     return tables;
   }
@@ -306,11 +296,9 @@ public class DatabaseMetaInformation {
     this.tables = tables;
   }
 
-  /**
-   * Gets tableMap
+  /** Gets tableMap
    *
-   * @return value of tableMap
-   */
+   * @return value of tableMap */
   public Map<String, Collection<String>> getTableMap() {
     return tableMap;
   }
@@ -320,11 +308,9 @@ public class DatabaseMetaInformation {
     this.tableMap = tableMap;
   }
 
-  /**
-   * Gets views
+  /** Gets views
    *
-   * @return value of views
-   */
+   * @return value of views */
   public String[] getViews() {
     return views;
   }
@@ -334,11 +320,9 @@ public class DatabaseMetaInformation {
     this.views = views;
   }
 
-  /**
-   * Gets viewMap
+  /** Gets viewMap
    *
-   * @return value of viewMap
-   */
+   * @return value of viewMap */
   public Map<String, Collection<String>> getViewMap() {
     return viewMap;
   }
@@ -348,11 +332,9 @@ public class DatabaseMetaInformation {
     this.viewMap = viewMap;
   }
 
-  /**
-   * Gets synonyms
+  /** Gets synonyms
    *
-   * @return value of synonyms
-   */
+   * @return value of synonyms */
   public String[] getSynonyms() {
     return synonyms;
   }
@@ -362,11 +344,9 @@ public class DatabaseMetaInformation {
     this.synonyms = synonyms;
   }
 
-  /**
-   * Gets synonymMap
+  /** Gets synonymMap
    *
-   * @return value of synonymMap
-   */
+   * @return value of synonymMap */
   public Map<String, Collection<String>> getSynonymMap() {
     return synonymMap;
   }
@@ -376,11 +356,9 @@ public class DatabaseMetaInformation {
     this.synonymMap = synonymMap;
   }
 
-  /**
-   * Gets catalogs
+  /** Gets catalogs
    *
-   * @return value of catalogs
-   */
+   * @return value of catalogs */
   public Catalog[] getCatalogs() {
     return catalogs;
   }
@@ -390,11 +368,9 @@ public class DatabaseMetaInformation {
     this.catalogs = catalogs;
   }
 
-  /**
-   * Gets schemas
+  /** Gets schemas
    *
-   * @return value of schemas
-   */
+   * @return value of schemas */
   public Schema[] getSchemas() {
     return schemas;
   }
@@ -404,11 +380,9 @@ public class DatabaseMetaInformation {
     this.schemas = schemas;
   }
 
-  /**
-   * Gets procedures
+  /** Gets procedures
    *
-   * @return value of procedures
-   */
+   * @return value of procedures */
   public String[] getProcedures() {
     return procedures;
   }
@@ -418,11 +392,9 @@ public class DatabaseMetaInformation {
     this.procedures = procedures;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
@@ -432,11 +404,9 @@ public class DatabaseMetaInformation {
     this.variables = variables;
   }
 
-  /**
-   * Gets databaseMeta
+  /** Gets databaseMeta
    *
-   * @return value of databaseMeta
-   */
+   * @return value of databaseMeta */
   public DatabaseMeta getDatabaseMeta() {
     return databaseMeta;
   }

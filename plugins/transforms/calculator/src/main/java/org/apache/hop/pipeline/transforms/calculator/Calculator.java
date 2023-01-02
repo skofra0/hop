@@ -48,13 +48,7 @@ public class Calculator extends BaseTransform<CalculatorMeta, CalculatorData> {
     public int indexC;
   }
 
-  public Calculator(
-      TransformMeta transformMeta,
-      CalculatorMeta meta,
-      CalculatorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Calculator(TransformMeta transformMeta, CalculatorMeta meta, CalculatorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

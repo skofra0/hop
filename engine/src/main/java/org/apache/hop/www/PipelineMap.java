@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,36 +39,27 @@ public class PipelineMap {
     pipelineMap = new ConcurrentHashMap<>();
   }
 
-  /**
-   * Add a pipeline to the map
+  /** Add a pipeline to the map
    *
    * @param pipelineName The name of the pipeline to add
    * @param containerObjectId the unique ID of the pipeline in this container.
    * @param pipeline The pipeline to add
-   * @param pipelineConfiguration the pipeline configuration to add
-   */
-  public void addPipeline(
-      String pipelineName,
-      String containerObjectId,
-      IPipelineEngine<PipelineMeta> pipeline,
-      PipelineConfiguration pipelineConfiguration) {
+   * @param pipelineConfiguration the pipeline configuration to add */
+  public void addPipeline(String pipelineName, String containerObjectId, IPipelineEngine<PipelineMeta> pipeline, PipelineConfiguration pipelineConfiguration) {
     HopServerObjectEntry entry = new HopServerObjectEntry(pipelineName, containerObjectId);
     pipelineMap.put(entry, new PipelineData(pipeline, pipelineConfiguration));
   }
 
   public void registerPipeline(Pipeline pipeline, PipelineConfiguration pipelineConfiguration) {
     pipeline.setContainerId(UUID.randomUUID().toString());
-    HopServerObjectEntry entry =
-        new HopServerObjectEntry(pipeline.getPipelineMeta().getName(), pipeline.getContainerId());
+    HopServerObjectEntry entry = new HopServerObjectEntry(pipeline.getPipelineMeta().getName(), pipeline.getContainerId());
     pipelineMap.put(entry, new PipelineData(pipeline, pipelineConfiguration));
   }
 
-  /**
-   * Find the first pipeline in the list that comes to mind!
+  /** Find the first pipeline in the list that comes to mind!
    *
    * @param pipelineName
-   * @return the first pipeline with the specified name
-   */
+   * @return the first pipeline with the specified name */
   public IPipelineEngine<PipelineMeta> getPipeline(String pipelineName) {
     for (HopServerObjectEntry entry : pipelineMap.keySet()) {
       if (entry.getName().equals(pipelineName)) {
@@ -78,10 +69,8 @@ public class PipelineMap {
     return null;
   }
 
-  /**
-   * @param entry The HopServer pipeline object
-   * @return the pipeline with the specified entry
-   */
+  /** @param entry The HopServer pipeline object
+   * @return the pipeline with the specified entry */
   public IPipelineEngine<PipelineMeta> getPipeline(HopServerObjectEntry entry) {
     PipelineData pipelineData = pipelineMap.get(entry);
     if (pipelineData != null) {
@@ -90,10 +79,8 @@ public class PipelineMap {
     return null;
   }
 
-  /**
-   * @param pipelineName
-   * @return The first pipeline configuration with the specified name
-   */
+  /** @param pipelineName
+   * @return The first pipeline configuration with the specified name */
   public PipelineConfiguration getConfiguration(String pipelineName) {
     for (HopServerObjectEntry entry : pipelineMap.keySet()) {
       if (entry.getName().equals(pipelineName)) {
@@ -103,10 +90,8 @@ public class PipelineMap {
     return null;
   }
 
-  /**
-   * @param entry The HopServer pipeline object
-   * @return the pipeline configuration with the specified entry
-   */
+  /** @param entry The HopServer pipeline object
+   * @return the pipeline configuration with the specified entry */
   public PipelineConfiguration getConfiguration(HopServerObjectEntry entry) {
     return pipelineMap.get(entry).getConfiguration();
   }
@@ -150,20 +135,10 @@ public class PipelineMap {
   public HopServerSequence createServerSequence(String name) throws HopException {
     HopServerSequence auto = hopServerConfig.getAutoSequence();
     if (auto == null) {
-      throw new HopException(
-          "No auto-sequence information found in the hop server config.  "
-              + "Server sequence could not be created automatically.");
+      throw new HopException("No auto-sequence information found in the hop server config.  " + "Server sequence could not be created automatically.");
     }
 
-    HopServerSequence hopServerSequence =
-        new HopServerSequence(
-            name,
-            auto.getStartValue(),
-            auto.getDatabaseMeta(),
-            auto.getSchemaName(),
-            auto.getTableName(),
-            auto.getSequenceNameField(),
-            auto.getValueField());
+    HopServerSequence hopServerSequence = new HopServerSequence(name, auto.getStartValue(), auto.getDatabaseMeta(), auto.getSchemaName(), auto.getTableName(), auto.getSequenceNameField(), auto.getValueField());
 
     hopServerConfig.getHopServerSequences().add(hopServerSequence);
 

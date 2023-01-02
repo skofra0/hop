@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -119,12 +119,10 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
     }
   }
 
-  /**
-   * Extracts used variables and their values.
+  /** Extracts used variables and their values.
    *
    * @param workflowMeta The metadata to search for variables
-   * @param variables The place to look up the values in
-   */
+   * @param variables The place to look up the values in */
   public void getUsedVariables(WorkflowMeta workflowMeta, IVariables variables) {
     Properties properties = new Properties();
 
@@ -143,8 +141,7 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
         String varname = vars.get(i);
         if (!varname.startsWith(Const.INTERNAL_VARIABLE_PREFIX)) {
           // add all new non-internal variables to newVariablesMap
-          newVariables.put(
-              varname, Const.NVL(variablesMap.get(varname), properties.getProperty(varname, "")));
+          newVariables.put(varname, Const.NVL(variablesMap.get(varname), properties.getProperty(varname, "")));
         }
       }
       variablesMap.putAll(newVariables);
@@ -222,8 +219,7 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
     xml.append("    ").append(XmlHandler.addTagValue("start_copy_name", startActionName));
 
     xml.append("    ").append(XmlHandler.addTagValue("gather_metrics", gatheringMetrics));
-    xml.append("    ")
-        .append(XmlHandler.addTagValue("expand_remote_workflow", expandingRemoteWorkflow));
+    xml.append("    ").append(XmlHandler.addTagValue("expand_remote_workflow", expandingRemoteWorkflow));
     xml.append("    ").append(XmlHandler.addTagValue("run_configuration", runConfiguration));
 
     // The source rows...
@@ -239,8 +235,7 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
   public WorkflowExecutionConfiguration(Node configNode) throws HopException {
     this();
 
-    expandingRemoteWorkflow =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(configNode, "expand_remote_workflow"));
+    expandingRemoteWorkflow = "Y".equalsIgnoreCase(XmlHandler.getTagValue(configNode, "expand_remote_workflow"));
 
     // Read the variables...
     //
@@ -339,11 +334,9 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
     this.extensionOptions = extensionOptions;
   }
 
-  /**
-   * Gets expandingRemoteWorkflow
+  /** Gets expandingRemoteWorkflow
    *
-   * @return value of expandingRemoteWorkflow
-   */
+   * @return value of expandingRemoteWorkflow */
   public boolean isExpandingRemoteWorkflow() {
     return expandingRemoteWorkflow;
   }

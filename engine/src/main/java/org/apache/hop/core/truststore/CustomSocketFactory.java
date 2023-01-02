@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,8 +38,7 @@ public class CustomSocketFactory extends SSLSocketFactory {
 
   private static TrustManager[] trustManagers = null;
 
-  private static final TrustManager[] ALWAYS_TRUST_MANAGER =
-      new TrustManager[] {new TrustAlwaysManager()};
+  private static final TrustManager[] ALWAYS_TRUST_MANAGER = new TrustManager[] {new TrustAlwaysManager()};
 
   private SSLSocketFactory factory;
 
@@ -84,10 +83,7 @@ public class CustomSocketFactory extends SSLSocketFactory {
         keyStore = KeyStore.getInstance("JKS");
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              classFromPackage, "HopTrustManager.Exception.CouldNotCreateCertStore"),
-          e);
+      throw new HopException(BaseMessages.getString(classFromPackage, "HopTrustManager.Exception.CouldNotCreateCertStore"), e);
     }
 
     trustManagers = new HopTrustManager[] {new HopTrustManager(keyStore, path, password)};
@@ -106,8 +102,7 @@ public class CustomSocketFactory extends SSLSocketFactory {
   }
 
   @Override
-  public Socket createSocket(String host, int port, InetAddress clientHost, int clientPort)
-      throws IOException {
+  public Socket createSocket(String host, int port, InetAddress clientHost, int clientPort) throws IOException {
     return factory.createSocket(host, port, clientHost, clientPort);
   }
 
@@ -117,14 +112,12 @@ public class CustomSocketFactory extends SSLSocketFactory {
   }
 
   @Override
-  public Socket createSocket(InetAddress host, int port, InetAddress clientHost, int clientPort)
-      throws IOException {
+  public Socket createSocket(InetAddress host, int port, InetAddress clientHost, int clientPort) throws IOException {
     return factory.createSocket(host, port, clientHost, clientPort);
   }
 
   @Override
-  public Socket createSocket(Socket socket, String host, int port, boolean autoclose)
-      throws IOException {
+  public Socket createSocket(Socket socket, String host, int port, boolean autoclose) throws IOException {
     return factory.createSocket(socket, host, port, autoclose);
   }
 

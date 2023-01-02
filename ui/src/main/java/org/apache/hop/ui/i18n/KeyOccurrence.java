@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,28 +49,18 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
     occurrences = 0;
   }
 
-  /**
-   * @param fileObject The java source file
+  /** @param fileObject The java source file
    * @param messagesPackage The location of the messages file, derived from "^import .*Messages;"
    * @param fileIndex The position in the file
    * @param key The i18n key
-   * @param arguments The arguments from the source code
-   */
-  public KeyOccurrence(
-      FileObject fileObject,
-      String sourceFolder,
-      String messagesPackage,
-      int fileIndex,
-      String key,
-      String arguments,
-      String sourceLine) {
+   * @param arguments The arguments from the source code */
+  public KeyOccurrence(FileObject fileObject, String sourceFolder, String messagesPackage, int fileIndex, String key, String arguments, String sourceLine) {
     this();
     if (fileObject == null) {
       throw new RuntimeException("A key occurrence needs to have a file in which it occurs");
     }
     if (messagesPackage == null) {
-      throw new RuntimeException(
-          "A key occurrence needs to have a messages package in file '" + fileObject + "'");
+      throw new RuntimeException("A key occurrence needs to have a messages package in file '" + fileObject + "'");
     }
 
     this.fileObject = fileObject;
@@ -84,13 +74,7 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
   }
 
   public String toString() {
-    return "[source="
-        + sourceFolder
-        + ", key="
-        + key
-        + ", messages package="
-        + messagesPackage
-        + "]";
+    return "[source=" + sourceFolder + ", key=" + key + ", messages package=" + messagesPackage + "]";
   }
 
   public boolean equals(Object occ) {
@@ -100,9 +84,7 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
     if (this == occ) {
       return true;
     }
-    return sourceFolder.equals(((KeyOccurrence) occ).sourceFolder)
-        && key.equals(((KeyOccurrence) occ).key)
-        && messagesPackage.equals(((KeyOccurrence) occ).messagesPackage);
+    return sourceFolder.equals(((KeyOccurrence) occ).sourceFolder) && key.equals(((KeyOccurrence) occ).key) && messagesPackage.equals(((KeyOccurrence) occ).messagesPackage);
   }
 
   @Override
@@ -144,11 +126,9 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
     this.sourceFolder = sourceFolder;
   }
 
-  /**
-   * Gets fileIndex
+  /** Gets fileIndex
    *
-   * @return value of fileIndex
-   */
+   * @return value of fileIndex */
   public int getFileIndex() {
     return fileIndex;
   }

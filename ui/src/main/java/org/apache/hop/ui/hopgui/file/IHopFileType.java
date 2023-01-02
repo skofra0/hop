@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,11 +52,9 @@ public interface IHopFileType {
   /** @return The name of this file type */
   String getName();
 
-  /**
-   * Returns the default file extension in lowercase prefixed with dot (.xxx) for this file type.
+  /** Returns the default file extension in lowercase prefixed with dot (.xxx) for this file type.
    *
-   * @return The default file extension
-   */
+   * @return The default file extension */
   String getDefaultFileExtension();
 
   /** @return The file type extensions. */
@@ -68,57 +66,44 @@ public interface IHopFileType {
   /** @return The capabilities of this file handler */
   Properties getCapabilities();
 
-  /**
-   * Check to see if the capability is present
+  /** Check to see if the capability is present
    *
    * @param capability The capability to check
-   * @return True if the capability is set to any non-null value
-   */
+   * @return True if the capability is set to any non-null value */
   boolean hasCapability(String capability);
 
-  /**
-   * Load and display the file
+  /** Load and display the file
    *
    * @param hopGui The hop GUI to reference
    * @param filename The filename to load
    * @param parentVariableSpace The parent variablespace to inherit from
-   * @return The hop file handler
-   */
-  IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace)
-      throws HopException;
+   * @return The hop file handler */
+  IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException;
 
   IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException;
 
-  /**
-   * Look at the given file and see if it's handled by this type. Usually this is done by simply
+  /** Look at the given file and see if it's handled by this type. Usually this is done by simply
    * looking at the file extension. In rare cases we look at the content.
    *
    * @param filename The filename
    * @param checkContent True if we want to look inside the file content
    * @return true if this HopFile is handling the file
    * @throws HopException In case something goes wrong like: file doesn't exist, a permission
-   *     problem, ...
-   */
+   *         problem, ... */
   boolean isHandledBy(String filename, boolean checkContent) throws HopException;
 
-  /**
-   * Checks whether or not this file type supports the given metadata class
+  /** Checks whether or not this file type supports the given metadata class
    *
    * @param metaObject The object to verify support for
-   * @return
-   */
+   * @return */
   boolean supportsFile(IHasFilename metaObject);
 
-  /**
-   * @return A list of context handlers allowing you to see all the actions that can be taken with
-   *     the current file type. (CRUD, ...)
-   */
+  /** @return A list of context handlers allowing you to see all the actions that can be taken with
+   *         the current file type. (CRUD, ...) */
   List<IGuiContextHandler> getContextHandlers();
 
-  /**
-   * The icon image for this file type
+  /** The icon image for this file type
    *
-   * @return The path to the SVG file, a logo for this file type
-   */
+   * @return The path to the SVG file, a logo for this file type */
   String getFileTypeImage();
 }

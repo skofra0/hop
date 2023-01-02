@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,18 +58,8 @@ public class ModPartitionerDialog extends BaseTransformDialog implements ITransf
 
   private CCombo wFieldname;
 
-  public ModPartitionerDialog(
-      Shell parent,
-      IVariables variables,
-      TransformMeta transformMeta,
-      TransformPartitioningMeta partitioningMeta,
-      PipelineMeta pipelineMeta) {
-    super(
-        parent,
-        variables,
-        (BaseTransformMeta) transformMeta.getTransform(),
-        pipelineMeta,
-        partitioningMeta.getPartitioner().getDescription());
+  public ModPartitionerDialog(Shell parent, IVariables variables, TransformMeta transformMeta, TransformPartitioningMeta partitioningMeta, PipelineMeta pipelineMeta) {
+    super(parent, variables, (BaseTransformMeta) transformMeta.getTransform(), pipelineMeta, partitioningMeta.getPartitioner().getDescription());
     this.transformMeta = transformMeta;
     this.partitioningMeta = partitioningMeta;
     partitioner = (ModPartitioner) partitioningMeta.getPartitioner();
@@ -144,8 +134,7 @@ public class ModPartitionerDialog extends BaseTransformDialog implements ITransf
     partitioningMeta.hasChanged(changed);
 
     wOk.setEnabled(!StringUtil.isEmpty(wFieldname.getText()));
-    ModifyListener modifyListener =
-        modifyEvent -> wOk.setEnabled(!StringUtil.isEmpty(wFieldname.getText()));
+    ModifyListener modifyListener = modifyEvent -> wOk.setEnabled(!StringUtil.isEmpty(wFieldname.getText()));
     wFieldname.addModifyListener(modifyListener);
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
@@ -171,8 +160,7 @@ public class ModPartitionerDialog extends BaseTransformDialog implements ITransf
   }
 
   private void setShellImage(Shell shell) {
-    IPlugin plugin =
-        PluginRegistry.getInstance().getPlugin(PartitionerPluginType.class, partitioner.getId());
+    IPlugin plugin = PluginRegistry.getInstance().getPlugin(PartitionerPluginType.class, partitioner.getId());
     if (!Utils.isEmpty(plugin.getDocumentationUrl())) {
       HelpUtils.createHelpButton(shell, plugin);
     }

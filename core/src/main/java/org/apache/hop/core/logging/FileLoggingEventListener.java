@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,28 +40,23 @@ public class FileLoggingEventListener implements IHopLoggingEventListener {
   private HopException exception;
   private String logChannelId;
 
-  /**
-   * Log all log lines to the specified file
+  /** Log all log lines to the specified file
    *
    * @param filename
    * @param append
-   * @throws HopException
-   */
+   * @throws HopException */
   public FileLoggingEventListener(String filename, boolean append) throws HopException {
     this(null, filename, append);
   }
 
-  /**
-   * Log only lines belonging to the specified log channel ID or one of it's children
+  /** Log only lines belonging to the specified log channel ID or one of it's children
    * (grandchildren) to the specified file.
    *
    * @param logChannelId
    * @param filename
    * @param append
-   * @throws HopException
-   */
-  public FileLoggingEventListener(String logChannelId, String filename, boolean append)
-      throws HopException {
+   * @throws HopException */
+  public FileLoggingEventListener(String logChannelId, String filename, boolean append) throws HopException {
     this.logChannelId = logChannelId;
     this.filename = filename;
     this.layout = new HopLogLayout(true);
@@ -72,8 +67,7 @@ public class FileLoggingEventListener implements IHopLoggingEventListener {
     try {
       outputStream = HopVfs.getOutputStream(file, append);
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to create a logging event listener to write to file '" + filename + "'", e);
+      throw new HopException("Unable to create a logging event listener to write to file '" + filename + "'", e);
     }
   }
 
@@ -90,8 +84,7 @@ public class FileLoggingEventListener implements IHopLoggingEventListener {
         } else {
           LogMessage message = (LogMessage) messageObject;
           // This should be fast enough cause cached.
-          List<String> logChannelChildren =
-              LoggingRegistry.getInstance().getLogChannelChildren(logChannelId);
+          List<String> logChannelChildren = LoggingRegistry.getInstance().getLogChannelChildren(logChannelId);
           // This could be non-optimal, consider keeping the list sorted in the logging registry
           logToFile = Const.indexOfString(message.getLogChannelId(), logChannelChildren) >= 0;
         }
@@ -104,8 +97,7 @@ public class FileLoggingEventListener implements IHopLoggingEventListener {
         }
       }
     } catch (Exception e) {
-      exception =
-          new HopException("Unable to write to logging event to file '" + filename + "'", e);
+      exception = new HopException("Unable to write to logging event to file '" + filename + "'", e);
     }
   }
 

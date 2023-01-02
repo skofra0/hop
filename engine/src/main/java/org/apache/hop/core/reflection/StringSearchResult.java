@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,12 +31,9 @@ public class StringSearchResult {
   private String fieldName;
   private Object grandParentObject;
 
-  /**
-   * @param string
-   * @param parentObject
-   */
-  public StringSearchResult(
-      String string, Object parentObject, Object grandParentObject, String fieldName) {
+  /** @param string
+   * @param parentObject */
+  public StringSearchResult(String string, Object parentObject, Object grandParentObject, String fieldName) {
     super();
 
     this.string = string;
@@ -63,20 +60,15 @@ public class StringSearchResult {
 
   public static final IRowMeta getResultRowMeta() {
     IRowMeta rowMeta = new RowMeta();
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.PipelineOrWorkflow")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.TransformDatabaseNotice")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.PipelineOrWorkflow")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.TransformDatabaseNotice")));
     rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.String")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.FieldName")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.FieldName")));
     return rowMeta;
   }
 
   public Object[] toRow() {
-    return new Object[] {
-      grandParentObject.toString(), parentObject.toString(), string, fieldName,
-    };
+    return new Object[] {grandParentObject.toString(), parentObject.toString(), string, fieldName,};
   }
 
   public String toString() {

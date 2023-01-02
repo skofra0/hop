@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,11 +17,9 @@
 
 package org.apache.hop.core.logging;
 
-/**
- * This is a single log table field.<br>
+/** This is a single log table field.<br>
  * The user can select this field or not, sees a field name, a description in the UI too. The user
- * can also specify a subject like a transform name.
- */
+ * can also specify a subject like a transform name. */
 public class LogTableField implements Cloneable {
   private String id;
   private boolean enabled;
@@ -44,20 +42,12 @@ public class LogTableField implements Cloneable {
   private boolean errorsField;
   private boolean nameField;
 
-  /**
-   * @param id the ID to reference this field by in the log table
+  /** @param id the ID to reference this field by in the log table
    * @param enabled
    * @param fieldName
    * @param subject
-   * @param description
-   */
-  public LogTableField(
-      String id,
-      boolean enabled,
-      String fieldName,
-      Object subject,
-      String name,
-      String description) {
+   * @param description */
+  public LogTableField(String id, boolean enabled, String fieldName, Object subject, String name, String description) {
     this.id = id;
     this.enabled = enabled;
     this.fieldName = fieldName;
@@ -68,23 +58,13 @@ public class LogTableField implements Cloneable {
     this.visible = true;
   }
 
-  /**
-   * @param id
+  /** @param id
    * @param enabled
    * @param fieldName
    * @param description
    * @param dataType
-   * @param length
-   */
-  public LogTableField(
-      String id,
-      boolean enabled,
-      boolean subjectAllowed,
-      String fieldName,
-      String name,
-      String description,
-      int dataType,
-      int length) {
+   * @param length */
+  public LogTableField(String id, boolean enabled, boolean subjectAllowed, String fieldName, String name, String description, int dataType, int length) {
     this.id = id;
     this.enabled = enabled;
     this.subjectAllowed = subjectAllowed;
@@ -96,12 +76,10 @@ public class LogTableField implements Cloneable {
     this.visible = true;
   }
 
-  /**
-   * Create a new enabled log table field with the specified field name for the specified subject.
+  /** Create a new enabled log table field with the specified field name for the specified subject.
    *
    * @param fieldname
-   * @param subject
-   */
+   * @param subject */
   public LogTableField(String id, String fieldName, Object subject) {
     this.id = id;
     this.enabled = true;

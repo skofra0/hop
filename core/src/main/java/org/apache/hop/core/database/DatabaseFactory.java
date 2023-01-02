@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,28 +31,21 @@ public class DatabaseFactory implements IDatabaseFactory {
   private static final Class<?> PKG = Database.class; // For Translator
   private boolean success;
 
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Database factory", LoggingObjectType.GENERAL, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Database factory", LoggingObjectType.GENERAL, null);
 
   public DatabaseFactory() {}
 
   @Override
-  public String getConnectionTestReport(IVariables variables, DatabaseMeta databaseMeta)
-      throws HopDatabaseException {
+  public String getConnectionTestReport(IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
     success = true; // default
 
     StringBuilder report = new StringBuilder();
     Database db = new Database(loggingObject, variables, databaseMeta);
     try {
       db.connect();
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionOk", databaseMeta.getName())
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionOk", databaseMeta.getName()) + Const.CR);
     } catch (HopException e) {
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", databaseMeta.getName())
-              + e.toString()
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", databaseMeta.getName()) + e.toString() + Const.CR);
       report.append(Const.getStackTracker(e) + Const.CR);
       success = false;
     } finally {
@@ -66,8 +59,7 @@ public class DatabaseFactory implements IDatabaseFactory {
   }
 
   @Override
-  public DatabaseTestResults getConnectionTestResults(
-      IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
+  public DatabaseTestResults getConnectionTestResults(IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
     DatabaseTestResults databaseTestResults = new DatabaseTestResults();
     String message = getConnectionTestReport(variables, databaseMeta);
     databaseTestResults.setMessage(message);
@@ -75,17 +67,14 @@ public class DatabaseFactory implements IDatabaseFactory {
     return databaseTestResults;
   }
 
-  private StringBuilder appendConnectionInfo(
-      IVariables variables, StringBuilder report, Database db, DatabaseMeta databaseMeta) {
+  private StringBuilder appendConnectionInfo(IVariables variables, StringBuilder report, Database db, DatabaseMeta databaseMeta) {
 
     // Check to see if the interface is of a type GenericDatabaseMeta, since it does not have
     // hostname and port fields
     if (databaseMeta.getIDatabase().getPluginId() == "GENERIC") {
 
-      String customDriverClass =
-          databaseMeta.getAttributes().get(NoneDatabaseMeta.ATRRIBUTE_CUSTOM_DRIVER_CLASS);
-      append(
-          report, "GenericDatabaseMeta.report.customUrl", db.resolve(databaseMeta.getManualUrl()));
+      String customDriverClass = databaseMeta.getAttributes().get(NoneDatabaseMeta.ATRRIBUTE_CUSTOM_DRIVER_CLASS);
+      append(report, "GenericDatabaseMeta.report.customUrl", db.resolve(databaseMeta.getManualUrl()));
       append(report, "GenericDatabaseMeta.report.customDriverClass", db.resolve(customDriverClass));
 
       return report;

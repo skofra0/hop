@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,8 +55,7 @@ public class LogMessage implements ILogMessage {
     this(message, logChannelId, arguments, level, false);
   }
 
-  public LogMessage(
-      String message, String logChannelId, Object[] arguments, LogLevel level, boolean simplified) {
+  public LogMessage(String message, String logChannelId, Object[] arguments, LogLevel level, boolean simplified) {
     this.message = message;
     this.logChannelId = logChannelId;
     this.arguments = arguments;
@@ -70,8 +69,7 @@ public class LogMessage implements ILogMessage {
     //
     ILoggingObject loggingObject = LoggingRegistry.getInstance().getLoggingObject(logChannelId);
 
-    boolean detailedLogTurnOn =
-        "Y".equals(HopConfig.readStringVariable(Const.HOP_LOG_MARK_MAPPINGS, "N")) ? true : false;
+    boolean detailedLogTurnOn = "Y".equals(HopConfig.readStringVariable(Const.HOP_LOG_MARK_MAPPINGS, "N")) ? true : false;
     if (loggingObject != null) {
       if (!detailedLogTurnOn) {
         subject = loggingObject.getObjectName();
@@ -82,10 +80,8 @@ public class LogMessage implements ILogMessage {
     }
   }
 
-  /**
-   * @param loggingObject
-   * @return
-   */
+  /** @param loggingObject
+   * @return */
   private String getDetailedSubject(ILoggingObject loggingObject) {
 
     List<String> subjects = getSubjectTree(loggingObject);
@@ -189,11 +185,9 @@ public class LogMessage implements ILogMessage {
     return copy;
   }
 
-  /**
-   * Gets simplified
+  /** Gets simplified
    *
-   * @return value of simplified
-   */
+   * @return value of simplified */
   @Override
   public boolean isSimplified() {
     return simplified;

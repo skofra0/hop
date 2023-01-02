@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,10 +39,8 @@ public class RowMetaAndData implements Cloneable {
     clear();
   }
 
-  /**
-   * @param rowMeta
-   * @param data
-   */
+  /** @param rowMeta
+   * @param data */
   public RowMetaAndData(IRowMeta rowMeta, Object... data) {
     this.rowMeta = rowMeta;
     this.data = data;
@@ -95,9 +93,7 @@ public class RowMetaAndData implements Cloneable {
     try {
       return rowMeta.hashCode(data);
     } catch (HopValueException e) {
-      throw new RuntimeException(
-          "Row metadata and data: unable to calculate hashcode because of a data conversion problem",
-          e);
+      throw new RuntimeException("Row metadata and data: unable to calculate hashcode because of a data conversion problem", e);
     }
   }
 
@@ -106,8 +102,7 @@ public class RowMetaAndData implements Cloneable {
     try {
       return rowMeta.compare(data, ((RowMetaAndData) obj).getData()) == 0;
     } catch (HopValueException e) {
-      throw new RuntimeException(
-          "Row metadata and data: unable to compare rows because of a data conversion problem", e);
+      throw new RuntimeException("Row metadata and data: unable to compare rows because of a data conversion problem", e);
     }
   }
 
@@ -302,9 +297,7 @@ public class RowMetaAndData implements Cloneable {
   }
 
   /** Converts string value into specified type. Used for constant injection. */
-  public static Object getStringAsJavaType(
-      String vs, Class<?> destinationType, InjectionTypeConverter converter)
-      throws HopValueException {
+  public static Object getStringAsJavaType(String vs, Class<?> destinationType, InjectionTypeConverter converter) throws HopValueException {
     if (String.class.isAssignableFrom(destinationType)) {
       return converter.string2string(vs);
     } else if (int.class.isAssignableFrom(destinationType)) {
@@ -327,9 +320,7 @@ public class RowMetaAndData implements Cloneable {
   }
 
   /** Returns value as specified java type using converter. Used for metadata injection. */
-  public Object getAsJavaType(
-      String valueName, Class<?> destinationType, InjectionTypeConverter converter)
-      throws HopValueException {
+  public Object getAsJavaType(String valueName, Class<?> destinationType, InjectionTypeConverter converter) throws HopValueException {
     int idx = rowMeta.indexOfValue(valueName);
     if (idx < 0) {
       throw new HopValueException("Unknown column '" + valueName + "'");
@@ -406,8 +397,7 @@ public class RowMetaAndData implements Cloneable {
         }
     }
 
-    throw new HopValueException(
-        "Unknown conversion from " + metaType.getTypeDesc() + " into " + destinationType);
+    throw new HopValueException("Unknown conversion from " + metaType.getTypeDesc() + " into " + destinationType);
   }
 
   public void removeValue(String valueName) throws HopValueException {

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,8 +60,8 @@ public class TreeToolbar extends Composite {
     ToolBar treeTb = new ToolBar(this, SWT.HORIZONTAL | SWT.FLAT);
     props.setLook(treeTb, Props.WIDGET_STYLE_TOOLBAR);
     /*
-     This contains a map with all the unnamed pipeline (just a filename)
-    */
+     * This contains a map with all the unnamed pipeline (just a filename)
+     */
     expandAll = new ToolItem(treeTb, SWT.PUSH);
     expandAll.setImage(GuiResource.getInstance().getImageExpandAll());
     collapseAll = new ToolItem(treeTb, SWT.PUSH);
@@ -103,18 +103,16 @@ public class TreeToolbar extends Composite {
     fdSelectionFilter.left = new FormAttachment(0, 10);
     selectionFilter.setLayoutData(fdSelectionFilter);
 
-    clearSelectionFilter.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            selectionFilter.setText("");
-          }
-        });
+    clearSelectionFilter.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        selectionFilter.setText("");
+      }
+    });
 
     clearSelectionFilter.setEnabled(!Utils.isEmpty(selectionFilter.getText()));
 
-    selectionFilter.addModifyListener(
-        modifyEvent -> clearSelectionFilter.setEnabled(!Utils.isEmpty(selectionFilter.getText())));
+    selectionFilter.addModifyListener(modifyEvent -> clearSelectionFilter.setEnabled(!Utils.isEmpty(selectionFilter.getText())));
 
     Label sep4 = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
     sep4.setBackground(GuiResource.getInstance().getColorWhite());

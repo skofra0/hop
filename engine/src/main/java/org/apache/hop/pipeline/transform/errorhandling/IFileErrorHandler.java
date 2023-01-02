@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,39 +22,31 @@ import org.apache.hop.core.exception.HopException;
 
 public interface IFileErrorHandler {
 
-  /**
-   * Tells the handler which file is being processed.
+  /** Tells the handler which file is being processed.
    *
    * @param file
-   * @throws HopException
-   */
+   * @throws HopException */
   void handleFile(FileObject file) throws HopException;
 
-  /**
-   * This method handles an error when processing the line with corresponding lineNr.
+  /** This method handles an error when processing the line with corresponding lineNr.
    *
    * @param lineNr
    * @param filePart allows us to split error according to a filePart
-   * @throws HopException
-   */
+   * @throws HopException */
   void handleLineError(long lineNr, String filePart) throws HopException;
 
   /** This method closes the handler; */
   void close() throws HopException;
 
-  /**
-   * This method handles a file that is required, but does not exist.
+  /** This method handles a file that is required, but does not exist.
    *
    * @param file
-   * @throws HopException
-   */
+   * @throws HopException */
   void handleNonExistantFile(FileObject file) throws HopException;
 
-  /**
-   * This method handles a file that is required, but is not accessible.
+  /** This method handles a file that is required, but is not accessible.
    *
    * @param file
-   * @throws HopException
-   */
+   * @throws HopException */
   void handleNonAccessibleFile(FileObject file) throws HopException;
 }

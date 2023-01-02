@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,25 +49,20 @@ public class HopMissingPluginsException extends HopException {
 
   private final List<PluginDetails> missingPluginDetailsList;
 
-  /**
-   * Constructs a new throwable with the specified detail message.
+  /** Constructs a new throwable with the specified detail message.
    *
    * @param message - the detail message. The detail message is saved for later retrieval by the
-   *     getMessage() method.
-   */
+   *        getMessage() method. */
   public HopMissingPluginsException(String message) {
     super(message);
     this.missingPluginDetailsList = new ArrayList<>();
   }
 
-  /**
-   * Add a missing plugin id for a given plugin type.
+  /** Add a missing plugin id for a given plugin type.
    *
    * @param pluginTypeClass The class of the plugin type (ex. TransformPluginType.class)
-   * @param pluginId The id of the missing plugin
-   */
-  public void addMissingPluginDetails(
-      Class<? extends IPluginType> pluginTypeClass, String pluginId) {
+   * @param pluginId The id of the missing plugin */
+  public void addMissingPluginDetails(Class<? extends IPluginType> pluginTypeClass, String pluginId) {
     missingPluginDetailsList.add(new PluginDetails(pluginTypeClass, pluginId));
   }
 
@@ -87,8 +82,7 @@ public class HopMissingPluginsException extends HopException {
     for (PluginDetails details : missingPluginDetailsList) {
       message.append(Const.CR);
       try {
-        IPluginType pluginType =
-            PluginRegistry.getInstance().getPluginType(details.pluginTypeClass);
+        IPluginType pluginType = PluginRegistry.getInstance().getPluginType(details.pluginTypeClass);
         message.append(pluginType.getName());
       } catch (Exception e) {
         message.append("UnknownPluginType-").append(details.getPluginTypeClass().getName());

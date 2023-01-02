@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,40 +24,31 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * This class is aimed to be a general runner for concurrency tests. You need to follow a convention
+/** This class is aimed to be a general runner for concurrency tests. You need to follow a convention
  * while using it. By it, there are two types of actors in multithreaded environment: monitored and
  * background. The formers are active and are considered to do some mutations of class undergoing
  * testing. The latter group is all about accessors, that normally should not change the state, but
  * just ask for some information, e.g. invoke getters.
- *
- * <p>There is a special condition flag, shared among all actors. Each of them must stop when it has
+ * <p>
+ * There is a special condition flag, shared among all actors. Each of them must stop when it has
  * found out the flag has been cleared. Also, in most cases it makes sense to clear the flag after
  * any exception has raised (see {@linkplain StopOnErrorCallable}, because any actor can face with
  * it in concurrency environment.
- *
- * <p>The runner stores results of all actors, though in most cases this information is needless -
- * what is important that is the fact the execution has completed with no errors.
- */
+ * <p>
+ * The runner stores results of all actors, though in most cases this information is needless -
+ * what is important that is the fact the execution has completed with no errors. */
 class ConcurrencyTestRunner<M, B> {
 
-  /**
-   * Runs all tasks and simply checks no exceptions were thrown during the execution. The timeout is
+  /** Runs all tasks and simply checks no exceptions were thrown during the execution. The timeout is
    * 5 minutes.
    *
    * @param monitoredTasks active actors
    * @param backgroundTasks background actors
    * @param condition stop condition
-   * @throws Exception exception
-   */
+   * @throws Exception exception */
   @SuppressWarnings("unchecked")
-  static void runAndCheckNoExceptionRaised(
-      List<? extends Callable<?>> monitoredTasks,
-      List<? extends Callable<?>> backgroundTasks,
-      AtomicBoolean condition)
-      throws Exception {
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner(monitoredTasks, backgroundTasks, condition);
+  static void runAndCheckNoExceptionRaised(List<? extends Callable<?>> monitoredTasks, List<? extends Callable<?>> backgroundTasks, AtomicBoolean condition) throws Exception {
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner(monitoredTasks, backgroundTasks, condition);
     runner.runConcurrentTest();
     runner.checkNoExceptionRaised();
   }
@@ -73,18 +64,11 @@ class ConcurrencyTestRunner<M, B> {
 
   private Exception exception;
 
-  ConcurrencyTestRunner(
-      List<? extends Callable<? extends M>> monitoredTasks,
-      List<? extends Callable<? extends B>> backgroundTasks,
-      AtomicBoolean condition) {
+  ConcurrencyTestRunner(List<? extends Callable<? extends M>> monitoredTasks, List<? extends Callable<? extends B>> backgroundTasks, AtomicBoolean condition) {
     this(monitoredTasks, backgroundTasks, condition, TimeUnit.MINUTES.toMillis(5));
   }
 
-  ConcurrencyTestRunner(
-      List<? extends Callable<? extends M>> monitoredTasks,
-      List<? extends Callable<? extends B>> backgroundTasks,
-      AtomicBoolean condition,
-      long timeout) {
+  ConcurrencyTestRunner(List<? extends Callable<? extends M>> monitoredTasks, List<? extends Callable<? extends B>> backgroundTasks, AtomicBoolean condition, long timeout) {
     this.monitoredTasks = monitoredTasks;
     this.backgroundTasks = backgroundTasks;
     this.condition = condition;
@@ -182,10 +166,7 @@ class ConcurrencyTestRunner<M, B> {
     List<Throwable> errors = getTasksErrors();
     if (!errors.isEmpty()) {
       StringBuilder message = new StringBuilder(1024);
-      message
-          .append("There are expected no exceptions during the test, but ")
-          .append(errors.size())
-          .append(" raised:");
+      message.append("There are expected no exceptions during the test, but ").append(errors.size()).append(" raised:");
 
       for (Throwable throwable : errors) {
         String stacktrace = Throwables.getStackTraceAsString(throwable);

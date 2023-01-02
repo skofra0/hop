@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,10 +34,9 @@ public class LoggingBufferTest {
 
     final AtomicBoolean done = new AtomicBoolean(false);
 
-    final IHopLoggingEventListener lsnr =
-        event -> {
-          // stub
-        };
+    final IHopLoggingEventListener lsnr = event -> {
+      // stub
+    };
 
     final HopLoggingEvent event = new HopLoggingEvent();
 
@@ -45,32 +44,26 @@ public class LoggingBufferTest {
 
     Thread.UncaughtExceptionHandler errorHandler = (t, e) -> e.printStackTrace();
 
-    Thread addListeners =
-        new Thread(
-            () -> {
-              try {
-                while (!done.get()) {
-                  buf.addLoggingEventListener(lsnr);
-                }
-              } finally {
-                latch.countDown();
-              }
-            },
-            "Add Listeners Thread") {};
+    Thread addListeners = new Thread(() -> {
+      try {
+        while (!done.get()) {
+          buf.addLoggingEventListener(lsnr);
+        }
+      } finally {
+        latch.countDown();
+      }
+    }, "Add Listeners Thread") {};
 
-    Thread addEvents =
-        new Thread(
-            () -> {
-              try {
-                for (int i = 0; i < eventCount; i++) {
-                  buf.addLogggingEvent(event);
-                }
-                done.set(true);
-              } finally {
-                latch.countDown();
-              }
-            },
-            "Add Events Thread") {};
+    Thread addEvents = new Thread(() -> {
+      try {
+        for (int i = 0; i < eventCount; i++) {
+          buf.addLogggingEvent(event);
+        }
+        done.set(true);
+      } finally {
+        latch.countDown();
+      }
+    }, "Add Events Thread") {};
 
     // add error handlers to pass exceptions outside the thread
     addListeners.setUncaughtExceptionHandler(errorHandler);
@@ -119,8 +112,7 @@ public class LoggingBufferTest {
     }
     for (int i = 17; i < 20; i++) {
       HopLoggingEvent event = new HopLoggingEvent();
-      event.setMessage(
-          new LogMessage("testWithOtherLogChannelId", otherLogChannelId, LogLevel.BASIC));
+      event.setMessage(new LogMessage("testWithOtherLogChannelId", otherLogChannelId, LogLevel.BASIC));
       event.setTimeStamp(i);
       loggingBuffer.addLogggingEvent(event);
     }

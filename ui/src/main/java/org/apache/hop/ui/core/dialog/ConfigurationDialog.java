@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -73,8 +73,7 @@ public abstract class ConfigurationDialog extends Dialog {
 
   public static final String LOG_LEVEL = "LOG_LEVEL";
 
-  public ConfigurationDialog(
-      Shell parent, IExecutionConfiguration configuration, AbstractMeta meta) {
+  public ConfigurationDialog(Shell parent, IExecutionConfiguration configuration, AbstractMeta meta) {
     super(parent);
     this.parent = parent;
     this.configuration = configuration;
@@ -245,42 +244,15 @@ public abstract class ConfigurationDialog extends Dialog {
     parametersComposite.setLayout(new FormLayout());
     tbtmParameters.setControl(parametersComposite);
 
-    ColumnInfo[] cParams = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, prefix + ".ParamsColumn.Argument"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true), // TransformName
-      new ColumnInfo(
-          BaseMessages.getString(PKG, prefix + ".ParamsColumn.Default"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true), // Preview size
-      new ColumnInfo(
-          BaseMessages.getString(PKG, prefix + ".ParamsColumn.Value"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false), // Preview size
-      new ColumnInfo(
-          BaseMessages.getString(PKG, prefix + ".ParamsColumn.Description"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true), // Preview size
+    ColumnInfo[] cParams = {new ColumnInfo(BaseMessages.getString(PKG, prefix + ".ParamsColumn.Argument"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), // TransformName
+        new ColumnInfo(BaseMessages.getString(PKG, prefix + ".ParamsColumn.Default"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), // Preview size
+        new ColumnInfo(BaseMessages.getString(PKG, prefix + ".ParamsColumn.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false, false), // Preview size
+        new ColumnInfo(BaseMessages.getString(PKG, prefix + ".ParamsColumn.Description"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), // Preview size
     };
 
     String[] namedParams = abstractMeta.listParameters();
     int nrParams = namedParams.length;
-    wParams =
-        new TableView(
-            hopGui.getVariables(),
-            parametersComposite,
-            SWT.FULL_SELECTION | SWT.MULTI,
-            cParams,
-            nrParams,
-            false,
-            null,
-            props,
-            false);
+    wParams = new TableView(hopGui.getVariables(), parametersComposite, SWT.FULL_SELECTION | SWT.MULTI, cParams, nrParams, false, null, props, false);
     FormData fdParams = new FormData();
     fdParams.top = new FormAttachment(0, 0);
     fdParams.right = new FormAttachment(100, 0);
@@ -299,32 +271,12 @@ public abstract class ConfigurationDialog extends Dialog {
     variablesComposite.setLayout(new FormLayout());
     tbtmVariables.setControl(variablesComposite);
 
-    ColumnInfo[] cVariables = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, prefix + ".VariablesColumn.Argument"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false), // TransformName
-      new ColumnInfo(
-          BaseMessages.getString(PKG, prefix + ".VariablesColumn.Value"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false), // Preview size
+    ColumnInfo[] cVariables = {new ColumnInfo(BaseMessages.getString(PKG, prefix + ".VariablesColumn.Argument"), ColumnInfo.COLUMN_TYPE_TEXT, false, false), // TransformName
+        new ColumnInfo(BaseMessages.getString(PKG, prefix + ".VariablesColumn.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false, false), // Preview size
     };
 
-    int nrVariables =
-        configuration.getVariablesMap() != null ? configuration.getVariablesMap().size() : 0;
-    wVariables =
-        new TableView(
-            hopGui.getVariables(),
-            variablesComposite,
-            SWT.FULL_SELECTION | SWT.MULTI,
-            cVariables,
-            nrVariables,
-            false,
-            null,
-            props,
-            false);
+    int nrVariables = configuration.getVariablesMap() != null ? configuration.getVariablesMap().size() : 0;
+    wVariables = new TableView(hopGui.getVariables(), variablesComposite, SWT.FULL_SELECTION | SWT.MULTI, cVariables, nrVariables, false, null, props, false);
 
     FormData fdVariables = new FormData();
     fdVariables.top = new FormAttachment(0, 0);
@@ -335,12 +287,7 @@ public abstract class ConfigurationDialog extends Dialog {
     wVariables.setLayoutData(fdVariables);
   }
 
-  protected void buttonsSectionLayout(
-      String alwaysShowOptionLabel,
-      String alwaysShowOptionTooltip,
-      final String docTitle,
-      final String docUrl,
-      final String docHeader) {
+  protected void buttonsSectionLayout(String alwaysShowOptionLabel, String alwaysShowOptionTooltip, final String docTitle, final String docUrl, final String docHeader) {
 
     // Bottom buttons and separator
 

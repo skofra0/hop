@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,17 +36,12 @@ public class StringSearchResultTest {
     assertNotNull(rm);
     assertEquals(4, rm.getValueMetaList().size());
     assertEquals(IValueMeta.TYPE_STRING, rm.getValueMeta(0).getType());
-    assertEquals(
-        BaseMessages.getString(PKG, "SearchResult.PipelineOrWorkflow"),
-        rm.getValueMeta(0).getName());
+    assertEquals(BaseMessages.getString(PKG, "SearchResult.PipelineOrWorkflow"), rm.getValueMeta(0).getName());
     assertEquals(IValueMeta.TYPE_STRING, rm.getValueMeta(1).getType());
-    assertEquals(
-        BaseMessages.getString(PKG, "SearchResult.TransformDatabaseNotice"),
-        rm.getValueMeta(1).getName());
+    assertEquals(BaseMessages.getString(PKG, "SearchResult.TransformDatabaseNotice"), rm.getValueMeta(1).getName());
     assertEquals(IValueMeta.TYPE_STRING, rm.getValueMeta(2).getType());
     assertEquals(BaseMessages.getString(PKG, "SearchResult.String"), rm.getValueMeta(2).getName());
     assertEquals(IValueMeta.TYPE_STRING, rm.getValueMeta(3).getType());
-    assertEquals(
-        BaseMessages.getString(PKG, "SearchResult.FieldName"), rm.getValueMeta(3).getName());
+    assertEquals(BaseMessages.getString(PKG, "SearchResult.FieldName"), rm.getValueMeta(3).getName());
   }
 }

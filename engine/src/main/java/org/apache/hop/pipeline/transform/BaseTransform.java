@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,68 +56,72 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-/**
- * This class can be extended for the actual row processing of the implemented transform.
- *
- * <p>The implementing class can rely mostly on the base class, and has only three important methods
+/** This class can be extended for the actual row processing of the implemented transform.
+ * <p>
+ * The implementing class can rely mostly on the base class, and has only three important methods
  * it implements itself. The three methods implement the transform lifecycle during pipeline
  * execution: initialization, row processing, and clean-up.
- *
  * <ul>
- *   <li>Transform Initialization<br>
- *       The init() method is called when a pipeline is preparing to start execution.
- *       <p>
- *       <pre>
+ * <li>Transform Initialization<br>
+ * The init() method is called when a pipeline is preparing to start execution.
+ * <p>
+ * 
+ * <pre>
  * <a href="#init(org.apache.hop.pipeline.transform.ITransformMeta,
  * org.apache.hop.pipeline.transform.ITransformData)">public boolean init(...)</a>
  * </pre>
- *       <p>Every transform is given the opportunity to do one-time initialization tasks like
- *       opening files or establishing database connections. For any transforms derived from
- *       BaseTransform it is mandatory that super.init() is called to ensure correct behavior. The
- *       method must return true in case the transform initialized correctly, it must returned false
- *       if there was an initialization error. Apache Hop will abort the execution of a pipeline in
- *       case any transform returns false upon initialization.
- *       <p>
- *       <p>
- *   <li>Row Processing<br>
- *       Once the pipeline starts execution it enters a tight loop calling processRow() on each
- *       transform until the method returns false. Each transform typically reads a single row from
- *       the input stream, alters the row structure and fields and passes the row on to next
- *       transforms.
- *       <p>
- *       <pre>
+ * <p>
+ * Every transform is given the opportunity to do one-time initialization tasks like
+ * opening files or establishing database connections. For any transforms derived from
+ * BaseTransform it is mandatory that super.init() is called to ensure correct behavior. The
+ * method must return true in case the transform initialized correctly, it must returned false
+ * if there was an initialization error. Apache Hop will abort the execution of a pipeline in
+ * case any transform returns false upon initialization.
+ * <p>
+ * <p>
+ * <li>Row Processing<br>
+ * Once the pipeline starts execution it enters a tight loop calling processRow() on each
+ * transform until the method returns false. Each transform typically reads a single row from
+ * the input stream, alters the row structure and fields and passes the row on to next
+ * transforms.
+ * <p>
+ * 
+ * <pre>
  * <a href="#processRow(org.apache.hop.pipeline.transform.ITransformMeta,
  * org.apache.hop.pipeline.transform.ITransformData)">public boolean processRow(...)</a>
  * </pre>
- *       <p>A typical implementation queries for incoming input rows by calling getRow(), which
- *       blocks and returns a row object or null in case there is no more input. If there was an
- *       input row, the transform does the necessary row processing and calls putRow() to pass the
- *       row on to the next transform. If there are no more rows, the transform must call
- *       setOutputDone() and return false.
- *       <p>Formally the method must conform to the following rules:
- *       <ul>
- *         <li>If the transform is done processing all rows, the method must call setOutputDone()
- *             and return false
- *         <li>If the transform is not done processing all rows, the method must return true. Hop
- *             will call processRow() again in this case.
- *       </ul>
- *       <p>
- *   <li>Transform Clean-Up<br>
- *       Once the pipeline is complete, Hop calls dispose() on all transforms.
- *       <p>
- *       <pre>
+ * <p>
+ * A typical implementation queries for incoming input rows by calling getRow(), which
+ * blocks and returns a row object or null in case there is no more input. If there was an
+ * input row, the transform does the necessary row processing and calls putRow() to pass the
+ * row on to the next transform. If there are no more rows, the transform must call
+ * setOutputDone() and return false.
+ * <p>
+ * Formally the method must conform to the following rules:
+ * <ul>
+ * <li>If the transform is done processing all rows, the method must call setOutputDone()
+ * and return false
+ * <li>If the transform is not done processing all rows, the method must return true. Hop
+ * will call processRow() again in this case.
+ * </ul>
+ * <p>
+ * <li>Transform Clean-Up<br>
+ * Once the pipeline is complete, Hop calls dispose() on all transforms.
+ * <p>
+ * 
+ * <pre>
  * <a href="#dispose(org.apache.hop.pipeline.transform.ITransformMeta,
  * org.apache.hop.pipeline.transform.ITransformData)">public void dispose(...)</a>
  * </pre>
- *       <p>Transforms are required to deallocate resources allocated during init() or subsequent
- *       row processing. This typically means to clear all fields of the ITransformData object, and
- *       to ensure that all open files or connections are properly closed. For any transforms
- *       derived from BaseTransform it is mandatory that super.dispose() is called to ensure correct
- *       deallocation.
+ * <p>
+ * Transforms are required to deallocate resources allocated during init() or subsequent
+ * row processing. This typically means to clear all fields of the ITransformData object, and
+ * to ensure that all open files or connections are properly closed. For any transforms
+ * derived from BaseTransform it is mandatory that super.dispose() is called to ensure correct
+ * deallocation.
  * </ul>
  */
-public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformData>
-    implements ITransform, IVariables, ILoggingObject, IExtensionData, IEngineComponent {
+public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformData> implements ITransform, IVariables, ILoggingObject, IExtensionData, IEngineComponent {
 
   private static final Class<?> PKG = BaseTransform.class; // For Translator
 
@@ -223,33 +227,25 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
   /** The list of IRowListener interfaces */
   protected List<IRowListener> rowListeners;
 
-  /**
-   * Map of files that are generated or used by this transform. After execution, these can be added
-   * to result. The entry to the map is the filename
-   */
+  /** Map of files that are generated or used by this transform. After execution, these can be added
+   * to result. The entry to the map is the filename */
   private final Map<String, ResultFile> resultFiles;
 
   private final ReentrantReadWriteLock resultFilesLock;
 
-  /**
-   * This contains the first row received and will be the reference row. We used it to perform extra
-   * checking: see if we don't get rows with "mixed" contents.
-   */
+  /** This contains the first row received and will be the reference row. We used it to perform extra
+   * checking: see if we don't get rows with "mixed" contents. */
   private IRowMeta inputReferenceRow;
 
   /** This field tells the putRow() method that we are in partitioned mode */
   private boolean partitioned;
 
-  /**
-   * The partition ID at which this transform copy runs, or null if this transform is not running
-   * partitioned.
-   */
+  /** The partition ID at which this transform copy runs, or null if this transform is not running
+   * partitioned. */
   private String partitionId;
 
-  /**
-   * This field tells the putRow() method to re-partition the incoming data, See also
-   * TransformPartitioningMeta.PARTITIONING_METHOD_*
-   */
+  /** This field tells the putRow() method to re-partition the incoming data, See also
+   * TransformPartitioningMeta.PARTITIONING_METHOD_* */
   private int repartitioning;
 
   /** The partition ID to rowset mapping */
@@ -260,10 +256,8 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
   /** transform partitioning information of the NEXT transform */
   private TransformPartitioningMeta nextTransformPartitioningMeta;
 
-  /**
-   * The metadata information of the error output row. There is only one per transform so we cache
-   * it
-   */
+  /** The metadata information of the error output row. There is only one per transform so we cache
+   * it */
   private IRowMeta errorRowMeta = null;
 
   private IRowMeta previewRowMeta;
@@ -277,16 +271,12 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
   private List<ITransformFinishedListener> transformFinishedListeners;
   private List<ITransformStartedListener> transformStartedListeners;
 
-  /**
-   * The upper buffer size boundary after which we manage the thread priority a little bit to
-   * prevent excessive locking
-   */
+  /** The upper buffer size boundary after which we manage the thread priority a little bit to
+   * prevent excessive locking */
   private int upperBufferBoundary;
 
-  /**
-   * The lower buffer size boundary after which we manage the thread priority a little bit to
-   * prevent excessive locking
-   */
+  /** The lower buffer size boundary after which we manage the thread priority a little bit to
+   * prevent excessive locking */
   private int lowerBufferBoundary;
 
   /** maximum number of errors to allow */
@@ -309,32 +299,22 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
 
   protected Map<String, Object> extensionDataMap;
 
-  /**
-   * rowHandler handles getting/putting rows and putting errors. Default implementation defers to
-   * corresponding methods in this class.
-   */
+  /** rowHandler handles getting/putting rows and putting errors. Default implementation defers to
+   * corresponding methods in this class. */
   private IRowHandler rowHandler;
 
   private AtomicBoolean markStopped;
 
-  /**
-   * This is the base transform that forms that basis for all transforms. You can derive from this
+  /** This is the base transform that forms that basis for all transforms. You can derive from this
    * class to implement your own transforms.
    *
    * @param transformMeta The TransformMeta object to run.
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
-   * @param pipeline The (running) pipeline to obtain information shared among the transforms.
-   */
-  public BaseTransform(
-      TransformMeta transformMeta,
-      Meta meta,
-      Data data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+   * @param pipeline The (running) pipeline to obtain information shared among the transforms. */
+  public BaseTransform(TransformMeta transformMeta, Meta meta, Data data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     this.transformMeta = transformMeta;
     this.meta = meta;
     this.data = data;
@@ -346,10 +326,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     // Sanity check
     //
     if (transformMeta.getName() == null) {
-      throw new RuntimeException(
-          "A transform in pipeline ["
-              + pipelineMeta.toString()
-              + "] doesn't have a name.  A transform should always have a name to identify it by.");
+      throw new RuntimeException("A transform in pipeline [" + pipelineMeta.toString() + "] doesn't have a name.  A transform should always have a name to identify it by.");
     }
 
     if (pipeline != null) {
@@ -434,21 +411,13 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       int partitionNr = copyNr;
       String partitionNrString = new DecimalFormat("000").format(partitionNr);
       setVariable(Const.INTERNAL_VARIABLE_TRANSFORM_PARTITION_NR, partitionNrString);
-      final List<String> partitionIdList =
-          transformMeta
-              .getTransformPartitioningMeta()
-              .getPartitionSchema()
-              .calculatePartitionIds(this);
+      final List<String> partitionIdList = transformMeta.getTransformPartitioningMeta().getPartitionSchema().calculatePartitionIds(this);
 
       if (partitionIdList.size() > 0) {
         String partitionId = partitionIdList.get(partitionNr);
         setVariable(Const.INTERNAL_VARIABLE_TRANSFORM_PARTITION_ID, partitionId);
       } else {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.UnableToRetrievePartitionId",
-                transformMeta.getTransformPartitioningMeta().getPartitionSchema().getName()));
+        logError(BaseMessages.getString(PKG, "BaseTransform.Log.UnableToRetrievePartitionId", transformMeta.getTransformPartitioningMeta().getPartitionSchema().getName()));
         return false;
       }
     } else if (!Utils.isEmpty(partitionId)) {
@@ -458,9 +427,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     setVariable(Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR, Integer.toString(copyNr));
 
     // BACKLOG-18004
-    allowEmptyFieldNamesAndTypes =
-        ValueMetaBase.convertStringToBoolean(
-            System.getProperties().getProperty(Const.HOP_ALLOW_EMPTY_FIELD_NAMES_AND_TYPES, "N"));
+    allowEmptyFieldNamesAndTypes = ValueMetaBase.convertStringToBoolean(System.getProperties().getProperty(Const.HOP_ALLOW_EMPTY_FIELD_NAMES_AND_TYPES, "N"));
 
     // Getting ans setting the error handling values
     // first, get the transform meta
@@ -477,57 +444,23 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       // first one caught
       boolean envSubFailed = false;
       try {
-        maxErrors =
-            (!Utils.isEmpty(transformErrorMeta.getMaxErrors())
-                ? Long.valueOf(pipeline.resolve(transformErrorMeta.getMaxErrors()))
-                : -1L);
+        maxErrors = (!Utils.isEmpty(transformErrorMeta.getMaxErrors()) ? Long.valueOf(pipeline.resolve(transformErrorMeta.getMaxErrors())) : -1L);
       } catch (NumberFormatException nfe) {
-        log.logError(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.NumberFormatException",
-                BaseMessages.getString(PKG, "BaseTransform.Property.MaxErrors.Name"),
-                this.transformName,
-                (transformErrorMeta.getMaxErrors() != null
-                    ? transformErrorMeta.getMaxErrors()
-                    : "")));
+        log.logError(BaseMessages.getString(PKG, "BaseTransform.Log.NumberFormatException", BaseMessages.getString(PKG, "BaseTransform.Property.MaxErrors.Name"), this.transformName, (transformErrorMeta.getMaxErrors() != null ? transformErrorMeta.getMaxErrors() : "")));
         envSubFailed = true;
       }
 
       try {
-        minRowsForMaxErrorPercent =
-            (!Utils.isEmpty(transformErrorMeta.getMinPercentRows())
-                ? Long.parseLong(pipeline.resolve(transformErrorMeta.getMinPercentRows()))
-                : -1L);
+        minRowsForMaxErrorPercent = (!Utils.isEmpty(transformErrorMeta.getMinPercentRows()) ? Long.parseLong(pipeline.resolve(transformErrorMeta.getMinPercentRows())) : -1L);
       } catch (NumberFormatException nfe) {
-        log.logError(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.NumberFormatException",
-                BaseMessages.getString(
-                    PKG, "BaseTransform.Property.MinRowsForErrorsPercentCalc.Name"),
-                this.transformName,
-                (transformErrorMeta.getMinPercentRows() != null
-                    ? transformErrorMeta.getMinPercentRows()
-                    : "")));
+        log.logError(BaseMessages.getString(PKG, "BaseTransform.Log.NumberFormatException", BaseMessages.getString(PKG, "BaseTransform.Property.MinRowsForErrorsPercentCalc.Name"), this.transformName, (transformErrorMeta.getMinPercentRows() != null ? transformErrorMeta.getMinPercentRows() : "")));
         envSubFailed = true;
       }
 
       try {
-        maxPercentErrors =
-            (!Utils.isEmpty(transformErrorMeta.getMaxPercentErrors())
-                ? Integer.valueOf(pipeline.resolve(transformErrorMeta.getMaxPercentErrors()))
-                : -1);
+        maxPercentErrors = (!Utils.isEmpty(transformErrorMeta.getMaxPercentErrors()) ? Integer.valueOf(pipeline.resolve(transformErrorMeta.getMaxPercentErrors())) : -1);
       } catch (NumberFormatException nfe) {
-        log.logError(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.NumberFormatException",
-                BaseMessages.getString(PKG, "BaseTransform.Property.MaxPercentErrors.Name"),
-                this.transformName,
-                (transformErrorMeta.getMaxPercentErrors() != null
-                    ? transformErrorMeta.getMaxPercentErrors()
-                    : "")));
+        log.logError(BaseMessages.getString(PKG, "BaseTransform.Log.NumberFormatException", BaseMessages.getString(PKG, "BaseTransform.Property.MaxPercentErrors.Name"), this.transformName, (transformErrorMeta.getMaxPercentErrors() != null ? transformErrorMeta.getMaxPercentErrors() : "")));
         envSubFailed = true;
       }
 
@@ -567,18 +500,14 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Sets the copy.
+  /** Sets the copy.
    *
-   * @param cop the new copy
-   */
+   * @param cop the new copy */
   public void setCopy(int cop) {
     copyNr = cop;
   }
 
-  /**
-   * @return The transforms copy number (default 0)
-   */
+  /** @return The transforms copy number (default 0) */
   @Override
   public int getCopy() {
     return copyNr;
@@ -604,10 +533,8 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     errors = e;
   }
 
-  /**
-   * @return Returns the number of lines read from previous transforms
-   * @see {@link #setLinesRead(long)}, {@link #incrementLinesRead()}, {@link #decrementLinesRead()}
-   */
+  /** @return Returns the number of lines read from previous transforms
+   * @see {@link #setLinesRead(long)}, {@link #incrementLinesRead()}, {@link #decrementLinesRead()} */
   @Override
   public long getLinesRead() {
     synchronized (statusCountersLock) {
@@ -615,43 +542,35 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Increments the number of lines read from previous transforms by one
+  /** Increments the number of lines read from previous transforms by one
    *
    * @see {@link #getLinesRead()}, {@link #setLinesRead(long)}, {@link #decrementLinesRead()}
-   * @return Returns the new value
-   */
+   * @return Returns the new value */
   public long incrementLinesRead() {
     synchronized (statusCountersLock) {
       return ++linesRead;
     }
   }
 
-  /**
-   * Decrements the number of lines read from previous transforms by one
+  /** Decrements the number of lines read from previous transforms by one
    *
-   * @return Returns the new value
-   */
+   * @return Returns the new value */
   public long decrementLinesRead() {
     synchronized (statusCountersLock) {
       return --linesRead;
     }
   }
 
-  /**
-   * @param newLinesReadValue the new number of lines read from previous transforms
-   * @see {@link #getLinesRead()}, {@link #incrementLinesRead()}, {@link #decrementLinesRead()}
-   */
+  /** @param newLinesReadValue the new number of lines read from previous transforms
+   * @see {@link #getLinesRead()}, {@link #incrementLinesRead()}, {@link #decrementLinesRead()} */
   public void setLinesRead(long newLinesReadValue) {
     synchronized (statusCountersLock) {
       linesRead = newLinesReadValue;
     }
   }
 
-  /**
-   * @see {@link #incrementLinesInput()}
-   * @return Returns the number of lines read from an input source: database, file, socket, etc.
-   */
+  /** @see {@link #incrementLinesInput()}
+   * @return Returns the number of lines read from an input source: database, file, socket, etc. */
   @Override
   public long getLinesInput() {
     synchronized (statusCountersLock) {
@@ -659,33 +578,27 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Increments the number of lines read from an input source: database, file, socket, etc.
+  /** Increments the number of lines read from an input source: database, file, socket, etc.
    *
    * @see {@link #getLinesInput()}, {@link #setLinesInput(long)}
-   * @return the new incremented value
-   */
+   * @return the new incremented value */
   public long incrementLinesInput() {
     synchronized (statusCountersLock) {
       return ++linesInput;
     }
   }
 
-  /**
-   * @param newLinesInputValue the new number of lines read from an input source: database, file,
-   *     socket, etc.
-   * @see {@link #getLinesInput()} or {@link #incrementLinesInput()}
-   */
+  /** @param newLinesInputValue the new number of lines read from an input source: database, file,
+   *        socket, etc.
+   * @see {@link #getLinesInput()} or {@link #incrementLinesInput()} */
   public void setLinesInput(long newLinesInputValue) {
     synchronized (statusCountersLock) {
       linesInput = newLinesInputValue;
     }
   }
 
-  /**
-   * @return Returns the number of lines written to an output target: database, file, socket, etc.
-   * @see {@link #setLinesOutput(long)}, {@link #incrementLinesOutput()}
-   */
+  /** @return Returns the number of lines written to an output target: database, file, socket, etc.
+   * @see {@link #setLinesOutput(long)}, {@link #incrementLinesOutput()} */
   @Override
   public long getLinesOutput() {
     synchronized (statusCountersLock) {
@@ -693,35 +606,29 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Increments the number of lines written to an output target: database, file, socket, etc.
+  /** Increments the number of lines written to an output target: database, file, socket, etc.
    *
    * @return the new incremented value
-   * @see {@link #getLinesOutput()}, {@link #setLinesOutput(long)}
-   */
+   * @see {@link #getLinesOutput()}, {@link #setLinesOutput(long)} */
   public long incrementLinesOutput() {
     synchronized (statusCountersLock) {
       return ++linesOutput;
     }
   }
 
-  /**
-   * @param newLinesOutputValue the new number of lines written to an output target: database, file,
-   *     socket, etc.
-   * @see {@link #getLinesOutput()} or {@link #incrementLinesOutput()}
-   */
+  /** @param newLinesOutputValue the new number of lines written to an output target: database, file,
+   *        socket, etc.
+   * @see {@link #getLinesOutput()} or {@link #incrementLinesOutput()} */
   public void setLinesOutput(long newLinesOutputValue) {
     synchronized (statusCountersLock) {
       linesOutput = newLinesOutputValue;
     }
   }
 
-  /**
-   * Get the number of lines written to next transforms
+  /** Get the number of lines written to next transforms
    *
    * @see {@link #incrementLinesWritten()}, or {@link #decrementLinesWritten()}
-   * @return Returns the linesWritten.
-   */
+   * @return Returns the linesWritten. */
   @Override
   public long getLinesWritten() {
     synchronized (statusCountersLock) {
@@ -729,47 +636,39 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Increments the number of lines written to next transforms by one
+  /** Increments the number of lines written to next transforms by one
    *
    * @see {@link #getLinesWritten()}, {@link #decrementLinesWritten()}
-   * @return Returns the new value
-   */
+   * @return Returns the new value */
   public long incrementLinesWritten() {
     synchronized (statusCountersLock) {
       return ++linesWritten;
     }
   }
 
-  /**
-   * Decrements the number of lines written to next transforms by one
+  /** Decrements the number of lines written to next transforms by one
    *
    * @see {@link #getLinesWritten()}, {@link #incrementLinesWritten()}
-   * @return Returns the new value
-   */
+   * @return Returns the new value */
   public long decrementLinesWritten() {
     synchronized (statusCountersLock) {
       return --linesWritten;
     }
   }
 
-  /**
-   * Set the number of lines written to next transforms
+  /** Set the number of lines written to next transforms
    *
    * @param newLinesWrittenValue the new number of lines written to next transforms
    * @see {@link #getLinesWritten()}, {@link #incrementLinesWritten()}, or {@link
-   *     #decrementLinesWritten()}
-   */
+   *      #decrementLinesWritten()} */
   public void setLinesWritten(long newLinesWrittenValue) {
     synchronized (statusCountersLock) {
       linesWritten = newLinesWrittenValue;
     }
   }
 
-  /**
-   * @return Returns the number of lines updated in an output target: database, file, socket, etc.
-   * @see {@link #setLinesUpdated(long)}, {@link #incrementLinesUpdated()}
-   */
+  /** @return Returns the number of lines updated in an output target: database, file, socket, etc.
+   * @see {@link #setLinesUpdated(long)}, {@link #incrementLinesUpdated()} */
   @Override
   public long getLinesUpdated() {
     synchronized (statusCountersLock) {
@@ -777,35 +676,29 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Increments the number of lines updated in an output target: database, file, socket, etc.
+  /** Increments the number of lines updated in an output target: database, file, socket, etc.
    *
    * @return the new incremented value
-   * @see {@link #getLinesUpdated()}, {@link #setLinesUpdated(long)}
-   */
+   * @see {@link #getLinesUpdated()}, {@link #setLinesUpdated(long)} */
   public long incrementLinesUpdated() {
     synchronized (statusCountersLock) {
       return ++linesUpdated;
     }
   }
 
-  /**
-   * @param newLinesUpdatedValue the new number of lines updated in an output target: database,
-   *     file, socket, etc.
-   * @see {@link #getLinesUpdated()}, {@link #incrementLinesUpdated()}
-   */
+  /** @param newLinesUpdatedValue the new number of lines updated in an output target: database,
+   *        file, socket, etc.
+   * @see {@link #getLinesUpdated()}, {@link #incrementLinesUpdated()} */
   public void setLinesUpdated(long newLinesUpdatedValue) {
     synchronized (statusCountersLock) {
       linesUpdated = newLinesUpdatedValue;
     }
   }
 
-  /**
-   * Get the number of lines rejected to an error handling transform
+  /** Get the number of lines rejected to an error handling transform
    *
    * @see {@link #setLinesRejected(long)}, {@link #incrementLinesRejected()}
-   * @return the number of lines rejected to an error handling transform
-   */
+   * @return the number of lines rejected to an error handling transform */
   @Override
   public long getLinesRejected() {
     synchronized (statusCountersLock) {
@@ -813,22 +706,18 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Increments the number of lines rejected to an error handling transform
+  /** Increments the number of lines rejected to an error handling transform
    *
    * @see {@link #getLinesRejected()}, {@link #setLinesRejected(long)}
-   * @return the new incremented value
-   */
+   * @return the new incremented value */
   public long incrementLinesRejected() {
     synchronized (statusCountersLock) {
       return ++linesRejected;
     }
   }
 
-  /**
-   * @param newLinesRejectedValue lines number of lines rejected to an error handling transform
-   * @see {@link #getLinesRejected()}, {@link #incrementLinesRejected()}
-   */
+  /** @param newLinesRejectedValue lines number of lines rejected to an error handling transform
+   * @see {@link #getLinesRejected()}, {@link #incrementLinesRejected()} */
   @Override
   public void setLinesRejected(long newLinesRejectedValue) {
     synchronized (statusCountersLock) {
@@ -836,32 +725,26 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * @return the number of lines skipped
-   * @see {@link #setLinesSkipped(long)}, {@link #incrementLinesSkipped()}
-   */
+  /** @return the number of lines skipped
+   * @see {@link #setLinesSkipped(long)}, {@link #incrementLinesSkipped()} */
   public long getLinesSkipped() {
     synchronized (statusCountersLock) {
       return linesSkipped;
     }
   }
 
-  /**
-   * Increments the number of lines skipped
+  /** Increments the number of lines skipped
    *
    * @return the new incremented value
-   * @see {@link #getLinesSkipped()}, {@link #setLinesSkipped(long)}
-   */
+   * @see {@link #getLinesSkipped()}, {@link #setLinesSkipped(long)} */
   public long incrementLinesSkipped() {
     synchronized (statusCountersLock) {
       return ++linesSkipped;
     }
   }
 
-  /**
-   * @param newLinesSkippedValue lines number of lines skipped
-   * @see {@link #getLinesSkipped()}, {@link #incrementLinesSkipped()}
-   */
+  /** @param newLinesSkippedValue lines number of lines skipped
+   * @see {@link #getLinesSkipped()}, {@link #incrementLinesSkipped()} */
   public void setLinesSkipped(long newLinesSkippedValue) {
     synchronized (statusCountersLock) {
       linesSkipped = newLinesSkippedValue;
@@ -878,83 +761,65 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return transformName;
   }
 
-  /**
-   * Sets the transformName.
+  /** Sets the transformName.
    *
-   * @param transformName the new transformName
-   */
+   * @param transformName the new transformName */
   public void setTransformName(String transformName) {
     this.transformName = transformName;
   }
 
-  /**
-   * Gets the dispatcher.
+  /** Gets the dispatcher.
    *
-   * @return the dispatcher
-   */
+   * @return the dispatcher */
   public IPipelineEngine<PipelineMeta> getDispatcher() {
     return pipeline;
   }
 
-  /**
-   * Gets the status description.
+  /** Gets the status description.
    *
-   * @return the status description
-   */
+   * @return the status description */
   @Override
   public String getStatusDescription() {
     return getStatus().getDescription();
   }
 
-  /**
-   * @return Returns the transformMeta.
-   */
+  /** @return Returns the transformMeta. */
   @Override
   public Meta getMeta() {
     return meta;
   }
 
-  /**
-   * Gets data
+  /** Gets data
    *
-   * @return value of data
-   */
+   * @return value of data */
   @Override
   public Data getData() {
     return data;
   }
 
-  /**
-   * @return Returns the transformMeta.
-   */
+  /** @return Returns the transformMeta. */
   @Override
   public TransformMeta getTransformMeta() {
     return transformMeta;
   }
 
-  /**
-   * @return Returns the pipelineMeta.
-   */
+  /** @return Returns the pipelineMeta. */
   public PipelineMeta getPipelineMeta() {
     return pipelineMeta;
   }
 
-  /**
-   * @return Returns the pipeline.
-   */
+  /** @return Returns the pipeline. */
   @Override
   public IPipelineEngine<PipelineMeta> getPipeline() {
     return pipeline;
   }
 
-  /**
-   * putRow is used to copy a row, to the alternate rowset(s) This should get priority over
+  /** putRow is used to copy a row, to the alternate rowset(s) This should get priority over
    * everything else! (synchronized) If distribute is true, a row is copied only once to the output
    * rowsets, otherwise copies are sent to each rowset!
    *
    * @param row The row to put to the destination rowset(s).
-   * @throws HopTransformException
-   */
+   * @throws HopTransformException */
   @Override
   public void putRow(IRowMeta rowMeta, Object[] row) throws HopTransformException {
     if (rowMeta != null) {
@@ -962,14 +827,10 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
         // check row meta for empty field name (BACKLOG-18004)
         for (IValueMeta vmi : rowMeta.getValueMetaList()) {
           if (StringUtils.isBlank(vmi.getName())) {
-            throw new HopTransformException(
-                "Please set a field name for all field(s) that have 'null'.");
+            throw new HopTransformException("Please set a field name for all field(s) that have 'null'.");
           }
           if (vmi.getType() <= 0) {
-            throw new HopTransformException(
-                "Please set a value for the missing field(s) type for field: '"
-                    + vmi.getName()
-                    + "'");
+            throw new HopTransformException("Please set a value for the missing field(s) type for field: '" + vmi.getName() + "'");
           }
         }
       }
@@ -1038,8 +899,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       try {
         terminatorRows.add(rowMeta.cloneRow(row));
       } catch (HopValueException e) {
-        throw new HopTransformException(
-            "Unable to clone row while adding rows to the terminator rows.", e);
+        throw new HopTransformException("Unable to clone row while adding rows to the terminator rows.", e);
       }
     }
 
@@ -1071,8 +931,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
           mirrorPartitioning(rowMeta, row);
           break;
         default:
-          throw new HopTransformException(
-              "Internal error: invalid repartitioning type: " + repartitioning);
+          throw new HopTransformException("Internal error: invalid repartitioning type: " + repartitioning);
       }
     } finally {
       outputRowSetsLock.readLock().unlock();
@@ -1104,8 +963,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     try {
       partitionNr = nextTransformPartitioningMeta.getPartition(this, rowMeta, row);
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to convert a value to integer while calculating the partition number", e);
+      throw new HopTransformException("Unable to convert a value to integer while calculating the partition number", e);
     }
 
     IRowSet selectedRowSet;
@@ -1115,16 +973,14 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     //
 
     // Count of partitioned row at one transform
-    int partCount =
-        ((BasePartitioner) nextTransformPartitioningMeta.getPartitioner()).getNrPartitions();
+    int partCount = ((BasePartitioner) nextTransformPartitioningMeta.getPartitioner()).getNrPartitions();
 
     for (int i = 0; i < nextTransforms.length; i++) {
 
       selectedRowSet = outputRowSets.get(partitionNr + i * partCount);
 
       if (selectedRowSet == null) {
-        logBasic(
-            BaseMessages.getString(PKG, "BaseTransform.TargetRowsetIsNotAvailable", partitionNr));
+        logBasic(BaseMessages.getString(PKG, "BaseTransform.TargetRowsetIsNotAvailable", partitionNr));
       } else {
 
         // Wait
@@ -1133,13 +989,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
 
         if (log.isRowLevel()) {
           try {
-            logRowlevel(
-                BaseMessages.getString(
-                    PKG,
-                    "BaseTransform.PartitionedToRow",
-                    partitionNr,
-                    selectedRowSet,
-                    rowMeta.getString(row)));
+            logRowlevel(BaseMessages.getString(PKG, "BaseTransform.PartitionedToRow", partitionNr, selectedRowSet, rowMeta.getString(row)));
           } catch (HopValueException e) {
             throw new HopTransformException(e);
           }
@@ -1216,8 +1066,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
           putRowToRowSet(rs, rowMeta, rowMeta.cloneRow(row));
           incrementLinesWritten();
         } catch (HopValueException e) {
-          throw new HopTransformException(
-              "Unable to clone row while copying rows to multiple target transforms", e);
+          throw new HopTransformException("Unable to clone row while copying rows to multiple target transforms", e);
         }
       }
 
@@ -1247,16 +1096,13 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * putRowTo is used to put a row in a certain specific IRowSet.
+  /** putRowTo is used to put a row in a certain specific IRowSet.
    *
    * @param rowMeta The row meta-data to put to the destination IRowSet.
    * @param row the data to put in the IRowSet
    * @param rowSet the RoWset to put the row into.
-   * @throws HopTransformException In case something unexpected goes wrong
-   */
-  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-      throws HopTransformException {
+   * @throws HopTransformException In case something unexpected goes wrong */
+  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
     getRowHandler().putRowTo(rowMeta, row, rowSet);
 
     // This transform is not reading data, only writing
@@ -1266,8 +1112,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  public void handlePutRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-      throws HopTransformException {
+  public void handlePutRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
 
     // Are we pausing the transform? If so, stall forever...
     //
@@ -1290,8 +1135,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       try {
         terminatorRows.add(rowMeta.cloneRow(row));
       } catch (HopValueException e) {
-        throw new HopTransformException(
-            "Unable to clone row while adding rows to the terminator buffer", e);
+        throw new HopTransformException("Unable to clone row while adding rows to the terminator buffer", e);
       }
     }
 
@@ -1313,8 +1157,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     incrementLinesWritten();
   }
 
-  /**
-   * Put error.
+  /** Put error.
    *
    * @param rowMeta the row meta
    * @param row the row
@@ -1322,36 +1165,15 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
    * @param errorDescriptions the error descriptions
    * @param fieldNames the field names
    * @param errorCodes the error codes
-   * @throws HopTransformException the hop transform exception
-   */
-  public void putError(
-      IRowMeta rowMeta,
-      Object[] row,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes)
-      throws HopTransformException {
+   * @throws HopTransformException the hop transform exception */
+  public void putError(IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
     getRowHandler().putError(rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
   }
 
-  private void handlePutError(
-      IVariables variables,
-      IRowMeta rowMeta,
-      Object[] row,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes)
-      throws HopTransformException {
+  private void handlePutError(IVariables variables, IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
     if (pipeline.isSafeModeEnabled()) {
       if (row == null || rowMeta.size() > row.length) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Exception.MetadataDoesntMatchDataRowSize",
-                Integer.toString(rowMeta.size()),
-                Integer.toString(row != null ? row.length : 0)));
+        throw new HopTransformException(BaseMessages.getString(PKG, "BaseTransform.Exception.MetadataDoesntMatchDataRowSize", Integer.toString(rowMeta.size()), Integer.toString(row != null ? row.length : 0)));
       }
     }
 
@@ -1370,8 +1192,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
 
     // Also add the error fields...
-    transformErrorMeta.addErrorRowData(
-        this, errorRowData, rowMeta.size(), nrErrors, errorDescriptions, fieldNames, errorCodes);
+    transformErrorMeta.addErrorRowData(this, errorRowData, rowMeta.size(), nrErrors, errorDescriptions, fieldNames, errorCodes);
 
     // call all row listeners...
     for (IRowListener listener : rowListeners) {
@@ -1399,39 +1220,24 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
 
     // Was this one error too much?
     if (maxErrors > 0 && getLinesRejected() > maxErrors) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "BaseTransform.Log.TooManyRejectedRows",
-              Long.toString(maxErrors),
-              Long.toString(getLinesRejected())));
+      logError(BaseMessages.getString(PKG, "BaseTransform.Log.TooManyRejectedRows", Long.toString(maxErrors), Long.toString(getLinesRejected())));
       setErrors(1L);
       stopAll();
     }
 
-    if (maxPercentErrors > 0
-        && getLinesRejected() > 0
-        && (minRowsForMaxErrorPercent <= 0 || getLinesRead() >= minRowsForMaxErrorPercent)) {
+    if (maxPercentErrors > 0 && getLinesRejected() > 0 && (minRowsForMaxErrorPercent <= 0 || getLinesRead() >= minRowsForMaxErrorPercent)) {
       int pct = (int) Math.ceil(100 * (double) getLinesRejected() / getLinesRead());
       if (pct > maxPercentErrors) {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.MaxPercentageRejectedReached",
-                Integer.toString(pct),
-                Long.toString(getLinesRejected()),
-                Long.toString(getLinesRead())));
+        logError(BaseMessages.getString(PKG, "BaseTransform.Log.MaxPercentageRejectedReached", Integer.toString(pct), Long.toString(getLinesRejected()), Long.toString(getLinesRead())));
         setErrors(1L);
         stopAll();
       }
     }
   }
 
-  /**
-   * Current input stream.
+  /** Current input stream.
    *
-   * @return the row set
-   */
+   * @return the row set */
   @VisibleForTesting
   IRowSet currentInputStream() {
     inputRowSetsLock.readLock().lock();
@@ -1483,10 +1289,8 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * In case of getRow, we receive data from previous transforms through the input rowset. In case
-   * we split the stream, we have to copy the data to the alternate splits: rowsets 1 through n.
-   */
+  /** In case of getRow, we receive data from previous transforms through the input rowset. In case
+   * we split the stream, we have to copy the data to the alternate splits: rowsets 1 through n. */
   @Override
   public Object[] getRow() throws HopException {
     Object[] row = getRowHandler().getRow();
@@ -1579,14 +1383,9 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       // We can use timeouts to switch from one to another...
       //
       if (waitingTime == null) {
-        Integer waitTime =
-            Const.toInt(EnvUtil.getSystemProperty(Const.HOP_DEFAULT_BUFFER_POLLING_WAITTIME), 20);
-        ;
-        if (pipeline.getPipelineRunConfiguration().getEngineRunConfiguration()
-            instanceof LocalPipelineRunConfiguration) {
-          LocalPipelineRunConfiguration runconfig =
-              (LocalPipelineRunConfiguration)
-                  pipeline.getPipelineRunConfiguration().getEngineRunConfiguration();
+        Integer waitTime = Const.toInt(EnvUtil.getSystemProperty(Const.HOP_DEFAULT_BUFFER_POLLING_WAITTIME), 20);;
+        if (pipeline.getPipelineRunConfiguration().getEngineRunConfiguration() instanceof LocalPipelineRunConfiguration) {
+          LocalPipelineRunConfiguration runconfig = (LocalPipelineRunConfiguration) pipeline.getPipelineRunConfiguration().getEngineRunConfiguration();
           waitTime = Const.toInt(runconfig.getWaitTime(), waitTime);
         }
         waitingTime = DynamicWaitTimes.build(inputRowSets, this::getCurrentInputRowSetNr, waitTime);
@@ -1691,10 +1490,8 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return row;
   }
 
-  /**
-   * IRowHandler controls how getRow/putRow are handled. The default IRowHandler will simply call
-   * {@link #handleGetRow()} and {@link #handlePutRow(IRowMeta, Object[])}
-   */
+  /** IRowHandler controls how getRow/putRow are handled. The default IRowHandler will simply call
+   * {@link #handleGetRow()} and {@link #handlePutRow(IRowMeta, Object[])} */
   public void setRowHandler(IRowHandler rowHandler) {
     Preconditions.checkNotNull(rowHandler);
     this.rowHandler = rowHandler;
@@ -1707,12 +1504,10 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return this.rowHandler;
   }
 
-  /**
-   * Safe mode checking.
+  /** Safe mode checking.
    *
    * @param row the row
-   * @throws HopRowException the hop row exception
-   */
+   * @throws HopRowException the hop row exception */
   protected void safeModeChecking(IRowMeta row) throws HopRowException {
     if (row == null) {
       return;
@@ -1727,9 +1522,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       Arrays.sort(fieldnames);
       for (int i = 0; i < fieldnames.length - 1; i++) {
         if (fieldnames[i].equals(fieldnames[i + 1])) {
-          throw new HopRowException(
-              BaseMessages.getString(
-                  PKG, "BaseTransform.SafeMode.Exception.DoubleFieldnames", fieldnames[i]));
+          throw new HopRowException(BaseMessages.getString(PKG, "BaseTransform.SafeMode.Exception.DoubleFieldnames", fieldnames[i]));
         }
       }
     } else {
@@ -1750,9 +1543,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       try {
         for (int rowsetNr = 0; rowsetNr < outputRowSets.size(); rowsetNr++) {
           IRowSet outputRowSet = outputRowSets.get(rowsetNr);
-          if (outputRowSet
-              .getDestinationTransformName()
-              .equalsIgnoreCase(transformErrorMeta.getTargetTransform().getName())) {
+          if (outputRowSet.getDestinationTransformName().equalsIgnoreCase(transformErrorMeta.getTargetTransform().getName())) {
             // This is the rowset to move!
             //
             errorRowSet = outputRowSet;
@@ -1766,26 +1557,17 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Safe mode checking.
+  /** Safe mode checking.
    *
    * @param referenceRowMeta the reference row meta
    * @param rowMeta the row meta
-   * @throws HopRowException the hop row exception
-   */
-  public static void safeModeChecking(IRowMeta referenceRowMeta, IRowMeta rowMeta)
-      throws HopRowException {
+   * @throws HopRowException the hop row exception */
+  public static void safeModeChecking(IRowMeta referenceRowMeta, IRowMeta rowMeta) throws HopRowException {
     // See if the row we got has the same layout as the reference row.
     // First check the number of fields
     //
     if (referenceRowMeta.size() != rowMeta.size()) {
-      throw new HopRowException(
-          BaseMessages.getString(
-              PKG,
-              "BaseTransform.SafeMode.Exception.VaryingSize",
-              "" + referenceRowMeta.size(),
-              "" + rowMeta.size(),
-              rowMeta.toString()));
+      throw new HopRowException(BaseMessages.getString(PKG, "BaseTransform.SafeMode.Exception.VaryingSize", "" + referenceRowMeta.size(), "" + rowMeta.size(), rowMeta.toString()));
     } else {
       // Check field by field for the position of the names...
       for (int i = 0; i < referenceRowMeta.size(); i++) {
@@ -1793,45 +1575,25 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
         IValueMeta compareValue = rowMeta.getValueMeta(i);
 
         if (!referenceValue.getName().equalsIgnoreCase(compareValue.getName())) {
-          throw new HopRowException(
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.SafeMode.Exception.MixingLayout",
-                  "" + (i + 1),
-                  referenceValue.getName() + " " + referenceValue.toStringMeta(),
-                  compareValue.getName() + " " + compareValue.toStringMeta()));
+          throw new HopRowException(BaseMessages.getString(PKG, "BaseTransform.SafeMode.Exception.MixingLayout", "" + (i + 1), referenceValue.getName() + " " + referenceValue.toStringMeta(), compareValue.getName() + " " + compareValue.toStringMeta()));
         }
 
         if (referenceValue.getType() != compareValue.getType()) {
-          throw new HopRowException(
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.SafeMode.Exception.MixingTypes",
-                  "" + (i + 1),
-                  referenceValue.getName() + " " + referenceValue.toStringMeta(),
-                  compareValue.getName() + " " + compareValue.toStringMeta()));
+          throw new HopRowException(BaseMessages.getString(PKG, "BaseTransform.SafeMode.Exception.MixingTypes", "" + (i + 1), referenceValue.getName() + " " + referenceValue.toStringMeta(), compareValue.getName() + " " + compareValue.toStringMeta()));
         }
 
         if (referenceValue.getStorageType() != compareValue.getStorageType()) {
-          throw new HopRowException(
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.SafeMode.Exception.MixingStorageTypes",
-                  "" + (i + 1),
-                  referenceValue.getName() + " " + referenceValue.toStringMeta(),
-                  compareValue.getName() + " " + compareValue.toStringMeta()));
+          throw new HopRowException(BaseMessages.getString(PKG, "BaseTransform.SafeMode.Exception.MixingStorageTypes", "" + (i + 1), referenceValue.getName() + " " + referenceValue.toStringMeta(), compareValue.getName() + " " + compareValue.toStringMeta()));
         }
       }
     }
   }
 
-  /**
-   * Gets the row from.
+  /** Gets the row from.
    *
    * @param rowSet the row set
    * @return the row from
-   * @throws HopTransformException the hop transform exception
-   */
+   * @throws HopTransformException the hop transform exception */
   public Object[] getRowFrom(IRowSet rowSet) throws HopTransformException {
     Object[] row = getRowHandler().getRowFrom(rowSet);
     if (firstRowReadDate == null) {
@@ -1908,18 +1670,15 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       rowData = rowSet.getRow();
       if (rowData == null) {
         Integer waitTime = 20;
-        if (pipeline.getPipelineRunConfiguration().getEngineRunConfiguration()
-            instanceof LocalPipelineRunConfiguration) {
-          LocalPipelineRunConfiguration runconfig =
-              (LocalPipelineRunConfiguration)
-                  pipeline.getPipelineRunConfiguration().getEngineRunConfiguration();
+        if (pipeline.getPipelineRunConfiguration().getEngineRunConfiguration() instanceof LocalPipelineRunConfiguration) {
+          LocalPipelineRunConfiguration runconfig = (LocalPipelineRunConfiguration) pipeline.getPipelineRunConfiguration().getEngineRunConfiguration();
           waitTime = Integer.parseInt(runconfig.getWaitTime());
         }
-        if (waitTime == null) waitTime = 20;
+        if (waitTime == null)
+          waitTime = 20;
 
         if (waitingTime == null) {
-          waitingTime =
-              DynamicWaitTimes.build(inputRowSets, this::getCurrentInputRowSetNr, waitTime);
+          waitingTime = DynamicWaitTimes.build(inputRowSets, this::getCurrentInputRowSetNr, waitTime);
         }
         // Must release the read lock before acquisition of the write lock to prevent deadlocks.
         //
@@ -1962,87 +1721,60 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return rowData;
   }
 
-  /**
-   * Find input row set.
+  /** Find input row set.
    *
    * @param sourceTransformName the source transform
    * @return the row set
-   * @throws HopTransformException the hop transform exception
-   */
+   * @throws HopTransformException the hop transform exception */
   public IRowSet findInputRowSet(String sourceTransformName) throws HopTransformException {
     // Check to see that "sourceTransform" only runs in a single copy
     // Otherwise you'll see problems during execution.
     //
     TransformMeta sourceTransformMeta = pipelineMeta.findTransform(sourceTransformName);
     if (sourceTransformMeta == null) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG,
-              "BaseTransform.Exception.SourceTransformToReadFromDoesntExist",
-              sourceTransformName));
+      throw new HopTransformException(BaseMessages.getString(PKG, "BaseTransform.Exception.SourceTransformToReadFromDoesntExist", sourceTransformName));
     }
 
     // If this transform is partitioned but the source isn't, throw an error
     //
     if (transformMeta.isPartitioned() && !sourceTransformMeta.isPartitioned()) {
-      throw new HopTransformException(
-          "When reading from info transforms and running partitioned the source transform needs to be partitioned in the same way");
+      throw new HopTransformException("When reading from info transforms and running partitioned the source transform needs to be partitioned in the same way");
     }
 
     // If the source transform is partitioned but this one isn't, throw an error
     //
     if (!transformMeta.isPartitioned() && sourceTransformMeta.isPartitioned()) {
-      throw new HopTransformException(
-          "The info transform to read data from called ["
-              + sourceTransformMeta.getName()
-              + "] is partitioned when transform ["
-              + getTransformName()
-              + "] isn't.  Make sure both are partitioned or neither.");
+      throw new HopTransformException("The info transform to read data from called [" + sourceTransformMeta.getName() + "] is partitioned when transform [" + getTransformName() + "] isn't.  Make sure both are partitioned or neither.");
     }
 
     // If both transforms are partitioned it's OK to run in parallel...
     //
-    if (sourceTransformMeta.isPartitioned()
-        && !sourceTransformMeta.isRepartitioning()
-        && transformMeta.isPartitioned()) {
-      if (!sourceTransformMeta
-          .getTransformPartitioningMeta()
-          .equals(transformMeta.getTransformPartitioningMeta())) {
-        throw new HopTransformException(
-            "When reading from info transforms and running partitioned the source transform needs to be partitioned in the same way");
+    if (sourceTransformMeta.isPartitioned() && !sourceTransformMeta.isRepartitioning() && transformMeta.isPartitioned()) {
+      if (!sourceTransformMeta.getTransformPartitioningMeta().equals(transformMeta.getTransformPartitioningMeta())) {
+        throw new HopTransformException("When reading from info transforms and running partitioned the source transform needs to be partitioned in the same way");
       }
       return findInputRowSet(sourceTransformName, getCopy(), getTransformName(), getCopy());
     }
 
     if (sourceTransformMeta.getCopies(this) > 1) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG,
-              "BaseTransform.Exception.SourceTransformToReadFromCantRunInMultipleCopies",
-              sourceTransformName,
-              Integer.toString(sourceTransformMeta.getCopies(this))));
+      throw new HopTransformException(BaseMessages.getString(PKG, "BaseTransform.Exception.SourceTransformToReadFromCantRunInMultipleCopies", sourceTransformName, Integer.toString(sourceTransformMeta.getCopies(this))));
     }
 
     return findInputRowSet(sourceTransformName, 0, getTransformName(), getCopy());
   }
 
-  /**
-   * Find input row set.
+  /** Find input row set.
    *
    * @param from the from
    * @param fromCopy the fromcopy
    * @param to the to
    * @param toCopy the tocopy
-   * @return the row set
-   */
+   * @return the row set */
   public IRowSet findInputRowSet(String from, int fromCopy, String to, int toCopy) {
     inputRowSetsLock.readLock().lock();
     try {
       for (IRowSet rs : inputRowSets) {
-        if (rs.getOriginTransformName().equalsIgnoreCase(from)
-            && rs.getDestinationTransformName().equalsIgnoreCase(to)
-            && rs.getOriginTransformCopy() == fromCopy
-            && rs.getDestinationTransformCopy() == toCopy) {
+        if (rs.getOriginTransformName().equalsIgnoreCase(from) && rs.getDestinationTransformName().equalsIgnoreCase(to) && rs.getOriginTransformCopy() == fromCopy && rs.getDestinationTransformCopy() == toCopy) {
           return rs;
         }
       }
@@ -2053,13 +1785,11 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return null;
   }
 
-  /**
-   * Find output row set.
+  /** Find output row set.
    *
    * @param targetTransform the target transform
    * @return the row set
-   * @throws HopTransformException the hop transform exception
-   */
+   * @throws HopTransformException the hop transform exception */
   public IRowSet findOutputRowSet(String targetTransform) throws HopTransformException {
 
     // Check to see that "targetTransform" only runs in a single copy
@@ -2067,41 +1797,29 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     //
     TransformMeta targetTransformMeta = pipelineMeta.findTransform(targetTransform);
     if (targetTransformMeta == null) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "BaseTransform.Exception.TargetTransformToWriteToDoesntExist", targetTransform));
+      throw new HopTransformException(BaseMessages.getString(PKG, "BaseTransform.Exception.TargetTransformToWriteToDoesntExist", targetTransform));
     }
 
     if (targetTransformMeta.getCopies(this) > 1) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG,
-              "BaseTransform.Exception.TargetTransformToWriteToCantRunInMultipleCopies",
-              targetTransform,
-              Integer.toString(targetTransformMeta.getCopies(this))));
+      throw new HopTransformException(BaseMessages.getString(PKG, "BaseTransform.Exception.TargetTransformToWriteToCantRunInMultipleCopies", targetTransform, Integer.toString(targetTransformMeta.getCopies(this))));
     }
 
     return findOutputRowSet(getTransformName(), getCopy(), targetTransform, 0);
   }
 
-  /**
-   * Find an output rowset in a running pipeline. It will also look at the "to" transform to see if
+  /** Find an output rowset in a running pipeline. It will also look at the "to" transform to see if
    * this is a mapping. If it is, it will find the appropriate rowset in that pipeline.
    *
    * @param from
    * @param fromcopy
    * @param to
    * @param tocopy
-   * @return The rowset or null if none is found.
-   */
+   * @return The rowset or null if none is found. */
   public IRowSet findOutputRowSet(String from, int fromcopy, String to, int tocopy) {
     outputRowSetsLock.readLock().lock();
     try {
       for (IRowSet rs : outputRowSets) {
-        if (rs.getOriginTransformName().equalsIgnoreCase(from)
-            && rs.getDestinationTransformName().equalsIgnoreCase(to)
-            && rs.getOriginTransformCopy() == fromcopy
-            && rs.getDestinationTransformCopy() == tocopy) {
+        if (rs.getOriginTransformName().equalsIgnoreCase(from) && rs.getDestinationTransformName().equalsIgnoreCase(to) && rs.getOriginTransformCopy() == fromcopy && rs.getDestinationTransformCopy() == tocopy) {
           return rs;
         }
       }
@@ -2128,9 +1846,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     outputRowSetsLock.readLock().lock();
     try {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "BaseTransform.Log.OutputDone", String.valueOf(outputRowSets.size())));
+        logDebug(BaseMessages.getString(PKG, "BaseTransform.Log.OutputDone", String.valueOf(outputRowSets.size())));
       }
       for (IRowSet rs : outputRowSets) {
         rs.setDone();
@@ -2144,21 +1860,19 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * This method finds the surrounding transforms and rowsets for this base transform. This
+  /** This method finds the surrounding transforms and rowsets for this base transform. This
    * transforms keeps it's own list of rowsets (etc.) to prevent it from having to search every
    * time.
-   *
-   * <p>Note that all rowsets input and output is already created by pipeline itself. So in this
+   * <p>
+   * Note that all rowsets input and output is already created by pipeline itself. So in this
    * place we will look and choose which rowsets will be used by this particular transform.
-   *
-   * <p>We will collect all input rowsets and output rowsets so transform will be able to read input
+   * <p>
+   * We will collect all input rowsets and output rowsets so transform will be able to read input
    * data, and write to the output.
-   *
-   * <p>Transforms can run in multiple copies, on in partitioned fashion. For this case we should
+   * <p>
+   * Transforms can run in multiple copies, on in partitioned fashion. For this case we should
    * take in account that in different cases we should take in account one to one, one to many and
-   * other cases properly.
-   */
+   * other cases properly. */
   public void dispatch() {
     if (pipelineMeta == null) { // for preview reasons, no dispatching is done!
       return;
@@ -2172,8 +1886,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
 
     // How many next transforms are there? 0, 1 or more??
     // How many transforms do we send output to?
-    List<TransformMeta> previousTransforms =
-        pipelineMeta.findPreviousTransforms(transformMeta, true);
+    List<TransformMeta> previousTransforms = pipelineMeta.findPreviousTransforms(transformMeta, true);
     List<TransformMeta> succeedingTransforms = pipelineMeta.findNextTransforms(transformMeta);
 
     int nrInput = previousTransforms.size();
@@ -2192,24 +1905,13 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       currentInputRowSetNr = 0; // we start with input[0]
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.TransformMeta",
-                String.valueOf(nrInput),
-                String.valueOf(nrOutput)));
+        logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.TransformMeta", String.valueOf(nrInput), String.valueOf(nrOutput)));
       }
       // populate input rowsets.
       for (int i = 0; i < previousTransforms.size(); i++) {
         prevTransforms[i] = previousTransforms.get(i);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.Log.GotPreviousTransform",
-                  transformName,
-                  String.valueOf(i),
-                  prevTransforms[i].getName()));
+          logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.GotPreviousTransform", transformName, String.valueOf(i), prevTransforms[i].getName()));
         }
 
         // Looking at the previous transform, you can have either 1 rowset to look at or more then
@@ -2217,22 +1919,14 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
         int prevCopies = prevTransforms[i].getCopies(this);
         int nextCopies = transformMeta.getCopies(this);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.Log.InputRowInfo",
-                  String.valueOf(prevCopies),
-                  String.valueOf(nextCopies)));
+          logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.InputRowInfo", String.valueOf(prevCopies), String.valueOf(nextCopies)));
         }
 
         int nrCopies;
         int dispatchType;
         boolean repartitioning;
         if (prevTransforms[i].isPartitioned()) {
-          repartitioning =
-              !prevTransforms[i]
-                  .getTransformPartitioningMeta()
-                  .equals(transformMeta.getTransformPartitioningMeta());
+          repartitioning = !prevTransforms[i].getTransformPartitioningMeta().equals(transformMeta.getTransformPartitioningMeta());
         } else {
           repartitioning = transformMeta.isPartitioned();
         }
@@ -2265,20 +1959,16 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
               rowSet = pipeline.findRowSet(prevTransforms[i].getName(), 0, transformName, 0);
               break;
             case Pipeline.TYPE_DISP_1_N:
-              rowSet =
-                  pipeline.findRowSet(prevTransforms[i].getName(), 0, transformName, getCopy());
+              rowSet = pipeline.findRowSet(prevTransforms[i].getName(), 0, transformName, getCopy());
               break;
             case Pipeline.TYPE_DISP_N_1:
               rowSet = pipeline.findRowSet(prevTransforms[i].getName(), c, transformName, 0);
               break;
             case Pipeline.TYPE_DISP_N_N:
-              rowSet =
-                  pipeline.findRowSet(
-                      prevTransforms[i].getName(), getCopy(), transformName, getCopy());
+              rowSet = pipeline.findRowSet(prevTransforms[i].getName(), getCopy(), transformName, getCopy());
               break;
             case Pipeline.TYPE_DISP_N_M:
-              rowSet =
-                  pipeline.findRowSet(prevTransforms[i].getName(), c, transformName, getCopy());
+              rowSet = pipeline.findRowSet(prevTransforms[i].getName(), c, transformName, getCopy());
               break;
             default:
               break;
@@ -2286,9 +1976,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
           if (rowSet != null) {
             inputRowSets.add(rowSet);
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "BaseTransform.Log.FoundInputRowset", rowSet.getName()));
+              logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.FoundInputRowset", rowSet.getName()));
             }
           } else {
             if (!prevTransforms[i].isMapping() && !transformMeta.isMapping()) {
@@ -2308,22 +1996,14 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
         int nextCopies = nextTransforms[i].getCopies(this);
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.Log.OutputRowInfo",
-                  String.valueOf(prevCopies),
-                  String.valueOf(nextCopies)));
+          logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.OutputRowInfo", String.valueOf(prevCopies), String.valueOf(nextCopies)));
         }
 
         int nrCopies;
         int dispatchType;
         boolean repartitioning;
         if (transformMeta.isPartitioned()) {
-          repartitioning =
-              !transformMeta
-                  .getTransformPartitioningMeta()
-                  .equals(nextTransforms[i].getTransformPartitioningMeta());
+          repartitioning = !transformMeta.getTransformPartitioningMeta().equals(nextTransforms[i].getTransformPartitioningMeta());
         } else {
           repartitioning = nextTransforms[i].isPartitioned();
         }
@@ -2355,17 +2035,13 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
               rowSet = pipeline.findRowSet(transformName, 0, nextTransforms[i].getName(), c);
               break;
             case Pipeline.TYPE_DISP_N_1:
-              rowSet =
-                  pipeline.findRowSet(transformName, getCopy(), nextTransforms[i].getName(), 0);
+              rowSet = pipeline.findRowSet(transformName, getCopy(), nextTransforms[i].getName(), 0);
               break;
             case Pipeline.TYPE_DISP_N_N:
-              rowSet =
-                  pipeline.findRowSet(
-                      transformName, getCopy(), nextTransforms[i].getName(), getCopy());
+              rowSet = pipeline.findRowSet(transformName, getCopy(), nextTransforms[i].getName(), getCopy());
               break;
             case Pipeline.TYPE_DISP_N_M:
-              rowSet =
-                  pipeline.findRowSet(transformName, getCopy(), nextTransforms[i].getName(), c);
+              rowSet = pipeline.findRowSet(transformName, getCopy(), nextTransforms[i].getName(), c);
               break;
             default:
               break;
@@ -2373,9 +2049,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
           if (rowSet != null) {
             outputRowSets.add(rowSet);
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "BaseTransform.Log.FoundOutputRowset", rowSet.getName()));
+              logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.FoundOutputRowset", rowSet.getName()));
             }
           } else {
             if (!transformMeta.isMapping() && !nextTransforms[i].isMapping()) {
@@ -2401,171 +2075,135 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Checks if is basic.
+  /** Checks if is basic.
    *
-   * @return true, if is basic
-   */
+   * @return true, if is basic */
   public boolean isBasic() {
     return log.isBasic();
   }
 
-  /**
-   * Checks if is detailed.
+  /** Checks if is detailed.
    *
-   * @return true, if is detailed
-   */
+   * @return true, if is detailed */
   public boolean isDetailed() {
     return log.isDetailed();
   }
 
-  /**
-   * Checks if is debug.
+  /** Checks if is debug.
    *
-   * @return true, if is debug
-   */
+   * @return true, if is debug */
   public boolean isDebug() {
     return log.isDebug();
   }
 
-  /**
-   * Checks if is row level.
+  /** Checks if is row level.
    *
-   * @return true, if is row level
-   */
+   * @return true, if is row level */
   public boolean isRowLevel() {
     return log.isRowLevel();
   }
 
-  /**
-   * Log minimal.
+  /** Log minimal.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logMinimal(String message) {
     log.logMinimal(message);
   }
 
-  /**
-   * Log minimal.
+  /** Log minimal.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logMinimal(String message, Object... arguments) {
     log.logMinimal(message, arguments);
   }
 
-  /**
-   * Log basic.
+  /** Log basic.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logBasic(String message) {
     log.logBasic(message);
   }
 
-  /**
-   * Log basic.
+  /** Log basic.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logBasic(String message, Object... arguments) {
     log.logBasic(message, arguments);
   }
 
-  /**
-   * Log detailed.
+  /** Log detailed.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDetailed(String message) {
     log.logDetailed(message);
   }
 
-  /**
-   * Log detailed.
+  /** Log detailed.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDetailed(String message, Object... arguments) {
     log.logDetailed(message, arguments);
   }
 
-  /**
-   * Log debug.
+  /** Log debug.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDebug(String message) {
     log.logDebug(message);
   }
 
-  /**
-   * Log debug.
+  /** Log debug.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDebug(String message, Object... arguments) {
     log.logDebug(message, arguments);
   }
 
-  /**
-   * Log rowlevel.
+  /** Log rowlevel.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logRowlevel(String message) {
     log.logRowlevel(message);
   }
 
-  /**
-   * Log rowlevel.
+  /** Log rowlevel.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logRowlevel(String message, Object... arguments) {
     log.logRowlevel(message, arguments);
   }
 
-  /**
-   * Log error.
+  /** Log error.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logError(String message) {
     log.logError(message);
   }
 
-  /**
-   * Log error.
+  /** Log error.
    *
    * @param message the message
-   * @param e the e
-   */
+   * @param e the e */
   public void logError(String message, Throwable e) {
     log.logError(message, e);
   }
 
-  /**
-   * Log error.
+  /** Log error.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logError(String message, Object... arguments) {
     log.logError(message, arguments);
   }
 
-  /**
-   * Output is done.
+  /** Output is done.
    *
-   * @return true, if successful
-   */
+   * @return true, if successful */
   public boolean outputIsDone() {
     int nrstopped = 0;
 
@@ -2673,29 +2311,23 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     setPaused(false);
   }
 
-  /**
-   * Sets the paused.
+  /** Sets the paused.
    *
-   * @param paused the new paused
-   */
+   * @param paused the new paused */
   public void setPaused(boolean paused) {
     this.paused.set(paused);
   }
 
-  /**
-   * Sets the paused.
+  /** Sets the paused.
    *
-   * @param paused the new paused
-   */
+   * @param paused the new paused */
   public void setPaused(AtomicBoolean paused) {
     this.paused = paused;
   }
 
-  /**
-   * Checks if is initialising.
+  /** Checks if is initialising.
    *
-   * @return true, if is initialising
-   */
+   * @return true, if is initialising */
   public boolean isInitialising() {
     return init;
   }
@@ -2855,12 +2487,10 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return size;
   }
 
-  /**
-   * Perform actions to stop a running transform. This can be stopping running Sql queries (cancel),
+  /** Perform actions to stop a running transform. This can be stopping running Sql queries (cancel),
    * etc. Default it doesn't do anything.
    *
-   * @throws HopException in case something goes wrong
-   */
+   * @throws HopException in case something goes wrong */
   @Override
   public void stopRunning() throws HopException {
     // Nothing by default
@@ -2876,27 +2506,9 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
       long lu = getLinesUpdated();
       long lj = getLinesRejected();
       if (li > 0 || lo > 0 || lr > 0 || lw > 0 || lu > 0 || lj > 0 || errors > 0) {
-        logBasic(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.SummaryInfo",
-                String.valueOf(li),
-                String.valueOf(lo),
-                String.valueOf(lr),
-                String.valueOf(lw),
-                String.valueOf(lw),
-                String.valueOf(errors + lj)));
+        logBasic(BaseMessages.getString(PKG, "BaseTransform.Log.SummaryInfo", String.valueOf(li), String.valueOf(lo), String.valueOf(lr), String.valueOf(lw), String.valueOf(lw), String.valueOf(errors + lj)));
       } else {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransform.Log.SummaryInfo",
-                String.valueOf(li),
-                String.valueOf(lo),
-                String.valueOf(lr),
-                String.valueOf(lw),
-                String.valueOf(lw),
-                String.valueOf(errors + lj)));
+        logDetailed(BaseMessages.getString(PKG, "BaseTransform.Log.SummaryInfo", String.valueOf(li), String.valueOf(lo), String.valueOf(lr), String.valueOf(lw), String.valueOf(lw), String.valueOf(errors + lj)));
       }
     }
   }
@@ -2909,9 +2521,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return null;
   }
 
-  /**
-   * @return Returns the inputRowSets.
-   */
+  /** @return Returns the inputRowSets. */
   @Override
   public List<IRowSet> getInputRowSets() {
     inputRowSetsLock.readLock().lock();
@@ -2976,9 +2586,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * @param inputRowSets The inputRowSets to set.
-   */
+  /** @param inputRowSets The inputRowSets to set. */
   public void setInputRowSets(List<IRowSet> inputRowSets) {
     inputRowSetsLock.writeLock().lock();
     try {
@@ -2988,9 +2596,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * @return Returns the outputRowSets.
-   */
+  /** @return Returns the outputRowSets. */
   @Override
   public List<IRowSet> getOutputRowSets() {
     outputRowSetsLock.readLock().lock();
@@ -3020,9 +2626,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * @param outputRowSets The outputRowSets to set.
-   */
+  /** @param outputRowSets The outputRowSets to set. */
   public void setOutputRowSets(List<IRowSet> outputRowSets) {
     outputRowSetsLock.writeLock().lock();
     try {
@@ -3032,16 +2636,12 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * @return Returns the distributed.
-   */
+  /** @return Returns the distributed. */
   public boolean isDistributed() {
     return distributed;
   }
 
-  /**
-   * @param distributed The distributed to set.
-   */
+  /** @param distributed The distributed to set. */
   public void setDistributed(boolean distributed) {
     this.distributed = distributed;
   }
@@ -3076,11 +2676,9 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return Collections.unmodifiableList(rowListeners);
   }
 
-  /**
-   * Adds the result file.
+  /** Adds the result file.
    *
-   * @param resultFile the result file
-   */
+   * @param resultFile the result file */
   public void addResultFile(ResultFile resultFile) {
     ReentrantReadWriteLock.WriteLock lock = resultFilesLock.writeLock();
     lock.lock();
@@ -3158,118 +2756,85 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * @return the partitionId
-   */
+  /** @return the partitionId */
   @Override
   public String getPartitionId() {
     return partitionId;
   }
 
-  /**
-   * @param partitionId the partitionId to set
-   */
+  /** @param partitionId the partitionId to set */
   @Override
   public void setPartitionId(String partitionId) {
     this.partitionId = partitionId;
   }
 
-  /**
-   * @return the partitionTargets
-   */
+  /** @return the partitionTargets */
   public Map<String, BlockingRowSet> getPartitionTargets() {
     return partitionTargets;
   }
 
-  /**
-   * @param partitionTargets the partitionTargets to set
-   */
+  /** @param partitionTargets the partitionTargets to set */
   public void setPartitionTargets(Map<String, BlockingRowSet> partitionTargets) {
     this.partitionTargets = partitionTargets;
   }
 
-  /**
-   * @return the repartitioning type
-   */
+  /** @return the repartitioning type */
   public int getRepartitioning() {
     return repartitioning;
   }
 
-  /**
-   * @param repartitioning the repartitioning type to set
-   */
+  /** @param repartitioning the repartitioning type to set */
   @Override
   public void setRepartitioning(int repartitioning) {
     this.repartitioning = repartitioning;
   }
 
-  /**
-   * @return the partitioned
-   */
+  /** @return the partitioned */
   @Override
   public boolean isPartitioned() {
     return partitioned;
   }
 
-  /**
-   * @param partitioned the partitioned to set
-   */
+  /** @param partitioned the partitioned to set */
   @Override
   public void setPartitioned(boolean partitioned) {
     this.partitioned = partitioned;
   }
 
-  /**
-   * Check feedback.
+  /** Check feedback.
    *
    * @param lines the lines
-   * @return true, if successful
-   */
+   * @return true, if successful */
   protected boolean checkFeedback(long lines) {
-    return getPipeline().isFeedbackShown()
-        && (lines > 0)
-        && (getPipeline().getFeedbackSize() > 0)
-        && (lines % getPipeline().getFeedbackSize()) == 0;
+    return getPipeline().isFeedbackShown() && (lines > 0) && (getPipeline().getFeedbackSize() > 0) && (lines % getPipeline().getFeedbackSize()) == 0;
   }
 
-  /**
-   * @return the rowMeta
-   */
+  /** @return the rowMeta */
   public IRowMeta getInputRowMeta() {
     return inputRowMeta;
   }
 
-  /**
-   * @param rowMeta the rowMeta to set
-   */
+  /** @param rowMeta the rowMeta to set */
   public void setInputRowMeta(IRowMeta rowMeta) {
     this.inputRowMeta = rowMeta;
   }
 
-  /**
-   * @return the errorRowMeta
-   */
+  /** @return the errorRowMeta */
   public IRowMeta getErrorRowMeta() {
     return errorRowMeta;
   }
 
-  /**
-   * @param errorRowMeta the errorRowMeta to set
-   */
+  /** @param errorRowMeta the errorRowMeta to set */
   public void setErrorRowMeta(IRowMeta errorRowMeta) {
     this.errorRowMeta = errorRowMeta;
   }
 
-  /**
-   * @return the previewRowMeta
-   */
+  /** @return the previewRowMeta */
   public IRowMeta getPreviewRowMeta() {
     return previewRowMeta;
   }
 
-  /**
-   * @param previewRowMeta the previewRowMeta to set
-   */
+  /** @param previewRowMeta the previewRowMeta to set */
   public void setPreviewRowMeta(IRowMeta previewRowMeta) {
     this.previewRowMeta = previewRowMeta;
   }
@@ -3305,8 +2870,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
   }
 
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     return variables.resolve(aString, rowMeta, rowData);
   }
 
@@ -3421,14 +2985,12 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     variables.setVariables(map);
   }
 
-  /**
-   * This method is executed by Pipeline right before the threads start and right after
+  /** This method is executed by Pipeline right before the threads start and right after
    * initialization.
+   * <p>
+   * More to the point: here we open remote output transform sockets.
    *
-   * <p>More to the point: here we open remote output transform sockets.
-   *
-   * @throws HopTransformException In case there is an error
-   */
+   * @throws HopTransformException In case there is an error */
   @Override
   public void initBeforeStart() throws HopTransformException {}
 
@@ -3482,37 +3044,27 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     transformStartedListeners.add(transformStartedListener);
   }
 
-  /**
-   * Gets transformFinishedListeners
+  /** Gets transformFinishedListeners
    *
-   * @return value of transformFinishedListeners
-   */
+   * @return value of transformFinishedListeners */
   public List<ITransformFinishedListener> getTransformFinishedListeners() {
     return transformFinishedListeners;
   }
 
-  /**
-   * @param transformFinishedListeners The transformFinishedListeners to set
-   */
-  public void setTransformFinishedListeners(
-      List<ITransformFinishedListener> transformFinishedListeners) {
+  /** @param transformFinishedListeners The transformFinishedListeners to set */
+  public void setTransformFinishedListeners(List<ITransformFinishedListener> transformFinishedListeners) {
     this.transformFinishedListeners = transformFinishedListeners;
   }
 
-  /**
-   * Gets transformStartedListeners
+  /** Gets transformStartedListeners
    *
-   * @return value of transformStartedListeners
-   */
+   * @return value of transformStartedListeners */
   public List<ITransformStartedListener> getTransformStartedListeners() {
     return transformStartedListeners;
   }
 
-  /**
-   * @param transformStartedListeners The transformStartedListeners to set
-   */
-  public void setTransformStartedListeners(
-      List<ITransformStartedListener> transformStartedListeners) {
+  /** @param transformStartedListeners The transformStartedListeners to set */
+  public void setTransformStartedListeners(List<ITransformStartedListener> transformStartedListeners) {
     this.transformStartedListeners = transformStartedListeners;
   }
 
@@ -3546,19 +3098,15 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return transformName;
   }
 
-  /**
-   * Gets copyNr
+  /** Gets copyNr
    *
-   * @return value of copyNr
-   */
+   * @return value of copyNr */
   @Override
   public int getCopyNr() {
     return copyNr;
   }
 
-  /**
-   * @param copyNr The copyNr to set
-   */
+  /** @param copyNr The copyNr to set */
   public void setCopyNr(int copyNr) {
     this.copyNr = copyNr;
   }
@@ -3632,21 +3180,17 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     return log != null ? log.getLogLevel() : null;
   }
 
-  /**
-   * Sets the log level.
+  /** Sets the log level.
    *
-   * @param logLevel the new log level
-   */
+   * @param logLevel the new log level */
   @Override
   public void setLogLevel(LogLevel logLevel) {
     log.setLogLevel(logLevel);
   }
 
-  /**
-   * Close quietly.
+  /** Close quietly.
    *
-   * @param cl the object that can be closed.
-   */
+   * @param cl the object that can be closed. */
   public static void closeQuietly(Closeable cl) {
     if (cl != null) {
       try {
@@ -3657,21 +3201,17 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
   }
 
-  /**
-   * Returns the container object ID.
+  /** Returns the container object ID.
    *
-   * @return the containerObjectId
-   */
+   * @return the containerObjectId */
   @Override
   public String getContainerId() {
     return containerObjectId;
   }
 
-  /**
-   * Sets the container object ID.
+  /** Sets the container object ID.
    *
-   * @param containerObjectId the containerObjectId to set
-   */
+   * @param containerObjectId the containerObjectId to set */
   public void setCarteObjectId(String containerObjectId) {
     this.containerObjectId = containerObjectId;
   }
@@ -3684,11 +3224,9 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
   @Override
   public void batchComplete() throws HopException {}
 
-  /**
-   * Returns the registration date
+  /** Returns the registration date
    *
-   * @rerturn the registration date
-   */
+   * @rerturn the registration date */
   @Override
   public Date getRegistrationDate() {
     return null;
@@ -3765,14 +3303,7 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
 
     @Override
-    public void putError(
-        IRowMeta rowMeta,
-        Object[] row,
-        long nrErrors,
-        String errorDescriptions,
-        String fieldNames,
-        String errorCodes)
-        throws HopTransformException {
+    public void putError(IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
       handlePutError(variables, rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
     }
 
@@ -3782,97 +3313,76 @@ public class BaseTransform<Meta extends ITransformMeta, Data extends ITransformD
     }
 
     @Override
-    public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-        throws HopTransformException {
+    public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
       handlePutRowTo(rowMeta, row, rowSet);
     }
   }
 
-  /**
-   * Gets initStartDate
+  /** Gets initStartDate
    *
-   * @return value of initStartDate
-   */
+   * @return value of initStartDate */
   @Override
   public Date getInitStartDate() {
     return initStartDate;
   }
 
-  /**
-   * @param initStartDate The initStartDate to set
-   */
+  /** @param initStartDate The initStartDate to set */
   @Override
   public void setInitStartDate(Date initStartDate) {
     this.initStartDate = initStartDate;
   }
 
-  /**
-   * Gets executionStartDate
+  /** Gets executionStartDate
    *
-   * @return value of executionStartDate
-   */
+   * @return value of executionStartDate */
   @Override
   public Date getExecutionStartDate() {
     return executionStartDate;
   }
 
-  /**
-   * @param executionStartDate The executionStartDate to set
-   */
+  /** @param executionStartDate The executionStartDate to set */
   @Override
   public void setExecutionStartDate(Date executionStartDate) {
     this.executionStartDate = executionStartDate;
   }
 
-  /**
-   * Gets firstRowReadDate
+  /** Gets firstRowReadDate
    *
-   * @return value of firstRowReadDate
-   */
+   * @return value of firstRowReadDate */
   @Override
   public Date getFirstRowReadDate() {
     return firstRowReadDate;
   }
 
-  /**
-   * @param firstRowReadDate The firstRowReadDate to set
-   */
+  /** @param firstRowReadDate The firstRowReadDate to set */
   @Override
   public void setFirstRowReadDate(Date firstRowReadDate) {
     this.firstRowReadDate = firstRowReadDate;
   }
 
-  /**
-   * Gets lastRowWrittenDate
+  /** Gets lastRowWrittenDate
    *
-   * @return value of lastRowWrittenDate
-   */
+   * @return value of lastRowWrittenDate */
   @Override
   public Date getLastRowWrittenDate() {
     return lastRowWrittenDate;
   }
 
-  /**
-   * @param lastRowWrittenDate The lastRowWrittenDate to set
-   */
+  /** @param lastRowWrittenDate The lastRowWrittenDate to set */
   @Override
   public void setLastRowWrittenDate(Date lastRowWrittenDate) {
     this.lastRowWrittenDate = lastRowWrittenDate;
   }
 
-  /**
-   * Gets executionEndDate
+  /** Gets executionEndDate
    *
-   * @return value of executionEndDate
-   */
+   * @return value of executionEndDate */
   @Override
   public Date getExecutionEndDate() {
     return executionEndDate;
   }
 
-  /**
-   * @param executionEndDate The executionEndDate to set
-   */
+  /** @param executionEndDate The executionEndDate to set */
   @Override
   public void setExecutionEndDate(Date executionEndDate) {
     this.executionEndDate = executionEndDate;

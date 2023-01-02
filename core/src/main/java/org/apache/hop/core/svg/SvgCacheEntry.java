@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,8 +30,7 @@ public class SvgCacheEntry {
   private int y;
   private String filename;
 
-  public SvgCacheEntry(
-      String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
+  public SvgCacheEntry(String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
     this.filename = filename;
     this.svgDocument = svgDocument;
     this.width = width;
@@ -57,11 +56,9 @@ public class SvgCacheEntry {
     return Objects.hash(filename);
   }
 
-  /**
-   * Gets filename
+  /** Gets filename
    *
-   * @return value of filename
-   */
+   * @return value of filename */
   public String getFilename() {
     return filename;
   }
@@ -71,11 +68,9 @@ public class SvgCacheEntry {
     this.filename = filename;
   }
 
-  /**
-   * Gets svgDocument
+  /** Gets svgDocument
    *
-   * @return value of svgDocument
-   */
+   * @return value of svgDocument */
   public SVGDocument getSvgDocument() {
     return svgDocument;
   }
@@ -85,11 +80,9 @@ public class SvgCacheEntry {
     this.svgDocument = svgDocument;
   }
 
-  /**
-   * Gets width
+  /** Gets width
    *
-   * @return value of width
-   */
+   * @return value of width */
   public float getWidth() {
     return width;
   }
@@ -99,11 +92,9 @@ public class SvgCacheEntry {
     this.width = width;
   }
 
-  /**
-   * Gets height
+  /** Gets height
    *
-   * @return value of height
-   */
+   * @return value of height */
   public float getHeight() {
     return height;
   }
@@ -113,11 +104,9 @@ public class SvgCacheEntry {
     this.height = height;
   }
 
-  /**
-   * Gets x
+  /** Gets x
    *
-   * @return value of x
-   */
+   * @return value of x */
   public int getX() {
     return x;
   }
@@ -127,11 +116,9 @@ public class SvgCacheEntry {
     this.x = x;
   }
 
-  /**
-   * Gets y
+  /** Gets y
    *
-   * @return value of y
-   */
+   * @return value of y */
   public int getY() {
     return y;
   }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,12 +41,7 @@ public class RegisterWorkflowServlet extends BaseWorkflowServlet {
   }
 
   @Override
-  WebResult generateBody(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      boolean useXml,
-      IVariables variables)
-      throws IOException, HopException, HopException, ParseException {
+  WebResult generateBody(HttpServletRequest request, HttpServletResponse response, boolean useXml, IVariables variables) throws IOException, HopException, HopException, ParseException {
 
     final String xml = IOUtils.toString(request.getInputStream());
 
@@ -55,11 +50,7 @@ public class RegisterWorkflowServlet extends BaseWorkflowServlet {
 
     IWorkflowEngine<WorkflowMeta> workflow = createWorkflow(workflowConfiguration);
 
-    String message =
-        "Workflow '"
-            + workflow.getWorkflowName()
-            + "' was added to the list with id "
-            + workflow.getContainerId();
+    String message = "Workflow '" + workflow.getWorkflowName() + "' was added to the list with id " + workflow.getContainerId();
     return new WebResult(WebResult.STRING_OK, message, workflow.getContainerId());
   }
 }

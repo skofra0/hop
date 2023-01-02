@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,33 +72,15 @@ public class WebServer {
 
   private String passwordFile;
   private WebServerShutdownHook webServerShutdownHook;
-  private IWebServerShutdownHandler webServerShutdownHandler =
-      new DefaultWebServerShutdownHandler();
+  private IWebServerShutdownHandler webServerShutdownHandler = new DefaultWebServerShutdownHandler();
 
   private SslConfiguration sslConfig;
 
-  public WebServer(
-      ILogChannel log,
-      PipelineMap pipelineMap,
-      WorkflowMap workflowMap,
-      String hostname,
-      int port,
-      boolean join,
-      String passwordFile)
-      throws Exception {
+  public WebServer(ILogChannel log, PipelineMap pipelineMap, WorkflowMap workflowMap, String hostname, int port, boolean join, String passwordFile) throws Exception {
     this(log, pipelineMap, workflowMap, hostname, port, join, passwordFile, null);
   }
 
-  public WebServer(
-      ILogChannel log,
-      PipelineMap pipelineMap,
-      WorkflowMap workflowMap,
-      String hostname,
-      int port,
-      boolean join,
-      String passwordFile,
-      SslConfiguration sslConfig)
-      throws Exception {
+  public WebServer(ILogChannel log, PipelineMap pipelineMap, WorkflowMap workflowMap, String hostname, int port, boolean join, String passwordFile, SslConfiguration sslConfig) throws Exception {
     this.log = log;
     this.pipelineMap = pipelineMap;
     this.workflowMap = workflowMap;
@@ -120,8 +102,7 @@ public class WebServer {
     Runtime.getRuntime().addShutdownHook(webServerShutdownHook);
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopServerStartup.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopServerStartup.id, this);
     } catch (HopException e) {
       // Log error but continue regular operations to make sure HopServer continues to run properly
       //
@@ -133,20 +114,11 @@ public class WebServer {
     }
   }
 
-  public WebServer(
-      ILogChannel log, PipelineMap pipelineMap, WorkflowMap workflowMap, String hostname, int port)
-      throws Exception {
+  public WebServer(ILogChannel log, PipelineMap pipelineMap, WorkflowMap workflowMap, String hostname, int port) throws Exception {
     this(log, pipelineMap, workflowMap, hostname, port, true);
   }
 
-  public WebServer(
-      ILogChannel log,
-      PipelineMap pipelineMap,
-      WorkflowMap workflowMap,
-      String hostname,
-      int port,
-      boolean join)
-      throws Exception {
+  public WebServer(ILogChannel log, PipelineMap pipelineMap, WorkflowMap workflowMap, String hostname, int port, boolean join) throws Exception {
     this(log, pipelineMap, workflowMap, hostname, port, join, null, null);
   }
 
@@ -164,8 +136,7 @@ public class WebServer {
     //
     ConstraintSecurityHandler securityHandler = new ConstraintSecurityHandler();
 
-    if (System.getProperty("loginmodulename") != null
-        && System.getProperty("java.security.auth.login.config") != null) {
+    if (System.getProperty("loginmodulename") != null && System.getProperty("java.security.auth.login.config") != null) {
       JAASLoginService jaasLoginService = new JAASLoginService("Hop");
       jaasLoginService.setLoginModuleName(System.getProperty("loginmodulename"));
       securityHandler.setLoginService(jaasLoginService);
@@ -176,10 +147,7 @@ public class WebServer {
       if (!Utils.isEmpty(hopServer.getPassword())) {
         hashLoginService = new HashLoginService("Hop");
         UserStore userStore = new UserStore();
-        userStore.addUser(
-            hopServer.getUsername(),
-            new Password(hopServer.getPassword()),
-            new String[] {"default"});
+        userStore.addUser(hopServer.getUsername(), new Password(hopServer.getPassword()), new String[] {"default"});
         hashLoginService.setUserStore(userStore);
       } else {
         // See if there is a hop.pwd file in the HOP_HOME directory:
@@ -211,9 +179,7 @@ public class WebServer {
 
     // Root
     //
-    ServletContextHandler root =
-        new ServletContextHandler(
-            contexts, GetRootServlet.CONTEXT_PATH, ServletContextHandler.SESSIONS);
+    ServletContextHandler root = new ServletContextHandler(contexts, GetRootServlet.CONTEXT_PATH, ServletContextHandler.SESSIONS);
     GetRootServlet rootServlet = new GetRootServlet();
     rootServlet.setJettyMode(true);
     root.addServlet(new ServletHolder(rootServlet), "/*");
@@ -226,20 +192,15 @@ public class WebServer {
       servlet.setup(pipelineMap, workflowMap);
       servlet.setJettyMode(true);
 
-      ServletContextHandler servletContext =
-          new ServletContextHandler(
-              contexts, getContextPath(servlet), ServletContextHandler.SESSIONS);
+      ServletContextHandler servletContext = new ServletContextHandler(contexts, getContextPath(servlet), ServletContextHandler.SESSIONS);
       ServletHolder servletHolder = new ServletHolder((Servlet) servlet);
       servletContext.addServlet(servletHolder, "/*");
     }
 
     // setup jersey (REST)
     ServletHolder jerseyServletHolder = new ServletHolder(ServletContainer.class);
-    jerseyServletHolder.setInitParameter(
-        "com.sun.jersey.config.property.resourceConfigClass",
-        "com.sun.jersey.api.core.PackagesResourceConfig");
-    jerseyServletHolder.setInitParameter(
-        "com.sun.jersey.config.property.packages", "org.apache.hop.www.jaxrs");
+    jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
+    jerseyServletHolder.setInitParameter("com.sun.jersey.config.property.packages", "org.apache.hop.www.jaxrs");
     root.addServlet(jerseyServletHolder, "/api/*");
 
     // Allow png files to be shown for pipelines and workflows...
@@ -282,8 +243,7 @@ public class WebServer {
     webServerShutdownHook.setShuttingDown(true);
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopServerShutdown.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopServerShutdown.id, this);
     } catch (HopException e) {
       // Log error but continue regular operations to make sure HopServer can be shut down properly.
       //
@@ -302,9 +262,7 @@ public class WebServer {
         }
       }
     } catch (Exception e) {
-      log.logError(
-          BaseMessages.getString(PKG, "WebServer.Error.FailedToStop.Title"),
-          BaseMessages.getString(PKG, "WebServer.Error.FailedToStop.Msg", "" + e));
+      log.logError(BaseMessages.getString(PKG, "WebServer.Error.FailedToStop.Title"), BaseMessages.getString(PKG, "WebServer.Error.FailedToStop.Msg", "" + e));
     }
   }
 
@@ -329,8 +287,7 @@ public class WebServer {
       httpConfig.setSecureScheme("https");
       httpConfig.setSecurePort(port);
 
-      String keyStorePassword =
-          Encr.decryptPasswordOptionallyEncrypted(sslConfig.getKeyStorePassword());
+      String keyStorePassword = Encr.decryptPasswordOptionallyEncrypted(sslConfig.getKeyStorePassword());
       String keyPassword = Encr.decryptPasswordOptionallyEncrypted(sslConfig.getKeyPassword());
 
       SslContextFactory.Client factory = new SslContextFactory.Client();
@@ -344,11 +301,7 @@ public class WebServer {
       HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
       httpsConfig.addCustomizer(new SecureRequestCustomizer());
 
-      ServerConnector sslConnector =
-          new ServerConnector(
-              server,
-              new SslConnectionFactory(factory, HttpVersion.HTTP_1_1.asString()),
-              new HttpConnectionFactory(httpsConfig));
+      ServerConnector sslConnector = new ServerConnector(server, new SslConnectionFactory(factory, HttpVersion.HTTP_1_1.asString()), new HttpConnectionFactory(httpsConfig));
       sslConnector.setPort(port);
 
       return sslConnector;
@@ -357,53 +310,33 @@ public class WebServer {
     }
   }
 
-  /**
-   * Set up jetty options to the connector
+  /** Set up jetty options to the connector
    *
-   * @param connector
-   */
+   * @param connector */
   protected void setupJettyOptions(ServerConnector connector) {
     LowResourceMonitor lowResourceMonitor = new LowResourceMonitor(server);
     if (validProperty(Const.HOP_SERVER_JETTY_ACCEPTORS)) {
-      server.addBean(
-          new ConnectionLimit(
-              Integer.parseInt(System.getProperty(Const.HOP_SERVER_JETTY_ACCEPTORS))));
-      log.logBasic(
-          BaseMessages.getString(
-              PKG, "WebServer.Log.ConfigOptions", "acceptors", connector.getAcceptors()));
+      server.addBean(new ConnectionLimit(Integer.parseInt(System.getProperty(Const.HOP_SERVER_JETTY_ACCEPTORS))));
+      log.logBasic(BaseMessages.getString(PKG, "WebServer.Log.ConfigOptions", "acceptors", connector.getAcceptors()));
     }
 
     if (validProperty(Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE)) {
-      connector.setAcceptQueueSize(
-          Integer.parseInt(System.getProperty(Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE)));
-      log.logBasic(
-          BaseMessages.getString(
-              PKG,
-              "WebServer.Log.ConfigOptions",
-              "acceptQueueSize",
-              connector.getAcceptQueueSize()));
+      connector.setAcceptQueueSize(Integer.parseInt(System.getProperty(Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE)));
+      log.logBasic(BaseMessages.getString(PKG, "WebServer.Log.ConfigOptions", "acceptQueueSize", connector.getAcceptQueueSize()));
     }
 
     if (validProperty(Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME)) {
-      connector.setIdleTimeout(
-          Integer.parseInt(System.getProperty(Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME)));
-      log.logBasic(
-          BaseMessages.getString(
-              PKG,
-              "WebServer.Log.ConfigOptions",
-              "lowResourcesMaxIdleTime",
-              connector.getIdleTimeout()));
+      connector.setIdleTimeout(Integer.parseInt(System.getProperty(Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME)));
+      log.logBasic(BaseMessages.getString(PKG, "WebServer.Log.ConfigOptions", "lowResourcesMaxIdleTime", connector.getIdleTimeout()));
     }
   }
 
-  /**
-   * Checks if the property is not null or not empty String that can be parseable as int and returns
+  /** Checks if the property is not null or not empty String that can be parseable as int and returns
    * true if it is, otherwise false
    *
    * @param property the property to check
    * @return true if the property is not null or not empty String that can be parseable as int,
-   *     false otherwise
-   */
+   *         false otherwise */
   private boolean validProperty(String property) {
     boolean isValid = false;
     if (System.getProperty(property) != null && System.getProperty(property).length() > 0) {
@@ -411,24 +344,18 @@ public class WebServer {
         Integer.parseInt(System.getProperty(property));
         isValid = true;
       } catch (NumberFormatException nmbfExc) {
-        log.logBasic(
-            BaseMessages.getString(
-                PKG, "WebServer.Log.ConfigOptionsInvalid", property, System.getProperty(property)));
+        log.logBasic(BaseMessages.getString(PKG, "WebServer.Log.ConfigOptionsInvalid", property, System.getProperty(property)));
       }
     }
     return isValid;
   }
 
-  /**
-   * @return the hostname
-   */
+  /** @return the hostname */
   public String getHostname() {
     return hostname;
   }
 
-  /**
-   * @param hostname the hostname to set
-   */
+  /** @param hostname the hostname to set */
   public void setHostname(String hostname) {
     this.hostname = hostname;
   }
@@ -477,27 +404,21 @@ public class WebServer {
     this.server = server;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
 
-  /**
-   * @param variables The variables to set
-   */
+  /** @param variables The variables to set */
   public void setVariables(IVariables variables) {
     this.variables = variables;
   }
 
-  /**
-   * Can be used to override the default shutdown behavior of performing a System.exit
+  /** Can be used to override the default shutdown behavior of performing a System.exit
    *
-   * @param webServerShutdownHandler
-   */
+   * @param webServerShutdownHandler */
   public void setWebServerShutdownHandler(IWebServerShutdownHandler webServerShutdownHandler) {
     this.webServerShutdownHandler = webServerShutdownHandler;
   }

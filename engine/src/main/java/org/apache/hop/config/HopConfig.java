@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,148 +49,134 @@ import java.util.Map;
 
 public class HopConfig implements Runnable, IHasHopMetadataProvider {
 
-    @Option(
-            names = {"-h", "--help"},
-            usageHelp = true,
-            description = "Displays this help message and quits.")
-    private boolean helpRequested;
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "Displays this help message and quits.")
+  private boolean helpRequested;
 
-    @Option(
-            names = {"-l", "--level"},
-            description = "The debug level, one of NONE, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
-    private String level;
+  @Option(names = {"-l", "--level"}, description = "The debug level, one of NONE, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
+  private String level;
 
-    private CommandLine cmd;
-    private IVariables variables;
-    private MultiMetadataProvider metadataProvider;
+  private CommandLine cmd;
+  private IVariables variables;
+  private MultiMetadataProvider metadataProvider;
 
-    @Override
-    public void run() {
-        try {
-            variables = Variables.getADefaultVariableSpace();
+  @Override
+  public void run() {
+    try {
+      variables = Variables.getADefaultVariableSpace();
 
-            LogChannel log = new LogChannel("hop-config");
-            log.setSimplified(true);
-            log.setLogLevel(determineLogLevel());
-            log.logDetailed("Start of Hop Config");
+      LogChannel log = new LogChannel("hop-config");
+      log.setSimplified(true);
+      log.setLogLevel(determineLogLevel());
+      log.logDetailed("Start of Hop Config");
 
-            buildMetadataProvider();
+      buildMetadataProvider();
 
-            boolean actionTaken = false;
+      boolean actionTaken = false;
 
-            Map<String, Object> mixins = cmd.getMixins();
-            for (String key : mixins.keySet()) {
-                Object mixin = mixins.get(key);
-                if (mixin instanceof IConfigOptions) {
-                    IConfigOptions configOptions = (IConfigOptions) mixin;
+      Map<String, Object> mixins = cmd.getMixins();
+      for (String key : mixins.keySet()) {
+        Object mixin = mixins.get(key);
+        if (mixin instanceof IConfigOptions) {
+          IConfigOptions configOptions = (IConfigOptions) mixin;
 
-                    actionTaken = configOptions.handleOption(log, this, variables) || actionTaken;
-                }
-            }
-
-            if (!actionTaken) {
-                cmd.usage(System.out);
-            }
-
-        } catch (Exception e) {
-            throw new ExecutionException(cmd, "There was an error handling options", e);
+          actionTaken = configOptions.handleOption(log, this, variables) || actionTaken;
         }
-    }
+      }
 
-    private LogLevel determineLogLevel() {
-        return LogLevel.getLogLevelForCode(variables.resolve(level));
-    }
+      if (!actionTaken) {
+        cmd.usage(System.out);
+      }
 
-    private void buildMetadataProvider() throws HopException {
-        List<IHopMetadataProvider> providers = new ArrayList<>();
-        String folder = variables.getVariable(Const.HOP_METADATA_FOLDER);
-        if (StringUtils.isEmpty(folder)) {
-            providers.add(new JsonMetadataProvider());
-        } else {
-            ITwoWayPasswordEncoder passwordEncoder = Encr.getEncoder();
-            if (passwordEncoder == null) {
-                passwordEncoder = new HopTwoWayPasswordEncoder();
-            }
-            providers.add(new JsonMetadataProvider(passwordEncoder, folder, variables));
+    } catch (Exception e) {
+      throw new ExecutionException(cmd, "There was an error handling options", e);
+    }
+  }
+
+  private LogLevel determineLogLevel() {
+    return LogLevel.getLogLevelForCode(variables.resolve(level));
+  }
+
+  private void buildMetadataProvider() throws HopException {
+    List<IHopMetadataProvider> providers = new ArrayList<>();
+    String folder = variables.getVariable(Const.HOP_METADATA_FOLDER);
+    if (StringUtils.isEmpty(folder)) {
+      providers.add(new JsonMetadataProvider());
+    } else {
+      ITwoWayPasswordEncoder passwordEncoder = Encr.getEncoder();
+      if (passwordEncoder == null) {
+        passwordEncoder = new HopTwoWayPasswordEncoder();
+      }
+      providers.add(new JsonMetadataProvider(passwordEncoder, folder, variables));
+    }
+    metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), providers, variables);
+  }
+
+  /** Gets cmd
+   *
+   * @return value of cmd */
+  public CommandLine getCmd() {
+    return cmd;
+  }
+
+  /** @param cmd The cmd to set */
+  public void setCmd(CommandLine cmd) {
+    this.cmd = cmd;
+  }
+
+  /** Gets metadataProvider
+   *
+   * @return value of metadataProvider */
+  @Override
+  public MultiMetadataProvider getMetadataProvider() {
+    return metadataProvider;
+  }
+
+  /** @param metadataProvider The metadataProvider to set */
+  @Override
+  public void setMetadataProvider(MultiMetadataProvider metadataProvider) {
+    this.metadataProvider = metadataProvider;
+  }
+
+  public static void main(String[] args) {
+
+    HopConfig hopConfig = new HopConfig();
+
+    try {
+      HopEnvironment.init();
+
+      CommandLine cmd = new CommandLine(hopConfig);
+      List<IPlugin> configPlugins = PluginRegistry.getInstance().getPlugins(ConfigPluginType.class);
+      for (IPlugin configPlugin : configPlugins) {
+        // Load only the plugins of the "config" category
+        if (ConfigPlugin.CATEGORY_CONFIG.equals(configPlugin.getCategory())) {
+          IConfigOptions configOptions = PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
+          cmd.addMixin(configPlugin.getIds()[0], configOptions);
         }
-        metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), providers, variables);
+      }
+
+      hopConfig.setCmd(cmd);
+      CommandLine.ParseResult parseResult = cmd.parseArgs(args);
+      if (CommandLine.printHelpIfRequested(parseResult)) {
+        System.exit(1);
+      } else {
+        hopConfig.run();
+        System.exit(0);
+      }
+    } catch (ParameterException e) {
+      System.err.println(e.getMessage());
+      hopConfig.cmd.usage(System.err);
+      e.getCommandLine().usage(System.err);
+      System.exit(9);
+    } catch (ExecutionException e) {
+      System.err.println("Error found during execution!");
+      System.err.println(Const.getStackTracker(e));
+
+      System.exit(1);
+    } catch (Exception e) {
+      System.err.println("General error found, something went horribly wrong!");
+      System.err.println(Const.getStackTracker(e));
+
+      System.exit(2);
     }
-
-    /**
-     * Gets cmd
-     *
-     * @return value of cmd
-     */
-    public CommandLine getCmd() {
-        return cmd;
-    }
-
-    /**
-     * @param cmd The cmd to set
-     */
-    public void setCmd(CommandLine cmd) {
-        this.cmd = cmd;
-    }
-
-    /**
-     * Gets metadataProvider
-     *
-     * @return value of metadataProvider
-     */
-    @Override
-    public MultiMetadataProvider getMetadataProvider() {
-        return metadataProvider;
-    }
-
-    /**
-     * @param metadataProvider The metadataProvider to set
-     */
-    @Override
-    public void setMetadataProvider(MultiMetadataProvider metadataProvider) {
-        this.metadataProvider = metadataProvider;
-    }
-
-    public static void main(String[] args) {
-
-        HopConfig hopConfig = new HopConfig();
-
-        try {
-            HopEnvironment.init();
-
-            CommandLine cmd = new CommandLine(hopConfig);
-            List<IPlugin> configPlugins = PluginRegistry.getInstance().getPlugins(ConfigPluginType.class);
-            for (IPlugin configPlugin : configPlugins) {
-                // Load only the plugins of the "config" category
-                if (ConfigPlugin.CATEGORY_CONFIG.equals(configPlugin.getCategory())) {
-                    IConfigOptions configOptions =
-                            PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
-                    cmd.addMixin(configPlugin.getIds()[0], configOptions);
-                }
-            }
-
-            hopConfig.setCmd(cmd);
-            CommandLine.ParseResult parseResult = cmd.parseArgs(args);
-            if (CommandLine.printHelpIfRequested(parseResult)) {
-                System.exit(1);
-            } else {
-                hopConfig.run();
-                System.exit(0);
-            }
-        } catch (ParameterException e) {
-            System.err.println(e.getMessage());
-            hopConfig.cmd.usage(System.err);
-            e.getCommandLine().usage(System.err);
-            System.exit(9);
-        } catch (ExecutionException e) {
-            System.err.println("Error found during execution!");
-            System.err.println(Const.getStackTracker(e));
-
-            System.exit(1);
-        } catch (Exception e) {
-            System.err.println("General error found, something went horribly wrong!");
-            System.err.println(Const.getStackTracker(e));
-
-            System.exit(2);
-        }
-    }
+  }
 }

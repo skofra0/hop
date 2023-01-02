@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,10 +33,8 @@ import static org.junit.Assert.assertTrue;
 
 public class TestUtils {
 
-  /**
-   * Do not use this method because it does not delete the temp folder after java process tear down
-   */
-  @Deprecated(since="2.0")
+  /** Do not use this method because it does not delete the temp folder after java process tear down */
+  @Deprecated(since = "2.0")
   public static String createTempDir() {
     String ret = null;
     try {
@@ -44,8 +42,7 @@ public class TestUtils {
        * Java.io.File only creates Temp files, so repurpose the filename for a temporary folder
        * Delete the file that's created, and re-create as a folder.
        */
-      File file =
-          File.createTempFile("temp_hop_test_dir", String.valueOf(System.currentTimeMillis()));
+      File file = File.createTempFile("temp_hop_test_dir", String.valueOf(System.currentTimeMillis()));
       file.delete();
       file.mkdir();
       file.deleteOnExit();

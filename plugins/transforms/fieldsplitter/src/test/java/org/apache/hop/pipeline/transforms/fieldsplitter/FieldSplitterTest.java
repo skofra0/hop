@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,17 @@
  */
 
 package org.apache.hop.pipeline.transforms.fieldsplitter;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.apache.hop.core.HopEnvironment;
 import org.apache.hop.core.IRowSet;
@@ -33,21 +44,18 @@ import org.apache.hop.junit.rules.RestoreHopEngineEnvironment;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.pipeline.transforms.mock.TransformMockHelper;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
-/**
- * Tests for FieldSplitter transform
+/** Tests for FieldSplitter transform
  *
- * @see FieldSplitter
- */
+ * @see FieldSplitter */
 public class FieldSplitterTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   TransformMockHelper<FieldSplitterMeta, FieldSplitterData> transformMockHelper;
 
   @BeforeClass
@@ -57,11 +65,8 @@ public class FieldSplitterTest {
 
   @Before
   public void setUp() {
-    transformMockHelper =
-        new TransformMockHelper<>(
-            "Field Splitter", FieldSplitterMeta.class, FieldSplitterData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), nullable(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("Field Splitter", FieldSplitterMeta.class, FieldSplitterData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), nullable(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -117,14 +122,7 @@ public class FieldSplitterTest {
   @Test
   public void testSplitFields() throws HopException {
 
-    FieldSplitter transform =
-        new FieldSplitter(
-            transformMockHelper.transformMeta,
-            mockProcessRowMeta(),
-            transformMockHelper.iTransformData,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    FieldSplitter transform = new FieldSplitter(transformMockHelper.transformMeta, mockProcessRowMeta(), transformMockHelper.iTransformData, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
     transform.init();
     transform.setInputRowMeta(getInputRowMeta());
     transform.addRowSetToInputRowSets(mockInputRowSet());
@@ -139,10 +137,7 @@ public class FieldSplitterTest {
     Object[] actualRow = outputRowSet.getRow();
     Object[] expectedRow = new Object[] {"before", null, "b=b", "after"};
 
-    assertEquals(
-        "Output row is of an unexpected length",
-        expectedRow.length,
-        outputRowSet.getRowMeta().size());
+    assertEquals("Output row is of an unexpected length", expectedRow.length, outputRowSet.getRowMeta().size());
 
     for (int i = 0; i < expectedRow.length; i++) {
       assertEquals("Unexpected output value at index " + i, expectedRow[i], actualRow[i]);
@@ -159,14 +154,7 @@ public class FieldSplitterTest {
     meta.setFieldName(new String[] {"key", "val"});
     meta.setFieldType(new int[] {IValueMeta.TYPE_STRING, IValueMeta.TYPE_STRING});
 
-    FieldSplitter transform =
-        new FieldSplitter(
-            transformMockHelper.transformMeta,
-            meta,
-            transformMockHelper.iTransformData,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    FieldSplitter transform = new FieldSplitter(transformMockHelper.transformMeta, meta, transformMockHelper.iTransformData, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
     transform.init();
 
     IRowMeta rowMeta = new RowMeta();
@@ -175,8 +163,7 @@ public class FieldSplitterTest {
     rowMeta.addValueMeta(new ValueMetaString("split"));
 
     transform.setInputRowMeta(rowMeta);
-    transform.addRowSetToInputRowSets(
-        transformMockHelper.getMockInputRowSet(new Object[] {"key", "string", "part1 part2"}));
+    transform.addRowSetToInputRowSets(transformMockHelper.getMockInputRowSet(new Object[] {"key", "string", "part1 part2"}));
     transform.addRowSetToOutputRowSets(new SingleRowRowSet());
 
     assertTrue(transform.processRow());

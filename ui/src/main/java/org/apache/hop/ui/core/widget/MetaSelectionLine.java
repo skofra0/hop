@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,12 +55,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * The goal of this composite is to add a line on a dialog which contains: - A label (for example:
+/** The goal of this composite is to add a line on a dialog which contains: - A label (for example:
  * Database connection) - A Combo Variable selection (editable ComboBox, for example containing all
  * connection values in the MetaStore) - New and Edit buttons (The latter opens up a generic
- * Metadata editor)
- */
+ * Metadata editor) */
 public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
   private static final Class<?> PKG = MetaSelectionLine.class; // For Translator
 
@@ -74,56 +72,15 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
   private final ComboVar wCombo;
   private final ToolBar wToolBar;
 
-  public MetaSelectionLine(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      Class<T> managedClass,
-      Composite parentComposite,
-      int flags,
-      String labelText,
-      String toolTipText) {
-    this(
-        variables,
-        metadataProvider,
-        managedClass,
-        parentComposite,
-        flags,
-        labelText,
-        toolTipText,
-        false);
+  public MetaSelectionLine(IVariables variables, IHopMetadataProvider metadataProvider, Class<T> managedClass, Composite parentComposite, int flags, String labelText, String toolTipText) {
+    this(variables, metadataProvider, managedClass, parentComposite, flags, labelText, toolTipText, false);
   }
 
-  public MetaSelectionLine(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      Class<T> managedClass,
-      Composite parentComposite,
-      int flags,
-      String labelText,
-      String toolTipText,
-      boolean leftAlignedLabel) {
-    this(
-        variables,
-        metadataProvider,
-        managedClass,
-        parentComposite,
-        flags,
-        labelText,
-        toolTipText,
-        leftAlignedLabel,
-        true);
+  public MetaSelectionLine(IVariables variables, IHopMetadataProvider metadataProvider, Class<T> managedClass, Composite parentComposite, int flags, String labelText, String toolTipText, boolean leftAlignedLabel) {
+    this(variables, metadataProvider, managedClass, parentComposite, flags, labelText, toolTipText, leftAlignedLabel, true);
   }
 
-  public MetaSelectionLine(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      Class<T> managedClass,
-      Composite parentComposite,
-      int flags,
-      String labelText,
-      String toolTipText,
-      boolean leftAlignedLabel,
-      boolean negativeMargin) {
+  public MetaSelectionLine(IVariables variables, IHopMetadataProvider metadataProvider, Class<T> managedClass, Composite parentComposite, int flags, String labelText, String toolTipText, boolean leftAlignedLabel, boolean negativeMargin) {
     super(parentComposite, SWT.NONE);
     this.variables = variables;
     this.metadataProvider = metadataProvider;
@@ -168,13 +125,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     // Toolbar for default actions
     //
     HopMetadata metadata = HopMetadataUtil.getHopMetadataAnnotation(managedClass);
-    Image image =
-        SwtSvgImageUtil.getImage(
-            getDisplay(),
-            managedClass.getClassLoader(),
-            metadata.image(),
-            (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()),
-            (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()));
+    Image image = SwtSvgImageUtil.getImage(getDisplay(), managedClass.getClassLoader(), metadata.image(), (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()), (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()));
 
     wToolBar = new ToolBar(this, SWT.FLAT | SWT.HORIZONTAL);
     FormData fdToolBar = new FormData();
@@ -213,8 +164,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     itemEdit.setText(BaseMessages.getString(PKG, "System.Button.Edit"));
     itemEdit.addListener(SWT.Selection, e -> editMetadata());
 
-    MetadataContextHandler contextHandler =
-        new MetadataContextHandler(HopGui.getInstance(), metadataProvider, managedClass);
+    MetadataContextHandler contextHandler = new MetadataContextHandler(HopGui.getInstance(), metadataProvider, managedClass);
 
     // Filter custom action
     //
@@ -235,42 +185,38 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
           if (!EnvironmentUtils.getInstance().isWeb()) {
             menuItem.setToolTipText(Const.NVL(action.getTooltip(), ""));
           }
-          menuItem.addListener(
-              SWT.Selection,
-              e -> {
-                IGuiActionLambda actionLambda = action.getActionLambda();
-                actionLambda.executeAction(false, false, wCombo.getText());
-              });
+          menuItem.addListener(SWT.Selection, e -> {
+            IGuiActionLambda actionLambda = action.getActionLambda();
+            actionLambda.executeAction(false, false, wCombo.getText());
+          });
         }
       }
     }
 
     props.setLook(wCombo);
 
-    item.addListener(
-        SWT.Selection,
-        event -> {
-          if (event.detail == SWT.ARROW) {
-            Rectangle rect = item.getBounds();
-            Point pt = new Point(rect.x, rect.y + rect.height);
-            pt = wToolBar.toDisplay(pt);
-            menu.setLocation(pt.x, pt.y);
-            menu.setVisible(true);
-          } else {
-            if (Utils.isEmpty(wCombo.getText())) this.newMetadata();
-            else this.editMetadata();
-          }
-        });
+    item.addListener(SWT.Selection, event -> {
+      if (event.detail == SWT.ARROW) {
+        Rectangle rect = item.getBounds();
+        Point pt = new Point(rect.x, rect.y + rect.height);
+        pt = wToolBar.toDisplay(pt);
+        menu.setLocation(pt.x, pt.y);
+        menu.setVisible(true);
+      } else {
+        if (Utils.isEmpty(wCombo.getText()))
+          this.newMetadata();
+        else
+          this.editMetadata();
+      }
+    });
 
     layout(true, true);
   }
 
   protected void manageMetadata() {}
 
-  /**
-   * We look at the managed class name, add Dialog to it and then simply us that class to edit the
-   * dialog.
-   */
+  /** We look at the managed class name, add Dialog to it and then simply us that class to edit the
+   * dialog. */
   protected boolean editMetadata() {
     String selected = wCombo.getText();
     if (StringUtils.isEmpty(selected)) {
@@ -293,22 +239,18 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     return element;
   }
 
-  /**
-   * Look up the object names from the metadata and populate the items in the combobox with it.
+  /** Look up the object names from the metadata and populate the items in the combobox with it.
    *
-   * @throws HopException In case something went horribly wrong.
-   */
+   * @throws HopException In case something went horribly wrong. */
   public void fillItems() throws HopException {
     List<String> elementNames = manager.getSerializer().listObjectNames();
     Collections.sort(elementNames);
     wCombo.setItems(elementNames.toArray(new String[0]));
   }
 
-  /**
-   * Load the selected element and return it. In case of errors, log them to LogChannel.UI
+  /** Load the selected element and return it. In case of errors, log them to LogChannel.UI
    *
-   * @return The selected element or null if it doesn't exist or there was an error
-   */
+   * @return The selected element or null if it doesn't exist or there was an error */
   public T loadSelectedElement() {
     String selectedItem = wCombo.getText();
     if (StringUtils.isEmpty(selectedItem)) {
@@ -323,17 +265,14 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     }
   }
 
-  /**
-   * Adds the connection line for the given parent and previous control, and returns a meta
+  /** Adds the connection line for the given parent and previous control, and returns a meta
    * selection manager control
    *
    * @param parent the parent composite object
    * @param previous the previous control
    * @param
-   * @return the combo box UI component
-   */
-  public void addToConnectionLine(
-      Composite parent, Control previous, T selected, ModifyListener lsMod) {
+   * @return the combo box UI component */
+  public void addToConnectionLine(Composite parent, Control previous, T selected, ModifyListener lsMod) {
 
     try {
       fillItems();
@@ -441,20 +380,16 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     return wLabel;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   public IHopMetadataProvider getMetadataProvider() {
     return metadataProvider;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getSpace() {
     return variables;
   }

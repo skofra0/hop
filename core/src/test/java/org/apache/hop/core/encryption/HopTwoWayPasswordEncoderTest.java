@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,16 +22,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Test cases for encryption, to make sure that encrypted password remain the same between versions.
- */
+/** Test cases for encryption, to make sure that encrypted password remain the same between versions. */
 public class HopTwoWayPasswordEncoderTest {
 
-  /**
-   * Test password encryption.
+  /** Test password encryption.
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testEncode1() throws HopValueException {
 
@@ -49,9 +45,7 @@ public class HopTwoWayPasswordEncoderTest {
     assertTrue("2be98afc86aa7f2e4cb79ce309ed2ef9a".equals(encryption));
 
     encryption = encoder.encode("Test of different encryptions!!@#$%", false);
-    assertTrue(
-        "54657374206f6620646966666572656e742067d0fbddb11ad39b8ba50aef31fed1eb9f"
-            .equals(encryption));
+    assertTrue("54657374206f6620646966666572656e742067d0fbddb11ad39b8ba50aef31fed1eb9f".equals(encryption));
 
     encryption = encoder.encode("  Spaces left", false);
     assertTrue("2be98afe84af48285a81cbd30d297a9ce".equals(encryption));
@@ -66,11 +60,9 @@ public class HopTwoWayPasswordEncoderTest {
     assertTrue("2be98afc86aa7c3d6f84dfb2689caf68a".equals(encryption));
   }
 
-  /**
-   * Test password decryption.
+  /** Test password decryption.
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testDecode1() throws HopValueException {
     HopTwoWayPasswordEncoder encoder = new HopTwoWayPasswordEncoder();
@@ -113,11 +105,9 @@ public class HopTwoWayPasswordEncoderTest {
     assertEquals("", encoder.decode(null));
   }
 
-  /**
-   * Test password encryption (variable style).
+  /** Test password encryption (variable style).
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testEncode2() throws HopValueException {
     HopTwoWayPasswordEncoder encoder = new HopTwoWayPasswordEncoder();
@@ -146,11 +136,9 @@ public class HopTwoWayPasswordEncoderTest {
     assertTrue("Encrypted 2be98afc86aa7f2e4ef02eb359ad6eb9e".equals(encryption));
   }
 
-  /**
-   * Test password decryption (variable style).
+  /** Test password decryption (variable style).
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testDecode2() throws HopValueException {
     HopTwoWayPasswordEncoder encoder = new HopTwoWayPasswordEncoder();
@@ -203,13 +191,9 @@ public class HopTwoWayPasswordEncoderTest {
     String decodeWithNondefaultSeed = encoder2.decode(encodeWithNondefaultSeed);
     assertNotNull(decodeWithNondefaultSeed);
 
-    assertFalse(
-        encodeWithDefaultSeed.equals(
-            encodeWithNondefaultSeed)); // Make sure that if the seed changes, so does the the
+    assertFalse(encodeWithDefaultSeed.equals(encodeWithNondefaultSeed)); // Make sure that if the seed changes, so does the the
     // encoded value
-    assertEquals(
-        decodeWithDefaultSeed,
-        decodeWithNondefaultSeed); // Make sure that the decode from either is correct.
+    assertEquals(decodeWithDefaultSeed, decodeWithNondefaultSeed); // Make sure that the decode from either is correct.
   }
 
   private class TestHopTwoWayPasswordEncoder extends HopTwoWayPasswordEncoder {

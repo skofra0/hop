@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,19 +67,7 @@ public class EnterPrintDialog extends Dialog {
   public double topMargin;
   public double bottomMargin;
 
-  public EnterPrintDialog(
-      Shell parent,
-      int nrcols,
-      int nrrows,
-      int scale,
-      double factorX,
-      double factorY,
-      Rectangle m,
-      double marginLeft,
-      double marginRigth,
-      double marginTop,
-      double marginBottom,
-      Image image) {
+  public EnterPrintDialog(Shell parent, int nrcols, int nrrows, int scale, double factorX, double factorY, Rectangle m, double marginLeft, double marginRigth, double marginTop, double marginBottom, Image image) {
     super(parent, SWT.NONE);
     props = PropsUi.getInstance();
     this.nrcols = nrcols;
@@ -101,10 +89,7 @@ public class EnterPrintDialog extends Dialog {
 
     retval = SWT.OK;
 
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.SHEET | SWT.RESIZE | SWT.MAX | SWT.MIN);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.SHEET | SWT.RESIZE | SWT.MAX | SWT.MIN);
     props.setLook(shell);
 
     FormLayout formLayout = new FormLayout();
@@ -149,15 +134,14 @@ public class EnterPrintDialog extends Dialog {
     wRows.setMinimum(1);
     wRows.setMaximum(11);
     wRows.setThumb(1);
-    wRows.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent se) {
-            Slider sl = (Slider) se.widget;
-            nrrows = sl.getSelection();
-            wCanvas.redraw();
-          }
-        });
+    wRows.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        Slider sl = (Slider) se.widget;
+        nrrows = sl.getSelection();
+        wCanvas.redraw();
+      }
+    });
     props.setLook(wRows);
     FormData fdRows = new FormData();
     fdRows.left = new FormAttachment(middle, 0);
@@ -179,15 +163,14 @@ public class EnterPrintDialog extends Dialog {
     wCols.setMinimum(1);
     wCols.setMaximum(11);
     wCols.setThumb(1);
-    wCols.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent se) {
-            Slider sl = (Slider) se.widget;
-            nrcols = sl.getSelection();
-            wCanvas.redraw();
-          }
-        });
+    wCols.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        Slider sl = (Slider) se.widget;
+        nrcols = sl.getSelection();
+        wCanvas.redraw();
+      }
+    });
     props.setLook(wCols);
     FormData fdCols = new FormData();
     fdCols.left = new FormAttachment(middle, 0);
@@ -210,15 +193,14 @@ public class EnterPrintDialog extends Dialog {
     wScale.setMaximum(500);
     wScale.setThumb(10);
     wScale.setPageIncrement(25);
-    wScale.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent se) {
-            Slider sl = (Slider) se.widget;
-            scale = sl.getSelection();
-            wCanvas.redraw();
-          }
-        });
+    wScale.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        Slider sl = (Slider) se.widget;
+        scale = sl.getSelection();
+        wCanvas.redraw();
+      }
+    });
     props.setLook(wScale);
     FormData fdScale = new FormData();
     fdScale.left = new FormAttachment(middle, 0);
@@ -236,11 +218,10 @@ public class EnterPrintDialog extends Dialog {
     fdlLeft.top = new FormAttachment(wScale, margin);
     wlLeft.setLayoutData(fdlLeft);
     wLeft = new Text(shell, SWT.BORDER);
-    wLeft.addModifyListener(
-        e -> {
-          Text w = (Text) e.widget;
-          leftMargin = Const.toDouble(w.getText(), 0.00);
-        });
+    wLeft.addModifyListener(e -> {
+      Text w = (Text) e.widget;
+      leftMargin = Const.toDouble(w.getText(), 0.00);
+    });
     props.setLook(wLeft);
     FormData fdLeft = new FormData();
     fdLeft.left = new FormAttachment(middle, 0);
@@ -258,11 +239,10 @@ public class EnterPrintDialog extends Dialog {
     fdlRight.top = new FormAttachment(wLeft, margin);
     wlRight.setLayoutData(fdlRight);
     wRight = new Text(shell, SWT.BORDER);
-    wRight.addModifyListener(
-        e -> {
-          Text w = (Text) e.widget;
-          rightMargin = Const.toDouble(w.getText(), 0.00);
-        });
+    wRight.addModifyListener(e -> {
+      Text w = (Text) e.widget;
+      rightMargin = Const.toDouble(w.getText(), 0.00);
+    });
     props.setLook(wRight);
     FormData fdRight = new FormData();
     fdRight.left = new FormAttachment(middle, 0);
@@ -280,11 +260,10 @@ public class EnterPrintDialog extends Dialog {
     fdlTop.top = new FormAttachment(wRight, margin);
     wlTop.setLayoutData(fdlTop);
     wTop = new Text(shell, SWT.BORDER);
-    wTop.addModifyListener(
-        e -> {
-          Text w = (Text) e.widget;
-          topMargin = Const.toDouble(w.getText(), 0.00);
-        });
+    wTop.addModifyListener(e -> {
+      Text w = (Text) e.widget;
+      topMargin = Const.toDouble(w.getText(), 0.00);
+    });
     props.setLook(wTop);
     FormData fdTop = new FormData();
     fdTop.left = new FormAttachment(middle, 0);
@@ -302,11 +281,10 @@ public class EnterPrintDialog extends Dialog {
     fdlBottom.top = new FormAttachment(wTop, margin);
     wlBottom.setLayoutData(fdlBottom);
     wBottom = new Text(shell, SWT.BORDER);
-    wBottom.addModifyListener(
-        e -> {
-          Text w = (Text) e.widget;
-          bottomMargin = Const.toDouble(w.getText(), 0.00);
-        });
+    wBottom.addModifyListener(e -> {
+      Text w = (Text) e.widget;
+      bottomMargin = Const.toDouble(w.getText(), 0.00);
+    });
     props.setLook(wBottom);
     FormData fdBottom = new FormData();
     fdBottom.left = new FormAttachment(middle, 0);
@@ -379,16 +357,7 @@ public class EnterPrintDialog extends Dialog {
     double percentScreenX = actualSizeX / (page.x * nrcols);
     double percentScreenY = actualSizeY / (page.y * nrrows);
 
-    gc.drawImage(
-        image,
-        0,
-        0,
-        imd.width,
-        imd.height,
-        0,
-        0,
-        (int) (width * percentScreenX),
-        (int) (height * percentScreenY));
+    gc.drawImage(image, 0, 0, imd.width, imd.height, 0, 0, (int) (width * percentScreenX), (int) (height * percentScreenY));
 
     StringBuilder text = new StringBuilder();
     text.append(nrcols).append("x").append(nrrows).append(" @ ").append(scale).append("%");

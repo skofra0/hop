@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,7 @@ public class SearchResult implements ISearchResult {
   private String component;
   private String value;
 
-
-  public SearchResult(
-      ISearchable matchingSearchable, String matchingString, String description, String component, String value) {
+  public SearchResult(ISearchable matchingSearchable, String matchingString, String description, String component, String value) {
     this.matchingSearchable = matchingSearchable;
     this.matchingString = matchingString;
     this.description = description;
@@ -35,11 +33,9 @@ public class SearchResult implements ISearchResult {
     this.value = value;
   }
 
-  /**
-   * Gets matchingSearchable
+  /** Gets matchingSearchable
    *
-   * @return value of matchingSearchable
-   */
+   * @return value of matchingSearchable */
   @Override
   public ISearchable getMatchingSearchable() {
     return matchingSearchable;
@@ -50,11 +46,9 @@ public class SearchResult implements ISearchResult {
     this.matchingSearchable = matchingSearchable;
   }
 
-  /**
-   * Gets matchingString
+  /** Gets matchingString
    *
-   * @return value of matchingString
-   */
+   * @return value of matchingString */
   @Override
   public String getMatchingString() {
     return matchingString;
@@ -65,11 +59,9 @@ public class SearchResult implements ISearchResult {
     this.matchingString = matchingString;
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   @Override
   public String getDescription() {
     return description;
@@ -80,11 +72,9 @@ public class SearchResult implements ISearchResult {
     this.description = description;
   }
 
-  /**
-   * Gets component
+  /** Gets component
    *
-   * @return value of component
-   */
+   * @return value of component */
   @Override
   public String getComponent() {
     return component;

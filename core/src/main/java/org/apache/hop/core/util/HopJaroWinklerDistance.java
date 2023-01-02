@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,19 +18,17 @@ package org.apache.hop.core.util;
 
 import java.util.Arrays;
 
-/**
- * A similarity algorithm indicating the percentage of matched characters between two character
+/** A similarity algorithm indicating the percentage of matched characters between two character
  * sequences.
- *
- * <p>The Jaro measure is the weighted sum of percentage of matched characters from each file and
+ * <p>
+ * The Jaro measure is the weighted sum of percentage of matched characters from each file and
  * transposed characters. Winkler increased this measure for matching initial characters.
- *
- * <p>This implementation is based on the Jaro Winkler similarity algorithm from <a
+ * <p>
+ * This implementation is based on the Jaro Winkler similarity algorithm from <a
  * href="http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance">
  * http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance</a>.
- *
- * <p>This code has been adapted from Apache Commons Lang 3.3.
- */
+ * <p>
+ * This code has been adapted from Apache Commons Lang 3.3. */
 public class HopJaroWinklerDistance {
 
   /** Represents a failed index search. */
@@ -47,8 +45,7 @@ public class HopJaroWinklerDistance {
     return Double.valueOf(jw);
   }
 
-  /**
-   * Find the Jaro Winkler Distance which indicates the similarity score between two CharSequences.
+  /** Find the Jaro Winkler Distance which indicates the similarity score between two CharSequences.
    *
    * <pre>
    * distance.apply(null, null)          = IllegalArgumentException
@@ -70,8 +67,7 @@ public class HopJaroWinklerDistance {
    * @param left the first String, must not be null
    * @param right the second String, must not be null
    * @return result distance
-   * @throws IllegalArgumentException if either String input {@code null}
-   */
+   * @throws IllegalArgumentException if either String input {@code null} */
   public void apply(final CharSequence left, final CharSequence right) {
     final double defaultScalingFactor = 0.1;
 
@@ -90,13 +86,11 @@ public class HopJaroWinklerDistance {
     }
   }
 
-  /**
-   * This method returns the Jaro-Winkler string matches, transpositions, prefix, max array.
+  /** This method returns the Jaro-Winkler string matches, transpositions, prefix, max array.
    *
    * @param first the first string to be matched
    * @param second the second string to be matched
-   * @return mtp array containing: matches, transpositions, prefix, and max length
-   */
+   * @return mtp array containing: matches, transpositions, prefix, and max length */
   protected static int[] matches(final CharSequence first, final CharSequence second) {
     CharSequence max;
     CharSequence min;
@@ -114,9 +108,7 @@ public class HopJaroWinklerDistance {
     int matches = 0;
     for (int mi = 0; mi < min.length(); mi++) {
       final char c1 = min.charAt(mi);
-      for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length());
-          xi < xn;
-          xi++) {
+      for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
         if (!matchFlags[xi] && c1 == max.charAt(xi)) {
           matchIndexes[mi] = xi;
           matchFlags[xi] = true;

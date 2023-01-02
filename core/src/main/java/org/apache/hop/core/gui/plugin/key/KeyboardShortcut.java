@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,10 +86,10 @@ public class KeyboardShortcut {
       str.append("Delete");
     }
     // Digit
-    else if ( (keyCode >= 48 && keyCode <= 57) || "+-/*".indexOf(keyCode)>=0) {
+    else if ((keyCode >= 48 && keyCode <= 57) || "+-/*".indexOf(keyCode) >= 0) {
       str.append(((char) keyCode));
     }
-     
+
     if ((keyCode & (1 << 24)) != 0) {
       switch (keyCode & (0xFFFF)) {
         case 1:
@@ -181,7 +181,7 @@ public class KeyboardShortcut {
           break;
       }
     }
-    
+
     return str.toString();
   }
 
@@ -194,12 +194,7 @@ public class KeyboardShortcut {
       return false;
     }
     KeyboardShortcut that = (KeyboardShortcut) o;
-    return alt == that.alt
-        && control == that.control
-        && shift == that.shift
-        && command == that.command
-        && keyCode == that.keyCode
-        && parentMethodName.equals(that.parentMethodName);
+    return alt == that.alt && control == that.control && shift == that.shift && command == that.command && keyCode == that.keyCode && parentMethodName.equals(that.parentMethodName);
   }
 
   @Override
@@ -207,11 +202,9 @@ public class KeyboardShortcut {
     return Objects.hash(alt, control, shift, command, keyCode, parentMethodName);
   }
 
-  /**
-   * Gets osx
+  /** Gets osx
    *
-   * @return value of osx
-   */
+   * @return value of osx */
   public boolean isOsx() {
     return osx;
   }
@@ -221,11 +214,9 @@ public class KeyboardShortcut {
     this.osx = osx;
   }
 
-  /**
-   * Gets alt
+  /** Gets alt
    *
-   * @return value of alt
-   */
+   * @return value of alt */
   public boolean isAlt() {
     return alt;
   }
@@ -235,11 +226,9 @@ public class KeyboardShortcut {
     this.alt = alt;
   }
 
-  /**
-   * Gets control
+  /** Gets control
    *
-   * @return value of control
-   */
+   * @return value of control */
   public boolean isControl() {
     return control;
   }
@@ -249,11 +238,9 @@ public class KeyboardShortcut {
     this.control = control;
   }
 
-  /**
-   * Gets shift
+  /** Gets shift
    *
-   * @return value of shift
-   */
+   * @return value of shift */
   public boolean isShift() {
     return shift;
   }
@@ -263,11 +250,9 @@ public class KeyboardShortcut {
     this.shift = shift;
   }
 
-  /**
-   * Gets command
+  /** Gets command
    *
-   * @return value of command
-   */
+   * @return value of command */
   public boolean isCommand() {
     return command;
   }
@@ -277,11 +262,9 @@ public class KeyboardShortcut {
     this.command = command;
   }
 
-  /**
-   * Gets keyCode
+  /** Gets keyCode
    *
-   * @return value of keyCode
-   */
+   * @return value of keyCode */
   public int getKeyCode() {
     return keyCode;
   }
@@ -291,11 +274,9 @@ public class KeyboardShortcut {
     this.keyCode = keyCode;
   }
 
-  /**
-   * Gets parentMethodName
+  /** Gets parentMethodName
    *
-   * @return value of parentMethodName
-   */
+   * @return value of parentMethodName */
   public String getParentMethodName() {
     return parentMethodName;
   }

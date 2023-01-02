@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,16 +25,14 @@ import org.apache.hop.metadata.api.IHopMetadata;
 
 import java.util.Objects;
 
-@HopMetadata(
-    key = "type-1",
-    name = "type 1",
-    description = "This is a simple test object type 1",
-    image = "ui/images/dummy.svg")
+@HopMetadata(key = "type-1", name = "type 1", description = "This is a simple test object type 1", image = "ui/images/dummy.svg")
 public class MetadataType1 extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String value;
 
   public MetadataType1(String name, String description, String value) {
     super(name);
@@ -62,11 +60,9 @@ public class MetadataType1 extends HopMetadataBase implements IHopMetadata {
     return Objects.hash(super.hashCode(), description, value);
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   public String getDescription() {
     return description;
   }
@@ -76,11 +72,9 @@ public class MetadataType1 extends HopMetadataBase implements IHopMetadata {
     this.description = description;
   }
 
-  /**
-   * Gets value
+  /** Gets value
    *
-   * @return value of value
-   */
+   * @return value of value */
   public String getValue() {
     return value;
   }

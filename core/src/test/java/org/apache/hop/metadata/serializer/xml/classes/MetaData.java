@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,8 @@ import java.util.List;
 
 public class MetaData {
 
-  @HopMetadataProperty private String filename;
+  @HopMetadataProperty
+  private String filename;
 
   @HopMetadataProperty(key = "field_separator")
   private String separator;
@@ -46,11 +47,9 @@ public class MetaData {
     values = new ArrayList<>();
   }
 
-  /**
-   * Gets filename
+  /** Gets filename
    *
-   * @return value of filename
-   */
+   * @return value of filename */
   public String getFilename() {
     return filename;
   }
@@ -60,11 +59,9 @@ public class MetaData {
     this.filename = filename;
   }
 
-  /**
-   * Gets separator
+  /** Gets separator
    *
-   * @return value of separator
-   */
+   * @return value of separator */
   public String getSeparator() {
     return separator;
   }
@@ -74,11 +71,9 @@ public class MetaData {
     this.separator = separator;
   }
 
-  /**
-   * Gets group
+  /** Gets group
    *
-   * @return value of group
-   */
+   * @return value of group */
   public String getGroup() {
     return group;
   }
@@ -88,11 +83,9 @@ public class MetaData {
     this.group = group;
   }
 
-  /**
-   * Gets fields
+  /** Gets fields
    *
-   * @return value of fields
-   */
+   * @return value of fields */
   public List<Field> getFields() {
     return fields;
   }
@@ -102,11 +95,9 @@ public class MetaData {
     this.fields = fields;
   }
 
-  /**
-   * Gets values
+  /** Gets values
    *
-   * @return value of values
-   */
+   * @return value of values */
   public List<String> getValues() {
     return values;
   }
@@ -116,11 +107,9 @@ public class MetaData {
     this.values = values;
   }
 
-  /**
-   * Gets testEnum
+  /** Gets testEnum
    *
-   * @return value of testEnum
-   */
+   * @return value of testEnum */
   public TestEnum getTestEnum() {
     return testEnum;
   }

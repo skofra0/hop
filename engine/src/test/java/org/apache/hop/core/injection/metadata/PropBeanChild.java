@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,17 +27,16 @@ public class PropBeanChild {
   @HopMetadataProperty(key = "child2")
   private String childField2;
 
-  @HopMetadataProperty private PropBeanGrandChild grandChild;
+  @HopMetadataProperty
+  private PropBeanGrandChild grandChild;
 
   public PropBeanChild() {
     grandChild = new PropBeanGrandChild();
   }
 
-  /**
-   * Gets childField1
+  /** Gets childField1
    *
-   * @return value of childField1
-   */
+   * @return value of childField1 */
   public String getChildField1() {
     return childField1;
   }
@@ -47,11 +46,9 @@ public class PropBeanChild {
     this.childField1 = childField1;
   }
 
-  /**
-   * Gets childField2
+  /** Gets childField2
    *
-   * @return value of childField2
-   */
+   * @return value of childField2 */
   public String getChildField2() {
     return childField2;
   }
@@ -61,11 +58,9 @@ public class PropBeanChild {
     this.childField2 = childField2;
   }
 
-  /**
-   * Gets grandChild
+  /** Gets grandChild
    *
-   * @return value of grandChild
-   */
+   * @return value of grandChild */
   public PropBeanGrandChild getGrandChild() {
     return grandChild;
   }

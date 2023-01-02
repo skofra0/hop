@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -108,10 +108,8 @@ public class TransformMetaTest {
     attributes.put("asdfg", map2);
     meta.setAttributesMap(attributes);
 
-    meta.setTransformPartitioningMeta(
-        createTransformPartitioningMeta("transformMethod", "transformSchema"));
-    meta.setTargetTransformPartitioningMeta(
-        createTransformPartitioningMeta("targetMethod", "targetSchema"));
+    meta.setTransformPartitioningMeta(createTransformPartitioningMeta("transformMethod", "transformSchema"));
+    meta.setTargetTransformPartitioningMeta(createTransformPartitioningMeta("targetMethod", "targetSchema"));
 
     return meta;
   }
@@ -120,29 +118,16 @@ public class TransformMetaTest {
     return new FakeRowDistribution();
   }
 
-  private static TransformPartitioningMeta createTransformPartitioningMeta(
-      String method, String schemaName) throws Exception {
-    TransformPartitioningMeta meta =
-        new TransformPartitioningMeta(
-            method, new PartitionSchema(schemaName, Collections.<String>emptyList()));
+  private static TransformPartitioningMeta createTransformPartitioningMeta(String method, String schemaName) throws Exception {
+    TransformPartitioningMeta meta = new TransformPartitioningMeta(method, new PartitionSchema(schemaName, Collections.<String>emptyList()));
     meta.setPartitionSchema(new PartitionSchema());
     return meta;
   }
 
   private static void assertEquals(TransformMeta meta, TransformMeta another) {
-    assertTrue(
-        EqualsBuilder.reflectionEquals(
-            meta,
-            another,
-            false,
-            TransformMeta.class,
-            new String[] {"location", "targetTransformPartitioningMeta"}));
+    assertTrue(EqualsBuilder.reflectionEquals(meta, another, false, TransformMeta.class, new String[] {"location", "targetTransformPartitioningMeta"}));
 
-    boolean manualCheck =
-        new EqualsBuilder()
-            .append(meta.getLocation().x, another.getLocation().x)
-            .append(meta.getLocation().y, another.getLocation().y)
-            .isEquals();
+    boolean manualCheck = new EqualsBuilder().append(meta.getLocation().x, another.getLocation().x).append(meta.getLocation().y, another.getLocation().y).isEquals();
     assertTrue(manualCheck);
   }
 }

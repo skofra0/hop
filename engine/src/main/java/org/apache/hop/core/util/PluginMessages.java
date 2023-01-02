@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,29 +23,23 @@ import org.apache.hop.i18n.BaseMessages;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Simple utility for messages. Usage: <code>
+/** Simple utility for messages. Usage: <code>
  * [...]
  * private static final PluginMessages MESSAGES = PluginMessages.getMessages([class]).
  * [...]
  * <p>
  * MESSAGES.getString([key])
- * </code>
- */
+ * </code> */
 public final class PluginMessages {
 
-  private static final ConcurrentHashMap<String, PluginMessages> MESSAGES_MAP =
-      new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, PluginMessages> MESSAGES_MAP = new ConcurrentHashMap<>();
 
-  /**
-   * Factory method.
+  /** Factory method.
    *
    * @param packageName package name.
    * @return messages.
-   * @throws IllegalArgumentException if package name is blank.
-   */
-  public static PluginMessages getMessages(final String packageName)
-      throws IllegalArgumentException {
+   * @throws IllegalArgumentException if package name is blank. */
+  public static PluginMessages getMessages(final String packageName) throws IllegalArgumentException {
     Assert.assertNotBlank(packageName, "Package name cannot be blank");
 
     PluginMessages pm = MESSAGES_MAP.get(packageName);
@@ -55,15 +49,12 @@ public final class PluginMessages {
     return pm;
   }
 
-  /**
-   * Factory method.
+  /** Factory method.
    *
    * @param someClassInPackage some class in package.
    * @return messages.
-   * @throws IllegalArgumentException if class is null
-   */
-  public static PluginMessages getMessages(final Class<?> someClassInPackage)
-      throws IllegalArgumentException {
+   * @throws IllegalArgumentException if class is null */
+  public static PluginMessages getMessages(final Class<?> someClassInPackage) throws IllegalArgumentException {
     Assert.assertNotNull(someClassInPackage, "Class cannot be null");
     return getMessages(someClassInPackage.getPackage().getName());
   }
@@ -80,108 +71,72 @@ public final class PluginMessages {
     return this.packageName;
   }
 
-  /**
-   * @param key the key.
-   * @return the message.
-   */
+  /** @param key the key.
+   * @return the message. */
   public String getString(final String key) {
     return BaseMessages.getString(this.packageName, key);
   }
 
-  /**
-   * @param key the key.
+  /** @param key the key.
    * @param param1 the param1.
-   * @return the message.
-   */
+   * @return the message. */
   public String getString(final String key, final String param1) {
     return BaseMessages.getString(this.packageName, key, param1);
   }
 
-  /**
-   * @param key the key.
+  /** @param key the key.
    * @param param1 the param1.
    * @param param2 the param2.
-   * @return the message.
-   */
+   * @return the message. */
   public String getString(final String key, final String param1, final String param2) {
     return BaseMessages.getString(this.packageName, key, param1, param2);
   }
 
-  /**
-   * @param key the key.
+  /** @param key the key.
    * @param param1 the param1.
    * @param param2 the param2.
    * @param param3 the param3.
-   * @return the message.
-   */
-  public String getString(
-      final String key, final String param1, final String param2, final String param3) {
+   * @return the message. */
+  public String getString(final String key, final String param1, final String param2, final String param3) {
     return BaseMessages.getString(this.packageName, key, param1, param2, param3);
   }
 
-  /**
-   * @param key the key.
+  /** @param key the key.
    * @param param1 the param1.
    * @param param2 the param2.
    * @param param3 the param3.
    * @param param4 the param4.
-   * @return the message.
-   */
-  public String getString(
-      final String key,
-      final String param1,
-      final String param2,
-      final String param3,
-      final String param4) {
+   * @return the message. */
+  public String getString(final String key, final String param1, final String param2, final String param3, final String param4) {
     return BaseMessages.getString(this.packageName, key, param1, param2, param3, param4);
   }
 
-  /**
-   * @param key the key.
+  /** @param key the key.
    * @param param1 the param1.
    * @param param2 the param2.
    * @param param3 the param3.
    * @param param4 the param4.
    * @param param5 the param5.
-   * @return the message.
-   */
-  public String getString(
-      final String key,
-      final String param1,
-      final String param2,
-      final String param3,
-      final String param4,
-      final String param5) {
+   * @return the message. */
+  public String getString(final String key, final String param1, final String param2, final String param3, final String param4, final String param5) {
     return BaseMessages.getString(this.packageName, key, param1, param2, param3, param4, param5);
   }
 
-  /**
-   * @param key the key.
+  /** @param key the key.
    * @param param1 the param1.
    * @param param2 the param2.
    * @param param3 the param3.
    * @param param4 the param4.
    * @param param5 the param5.
    * @param param6 the param6.
-   * @return the message.
-   */
-  public String getString(
-      final String key,
-      final String param1,
-      final String param2,
-      final String param3,
-      final String param4,
-      final String param5,
-      final String param6) {
-    return BaseMessages.getString(
-        this.packageName, key, param1, param2, param3, param4, param5, param6);
+   * @return the message. */
+  public String getString(final String key, final String param1, final String param2, final String param3, final String param4, final String param5, final String param6) {
+    return BaseMessages.getString(this.packageName, key, param1, param2, param3, param4, param5, param6);
   }
 
-  /**
-   * {@inheritDoc}
+  /** {@inheritDoc}
    *
-   * @see java.lang.Object#toString()
-   */
+   * @see java.lang.Object#toString() */
   @Override
   public String toString() {
     final ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);

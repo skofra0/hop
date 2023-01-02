@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,11 +20,9 @@ package org.apache.hop.laf;
 import java.util.HashSet;
 import java.util.Iterator;
 
-/**
- * A factory delegate for a specific kind of LAFHandler
+/** A factory delegate for a specific kind of LAFHandler
  *
- * @param <E>
- */
+ * @param <E> */
 public class LafDelegate<E extends IHandler> {
 
   E handler;
@@ -51,14 +49,12 @@ public class LafDelegate<E extends IHandler> {
     }
   }
 
-  /**
-   * load a concrete IHandler for a given Interface (by String classname) if the class is not
+  /** load a concrete IHandler for a given Interface (by String classname) if the class is not
    * instantiable, will fallback to default, and then fallback to an abstract implementation. Will
    * always return non-null.
    *
    * @param classname
-   * @return
-   */
+   * @return */
   @SuppressWarnings("unchecked")
   public E newHandlerInstance(String classname) throws ClassNotFoundException {
     E h = null;
@@ -89,12 +85,10 @@ public class LafDelegate<E extends IHandler> {
     return handler;
   }
 
-  /**
-   * unregister a @see ILafChangeListener from the Map which will prevent notification on @see
+  /** unregister a @see ILafChangeListener from the Map which will prevent notification on @see
    * IHandler change
    *
-   * @param listener
-   */
+   * @param listener */
   public void unregisterChangeListener(ILafChangeListener<E> listener) {
     registry.remove(listener);
   }

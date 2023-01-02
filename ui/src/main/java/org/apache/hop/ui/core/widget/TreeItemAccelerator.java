@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,19 +30,18 @@ public class TreeItemAccelerator {
     final Tree tree = treeItem.getParent();
 
     if (doubleClick != null) {
-      final SelectionAdapter selectionAdapter =
-          new SelectionAdapter() {
-            @Override
-            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
-              TreeItem[] items = tree.getSelection();
-              for (int i = 0; i < items.length; i++) {
-                String[] path2 = ConstUi.getTreeStrings(items[i]);
-                if (equalPaths(path1, path2)) {
-                  doubleClick.action(treeItem);
-                }
-              }
+      final SelectionAdapter selectionAdapter = new SelectionAdapter() {
+        @Override
+        public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+          TreeItem[] items = tree.getSelection();
+          for (int i = 0; i < items.length; i++) {
+            String[] path2 = ConstUi.getTreeStrings(items[i]);
+            if (equalPaths(path1, path2)) {
+              doubleClick.action(treeItem);
             }
-          };
+          }
+        }
+      };
       tree.addSelectionListener(selectionAdapter);
 
       // Clean up when we do a refresh too.

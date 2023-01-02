@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,29 +25,26 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.workflow.WorkflowHopMeta;
 import org.apache.hop.workflow.action.ActionMeta;
 
-/**
- * This class store undo and redo information...
- *
- * <p>Possible changes to a pipeline:
- *
- * <p>transform
- *
- * <p>hop
- *
- * <p>note
- *
- * <p>connection
- *
+/** This class store undo and redo information...
  * <p>
- *
- * <p>Build an Undo/Redo class containing:
- *
- * <p>Type of change
- *
- * <p>Description of action
- *
- * <p>Link to previous infomation
- *
+ * Possible changes to a pipeline:
+ * <p>
+ * transform
+ * <p>
+ * hop
+ * <p>
+ * note
+ * <p>
+ * connection
+ * <p>
+ * <p>
+ * Build an Undo/Redo class containing:
+ * <p>
+ * Type of change
+ * <p>
+ * Description of action
+ * <p>
+ * Link to previous infomation
  * <p>
  */
 public class ChangeAction {
@@ -85,8 +82,7 @@ public class ChangeAction {
     ChangeTableRow(BaseMessages.getString(PKG, "TransAction.label.ChangeTableRow")),
     NewTableRow(BaseMessages.getString(PKG, "TransAction.label.NewTableRow")),
     DeleteTableRow(BaseMessages.getString(PKG, "TransAction.label.DeleteTableRow")),
-    PositionTableRow(BaseMessages.getString(PKG, "TransAction.label.PositionTableRow")),
-    ;
+    PositionTableRow(BaseMessages.getString(PKG, "TransAction.label.PositionTableRow")),;
 
     private String description;
 
@@ -94,11 +90,9 @@ public class ChangeAction {
       this.description = description;
     }
 
-    /**
-     * Gets description
+    /** Gets description
      *
-     * @return value of description
-     */
+     * @return value of description */
     public String getDescription() {
       return description;
     }
@@ -264,20 +258,16 @@ public class ChangeAction {
     return currentIndex;
   }
 
-  /**
-   * Indicate that the next operations needs to be undone too.
+  /** Indicate that the next operations needs to be undone too.
    *
-   * @param nextAlso The nextAlso to set.
-   */
+   * @param nextAlso The nextAlso to set. */
   public void setNextAlso(boolean nextAlso) {
     this.nextAlso = nextAlso;
   }
 
-  /**
-   * Get the status of the nextAlso flag.
+  /** Get the status of the nextAlso flag.
    *
-   * @return true if the next operation needs to be done too.
-   */
+   * @return true if the next operation needs to be done too. */
   public boolean getNextAlso() {
     return nextAlso;
   }

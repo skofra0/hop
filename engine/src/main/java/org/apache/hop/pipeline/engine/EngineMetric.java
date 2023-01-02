@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,8 +28,7 @@ public class EngineMetric implements IEngineMetric {
 
   public EngineMetric() {}
 
-  public EngineMetric(
-      String code, String header, String tooltip, String displayPriority, boolean numeric) {
+  public EngineMetric(String code, String header, String tooltip, String displayPriority, boolean numeric) {
     this.code = code;
     this.header = header;
     this.tooltip = tooltip;
@@ -54,11 +53,9 @@ public class EngineMetric implements IEngineMetric {
     return Objects.hash(code);
   }
 
-  /**
-   * Gets code
+  /** Gets code
    *
-   * @return value of code
-   */
+   * @return value of code */
   @Override
   public String getCode() {
     return code;
@@ -69,11 +66,9 @@ public class EngineMetric implements IEngineMetric {
     this.code = code;
   }
 
-  /**
-   * Gets header
+  /** Gets header
    *
-   * @return value of header
-   */
+   * @return value of header */
   @Override
   public String getHeader() {
     return header;
@@ -84,11 +79,9 @@ public class EngineMetric implements IEngineMetric {
     this.header = header;
   }
 
-  /**
-   * Gets tooltip
+  /** Gets tooltip
    *
-   * @return value of tooltip
-   */
+   * @return value of tooltip */
   @Override
   public String getTooltip() {
     return tooltip;
@@ -99,11 +92,9 @@ public class EngineMetric implements IEngineMetric {
     this.tooltip = tooltip;
   }
 
-  /**
-   * Gets displayPriority
+  /** Gets displayPriority
    *
-   * @return value of displayPriority
-   */
+   * @return value of displayPriority */
   @Override
   public String getDisplayPriority() {
     return displayPriority;
@@ -114,11 +105,9 @@ public class EngineMetric implements IEngineMetric {
     this.displayPriority = displayPriority;
   }
 
-  /**
-   * Gets numeric
+  /** Gets numeric
    *
-   * @return value of numeric
-   */
+   * @return value of numeric */
   @Override
   public boolean isNumeric() {
     return numeric;

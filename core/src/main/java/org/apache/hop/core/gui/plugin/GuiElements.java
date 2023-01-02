@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -105,8 +105,7 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.ignored = guiElement.ignored();
     this.addingSeparator = guiElement.separator();
     this.label = getTranslation(guiElement.label(), fieldPackageName, field.getDeclaringClass());
-    this.toolTip =
-        getTranslation(guiElement.toolTip(), fieldPackageName, field.getDeclaringClass());
+    this.toolTip = getTranslation(guiElement.toolTip(), fieldPackageName, field.getDeclaringClass());
     this.typeFilename = guiElement.typeFilename();
     this.typeMetadata = guiElement.typeMetadata();
   }
@@ -151,11 +150,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     }
   }
 
-  /**
-   * Gets id
+  /** Gets id
    *
-   * @return value of id
-   */
+   * @return value of id */
   public String getId() {
     return id;
   }
@@ -165,11 +162,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.id = id;
   }
 
-  /**
-   * Gets order
+  /** Gets order
    *
-   * @return value of order
-   */
+   * @return value of order */
   public String getOrder() {
     return order;
   }
@@ -179,11 +174,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.order = order;
   }
 
-  /**
-   * Gets parentId
+  /** Gets parentId
    *
-   * @return value of parentId
-   */
+   * @return value of parentId */
   public String getParentId() {
     return parentId;
   }
@@ -193,11 +186,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.parentId = parentId;
   }
 
-  /**
-   * Gets label
+  /** Gets label
    *
-   * @return value of label
-   */
+   * @return value of label */
   public String getLabel() {
     return label;
   }
@@ -207,11 +198,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.label = label;
   }
 
-  /**
-   * Gets toolTip
+  /** Gets toolTip
    *
-   * @return value of toolTip
-   */
+   * @return value of toolTip */
   public String getToolTip() {
     return toolTip;
   }
@@ -221,11 +210,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.toolTip = toolTip;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public GuiElementType getType() {
     return type;
   }
@@ -235,11 +222,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.type = type;
   }
 
-  /**
-   * Gets image
+  /** Gets image
    *
-   * @return value of image
-   */
+   * @return value of image */
   public String getImage() {
     return image;
   }
@@ -249,11 +234,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.image = image;
   }
 
-  /**
-   * Gets disabledImage
+  /** Gets disabledImage
    *
-   * @return value of disabledImage
-   */
+   * @return value of disabledImage */
   public String getDisabledImage() {
     return disabledImage;
   }
@@ -263,11 +246,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.disabledImage = disabledImage;
   }
 
-  /**
-   * Gets children
+  /** Gets children
    *
-   * @return value of children
-   */
+   * @return value of children */
   public List<GuiElements> getChildren() {
     return children;
   }
@@ -277,11 +258,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.children = children;
   }
 
-  /**
-   * Gets variablesEnabled
+  /** Gets variablesEnabled
    *
-   * @return value of variablesEnabled
-   */
+   * @return value of variablesEnabled */
   public boolean isVariablesEnabled() {
     return variablesEnabled;
   }
@@ -291,11 +270,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.variablesEnabled = variablesEnabled;
   }
 
-  /**
-   * Gets password
+  /** Gets password
    *
-   * @return value of password
-   */
+   * @return value of password */
   public boolean isPassword() {
     return password;
   }
@@ -305,11 +282,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.password = password;
   }
 
-  /**
-   * Gets fieldName
+  /** Gets fieldName
    *
-   * @return value of fieldName
-   */
+   * @return value of fieldName */
   public String getFieldName() {
     return fieldName;
   }
@@ -319,11 +294,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.fieldName = fieldName;
   }
 
-  /**
-   * Gets getterMethod
+  /** Gets getterMethod
    *
-   * @return value of getterMethod
-   */
+   * @return value of getterMethod */
   public String getGetterMethod() {
     return getterMethod;
   }
@@ -333,11 +306,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.getterMethod = getterMethod;
   }
 
-  /**
-   * Gets setterMethod
+  /** Gets setterMethod
    *
-   * @return value of setterMethod
-   */
+   * @return value of setterMethod */
   public String getSetterMethod() {
     return setterMethod;
   }
@@ -347,11 +318,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.setterMethod = setterMethod;
   }
 
-  /**
-   * Gets getComboValuesMethod
+  /** Gets getComboValuesMethod
    *
-   * @return value of getComboValuesMethod
-   */
+   * @return value of getComboValuesMethod */
   public String getGetComboValuesMethod() {
     return getComboValuesMethod;
   }
@@ -361,11 +330,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.getComboValuesMethod = getComboValuesMethod;
   }
 
-  /**
-   * Gets fieldClass
+  /** Gets fieldClass
    *
-   * @return value of fieldClass
-   */
+   * @return value of fieldClass */
   public Class<?> getFieldClass() {
     return fieldClass;
   }
@@ -375,11 +342,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.fieldClass = fieldClass;
   }
 
-  /**
-   * Gets ignored
+  /** Gets ignored
    *
-   * @return value of ignored
-   */
+   * @return value of ignored */
   public boolean isIgnored() {
     return ignored;
   }
@@ -389,11 +354,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.ignored = ignored;
   }
 
-  /**
-   * Gets addingSeparator
+  /** Gets addingSeparator
    *
-   * @return value of addingSeparator
-   */
+   * @return value of addingSeparator */
   public boolean isAddingSeparator() {
     return addingSeparator;
   }
@@ -403,11 +366,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.addingSeparator = addingSeparator;
   }
 
-  /**
-   * Gets listenerClass
+  /** Gets listenerClass
    *
-   * @return value of listenerClass
-   */
+   * @return value of listenerClass */
   public Class<?> getListenerClass() {
     return listenerClass;
   }
@@ -417,11 +378,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.listenerClass = listenerClass;
   }
 
-  /**
-   * Gets menuMethod
+  /** Gets menuMethod
    *
-   * @return value of menuMethod
-   */
+   * @return value of menuMethod */
   public String getListenerMethod() {
     return listenerMethod;
   }
@@ -431,11 +390,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.listenerMethod = listenerMethod;
   }
 
-  /**
-   * Gets singleTon
+  /** Gets singleTon
    *
-   * @return value of singleTon
-   */
+   * @return value of singleTon */
   public boolean isSingleTon() {
     return singleTon;
   }
@@ -445,11 +402,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.singleTon = singleTon;
   }
 
-  /**
-   * Gets classLoader
+  /** Gets classLoader
    *
-   * @return value of classLoader
-   */
+   * @return value of classLoader */
   public ClassLoader getClassLoader() {
     return classLoader;
   }
@@ -459,11 +414,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.classLoader = classLoader;
   }
 
-  /**
-   * Gets typeFilename
+  /** Gets typeFilename
    *
-   * @return value of typeFilename
-   */
+   * @return value of typeFilename */
   public Class<? extends ITypeFilename> getTypeFilename() {
     return typeFilename;
   }
@@ -473,11 +426,9 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.typeFilename = typeFilename;
   }
 
-  /**
-   * Gets typeMetadata
+  /** Gets typeMetadata
    *
-   * @return value of typeMetadata
-   */
+   * @return value of typeMetadata */
   public Class<? extends ITypeMetadata> getTypeMetadata() {
     return typeMetadata;
   }

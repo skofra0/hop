@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,13 +24,7 @@ import org.apache.hop.core.row.RowMeta;
 
 public class RowMetaUtils {
 
-  public static IRowMeta getRowMetaForUpdate(
-      IRowMeta prev,
-      String[] keyLookup,
-      String[] keyStream,
-      String[] updateLookup,
-      String[] updateStream)
-      throws HopTransformException {
+  public static IRowMeta getRowMetaForUpdate(IRowMeta prev, String[] keyLookup, String[] keyStream, String[] updateLookup, String[] updateStream) throws HopTransformException {
     IRowMeta tableFields = new RowMeta();
 
     // Now change the field names
@@ -43,8 +37,7 @@ public class RowMetaUtils {
           tableField.setName(keyLookup[i]);
           tableFields.addValueMeta(tableField);
         } else {
-          throw new HopTransformException(
-              "Unable to find field [" + keyStream[i] + "] in the input rows");
+          throw new HopTransformException("Unable to find field [" + keyStream[i] + "] in the input rows");
         }
       }
     }
@@ -59,8 +52,7 @@ public class RowMetaUtils {
           tableFields.addValueMeta(tableField);
         }
       } else {
-        throw new HopTransformException(
-            "Unable to find field [" + updateStream[i] + "] in the input rows");
+        throw new HopTransformException("Unable to find field [" + updateStream[i] + "] in the input rows");
       }
     }
     return tableFields;

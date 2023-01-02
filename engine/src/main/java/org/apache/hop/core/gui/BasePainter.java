@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,21 +80,7 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
 
   protected Hop candidate;
 
-  public BasePainter(
-      IGc gc,
-      IVariables variables,
-      Object subject,
-      Point area,
-      IScrollBar hori,
-      IScrollBar vert,
-      Rectangle selectionRectangle,
-      List<AreaOwner> areaOwners,
-      int iconSize,
-      int lineWidth,
-      int gridSize,
-      String noteFontName,
-      int noteFontHeight,
-      double zoomFactor,
+  public BasePainter(IGc gc, IVariables variables, Object subject, Point area, IScrollBar hori, IScrollBar vert, Rectangle selectionRectangle, List<AreaOwner> areaOwners, int iconSize, int lineWidth, int gridSize, String noteFontName, int noteFontHeight, double zoomFactor,
       boolean drawingEditIcons) {
     this.gc = gc;
     this.variables = variables;
@@ -162,11 +148,7 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
       } else {
         fontHeight = noteFontHeight;
       }
-      gc.setFont(
-          Const.NVL(notePadMeta.getFontName(), noteFontName),
-          (int) ((double) fontHeight / zoomFactor),
-          notePadMeta.isFontBold(),
-          notePadMeta.isFontItalic());
+      gc.setFont(Const.NVL(notePadMeta.getFontName(), noteFontName), (int) ((double) fontHeight / zoomFactor), notePadMeta.isFontBold(), notePadMeta.isFontItalic());
 
       ext = gc.textExtent(notePadMeta.getNote());
     }
@@ -187,29 +169,18 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
 
     Rectangle noteShape = new Rectangle(note.x, note.y, width, height);
 
-    gc.setBackground(
-        notePadMeta.getBackGroundColorRed(),
-        notePadMeta.getBackGroundColorGreen(),
-        notePadMeta.getBackGroundColorBlue());
-    gc.setForeground(
-        notePadMeta.getBorderColorRed(),
-        notePadMeta.getBorderColorGreen(),
-        notePadMeta.getBorderColorBlue());
+    gc.setBackground(notePadMeta.getBackGroundColorRed(), notePadMeta.getBackGroundColorGreen(), notePadMeta.getBackGroundColorBlue());
+    gc.setForeground(notePadMeta.getBorderColorRed(), notePadMeta.getBorderColorGreen(), notePadMeta.getBorderColorBlue());
 
     // Radius is half the font height
     //
     int radius = (int) Math.round(zoomFactor * notePadMeta.getFontSize() / 2);
 
-    gc.fillRoundRectangle(
-        noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
-    gc.drawRoundRectangle(
-        noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
+    gc.fillRoundRectangle(noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
+    gc.drawRoundRectangle(noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
 
     if (!Utils.isEmpty(notePadMeta.getNote())) {
-      gc.setForeground(
-          notePadMeta.getFontColorRed(),
-          notePadMeta.getFontColorGreen(),
-          notePadMeta.getFontColorBlue());
+      gc.setForeground(notePadMeta.getFontColorRed(), notePadMeta.getFontColorGreen(), notePadMeta.getFontColorBlue());
       gc.drawText(notePadMeta.getNote(), note.x + margin, note.y + margin, true);
     }
 
@@ -224,16 +195,7 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
 
     // Add to the list of areas...
     //
-    areaOwners.add(
-        new AreaOwner(
-            AreaType.NOTE,
-            noteShape.x,
-            noteShape.y,
-            noteShape.width,
-            noteShape.height,
-            offset,
-            subject,
-            notePadMeta));
+    areaOwners.add(new AreaOwner(AreaType.NOTE, noteShape.x, noteShape.y, noteShape.width, noteShape.height, offset, subject, notePadMeta));
   }
 
   protected int translateTo1To1(int value) {
@@ -483,44 +445,18 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
     return new int[] {x1, y1, x2, y2};
   }
 
-  protected void drawArrow(EImage arrow, int[] line, Hop hop, Object startObject, Object endObject)
-      throws HopException {
+  protected void drawArrow(EImage arrow, int[] line, Hop hop, Object startObject, Object endObject) throws HopException {
     Point screenFrom = real2screen(line[0], line[1]);
     Point screenTo = real2screen(line[2], line[3]);
 
-    drawArrow(
-        arrow,
-        screenFrom.x,
-        screenFrom.y,
-        screenTo.x,
-        screenTo.y,
-        theta,
-        calcArrowLength(),
-        -1,
-        hop,
-        startObject,
-        endObject);
+    drawArrow(arrow, screenFrom.x, screenFrom.y, screenTo.x, screenTo.y, theta, calcArrowLength(), -1, hop, startObject, endObject);
   }
 
-  protected abstract void drawArrow(
-      EImage arrow,
-      int x1,
-      int y1,
-      int x2,
-      int y2,
-      double theta,
-      int size,
-      double factor,
-      Hop jobHop,
-      Object startObject,
-      Object endObject)
-      throws HopException;
+  protected abstract void drawArrow(EImage arrow, int x1, int y1, int x2, int y2, double theta, int size, double factor, Hop jobHop, Object startObject, Object endObject) throws HopException;
 
-  /**
-   * Gets zoomFactor
+  /** Gets zoomFactor
    *
-   * @return value of zoomFactor
-   */
+   * @return value of zoomFactor */
   public double getZoomFactor() {
     return zoomFactor;
   }
@@ -530,11 +466,9 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
     this.zoomFactor = zoomFactor;
   }
 
-  /**
-   * Gets drawingEditIcons
+  /** Gets drawingEditIcons
    *
-   * @return value of drawingEditIcons
-   */
+   * @return value of drawingEditIcons */
   public boolean isDrawingEditIcons() {
     return drawingEditIcons;
   }
@@ -544,11 +478,9 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
     this.drawingEditIcons = drawingEditIcons;
   }
 
-  /**
-   * Gets miniIconSize
+  /** Gets miniIconSize
    *
-   * @return value of miniIconSize
-   */
+   * @return value of miniIconSize */
   public int getMiniIconSize() {
     return miniIconSize;
   }

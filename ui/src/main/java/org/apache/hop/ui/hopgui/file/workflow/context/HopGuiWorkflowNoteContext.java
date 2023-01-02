@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,11 +39,7 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowNoteContext> lambdaBuilder;
 
-  public HopGuiWorkflowNoteContext(
-      WorkflowMeta workflowMeta,
-      NotePadMeta notePadMeta,
-      HopGuiWorkflowGraph workflowGraph,
-      Point click) {
+  public HopGuiWorkflowNoteContext(WorkflowMeta workflowMeta, NotePadMeta notePadMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     this.workflowMeta = workflowMeta;
     this.notePadMeta = notePadMeta;
     this.workflowGraph = workflowGraph;
@@ -56,11 +52,9 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
     return CONTEXT_ID;
   }
 
-  /**
-   * Create a list of supported actions on a workflow note.
+  /** Create a list of supported actions on a workflow note.
    *
-   * @return The list of supported actions
-   */
+   * @return The list of supported actions */
   @Override
   public List<GuiAction> getSupportedActions() {
     List<GuiAction> actions = new ArrayList<>();
@@ -77,11 +71,9 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
     return actions;
   }
 
-  /**
-   * Gets workflowMeta
+  /** Gets workflowMeta
    *
-   * @return value of workflowMeta
-   */
+   * @return value of workflowMeta */
   public WorkflowMeta getWorkflowMeta() {
     return workflowMeta;
   }
@@ -91,11 +83,9 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
     this.workflowMeta = workflowMeta;
   }
 
-  /**
-   * Gets notePadMeta
+  /** Gets notePadMeta
    *
-   * @return value of notePadMeta
-   */
+   * @return value of notePadMeta */
   public NotePadMeta getNotePadMeta() {
     return notePadMeta;
   }
@@ -105,11 +95,9 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
     this.notePadMeta = notePadMeta;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -119,11 +107,9 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets click
+  /** Gets click
    *
-   * @return value of click
-   */
+   * @return value of click */
   public Point getClick() {
     return click;
   }

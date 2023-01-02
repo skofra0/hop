@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,13 +33,14 @@ public class Slf4jLoggingEventListener implements IHopLoggingEventListener {
   @VisibleForTesting
   Logger pipelineLogger = LoggerFactory.getLogger("org.apache.hop.pipeline.Pipeline");
 
-  @VisibleForTesting Logger jobLogger = LoggerFactory.getLogger("org.apache.hop.workflow.Workflow");
-
-  @VisibleForTesting Logger diLogger = LoggerFactory.getLogger("org.apache.hop");
+  @VisibleForTesting
+  Logger jobLogger = LoggerFactory.getLogger("org.apache.hop.workflow.Workflow");
 
   @VisibleForTesting
-  Function<String, ILoggingObject> logObjProvider =
-      objId -> LoggingRegistry.getInstance().getLoggingObject(objId);
+  Logger diLogger = LoggerFactory.getLogger("org.apache.hop");
+
+  @VisibleForTesting
+  Function<String, ILoggingObject> logObjProvider = objId -> LoggingRegistry.getInstance().getLoggingObject(objId);
 
   private static final String SEPARATOR = "/";
 
@@ -55,23 +56,17 @@ public class Slf4jLoggingEventListener implements IHopLoggingEventListener {
 
       if (loggingObject == null) {
         // this can happen if logObject has been discarded while log events are still in flight.
-        logToLogger(
-            diLogger, message.getLevel(), message.getSubject() + " " + message.getMessage());
-      } else if (loggingObject.getObjectType() == PIPELINE
-          || loggingObject.getObjectType() == TRANSFORM
-          || loggingObject.getObjectType() == DATABASE) {
+        logToLogger(diLogger, message.getLevel(), message.getSubject() + " " + message.getMessage());
+      } else if (loggingObject.getObjectType() == PIPELINE || loggingObject.getObjectType() == TRANSFORM || loggingObject.getObjectType() == DATABASE) {
         logToLogger(pipelineLogger, message.getLevel(), loggingObject, message);
-      } else if (loggingObject.getObjectType() == WORKFLOW
-          || loggingObject.getObjectType() == ACTION) {
+      } else if (loggingObject.getObjectType() == WORKFLOW || loggingObject.getObjectType() == ACTION) {
         logToLogger(jobLogger, message.getLevel(), loggingObject, message);
       }
     }
   }
 
-  private void logToLogger(
-      Logger logger, LogLevel logLevel, ILoggingObject loggingObject, LogMessage message) {
-    logToLogger(
-        logger, logLevel, "[" + getDetailedSubject(loggingObject) + "]  " + message.getMessage());
+  private void logToLogger(Logger logger, LogLevel logLevel, ILoggingObject loggingObject, LogMessage message) {
+    logToLogger(logger, logLevel, "[" + getDetailedSubject(loggingObject) + "]  " + message.getMessage());
   }
 
   private void logToLogger(Logger logger, LogLevel logLevel, String message) {
@@ -119,7 +114,7 @@ public class Slf4jLoggingEventListener implements IHopLoggingEventListener {
 
   private String formatDetailedSubject(LinkedList<String> subjects) {
     StringBuilder string = new StringBuilder();
-    for (Iterator<String> it = subjects.descendingIterator(); it.hasNext(); ) {
+    for (Iterator<String> it = subjects.descendingIterator(); it.hasNext();) {
       string.append(it.next());
       if (it.hasNext()) {
         string.append("  ");

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -68,8 +68,7 @@ public abstract class BaseMetadataInjectionTest<Meta extends ITransformMeta> {
 
   @After
   public void after() {
-    assertTrue(
-        "Some properties where not tested: " + nonTestedProperties, nonTestedProperties.isEmpty());
+    assertTrue("Some properties where not tested: " + nonTestedProperties, nonTestedProperties.isEmpty());
   }
 
   protected List<RowMetaAndData> setValue(IValueMeta valueMeta, Object... values) {
@@ -110,8 +109,7 @@ public abstract class BaseMetadataInjectionTest<Meta extends ITransformMeta> {
   }
 
   /** Check string property. */
-  protected void check(String propertyName, IStringGetter getter, String... values)
-      throws HopException {
+  protected void check(String propertyName, IStringGetter getter, String... values) throws HopException {
     IValueMeta valueMeta = new ValueMetaString("f");
 
     if (values.length == 0) {
@@ -132,8 +130,7 @@ public abstract class BaseMetadataInjectionTest<Meta extends ITransformMeta> {
   }
 
   /** Check enum property. */
-  protected void check(String propertyName, IEnumGetter getter, Class<?> enumType)
-      throws HopException {
+  protected void check(String propertyName, IEnumGetter getter, Class<?> enumType) throws HopException {
     IValueMeta valueMeta = new ValueMetaString("f");
 
     Object[] values = enumType.getEnumConstants();
@@ -167,16 +164,14 @@ public abstract class BaseMetadataInjectionTest<Meta extends ITransformMeta> {
     injector.setProperty(meta, propertyName, setValue(valueMetaInteger, 1234L), "f");
     assertEquals(1234, getter.get());
 
-    injector.setProperty(
-        meta, propertyName, setValue(valueMetaInteger, (long) Integer.MAX_VALUE), "f");
+    injector.setProperty(meta, propertyName, setValue(valueMetaInteger, (long) Integer.MAX_VALUE), "f");
     assertEquals(Integer.MAX_VALUE, getter.get());
 
     skipPropertyTest(propertyName);
   }
 
   /** Check string-to-int property. */
-  protected void checkStringToInt(String propertyName, IIntGetter getter, String[] codes, int[] ids)
-      throws HopException {
+  protected void checkStringToInt(String propertyName, IIntGetter getter, String[] codes, int[] ids) throws HopException {
     if (codes.length != ids.length) {
       throw new RuntimeException("Wrong codes/ids sizes");
     }

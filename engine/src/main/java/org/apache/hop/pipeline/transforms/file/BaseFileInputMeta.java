@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,13 +29,7 @@ import org.apache.hop.resource.ResourceReference;
 import java.util.List;
 
 /** Base meta for file-based input transforms. */
-public abstract class BaseFileInputMeta<
-        Main extends ITransform,
-        Data extends ITransformData,
-        A extends BaseFileInputAdditionalField,
-        I extends BaseFileInputFiles,
-        F extends BaseFileField>
-    extends BaseTransformMeta<Main, Data> {
+public abstract class BaseFileInputMeta<Main extends ITransform, Data extends ITransformData, A extends BaseFileInputAdditionalField, I extends BaseFileInputFiles, F extends BaseFileField> extends BaseTransformMeta<Main, Data> {
   private static final Class<?> PKG = BaseFileInputMeta.class; // For Translator
 
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
@@ -44,41 +38,28 @@ public abstract class BaseFileInputMeta<
 
   public static final String YES = "Y";
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
-  @InjectionDeep public I inputFiles;
+  @InjectionDeep
+  public I inputFiles;
 
   /** The fields to import... */
-  @InjectionDeep public F[] inputFields;
+  @InjectionDeep
+  public F[] inputFields;
 
   /** @return the input fields. */
   public F[] getInputFields() {
     return inputFields;
   }
 
-  @InjectionDeep public BaseFileErrorHandling errorHandling = new BaseFileErrorHandling();
-  @InjectionDeep public A additionalOutputFields;
+  @InjectionDeep
+  public BaseFileErrorHandling errorHandling = new BaseFileErrorHandling();
+  @InjectionDeep
+  public A additionalOutputFields;
 
   @Override
   public Object clone() {
-    BaseFileInputMeta<
-            BaseFileInputTransform,
-            BaseFileInputTransformData,
-            BaseFileInputAdditionalField,
-            BaseFileInputFiles,
-            BaseFileField>
-        retval =
-            (BaseFileInputMeta<
-                    BaseFileInputTransform,
-                    BaseFileInputTransformData,
-                    BaseFileInputAdditionalField,
-                    BaseFileInputFiles,
-                    BaseFileField>)
-                super.clone();
+    BaseFileInputMeta<BaseFileInputTransform, BaseFileInputTransformData, BaseFileInputAdditionalField, BaseFileInputFiles, BaseFileField> retval = (BaseFileInputMeta<BaseFileInputTransform, BaseFileInputTransformData, BaseFileInputAdditionalField, BaseFileInputFiles, BaseFileField>) super.clone();
 
     retval.inputFiles = (BaseFileInputFiles) inputFiles.clone();
     retval.errorHandling = (BaseFileErrorHandling) errorHandling.clone();
@@ -117,18 +98,11 @@ public abstract class BaseFileInputMeta<
 
   public FileInputList getFileInputList(IVariables variables) {
     inputFiles.normalizeAllocation(inputFiles.fileName.length);
-    return FileInputList.createFileList(
-        variables,
-        inputFiles.fileName,
-        inputFiles.fileMask,
-        inputFiles.excludeFileMask,
-        inputFiles.fileRequired,
-        inputFiles.includeSubFolderBoolean());
+    return FileInputList.createFileList(variables, inputFiles.fileName, inputFiles.fileMask, inputFiles.excludeFileMask, inputFiles.fileRequired, inputFiles.includeSubFolderBoolean());
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     return inputFiles.getResourceDependencies(variables, transformMeta);
   }
 

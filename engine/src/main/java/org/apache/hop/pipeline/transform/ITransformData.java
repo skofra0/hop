@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,67 +19,49 @@ package org.apache.hop.pipeline.transform;
 
 import org.apache.hop.pipeline.engine.EngineComponent.ComponentExecutionStatus;
 
-/**
- * This defines the basic interface for the data used by a thread. This will allow us to stop
+/** This defines the basic interface for the data used by a thread. This will allow us to stop
  * execution of threads and restart them later on without loosing track of the situation. Typically
  * the ITransformData implementing class will contain result sets, temporary data, caching indexes,
- * etc.
- */
+ * etc. */
 public interface ITransformData {
 
-  /**
-   * Sets the status.
+  /** Sets the status.
    *
-   * @param status the new status
-   */
+   * @param status the new status */
   void setStatus(ComponentExecutionStatus status);
 
-  /**
-   * Gets the status.
+  /** Gets the status.
    *
-   * @return the status
-   */
+   * @return the status */
   ComponentExecutionStatus getStatus();
 
-  /**
-   * Checks if is empty.
+  /** Checks if is empty.
    *
-   * @return true, if is empty
-   */
+   * @return true, if is empty */
   boolean isEmpty();
 
-  /**
-   * Checks if is initialising.
+  /** Checks if is initialising.
    *
-   * @return true, if is initialising
-   */
+   * @return true, if is initialising */
   boolean isInitialising();
 
-  /**
-   * Checks if is running.
+  /** Checks if is running.
    *
-   * @return true, if is running
-   */
+   * @return true, if is running */
   boolean isRunning();
 
-  /**
-   * Checks if is idle.
+  /** Checks if is idle.
    *
-   * @return true, if is idle
-   */
+   * @return true, if is idle */
   boolean isIdle();
 
-  /**
-   * Checks if is finished.
+  /** Checks if is finished.
    *
-   * @return true, if is finished
-   */
+   * @return true, if is finished */
   boolean isFinished();
 
-  /**
-   * Checks if is disposed.
+  /** Checks if is disposed.
    *
-   * @return true, if is disposed
-   */
+   * @return true, if is disposed */
   boolean isDisposed();
 }

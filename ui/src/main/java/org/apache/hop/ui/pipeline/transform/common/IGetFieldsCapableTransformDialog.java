@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,37 +33,29 @@ import org.eclipse.swt.widgets.TableItem;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * An interface providing functionality for any transform dialog that has the "get fields"
- * capability.
- */
+/** An interface providing functionality for any transform dialog that has the "get fields"
+ * capability. */
 public interface IGetFieldsCapableTransformDialog<TransformMetaType extends BaseTransformMeta> {
   Class<?> PKG = IGetFieldsCapableTransformDialog.class; // For Translator
 
   LogChannel logger = new LogChannel(IGetFieldsCapableTransformDialog.class);
 
-  /**
-   * Returns the {@link Shell} of the parent control.
+  /** Returns the {@link Shell} of the parent control.
    *
-   * @return the {@link Shell} of the parent control
-   */
+   * @return the {@link Shell} of the parent control */
   Shell getParent();
 
-  /**
-   * Returns the {@link Shell} of this dialog.
+  /** Returns the {@link Shell} of this dialog.
    *
-   * @return the {@link Shell} of this dialog
-   */
+   * @return the {@link Shell} of this dialog */
   Shell getShell();
 
-  /**
-   * Returns an array of incoming field names, or an empty array, if fields cannot be fetched, for
+  /** Returns an array of incoming field names, or an empty array, if fields cannot be fetched, for
    * some reason.
    *
    * @param meta the {@link TransformMetaType}
    * @return an array of incoming field names, or an empty array, if fields cannot be fetched, for
-   *     some reason.
-   */
+   *         some reason. */
   String[] getFieldNames(final TransformMetaType meta);
 
   /** @return the {@link TableView} containing transform fields */
@@ -88,17 +80,12 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       int fieldNameIndex = getFieldsTable().hasIndexColumn() ? 1 : 0;
       fieldNamesInTable.add(item.getText(fieldNameIndex));
     }
-    final List<String> newFieldNames =
-        Arrays.asList(fieldNamesInTable.toArray(new String[fieldNamesInTable.size()])).stream()
-            .filter(fieldName -> !Arrays.asList(incomingFieldNames).contains(fieldName))
-            .collect(Collectors.toList());
+    final List<String> newFieldNames = Arrays.asList(fieldNamesInTable.toArray(new String[fieldNamesInTable.size()])).stream().filter(fieldName -> !Arrays.asList(incomingFieldNames).contains(fieldName)).collect(Collectors.toList());
     return newFieldNames;
   }
 
-  /**
-   * This can be called by the "Get fields" button handler to inherit the common "get fields"
-   * behavior.
-   */
+  /** This can be called by the "Get fields" button handler to inherit the common "get fields"
+   * behavior. */
   default void getFields() {
     getFields(getPopulatedMeta());
   }
@@ -113,14 +100,13 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       final int nrNonEmptyFields = getFieldsTable().nrNonEmpty();
       // are any fields already populated in the fields table?
       if (nrNonEmptyFields > 0) {
-        final FieldSelectionDialog fieldSelectDialog =
-            new FieldSelectionDialog(this.getShell(), newFieldNames.size()) {
-              @Override
-              protected void ok() {
-                super.ok();
-                openGetFieldsSampleDataDialog(reloadAllFields);
-              }
-            };
+        final FieldSelectionDialog fieldSelectDialog = new FieldSelectionDialog(this.getShell(), newFieldNames.size()) {
+          @Override
+          protected void ok() {
+            super.ok();
+            openGetFieldsSampleDataDialog(reloadAllFields);
+          }
+        };
         fieldSelectDialog.open();
       } else {
         // no fields are populated yet, go straight to "sample data" dialog
@@ -128,23 +114,17 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       }
     } else {
       // we have no new fields
-      final BaseDialog errorDlg =
-          new BaseMessageDialog(
-              getShell(),
-              BaseMessages.getString(PKG, "GetFieldsCapableTransformDialog.NoNewFields.Title"),
-              BaseMessages.getString(PKG, "GetFieldsCapableTransformDialog.NoNewFields.Message"));
+      final BaseDialog errorDlg = new BaseMessageDialog(getShell(), BaseMessages.getString(PKG, "GetFieldsCapableTransformDialog.NoNewFields.Title"), BaseMessages.getString(PKG, "GetFieldsCapableTransformDialog.NoNewFields.Message"));
       // if there are no incoming fields at all, we leave the OK button handler as-is and simply
       // dispose the dialog
       // if there are some incoming fields, we overwrite the OK button handler to show the
       // GetFieldsSampleDataDialog
       if (incomingFieldNames != null && incomingFieldNames.length > 0) {
         final Map<String, Listener> buttons = new HashMap();
-        buttons.put(
-            BaseMessages.getString(PKG, "System.Button.OK"),
-            event -> {
-              errorDlg.dispose();
-              openGetFieldsSampleDataDialog(true);
-            });
+        buttons.put(BaseMessages.getString(PKG, "System.Button.OK"), event -> {
+          errorDlg.dispose();
+          openGetFieldsSampleDataDialog(true);
+        });
         errorDlg.setButtons(buttons);
       }
       errorDlg.open();
@@ -152,8 +132,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
   }
 
   default void openGetFieldsSampleDataDialog(boolean reloadAllFields) {
-    final GetFieldsSampleDataDialog dlg =
-        new GetFieldsSampleDataDialog(getShell(), this, reloadAllFields);
+    final GetFieldsSampleDataDialog dlg = new GetFieldsSampleDataDialog(getShell(), this, reloadAllFields);
     dlg.open();
   }
 
@@ -178,10 +157,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
     return rowValues;
   }
 
-  default Set<String> repopulateFields(
-      final TransformMetaType meta,
-      final Map<String, List<String>> previousFieldValues,
-      final boolean reloadAllFields) {
+  default Set<String> repopulateFields(final TransformMetaType meta, final Map<String, List<String>> previousFieldValues, final boolean reloadAllFields) {
     // incoming field names
     final String[] incomingFieldNames = getFieldNames(meta);
     final Set<String> newFieldNames = new HashSet();
@@ -230,8 +206,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
     }
   }
 
-  default String loadFields(
-      final TransformMetaType meta, final int samples, final boolean reloadAllFields) {
+  default String loadFields(final TransformMetaType meta, final int samples, final boolean reloadAllFields) {
     // fields loading might rely on specific order, and since we allow users to enter fields
     // manually, order is not
     // guaranteed; we therefore need to ensure that fields are properly ordered within the fields
@@ -274,11 +249,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
     return item;
   }
 
-  void getData(
-      final TransformMetaType inputMeta,
-      final boolean copyTransformName,
-      final boolean reloadAllFields,
-      final Set<String> newFieldNames);
+  void getData(final TransformMetaType inputMeta, final boolean copyTransformName, final boolean reloadAllFields, final Set<String> newFieldNames);
 
   default TransformMetaType getPopulatedMeta() {
     final TransformMetaType newMeta = getNewMetaInstance();

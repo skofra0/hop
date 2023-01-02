@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,11 +39,7 @@ public class HopGuiPipelineNoteContext extends BaseGuiContextHandler implements 
   private Point click;
   private GuiActionLambdaBuilder<HopGuiPipelineNoteContext> lambdaBuilder;
 
-  public HopGuiPipelineNoteContext(
-      PipelineMeta pipelineMeta,
-      NotePadMeta notePadMeta,
-      HopGuiPipelineGraph pipelineGraph,
-      Point click) {
+  public HopGuiPipelineNoteContext(PipelineMeta pipelineMeta, NotePadMeta notePadMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
     this.pipelineMeta = pipelineMeta;
     this.notePadMeta = notePadMeta;
     this.pipelineGraph = pipelineGraph;
@@ -56,12 +52,10 @@ public class HopGuiPipelineNoteContext extends BaseGuiContextHandler implements 
     return CONTEXT_ID;
   }
 
-  /**
-   * Create a list of supported actions on a pipeline. We'll add the creation of every possible
+  /** Create a list of supported actions on a pipeline. We'll add the creation of every possible
    * transform as well as the modification of the pipeline itself.
    *
-   * @return The list of supported actions
-   */
+   * @return The list of supported actions */
   @Override
   public List<GuiAction> getSupportedActions() {
     List<GuiAction> actions = new ArrayList<>();
@@ -78,11 +72,9 @@ public class HopGuiPipelineNoteContext extends BaseGuiContextHandler implements 
     return actions;
   }
 
-  /**
-   * Gets pipelineMeta
+  /** Gets pipelineMeta
    *
-   * @return value of pipelineMeta
-   */
+   * @return value of pipelineMeta */
   public PipelineMeta getPipelineMeta() {
     return pipelineMeta;
   }
@@ -92,11 +84,9 @@ public class HopGuiPipelineNoteContext extends BaseGuiContextHandler implements 
     this.pipelineMeta = pipelineMeta;
   }
 
-  /**
-   * Gets notePadMeta
+  /** Gets notePadMeta
    *
-   * @return value of notePadMeta
-   */
+   * @return value of notePadMeta */
   public NotePadMeta getNotePadMeta() {
     return notePadMeta;
   }
@@ -106,11 +96,9 @@ public class HopGuiPipelineNoteContext extends BaseGuiContextHandler implements 
     this.notePadMeta = notePadMeta;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiPipelineGraph getPipelineGraph() {
     return pipelineGraph;
   }
@@ -120,11 +108,9 @@ public class HopGuiPipelineNoteContext extends BaseGuiContextHandler implements 
     this.pipelineGraph = pipelineGraph;
   }
 
-  /**
-   * Gets click
+  /** Gets click
    *
-   * @return value of click
-   */
+   * @return value of click */
   public Point getClick() {
     return click;
   }

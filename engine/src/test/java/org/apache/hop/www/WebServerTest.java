@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,8 @@ import static org.mockito.Mockito.when;
 
 @Ignore // TODO replace by integration tests
 public class WebServerTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   /** */
   private static final String EMPTY_STRING = "";
@@ -67,7 +68,7 @@ public class WebServerTest {
   private HopServer sServer = mock(HopServer.class);
   private WorkflowMap jbMapMock = mock(WorkflowMap.class);
   private ILogChannel logMock = mock(ILogChannel.class);
-  //  private static final SocketConnector defSocketConnector = new SocketConnector();
+  // private static final SocketConnector defSocketConnector = new SocketConnector();
   private static ServerConnector defServerConnector;
 
   @Before
@@ -96,15 +97,15 @@ public class WebServerTest {
     System.getProperties().remove(Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME);
   }
 
-  //  @Test
-  //  public void testJettyOption_AcceptorsSetUp() throws Exception {
-  //    assertEquals( getSocketConnectors( webServer ).size(), EXPECTED_CONNECTORS_SIZE );
-  //    for ( ServerConnector sc : getSocketConnectors( webServer ) ) {
-  //      assertEquals( EXPECTED_ACCEPTORS, sc.getAcceptors() );
+  // @Test
+  // public void testJettyOption_AcceptorsSetUp() throws Exception {
+  // assertEquals( getSocketConnectors( webServer ).size(), EXPECTED_CONNECTORS_SIZE );
+  // for ( ServerConnector sc : getSocketConnectors( webServer ) ) {
+  // assertEquals( EXPECTED_ACCEPTORS, sc.getAcceptors() );
   //
-  //    }
+  // }
   //
-  //  }
+  // }
 
   @Test
   public void testJettyOption_AcceptQueueSizeSetUp() throws Exception {
@@ -123,12 +124,10 @@ public class WebServerTest {
   }
 
   @Test
-  public void testNoExceptionAndUsingDefaultServerValue_WhenJettyOptionSetAsInvalidValue()
-      throws Exception {
+  public void testNoExceptionAndUsingDefaultServerValue_WhenJettyOptionSetAsInvalidValue() throws Exception {
     System.setProperty(Const.HOP_SERVER_JETTY_ACCEPTORS, "TEST");
     try {
-      webServerNg =
-          new WebServer(logMock, trMapMock, jbMapMock, HOST_NAME, PORT + 1, SHOULD_JOIN, null);
+      webServerNg = new WebServer(logMock, trMapMock, jbMapMock, HOST_NAME, PORT + 1, SHOULD_JOIN, null);
     } catch (NumberFormatException nmbfExc) {
       fail("Should not have thrown any NumberFormatException but it does: " + nmbfExc);
     }
@@ -141,12 +140,10 @@ public class WebServerTest {
   }
 
   @Test
-  public void testNoExceptionAndUsingDefaultServerValue_WhenJettyOptionSetAsEmpty()
-      throws Exception {
+  public void testNoExceptionAndUsingDefaultServerValue_WhenJettyOptionSetAsEmpty() throws Exception {
     System.setProperty(Const.HOP_SERVER_JETTY_ACCEPTORS, EMPTY_STRING);
     try {
-      webServerNg =
-          new WebServer(logMock, trMapMock, jbMapMock, HOST_NAME, PORT + 1, SHOULD_JOIN, null);
+      webServerNg = new WebServer(logMock, trMapMock, jbMapMock, HOST_NAME, PORT + 1, SHOULD_JOIN, null);
     } catch (NumberFormatException nmbfExc) {
       fail("Should not have thrown any NumberFormatException but it does: " + nmbfExc);
     }

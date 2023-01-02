@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,21 +29,16 @@ public interface IRowDistribution {
   /** @return The row distribution description (plugin description) */
   String getDescription();
 
-  /**
-   * Do the actual row distribution in the transform
+  /** Do the actual row distribution in the transform
    *
    * @param rowMeta the meta-data of the row to distribute
    * @param row the data of the row data to distribute
    * @param iTransform The transform to distribute the rows in
-   * @throws HopTransformException
-   */
-  void distributeRow(IRowMeta rowMeta, Object[] row, ITransform iTransform)
-      throws HopTransformException;
+   * @throws HopTransformException */
+  void distributeRow(IRowMeta rowMeta, Object[] row, ITransform iTransform) throws HopTransformException;
 
-  /**
-   * Which mini-icon needs to be shown on the hop?
+  /** Which mini-icon needs to be shown on the hop?
    *
-   * @return the available svg file or null if the standard icon needs to be used.
-   */
+   * @return the available svg file or null if the standard icon needs to be used. */
   SvgFile getDistributionImage();
 }

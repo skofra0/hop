@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,11 +50,9 @@ public class PropBeanParent {
     strings = new ArrayList<>();
   }
 
-  /**
-   * Gets stringField
+  /** Gets stringField
    *
-   * @return value of stringField
-   */
+   * @return value of stringField */
   public String getStringField() {
     return stringField;
   }
@@ -64,11 +62,9 @@ public class PropBeanParent {
     this.stringField = stringField;
   }
 
-  /**
-   * Gets intField
+  /** Gets intField
    *
-   * @return value of intField
-   */
+   * @return value of intField */
   public int getIntField() {
     return intField;
   }
@@ -78,11 +74,9 @@ public class PropBeanParent {
     this.intField = intField;
   }
 
-  /**
-   * Gets longField
+  /** Gets longField
    *
-   * @return value of longField
-   */
+   * @return value of longField */
   public long getLongField() {
     return longField;
   }
@@ -92,11 +86,9 @@ public class PropBeanParent {
     this.longField = longField;
   }
 
-  /**
-   * Gets booleanField
+  /** Gets booleanField
    *
-   * @return value of booleanField
-   */
+   * @return value of booleanField */
   public boolean isBooleanField() {
     return booleanField;
   }
@@ -106,11 +98,9 @@ public class PropBeanParent {
     this.booleanField = booleanField;
   }
 
-  /**
-   * Gets child
+  /** Gets child
    *
-   * @return value of child
-   */
+   * @return value of child */
   public PropBeanChild getChild() {
     return child;
   }
@@ -120,11 +110,9 @@ public class PropBeanParent {
     this.child = child;
   }
 
-  /**
-   * Gets children
+  /** Gets children
    *
-   * @return value of children
-   */
+   * @return value of children */
   public List<PropBeanListChild> getChildren() {
     return children;
   }
@@ -134,11 +122,9 @@ public class PropBeanParent {
     this.children = children;
   }
 
-  /**
-   * Gets strings
+  /** Gets strings
    *
-   * @return value of strings
-   */
+   * @return value of strings */
   public List<String> getStrings() {
     return strings;
   }

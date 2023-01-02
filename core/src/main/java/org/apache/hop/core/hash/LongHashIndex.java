@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,11 +28,9 @@ public class LongHashIndex {
   private int size;
   private int resizeThresHold;
 
-  /**
-   * Create a new long/long hash index
+  /** Create a new long/long hash index
    *
-   * @param size the initial size of the hash index
-   */
+   * @param size the initial size of the hash index */
   public LongHashIndex(int size) {
 
     // Find a suitable capacity being a factor of 2:
@@ -172,12 +170,10 @@ public class LongHashIndex {
     private long value;
     private LongHashIndexEntry nextEntry;
 
-    /**
-     * @param hashCode
+    /** @param hashCode
      * @param key
      * @param value
-     * @param nextEntry
-     */
+     * @param nextEntry */
     public LongHashIndexEntry(int hashCode, Long key, Long value, LongHashIndexEntry nextEntry) {
       this.hashCode = hashCode;
       this.key = key;

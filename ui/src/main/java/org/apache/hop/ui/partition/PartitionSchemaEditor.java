@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,11 +37,9 @@ import org.eclipse.swt.widgets.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Dialog that allows you to edit the settings of the partition schema
+/** Dialog that allows you to edit the settings of the partition schema
  *
- * @see PartitionSchema
- */
+ * @see PartitionSchema */
 public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
   private static final Class<?> PKG = PartitionSchemaEditor.class; // For Translator
 
@@ -56,8 +54,7 @@ public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
   private Label wlPartitions;
   private TableView wPartitions;
 
-  public PartitionSchemaEditor(
-      HopGui hopGui, MetadataManager<PartitionSchema> manager, PartitionSchema metadata) {
+  public PartitionSchemaEditor(HopGui hopGui, MetadataManager<PartitionSchema> manager, PartitionSchema metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -135,12 +132,7 @@ public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
     fdlNumber.right = new FormAttachment(100, 0);
     wlNumber.setLayoutData(fdlNumber);
 
-    wNumber =
-        new TextVar(
-            this.getHopGui().getVariables(),
-            parent,
-            SWT.LEFT | SWT.BORDER | SWT.SINGLE,
-            BaseMessages.getString(PKG, "PartitionSchemaDialog.Number.Tooltip"));
+    wNumber = new TextVar(this.getHopGui().getVariables(), parent, SWT.LEFT | SWT.BORDER | SWT.SINGLE, BaseMessages.getString(PKG, "PartitionSchemaDialog.Number.Tooltip"));
     props.setLook(wNumber);
     FormData fdNumber = new FormData();
     fdNumber.top = new FormAttachment(wlNumber, margin);
@@ -158,23 +150,8 @@ public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
     fdlPartitions.top = new FormAttachment(wNumber, margin);
     wlPartitions.setLayoutData(fdlPartitions);
 
-    ColumnInfo[] partitionColumns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PartitionSchemaDialog.PartitionID.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
-    wPartitions =
-        new TableView(
-            manager.getVariables(),
-            parent,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            partitionColumns,
-            1,
-            null,
-            props);
+    ColumnInfo[] partitionColumns = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "PartitionSchemaDialog.PartitionID.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    wPartitions = new TableView(manager.getVariables(), parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, partitionColumns, 1, null, props);
     props.setLook(wPartitions);
     FormData fdPartitions = new FormData();
     fdPartitions.left = new FormAttachment(0, 0);

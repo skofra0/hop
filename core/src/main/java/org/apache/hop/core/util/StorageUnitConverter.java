@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,34 +28,29 @@ import java.util.regex.Pattern;
 
 public class StorageUnitConverter {
 
-  /**
-   * Converts byte count to the human readable representation. The size is rounded to nearest
+  /** Converts byte count to the human readable representation. The size is rounded to nearest
    * X-byte.
-   *
-   * <p>For example: 13.1MB in byte count will return 13MB and 13.9MB in byte count wil return 13MB.
-   *
-   * <p>Supported types: EB, PB, TB, GB, MB, KB or B (for bytes).
+   * <p>
+   * For example: 13.1MB in byte count will return 13MB and 13.9MB in byte count wil return 13MB.
+   * <p>
+   * Supported types: EB, PB, TB, GB, MB, KB or B (for bytes).
    *
    * @param byteCount
-   * @return human reabable display size
-   */
+   * @return human reabable display size */
   public String byteCountToDisplaySize(long byteCount) {
     String spacedDisplaySize = FileUtils.byteCountToDisplaySize(byteCount);
     return spacedDisplaySize.replace("bytes", "B").replace(" ", "");
   }
 
-  /**
-   * Convert human human readable file size format to byte equivalent.
-   *
-   * <p>Accepted units:
-   *
+  /** Convert human human readable file size format to byte equivalent.
+   * <p>
+   * Accepted units:
    * <ul>
-   *   <li>B - Bytes
-   *   <li>KB - Kilobytes
-   *   <li>MB - Megabytes
-   *   <li>GB - Gigabytes
+   * <li>B - Bytes
+   * <li>KB - Kilobytes
+   * <li>MB - Megabytes
+   * <li>GB - Gigabytes
    * </ul>
-   *
    * Example display sizes: <br>
    * "5MB" <br>
    * "123B" <br>
@@ -63,8 +58,7 @@ public class StorageUnitConverter {
    * "1,5GB"
    *
    * @param displaySize human readable size format
-   * @return total number of bytes
-   */
+   * @return total number of bytes */
   public long displaySizeToByteCount(String displaySize) {
     long returnValue = -1;
     // replace "," for int'l decimal convention

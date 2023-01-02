@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,10 +26,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import java.util.Hashtable;
 import java.util.Map;
 
-/**
- * This singleton class remembers whether or not a TreeItem is expanded. When the tree is refreshed,
- * it remembers, making for a better user experience.
- */
+/** This singleton class remembers whether or not a TreeItem is expanded. When the tree is refreshed,
+ * it remembers, making for a better user experience. */
 public class TreeMemory {
   private static TreeMemory treeMemory;
 
@@ -125,42 +123,37 @@ public class TreeMemory {
     map.clear();
   }
 
-  /**
-   * This method creates, adds and returns a tree listener that will keep track of the
+  /** This method creates, adds and returns a tree listener that will keep track of the
    * expanded/collapsed state of the TreeItems. This state will then be stored in the TreeMemory
    * singleton.
    *
    * @param tree The tree to add the listener to
-   * @return The created/added TreeListener
-   */
+   * @return The created/added TreeListener */
   public static final TreeListener addTreeListener(final Tree tree, final String treeName) {
-    TreeListener treeListener =
-        new TreeListener() {
-          @Override
-          public void treeExpanded(TreeEvent e) {
-            TreeItem treeItem = (TreeItem) e.item;
-            String[] path = ConstUi.getTreeStrings(treeItem);
-            TreeMemory treeMemory = TreeMemory.getInstance();
-            treeMemory.storeExpanded(treeName, path, true);
-          }
+    TreeListener treeListener = new TreeListener() {
+      @Override
+      public void treeExpanded(TreeEvent e) {
+        TreeItem treeItem = (TreeItem) e.item;
+        String[] path = ConstUi.getTreeStrings(treeItem);
+        TreeMemory treeMemory = TreeMemory.getInstance();
+        treeMemory.storeExpanded(treeName, path, true);
+      }
 
-          @Override
-          public void treeCollapsed(TreeEvent e) {
-            TreeItem treeItem = (TreeItem) e.item;
-            String[] path = ConstUi.getTreeStrings(treeItem);
-            TreeMemory treeMemory = TreeMemory.getInstance();
-            treeMemory.storeExpanded(treeName, path, false);
-          }
-        };
+      @Override
+      public void treeCollapsed(TreeEvent e) {
+        TreeItem treeItem = (TreeItem) e.item;
+        String[] path = ConstUi.getTreeStrings(treeItem);
+        TreeMemory treeMemory = TreeMemory.getInstance();
+        treeMemory.storeExpanded(treeName, path, false);
+      }
+    };
     tree.addTreeListener(treeListener);
     return treeListener;
   }
 
-  /**
-   * Expand of collapse all TreeItems in the complete tree based on the values stored in memory.
+  /** Expand of collapse all TreeItems in the complete tree based on the values stored in memory.
    *
-   * @param tree The tree to format.
-   */
+   * @param tree The tree to format. */
   public static void setExpandedFromMemory(Tree tree, String treeName) {
     TreeItem[] items = tree.getItems();
     for (int i = 0; i < items.length; i++) {

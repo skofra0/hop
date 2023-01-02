@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,50 +19,40 @@ package org.apache.hop.workflow.action;
 
 import org.apache.hop.metadata.api.IHopMetadataProvider;
 
-/**
- * IActionDialog is the Java interface that implements the settings dialog of a action plugin. The
+/** IActionDialog is the Java interface that implements the settings dialog of a action plugin. The
  * responsibilities of the implementing class are listed below.<br>
  * <br>
- *
  * <ul>
- *   <li><a href="#open()">public IAction open()</a>
+ * <li><a href="#open()">public IAction open()</a>
  * </ul>
- *
  * <br>
  * This method should return only after the dialog has been confirmed or cancelled. The method must
  * conform to the following rules:<br>
  * <br>
  * If the dialog is confirmed:<br>
- *
  * <ul>
- *   <li>The IAction object must be updated to reflect the new settings
- *   <li>If the user changed any settings, the IAction object's "changed" flag must be set to true
- *   <li>open() must return the IAction object
+ * <li>The IAction object must be updated to reflect the new settings
+ * <li>If the user changed any settings, the IAction object's "changed" flag must be set to true
+ * <li>open() must return the IAction object
  * </ul>
- *
  * <br>
  * If the dialog is cancelled:<br>
- *
  * <ul>
- *   <li>The IAction object must not be changed
- *   <li>The IAction object's "changed" flag must be set to the value it had at the time the dialog
- *       opened
- *   <li>open() must return null
+ * <li>The IAction object must not be changed
+ * <li>The IAction object's "changed" flag must be set to the value it had at the time the dialog
+ * opened
+ * <li>open() must return null
  * </ul>
  */
 public interface IActionDialog {
 
-  /**
-   * Opens a ActionDialog and waits for the dialog to be confirmed or cancelled.
+  /** Opens a ActionDialog and waits for the dialog to be confirmed or cancelled.
    *
-   * @return the action interface if the dialog is confirmed, null otherwise
-   */
+   * @return the action interface if the dialog is confirmed, null otherwise */
   IAction open();
 
-  /**
-   * The Metadata provider to pass
+  /** The Metadata provider to pass
    *
-   * @param metadataProvider
-   */
+   * @param metadataProvider */
   void setMetadataProvider(IHopMetadataProvider metadataProvider);
 }

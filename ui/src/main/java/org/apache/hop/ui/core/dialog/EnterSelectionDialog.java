@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,14 +86,12 @@ public class EnterSelectionDialog extends Dialog {
   private boolean addNoneOption;
   private boolean noneClicked;
 
-  /**
-   * Create a new dialog allow someone to pick one value out of a list of values
+  /** Create a new dialog allow someone to pick one value out of a list of values
    *
    * @param parent the parent shell.
    * @param choices The available list of options
    * @param shellText The shell text
-   * @param message the message to display as extra information about the possible choices
-   */
+   * @param message the message to display as extra information about the possible choices */
   public EnterSelectionDialog(Shell parent, String[] choices, String shellText, String message) {
     super(parent, SWT.NONE);
 
@@ -111,13 +109,7 @@ public class EnterSelectionDialog extends Dialog {
     quickSearch = true;
   }
 
-  public EnterSelectionDialog(
-      Shell parent,
-      String[] choices,
-      String shellText,
-      String message,
-      String constant,
-      IVariables variables) {
+  public EnterSelectionDialog(Shell parent, String[] choices, String shellText, String message, String constant, IVariables variables) {
     this(parent, choices, shellText, message);
     this.constant = constant;
     this.variables = variables;
@@ -147,14 +139,7 @@ public class EnterSelectionDialog extends Dialog {
   public String open() {
     Shell parent = getParent();
 
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM
-                | (modal ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE)
-                | SWT.RESIZE
-                | SWT.MIN
-                | SWT.MAX);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | (modal ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE) | SWT.RESIZE | SWT.MIN | SWT.MAX);
     props.setLook(shell);
 
     FormLayout formLayout = new FormLayout();
@@ -174,8 +159,7 @@ public class EnterSelectionDialog extends Dialog {
       ToolItem wfilter = new ToolItem(treeTb, SWT.SEPARATOR);
       searchText = new Text(treeTb, SWT.SEARCH | SWT.CANCEL);
       props.setLook(searchText);
-      searchText.setToolTipText(
-          BaseMessages.getString(PKG, "EnterSelectionDialog.FilterString.ToolTip"));
+      searchText.setToolTipText(BaseMessages.getString(PKG, "EnterSelectionDialog.FilterString.ToolTip"));
       wfilter.setControl(searchText);
       wfilter.setWidth(120);
 
@@ -187,13 +171,12 @@ public class EnterSelectionDialog extends Dialog {
       goSearch.setImage(GuiResource.getInstance().getImageRefresh());
       goSearch.setToolTipText(BaseMessages.getString(PKG, "EnterSelectionDialog.refresh.Label"));
 
-      goSearch.addSelectionListener(
-          new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-              updateFilter();
-            }
-          });
+      goSearch.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          updateFilter();
+        }
+      });
 
       FormData fd = new FormData();
       fd.right = new FormAttachment(100);
@@ -208,13 +191,12 @@ public class EnterSelectionDialog extends Dialog {
       fdlFilter.right = new FormAttachment(treeTb, -5);
       wlFilter.setLayoutData(fdlFilter);
 
-      searchText.addSelectionListener(
-          new SelectionAdapter() {
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-              updateFilter();
-            }
-          });
+      searchText.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetDefaultSelected(SelectionEvent e) {
+          updateFilter();
+        }
+      });
 
       // From transform line
       wlSelection = new Label(shell, SWT.NONE);
@@ -268,12 +250,10 @@ public class EnterSelectionDialog extends Dialog {
     if (addNoneOption) {
       Button wNone = new Button(shell, SWT.PUSH);
       wNone.setText(BaseMessages.getString(PKG, "EnterSelectionDialog.Button.None.Label"));
-      wNone.addListener(
-          SWT.Selection,
-          e -> {
-            noneClicked = true;
-            cancel();
-          });
+      wNone.addListener(SWT.Selection, e -> {
+        noneClicked = true;
+        cancel();
+      });
       buttons.add(wNone);
     }
 
@@ -309,14 +289,13 @@ public class EnterSelectionDialog extends Dialog {
       fdUseConstant.left = new FormAttachment(0, 0);
       fdUseConstant.bottom = new FormAttachment(wConstantValue, -5);
       wbUseConstant.setLayoutData(fdUseConstant);
-      wbUseConstant.addSelectionListener(
-          new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent selectionEvent) {
-              super.widgetSelected(selectionEvent);
-              setActive();
-            }
-          });
+      wbUseConstant.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent selectionEvent) {
+          super.widgetSelected(selectionEvent);
+          setActive();
+        }
+      });
 
       setActive();
     }
@@ -329,15 +308,14 @@ public class EnterSelectionDialog extends Dialog {
     wSelection.setLayoutData(fdSelection);
 
     // Add listeners
-    wSelection.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            if (e.character == SWT.CR) {
-              ok();
-            }
-          }
-        });
+    wSelection.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.character == SWT.CR) {
+          ok();
+        }
+      }
+    });
 
     getData();
 
@@ -356,13 +334,7 @@ public class EnterSelectionDialog extends Dialog {
   public String openRepoDialog() {
     Shell parent = getParent();
 
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM
-                | (modal ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE)
-                | SWT.MIN
-                | SWT.MAX);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | (modal ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE) | SWT.MIN | SWT.MAX);
     props.setLook(shell);
 
     FormLayout formLayout = new FormLayout();
@@ -395,9 +367,7 @@ public class EnterSelectionDialog extends Dialog {
     fdSeparator.left = new FormAttachment(0, 10);
     separator.setLayoutData(fdSeparator);
 
-    Button btnHelp =
-        HelpUtils.createHelpButton(
-            shell, Const.getDocUrl(BaseMessages.getString(PKG, "EnterSelectionDialog.Help")));
+    Button btnHelp = HelpUtils.createHelpButton(shell, Const.getDocUrl(BaseMessages.getString(PKG, "EnterSelectionDialog.Help")));
     FormData fdBtnHelp = new FormData();
     fdBtnHelp.top = new FormAttachment(separator, 12);
     fdBtnHelp.left = new FormAttachment(0, 10);
@@ -412,15 +382,14 @@ public class EnterSelectionDialog extends Dialog {
     fdSelection.bottom = new FormAttachment(separator, -12);
     wSelection.setLayoutData(fdSelection);
 
-    wSelection.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            if (e.character == SWT.CR) {
-              ok();
-            }
-          }
-        });
+    wSelection.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.character == SWT.CR) {
+          ok();
+        }
+      }
+    });
 
     getData();
 
@@ -582,11 +551,9 @@ public class EnterSelectionDialog extends Dialog {
     wSelection.redraw();
   }
 
-  /**
-   * Gets addNoneOption
+  /** Gets addNoneOption
    *
-   * @return value of addNoneOption
-   */
+   * @return value of addNoneOption */
   public boolean isAddNoneOption() {
     return addNoneOption;
   }
@@ -596,11 +563,9 @@ public class EnterSelectionDialog extends Dialog {
     this.addNoneOption = addNoneOption;
   }
 
-  /**
-   * Gets noneClicked
+  /** Gets noneClicked
    *
-   * @return value of noneClicked
-   */
+   * @return value of noneClicked */
   public boolean isNoneClicked() {
     return noneClicked;
   }

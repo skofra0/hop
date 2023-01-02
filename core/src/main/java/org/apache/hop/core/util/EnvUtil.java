@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,45 +24,37 @@ public class EnvUtil {
 
   private EnvUtil() {}
 
-  /**
-   * This method is written especially for weird JVM's like
+  /** This method is written especially for weird JVM's like
    *
    * @param key The key, the name of the environment variable to return
    * @param def The default value to return in case the key can't be found
    * @return The value of a System environment variable in the java virtual machine. If the key is
-   *     not present, the variable is not defined and the default value is returned.
-   */
+   *         not present, the variable is not defined and the default value is returned. */
   public static final String getSystemProperty(String key, String def) {
     return System.getProperty(key, def);
   }
 
-  /**
-   * @param key The key, the name of the environment variable to return
+  /** @param key The key, the name of the environment variable to return
    * @return The value of a System environment variable in the java virtual machine. If the key is
-   *     not present, the variable is not defined and null returned.
-   */
+   *         not present, the variable is not defined and null returned. */
   public static final String getSystemProperty(String key) {
     return getSystemProperty(key, null);
   }
 
-  /**
-   * @param key The key, the name of the environment variable to clear
+  /** @param key The key, the name of the environment variable to clear
    * @return The value of a System environment variable in the java virtual machine. If the key is
-   *     not present, the variable is not defined and null returned.
-   */
+   *         not present, the variable is not defined and null returned. */
   public static final String clearSystemProperty(String key) {
     return System.clearProperty(key);
   }
 
-  /**
-   * Returns an available java.util.Locale object for the given localeCode.
-   *
-   * <p>The localeCode code can be case insensitive, if it is available the method will find it and
+  /** Returns an available java.util.Locale object for the given localeCode.
+   * <p>
+   * The localeCode code can be case insensitive, if it is available the method will find it and
    * return it.
    *
    * @param localeCode
-   * @return java.util.Locale.
-   */
+   * @return java.util.Locale. */
   public static Locale createLocale(String localeCode) {
     if (Utils.isEmpty(localeCode)) {
       return null;

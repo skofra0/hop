@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,24 +48,18 @@ public interface ICheckResult {
   /** @return The component-specific result code. */
   String getErrorCode();
 
-  /**
-   * Sets the component-specific result/error code.
+  /** Sets the component-specific result/error code.
    *
-   * @param errorCode Unchecked string that can be used for validation
-   */
+   * @param errorCode Unchecked string that can be used for validation */
   void setErrorCode(String errorCode);
 
-  /**
-   * Sets the check-result type
+  /** Sets the check-result type
    *
-   * @param value The type from 0-4
-   */
+   * @param value The type from 0-4 */
   void setType(int value);
 
-  /**
-   * Sets the text for the check-result
+  /** Sets the text for the check-result
    *
-   * @param value
-   */
+   * @param value */
   void setText(String value);
 }

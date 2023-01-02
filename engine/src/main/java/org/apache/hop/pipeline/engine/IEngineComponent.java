@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,10 +23,8 @@ import org.apache.hop.pipeline.transform.IRowListener;
 
 import java.util.Date;
 
-/**
- * An identifiable component of an execution engine {@link IPipelineEngine} In a pipeline engine
- * this would be a transform
- */
+/** An identifiable component of an execution engine {@link IPipelineEngine} In a pipeline engine
+ * this would be a transform */
 public interface IEngineComponent {
 
   /** @return The component name */
@@ -44,11 +42,9 @@ public interface IEngineComponent {
   /** @return The log channel ID or null if there is no separate log channel. */
   String getLogChannelId();
 
-  /**
-   * Retrieve the logging text of this component in the engine
+  /** Retrieve the logging text of this component in the engine
    *
-   * @return logging text
-   */
+   * @return logging text */
   String getLogText();
 
   /** @return true if this component is running/active */
@@ -86,68 +82,54 @@ public interface IEngineComponent {
 
   long getOutputBufferSize();
 
-  /**
-   * Add a rowlistener to the transform allowing you to inspect (or manipulate, be careful) the rows
+  /** Add a rowlistener to the transform allowing you to inspect (or manipulate, be careful) the rows
    * coming in or exiting the transform.
    *
-   * @param rowListener the rowlistener to add
-   */
+   * @param rowListener the rowlistener to add */
   void addRowListener(IRowListener rowListener);
 
   void removeRowListener(IRowListener rowListener);
 
-  /**
-   * Get the execution status of the component
+  /** Get the execution status of the component
    *
-   * @return
-   */
+   * @return */
   EngineComponent.ComponentExecutionStatus getStatus();
 
-  /**
-   * Gets initStartDate
+  /** Gets initStartDate
    *
-   * @return value of initStartDate
-   */
+   * @return value of initStartDate */
   Date getInitStartDate();
 
   /** @param initStartDate The initStartDate to set */
   void setInitStartDate(Date initStartDate);
 
-  /**
-   * Gets executionStartDate
+  /** Gets executionStartDate
    *
-   * @return value of executionStartDate
-   */
+   * @return value of executionStartDate */
   Date getExecutionStartDate();
 
   /** @param executionStartDate The executionStartDate to set */
   void setExecutionStartDate(Date executionStartDate);
 
-  /**
-   * Gets firstRowReadDate
+  /** Gets firstRowReadDate
    *
-   * @return value of firstRowReadDate
-   */
+   * @return value of firstRowReadDate */
   Date getFirstRowReadDate();
 
   /** @param firstRowReadDate The firstRowReadDate to set */
   void setFirstRowReadDate(Date firstRowReadDate);
 
-  /**
-   * Gets lastRowWrittenDate
+  /** Gets lastRowWrittenDate
    *
-   * @return value of lastRowWrittenDate
-   */
+   * @return value of lastRowWrittenDate */
   Date getLastRowWrittenDate();
 
   /** @param lastRowWrittenDate The lastRowWrittenDate to set */
   void setLastRowWrittenDate(Date lastRowWrittenDate);
 
-  /**
-   * Gets executionEndDate
+  /** Gets executionEndDate
    *
-   * @return value of executionEndDate
-   */
+   * @return value of executionEndDate */
   Date getExecutionEndDate();
 
   /** @param executionEndDate The executionEndDate to set */

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,24 +21,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class MapLoadSaveValidator<KeyObjectType, ValueObjectType>
-    implements IFieldLoadSaveValidator<Map<KeyObjectType, ValueObjectType>> {
+public class MapLoadSaveValidator<KeyObjectType, ValueObjectType> implements IFieldLoadSaveValidator<Map<KeyObjectType, ValueObjectType>> {
   private final IFieldLoadSaveValidator<KeyObjectType> keyValidator;
   private final IFieldLoadSaveValidator<ValueObjectType> valueValidator;
   private final Integer elements;
 
-  public MapLoadSaveValidator(
-      IFieldLoadSaveValidator<KeyObjectType> keyFieldValidator,
-      IFieldLoadSaveValidator<ValueObjectType> valueFieldValidator) {
+  public MapLoadSaveValidator(IFieldLoadSaveValidator<KeyObjectType> keyFieldValidator, IFieldLoadSaveValidator<ValueObjectType> valueFieldValidator) {
     keyValidator = keyFieldValidator;
     valueValidator = valueFieldValidator;
     elements = null;
   }
 
-  public MapLoadSaveValidator(
-      IFieldLoadSaveValidator<KeyObjectType> keyFieldValidator,
-      IFieldLoadSaveValidator<ValueObjectType> valueFieldValidator,
-      Integer elements) {
+  public MapLoadSaveValidator(IFieldLoadSaveValidator<KeyObjectType> keyFieldValidator, IFieldLoadSaveValidator<ValueObjectType> valueFieldValidator, Integer elements) {
     keyValidator = keyFieldValidator;
     valueValidator = valueFieldValidator;
     this.elements = elements;
@@ -66,8 +60,7 @@ public class MapLoadSaveValidator<KeyObjectType, ValueObjectType>
         if (!actualMap.containsKey(originalKey)) {
           return false;
         }
-        if (!this.valueValidator.validateTestObject(
-            original.get(originalKey), actualMap.get(originalKey))) {
+        if (!this.valueValidator.validateTestObject(original.get(originalKey), actualMap.get(originalKey))) {
           return false;
         }
       }

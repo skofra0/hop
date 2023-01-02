@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,8 +34,8 @@ public class BundlesStore {
   private List<String> bundleRootFolders;
 
   /*
-   This map contains the content of message bundles per package, per language and per file
-  */
+   * This map contains the content of message bundles per package, per language and per file
+   */
   private Map<String, Map<String, BundleFile>> packageLanguageBundleMap;
   private final Map<String, List<String>> collisionPackages;
 
@@ -50,22 +50,14 @@ public class BundlesStore {
     this.bundleRootFolders = bundleRootFolders;
   }
 
-  /**
-   * Let's look at all the messages bundle package root folders. We only look at src/main/resources/
+  /** Let's look at all the messages bundle package root folders. We only look at src/main/resources/
    * Avoid impl folders
    *
-   * @param rootFolder
-   */
+   * @param rootFolder */
   public BundlesStore(String rootFolder) throws HopException {
     this();
     try {
-      Files.walk(Paths.get(rootFolder))
-          .filter(
-              path ->
-                  Files.isDirectory(path)
-                      && path.endsWith("src/main/resources")
-                      && !path.toString().contains("/impl/"))
-          .forEach(path -> bundleRootFolders.add(path.toAbsolutePath().toFile().getPath()));
+      Files.walk(Paths.get(rootFolder)).filter(path -> Files.isDirectory(path) && path.endsWith("src/main/resources") && !path.toString().contains("/impl/")).forEach(path -> bundleRootFolders.add(path.toAbsolutePath().toFile().getPath()));
     } catch (IOException e) {
       throw new HopException("Error reading root folder: " + rootFolder, e);
     }
@@ -74,26 +66,13 @@ public class BundlesStore {
   public void findAllMessagesBundles() throws HopException {
     try {
       for (String bundleRootFolder : bundleRootFolders) {
-        Files.walk(Paths.get(bundleRootFolder))
-            .filter(
-                path ->
-                    Files.isRegularFile(path)
-                        && path.getFileName().toString().startsWith("messages_")
-                        && path.getFileName().toString().endsWith(".properties"))
-            .forEach(path -> addMessagesFile(bundleRootFolder, path));
+        Files.walk(Paths.get(bundleRootFolder)).filter(path -> Files.isRegularFile(path) && path.getFileName().toString().startsWith("messages_") && path.getFileName().toString().endsWith(".properties")).forEach(path -> addMessagesFile(bundleRootFolder, path));
       }
       if (!collisionPackages.isEmpty()) {
-        String collisionFiles =
-            collisionPackages.values().stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.joining("\n\t"));
+        String collisionFiles = collisionPackages.values().stream().flatMap(Collection::stream).collect(Collectors.joining("\n\t"));
         collisionPackages.clear();
         throw new HopFileException(
-            "Bundle file collision! "
-                + "We're trying to add all files to the bundle store but some files already exists "
-                + "in the same package. You should rename part of collision files, "
-                + "otherwise the package bundle will be ignored.\nList of collision file:\n\t"
-                + collisionFiles);
+            "Bundle file collision! " + "We're trying to add all files to the bundle store but some files already exists " + "in the same package. You should rename part of collision files, " + "otherwise the package bundle will be ignored.\nList of collision file:\n\t" + collisionFiles);
       }
     } catch (HopFileException e) {
       throw e;
@@ -102,13 +81,10 @@ public class BundlesStore {
     }
   }
 
-  /**
-   * @param bundleRootFolder
-   * @param messagesFilePath
-   */
-  private void addMessagesFile(String bundleRootFolder, Path messagesFilePath)
-      throws RuntimeException {
-    // Root folder :    /home/matt/git/project-hop/hop/ui/src/main/resources
+  /** @param bundleRootFolder
+   * @param messagesFilePath */
+  private void addMessagesFile(String bundleRootFolder, Path messagesFilePath) throws RuntimeException {
+    // Root folder : /home/matt/git/project-hop/hop/ui/src/main/resources
     // Messages folder:
     // /home/matt/git/project-hop/hop/ui/src/main/resources/org/apache/hop/ui/hopgui/messages/
     //
@@ -117,23 +93,12 @@ public class BundlesStore {
     if (messagesFileFolder.startsWith(bundleRootFolder)) {
       // We can determine the package...
       //
-      String packageName =
-          messagesFileFolder
-              .substring(bundleRootFolder.length())
-              .replace(File.separator, "/")
-              .replaceAll("\\/messages$", "")
-              .replaceAll("^\\/", "")
-              .replaceAll("\\/", ".");
+      String packageName = messagesFileFolder.substring(bundleRootFolder.length()).replace(File.separator, "/").replaceAll("\\/messages$", "").replaceAll("^\\/", "").replaceAll("\\/", ".");
 
       // What is the language?
       // Decompose messages_en_US.properties to en_US using some regex
       //
-      String locale =
-          messagesFilePath
-              .getFileName()
-              .toString()
-              .replaceAll("^messages_", "")
-              .replaceAll("\\.properties$", "");
+      String locale = messagesFilePath.getFileName().toString().replaceAll("^messages_", "").replaceAll("\\.properties$", "");
 
       // Now store this bundle in the store...
       //
@@ -212,8 +177,7 @@ public class BundlesStore {
     }
   }
 
-  public void addTranslation(
-      String sourceFolder, String packageName, String locale, String key, String value) {
+  public void addTranslation(String sourceFolder, String packageName, String locale, String key, String value) {
     Map<String, BundleFile> languageBundleFileMap = packageLanguageBundleMap.get(packageName);
     if (languageBundleFileMap == null) {
       languageBundleFileMap = new HashMap<>();
@@ -228,20 +192,13 @@ public class BundlesStore {
       // sourceFolder would be /path/plugins/databases/firebird/src/main/java
       // We need to come up with /path/plugins/databases/firebird/src/main/resources
 
-      String bundleFileName =
-          sourceFolder
-              // Use File.separator to build a path that is system agnostic
-              .replace("java", "resources" + File.separator)
-              // append package folders
-              .concat(packageName.replace(".", File.separator))
-              // append messages folder and localized file
-              .concat(
-                  File.separator
-                      + "messages"
-                      + File.separator
-                      + "messages_"
-                      + locale
-                      + ".properties");
+      String bundleFileName = sourceFolder
+          // Use File.separator to build a path that is system agnostic
+          .replace("java", "resources" + File.separator)
+          // append package folders
+          .concat(packageName.replace(".", File.separator))
+          // append messages folder and localized file
+          .concat(File.separator + "messages" + File.separator + "messages_" + locale + ".properties");
 
       // TODO finish/test calculating filename
       bundleFile = new BundleFile(bundleFileName, packageName, locale, new HashMap<>());
@@ -264,14 +221,12 @@ public class BundlesStore {
     return bundleFiles;
   }
 
-  /**
-   * Get the bundle file for the given package of all bundles for the locale if the package name is
+  /** Get the bundle file for the given package of all bundles for the locale if the package name is
    * null.
    *
    * @param packageName The package name or null if you want all files for a locale
    * @param locale The locale to search for
-   * @return The bundle files
-   */
+   * @return The bundle files */
   public List<BundleFile> getBundleFiles(String packageName, String locale) {
     List<BundleFile> bundleFiles = new ArrayList<>();
 
@@ -298,11 +253,9 @@ public class BundlesStore {
     return null;
   }
 
-  /**
-   * Gets bundleRootFolders
+  /** Gets bundleRootFolders
    *
-   * @return value of bundleRootFolders
-   */
+   * @return value of bundleRootFolders */
   public List<String> getBundleRootFolders() {
     return bundleRootFolders;
   }
@@ -312,18 +265,15 @@ public class BundlesStore {
     this.bundleRootFolders = bundleRootFolders;
   }
 
-  /**
-   * Gets packageLanguageBundleMap
+  /** Gets packageLanguageBundleMap
    *
-   * @return value of packageLanguageBundleMap
-   */
+   * @return value of packageLanguageBundleMap */
   public Map<String, Map<String, BundleFile>> getPackageLanguageBundleMap() {
     return packageLanguageBundleMap;
   }
 
   /** @param packageLanguageBundleMap The packageLanguageBundleMap to set */
-  public void setPackageLanguageBundleMap(
-      Map<String, Map<String, BundleFile>> packageLanguageBundleMap) {
+  public void setPackageLanguageBundleMap(Map<String, Map<String, BundleFile>> packageLanguageBundleMap) {
     this.packageLanguageBundleMap = packageLanguageBundleMap;
   }
 }

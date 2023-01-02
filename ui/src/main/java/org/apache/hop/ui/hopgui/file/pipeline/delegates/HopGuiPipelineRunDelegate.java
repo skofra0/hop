@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,10 +51,8 @@ public class HopGuiPipelineRunDelegate {
   private PipelineExecutionConfiguration pipelinePreviewExecutionConfiguration;
   private PipelineExecutionConfiguration pipelineDebugExecutionConfiguration;
 
-  /**
-   * This contains a map between the name of a pipeline and the PipelineMeta object. If the pipeline
-   * has no name it will be mapped under a number [1], [2] etc.
-   */
+  /** This contains a map between the name of a pipeline and the PipelineMeta object. If the pipeline
+   * has no name it will be mapped under a number [1], [2] etc. */
   private List<PipelineMeta> pipelineMap;
 
   /** Remember the debugging configuration per pipeline */
@@ -77,13 +75,7 @@ public class HopGuiPipelineRunDelegate {
     pipelinePreviewMetaMap = new HashMap<>();
   }
 
-  public PipelineExecutionConfiguration executePipeline(
-      final ILogChannel log,
-      final PipelineMeta pipelineMeta,
-      final boolean preview,
-      final boolean debug,
-      LogLevel logLevel)
-      throws HopException {
+  public PipelineExecutionConfiguration executePipeline(final ILogChannel log, final PipelineMeta pipelineMeta, final boolean preview, final boolean debug, LogLevel logLevel) throws HopException {
 
     if (pipelineMeta == null) {
       return null;
@@ -157,9 +149,7 @@ public class HopGuiPipelineRunDelegate {
     int debugAnswer = PipelineDebugDialog.DEBUG_CONFIG;
 
     if (debug || preview) {
-      PipelineDebugDialog pipelineDebugDialog =
-          new PipelineDebugDialog(
-              hopGui.getShell(), pipelineGraph.getVariables(), pipelineDebugMeta);
+      PipelineDebugDialog pipelineDebugDialog = new PipelineDebugDialog(hopGui.getShell(), pipelineGraph.getVariables(), pipelineDebugMeta);
       debugAnswer = pipelineDebugDialog.open();
       if (debugAnswer == PipelineDebugDialog.DEBUG_CANCEL) {
         // If we cancel the debug dialog, we don't go further with the execution either.
@@ -179,9 +169,7 @@ public class HopGuiPipelineRunDelegate {
     boolean execConfigAnswer = true;
 
     if (debugAnswer == PipelineDebugDialog.DEBUG_CONFIG && pipelineMeta.isShowDialog()) {
-      PipelineExecutionConfigurationDialog dialog =
-          new PipelineExecutionConfigurationDialog(
-              hopGui.getShell(), executionConfiguration, pipelineMeta);
+      PipelineExecutionConfigurationDialog dialog = new PipelineExecutionConfigurationDialog(hopGui.getShell(), executionConfiguration, pipelineMeta);
       execConfigAnswer = dialog.open();
     }
 
@@ -193,16 +181,8 @@ public class HopGuiPipelineRunDelegate {
       // Set the run options
       pipelineMeta.setClearingLog(executionConfiguration.isClearingLog());
 
-      ExtensionPointHandler.callExtensionPoint(
-          log,
-          pipelineGraph.getVariables(),
-          HopExtensionPoint.HopGuiPipelineMetaExecutionStart.id,
-          pipelineMeta);
-      ExtensionPointHandler.callExtensionPoint(
-          log,
-          pipelineGraph.getVariables(),
-          HopExtensionPoint.HopGuiPipelineExecutionConfiguration.id,
-          executionConfiguration);
+      ExtensionPointHandler.callExtensionPoint(log, pipelineGraph.getVariables(), HopExtensionPoint.HopGuiPipelineMetaExecutionStart.id, pipelineMeta);
+      ExtensionPointHandler.callExtensionPoint(log, pipelineGraph.getVariables(), HopExtensionPoint.HopGuiPipelineExecutionConfiguration.id, executionConfiguration);
 
       // Verify if there is at least one transform specified to debug or preview...
       // TODO: Is this a local preview or debugging execution? We might want to get rid of the
@@ -210,12 +190,8 @@ public class HopGuiPipelineRunDelegate {
       if (debug || preview) {
         if (pipelineDebugMeta.getNrOfUsedTransforms() == 0) {
           MessageBox box = new MessageBox(hopGui.getShell(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
-          box.setText(
-              BaseMessages.getString(
-                  PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Title"));
-          box.setMessage(
-              BaseMessages.getString(
-                  PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Message"));
+          box.setText(BaseMessages.getString(PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Title"));
+          box.setMessage(BaseMessages.getString(PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Message"));
           int answer = box.open();
           if (answer != SWT.YES) {
             return null;
@@ -229,11 +205,9 @@ public class HopGuiPipelineRunDelegate {
     return executionConfiguration;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiPipelineGraph getPipelineGraph() {
     return pipelineGraph;
   }
@@ -243,11 +217,9 @@ public class HopGuiPipelineRunDelegate {
     this.pipelineGraph = pipelineGraph;
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }
@@ -257,58 +229,45 @@ public class HopGuiPipelineRunDelegate {
     this.hopGui = hopGui;
   }
 
-  /**
-   * Gets pipelineExecutionConfiguration
+  /** Gets pipelineExecutionConfiguration
    *
-   * @return value of pipelineExecutionConfiguration
-   */
+   * @return value of pipelineExecutionConfiguration */
   public PipelineExecutionConfiguration getPipelineExecutionConfiguration() {
     return pipelineExecutionConfiguration;
   }
 
   /** @param pipelineExecutionConfiguration The pipelineExecutionConfiguration to set */
-  public void setPipelineExecutionConfiguration(
-      PipelineExecutionConfiguration pipelineExecutionConfiguration) {
+  public void setPipelineExecutionConfiguration(PipelineExecutionConfiguration pipelineExecutionConfiguration) {
     this.pipelineExecutionConfiguration = pipelineExecutionConfiguration;
   }
 
-  /**
-   * Gets pipelinePreviewExecutionConfiguration
+  /** Gets pipelinePreviewExecutionConfiguration
    *
-   * @return value of pipelinePreviewExecutionConfiguration
-   */
+   * @return value of pipelinePreviewExecutionConfiguration */
   public PipelineExecutionConfiguration getPipelinePreviewExecutionConfiguration() {
     return pipelinePreviewExecutionConfiguration;
   }
 
-  /**
-   * @param pipelinePreviewExecutionConfiguration The pipelinePreviewExecutionConfiguration to set
-   */
-  public void setPipelinePreviewExecutionConfiguration(
-      PipelineExecutionConfiguration pipelinePreviewExecutionConfiguration) {
+  /** @param pipelinePreviewExecutionConfiguration The pipelinePreviewExecutionConfiguration to set */
+  public void setPipelinePreviewExecutionConfiguration(PipelineExecutionConfiguration pipelinePreviewExecutionConfiguration) {
     this.pipelinePreviewExecutionConfiguration = pipelinePreviewExecutionConfiguration;
   }
 
-  /**
-   * Gets pipelineDebugExecutionConfiguration
+  /** Gets pipelineDebugExecutionConfiguration
    *
-   * @return value of pipelineDebugExecutionConfiguration
-   */
+   * @return value of pipelineDebugExecutionConfiguration */
   public PipelineExecutionConfiguration getPipelineDebugExecutionConfiguration() {
     return pipelineDebugExecutionConfiguration;
   }
 
   /** @param pipelineDebugExecutionConfiguration The pipelineDebugExecutionConfiguration to set */
-  public void setPipelineDebugExecutionConfiguration(
-      PipelineExecutionConfiguration pipelineDebugExecutionConfiguration) {
+  public void setPipelineDebugExecutionConfiguration(PipelineExecutionConfiguration pipelineDebugExecutionConfiguration) {
     this.pipelineDebugExecutionConfiguration = pipelineDebugExecutionConfiguration;
   }
 
-  /**
-   * Gets pipelineMap
+  /** Gets pipelineMap
    *
-   * @return value of pipelineMap
-   */
+   * @return value of pipelineMap */
   public List<PipelineMeta> getPipelineMap() {
     return pipelineMap;
   }
@@ -318,11 +277,9 @@ public class HopGuiPipelineRunDelegate {
     this.pipelineMap = pipelineMap;
   }
 
-  /**
-   * Gets pipelineDebugMetaMap
+  /** Gets pipelineDebugMetaMap
    *
-   * @return value of pipelineDebugMetaMap
-   */
+   * @return value of pipelineDebugMetaMap */
   public Map<PipelineMeta, PipelineDebugMeta> getPipelineDebugMetaMap() {
     return pipelineDebugMetaMap;
   }
@@ -332,18 +289,15 @@ public class HopGuiPipelineRunDelegate {
     this.pipelineDebugMetaMap = pipelineDebugMetaMap;
   }
 
-  /**
-   * Gets pipelinePreviewMetaMap
+  /** Gets pipelinePreviewMetaMap
    *
-   * @return value of pipelinePreviewMetaMap
-   */
+   * @return value of pipelinePreviewMetaMap */
   public Map<PipelineMeta, PipelineDebugMeta> getPipelinePreviewMetaMap() {
     return pipelinePreviewMetaMap;
   }
 
   /** @param pipelinePreviewMetaMap The pipelinePreviewMetaMap to set */
-  public void setPipelinePreviewMetaMap(
-      Map<PipelineMeta, PipelineDebugMeta> pipelinePreviewMetaMap) {
+  public void setPipelinePreviewMetaMap(Map<PipelineMeta, PipelineDebugMeta> pipelinePreviewMetaMap) {
     this.pipelinePreviewMetaMap = pipelinePreviewMetaMap;
   }
 }

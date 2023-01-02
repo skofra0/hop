@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,23 +43,15 @@ public class GuiAction {
     this.keywords = new ArrayList<>();
   }
 
-  /**
-   * It's a direct action using a simple lambda
+  /** It's a direct action using a simple lambda
    *
    * @param id
    * @param type
    * @param name
    * @param tooltip
    * @param image
-   * @param actionLambda
-   */
-  public GuiAction(
-      String id,
-      GuiActionType type,
-      String name,
-      String tooltip,
-      String image,
-      IGuiActionLambda actionLambda) {
+   * @param actionLambda */
+  public GuiAction(String id, GuiActionType type, String name, String tooltip, String image, IGuiActionLambda actionLambda) {
     this();
     this.id = id;
     this.type = type;
@@ -69,8 +61,7 @@ public class GuiAction {
     this.actionLambda = actionLambda;
   }
 
-  /**
-   * We don't know the action to execute, just the method so we defer looking up the action until we
+  /** We don't know the action to execute, just the method so we defer looking up the action until we
    * have the parent object in hand. We're just storing the method name in this case. You can use
    * method createLambda() to build it when you have the parent object and parameter to pass.
    *
@@ -79,16 +70,8 @@ public class GuiAction {
    * @param name
    * @param tooltip
    * @param image
-   * @param guiPluginMethodName
-   */
-  public GuiAction(
-      String id,
-      GuiActionType type,
-      String name,
-      String tooltip,
-      String image,
-      String guiPluginClassName,
-      String guiPluginMethodName) {
+   * @param guiPluginMethodName */
+  public GuiAction(String id, GuiActionType type, String name, String tooltip, String image, String guiPluginClassName, String guiPluginMethodName) {
     this();
     this.id = id;
     this.type = type;
@@ -167,26 +150,12 @@ public class GuiAction {
 
   @Override
   public String toString() {
-    return "GuiAction{"
-        + "id='"
-        + id
-        + '\''
-        + ", type="
-        + type
-        + ", name='"
-        + name
-        + '\''
-        + ", tooltip='"
-        + tooltip
-        + '\''
-        + '}';
+    return "GuiAction{" + "id='" + id + '\'' + ", type=" + type + ", name='" + name + '\'' + ", tooltip='" + tooltip + '\'' + '}';
   }
 
-  /**
-   * For any name longer than 30 characters we return the first 28 characters + "...";
+  /** For any name longer than 30 characters we return the first 28 characters + "...";
    *
-   * @return the short name
-   */
+   * @return the short name */
   public String getShortName() {
     if (name == null) {
       return null;
@@ -215,11 +184,9 @@ public class GuiAction {
     return Objects.hash(id);
   }
 
-  /**
-   * Gets id
+  /** Gets id
    *
-   * @return value of id
-   */
+   * @return value of id */
   public String getId() {
     return id;
   }
@@ -229,11 +196,9 @@ public class GuiAction {
     this.id = id;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public GuiActionType getType() {
     return type;
   }
@@ -243,11 +208,9 @@ public class GuiAction {
     this.type = type;
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   public String getName() {
     return name;
   }
@@ -257,11 +220,9 @@ public class GuiAction {
     this.name = name;
   }
 
-  /**
-   * Gets tooltip
+  /** Gets tooltip
    *
-   * @return value of tooltip
-   */
+   * @return value of tooltip */
   public String getTooltip() {
     return tooltip;
   }
@@ -271,11 +232,9 @@ public class GuiAction {
     this.tooltip = tooltip;
   }
 
-  /**
-   * Gets image
+  /** Gets image
    *
-   * @return value of image
-   */
+   * @return value of image */
   public String getImage() {
     return image;
   }
@@ -285,11 +244,9 @@ public class GuiAction {
     this.image = image;
   }
 
-  /**
-   * Gets actionLambda
+  /** Gets actionLambda
    *
-   * @return value of actionLambda
-   */
+   * @return value of actionLambda */
   public IGuiActionLambda getActionLambda() {
     return actionLambda;
   }
@@ -299,11 +256,9 @@ public class GuiAction {
     this.actionLambda = actionLambda;
   }
 
-  /**
-   * Gets guiPluginClassName
+  /** Gets guiPluginClassName
    *
-   * @return value of guiPluginClassName
-   */
+   * @return value of guiPluginClassName */
   public String getGuiPluginClassName() {
     return guiPluginClassName;
   }
@@ -313,11 +268,9 @@ public class GuiAction {
     this.guiPluginClassName = guiPluginClassName;
   }
 
-  /**
-   * Gets methodName
+  /** Gets methodName
    *
-   * @return value of methodName
-   */
+   * @return value of methodName */
   public String getGuiPluginMethodName() {
     return guiPluginMethodName;
   }
@@ -327,11 +280,9 @@ public class GuiAction {
     this.guiPluginMethodName = guiPluginMethodName;
   }
 
-  /**
-   * Gets classLoader
+  /** Gets classLoader
    *
-   * @return value of classLoader
-   */
+   * @return value of classLoader */
   public ClassLoader getClassLoader() {
     return classLoader;
   }
@@ -341,11 +292,9 @@ public class GuiAction {
     this.classLoader = classLoader;
   }
 
-  /**
-   * Gets keywords
+  /** Gets keywords
    *
-   * @return value of keywords
-   */
+   * @return value of keywords */
   public List<String> getKeywords() {
     return keywords;
   }
@@ -355,11 +304,9 @@ public class GuiAction {
     this.keywords = keywords;
   }
 
-  /**
-   * Gets category
+  /** Gets category
    *
-   * @return value of category
-   */
+   * @return value of category */
   public String getCategory() {
     return category;
   }
@@ -369,11 +316,9 @@ public class GuiAction {
     this.category = category;
   }
 
-  /**
-   * Gets categoryOrder
+  /** Gets categoryOrder
    *
-   * @return value of categoryOrder
-   */
+   * @return value of categoryOrder */
   public String getCategoryOrder() {
     return categoryOrder;
   }

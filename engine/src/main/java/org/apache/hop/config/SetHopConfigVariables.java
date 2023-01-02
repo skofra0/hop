@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,20 +30,14 @@ import picocli.CommandLine;
 @ConfigPlugin(id = "SetHopConfigVariables", description = "Set system properties")
 public class SetHopConfigVariables implements IConfigOptions {
 
-  @CommandLine.Option(
-      names = {"-sv", "--set-variable"},
-      description = "Set a variable, use format VAR=Value")
+  @CommandLine.Option(names = {"-sv", "--set-variable"}, description = "Set a variable, use format VAR=Value")
   private String setVariable = null;
 
-  @CommandLine.Option(
-      names = {"-dv", "--describe-variable"},
-      description = "Describe a variable, use format VARIABLE=Description")
+  @CommandLine.Option(names = {"-dv", "--describe-variable"}, description = "Describe a variable, use format VARIABLE=Description")
   private String describeVariable = null;
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     // Is this an option we want to handle?
     //
     boolean changed = false;
@@ -79,8 +73,7 @@ public class SetHopConfigVariables implements IConfigOptions {
         }
         HopConfig.getInstance().setDescribedVariable(describedVariable);
       } else {
-        throw new HopException(
-            "Please set a variable description in the format 'VARIABLE_NAME=DESCRIPTION'");
+        throw new HopException("Please set a variable description in the format 'VARIABLE_NAME=DESCRIPTION'");
       }
     }
     return false;

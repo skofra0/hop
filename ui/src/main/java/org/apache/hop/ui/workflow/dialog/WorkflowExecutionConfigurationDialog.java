@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,16 +52,13 @@ import java.util.Map;
 public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
   private static final Class<?> PKG = WorkflowExecutionConfigurationDialog.class; // For Translator
 
-  public static final String AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS =
-      "last-workflow-run-configurations";
-  public static final String MAP_TYPE_WORKFLOW_RUN_CONFIG_USAGE =
-      "workflow-run-configuration-usage";
+  public static final String AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS = "last-workflow-run-configurations";
+  public static final String MAP_TYPE_WORKFLOW_RUN_CONFIG_USAGE = "workflow-run-configuration-usage";
 
   private CCombo wStartAction;
   private MetaSelectionLine<WorkflowRunConfiguration> wRunConfiguration;
 
-  public WorkflowExecutionConfigurationDialog(
-      Shell parent, WorkflowExecutionConfiguration configuration, WorkflowMeta workflowMeta) {
+  public WorkflowExecutionConfigurationDialog(Shell parent, WorkflowExecutionConfiguration configuration, WorkflowMeta workflowMeta) {
     super(parent, configuration, workflowMeta);
   }
 
@@ -69,10 +66,8 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
   protected void optionsSectionControls() {
 
     wlLogLevel = new Label(gDetails, SWT.RIGHT);
-    wlLogLevel.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LogLevel.Label"));
-    wlLogLevel.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LogLevel.Tooltip"));
+    wlLogLevel.setText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LogLevel.Label"));
+    wlLogLevel.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LogLevel.Tooltip"));
     props.setLook(wlLogLevel);
     FormData fdlLogLevel = new FormData();
     fdlLogLevel.top = new FormAttachment(0, 0);
@@ -80,8 +75,7 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
     wlLogLevel.setLayoutData(fdlLogLevel);
 
     wLogLevel = new CCombo(gDetails, SWT.READ_ONLY | SWT.BORDER);
-    wLogLevel.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LogLevel.Tooltip"));
+    wLogLevel.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LogLevel.Tooltip"));
     props.setLook(wLogLevel);
     FormData fdLogLevel = new FormData();
     fdLogLevel.top = new FormAttachment(wlLogLevel, -2, SWT.TOP);
@@ -91,10 +85,8 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
     wLogLevel.setItems(LogLevel.getLogLevelDescriptions());
 
     wClearLog = new Button(gDetails, SWT.CHECK);
-    wClearLog.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.ClearLog.Label"));
-    wClearLog.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.ClearLog.Tooltip"));
+    wClearLog.setText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.ClearLog.Label"));
+    wClearLog.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.ClearLog.Tooltip"));
     props.setLook(wClearLog);
     FormData fdClearLog = new FormData();
     fdClearLog.top = new FormAttachment(wLogLevel, 10);
@@ -102,10 +94,8 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
     wClearLog.setLayoutData(fdClearLog);
 
     Label wlStartAction = new Label(gDetails, SWT.RIGHT);
-    wlStartAction.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.StartCopy.Label"));
-    wlStartAction.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.StartCopy.Tooltip"));
+    wlStartAction.setText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.StartCopy.Label"));
+    wlStartAction.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.StartCopy.Tooltip"));
     props.setLook(wlStartAction);
     FormData fdlStartAction = new FormData();
     fdlStartAction.top = new FormAttachment(wClearLog, 10);
@@ -113,8 +103,7 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
     wlStartAction.setLayoutData(fdlStartAction);
 
     wStartAction = new CCombo(gDetails, SWT.READ_ONLY | SWT.BORDER);
-    wStartAction.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.StartCopy.Tooltip"));
+    wStartAction.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.StartCopy.Tooltip"));
     props.setLook(wStartAction);
     FormData fdStartJobCombo = new FormData();
     fdStartJobCombo.top = new FormAttachment(wlStartAction, 0, SWT.CENTER);
@@ -134,25 +123,17 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
 
   public boolean open() {
 
-    String shellTitle =
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.Shell.Title");
+    String shellTitle = BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.Shell.Title");
     mainLayout(shellTitle, GuiResource.getInstance().getImageWorkflow());
 
     addRunConfigurationSectionLayout();
 
-    String alwaysShowOptionLabel =
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.AlwaysOption.Value");
-    String alwaysShowOptionTooltip =
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.alwaysShowOption");
-    String docUrl =
-        Const.getDocUrl(
-            BaseMessages.getString(
-                HopGui.class, "HopGui.WorkflowExecutionConfigurationDialog.Help"));
+    String alwaysShowOptionLabel = BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.AlwaysOption.Value");
+    String alwaysShowOptionTooltip = BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.alwaysShowOption");
+    String docUrl = Const.getDocUrl(BaseMessages.getString(HopGui.class, "HopGui.WorkflowExecutionConfigurationDialog.Help"));
     String docTitle = BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.docTitle");
-    String docHeader =
-        BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.docHeader");
-    buttonsSectionLayout(
-        alwaysShowOptionLabel, alwaysShowOptionTooltip, docTitle, docUrl, docHeader);
+    String docHeader = BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.docHeader");
+    buttonsSectionLayout(alwaysShowOptionLabel, alwaysShowOptionTooltip, docTitle, docUrl, docHeader);
 
     optionsSectionLayout(PKG, "WorkflowExecutionConfigurationDialog");
     parametersSectionLayout(PKG, "WorkflowExecutionConfigurationDialog");
@@ -163,21 +144,10 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
   }
 
   private void addRunConfigurationSectionLayout() {
-    String runConfigLabel =
-        BaseMessages.getString(PKG, "ConfigurationDialog.RunConfiguration.Label");
-    String runConfigTooltip =
-        BaseMessages.getString(PKG, "ConfigurationDialog.RunConfiguration.Tooltip");
+    String runConfigLabel = BaseMessages.getString(PKG, "ConfigurationDialog.RunConfiguration.Label");
+    String runConfigTooltip = BaseMessages.getString(PKG, "ConfigurationDialog.RunConfiguration.Tooltip");
 
-    wRunConfiguration =
-        new MetaSelectionLine<>(
-            hopGui.getVariables(),
-            hopGui.getMetadataProvider(),
-            WorkflowRunConfiguration.class,
-            shell,
-            SWT.BORDER,
-            runConfigLabel,
-            runConfigTooltip,
-            true);
+    wRunConfiguration = new MetaSelectionLine<>(hopGui.getVariables(), hopGui.getMetadataProvider(), WorkflowRunConfiguration.class, shell, SWT.BORDER, runConfigLabel, runConfigTooltip, true);
     wRunConfigurationControl = wRunConfiguration;
     props.setLook(wRunConfiguration);
     FormData fdRunConfiguration = new FormData();
@@ -217,8 +187,7 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
 
     try {
       wRunConfiguration.fillItems();
-      if (Const.indexOfString(configuration.getRunConfiguration(), wRunConfiguration.getItems())
-          < 0) {
+      if (Const.indexOfString(configuration.getRunConfiguration(), wRunConfiguration.getItems()) < 0) {
         getConfiguration().setRunConfiguration(null);
       }
     } catch (Exception e) {
@@ -226,8 +195,7 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
     }
 
     Map<String, String> workflowUsageMap = null;
-    String lastGlobalRunConfig =
-        AuditManagerGuiUtil.getLastUsedValue(AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS);
+    String lastGlobalRunConfig = AuditManagerGuiUtil.getLastUsedValue(AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS);
     String lastWorkflowRunConfig = null;
     if (StringUtils.isNotEmpty(abstractMeta.getName())) {
       workflowUsageMap = AuditManagerGuiUtil.getUsageMap(MAP_TYPE_WORKFLOW_RUN_CONFIG_USAGE);
@@ -236,32 +204,14 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
 
     wRunConfiguration.setText(Const.NVL(lastWorkflowRunConfig, ""));
 
-    if (StringUtils.isNotEmpty(lastWorkflowRunConfig)
-        && StringUtils.isNotEmpty(lastGlobalRunConfig)
-        && !lastWorkflowRunConfig.equals(lastGlobalRunConfig)) {
-      wRunConfiguration
-          .getLabelWidget()
-          .setBackground(GuiResource.getInstance().getColorLightBlue());
-      wRunConfiguration
-          .getLabelWidget()
-          .setToolTipText(
-              BaseMessages.getString(
-                  PKG, "WorkflowExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
-      wRunConfiguration
-          .getComboWidget()
-          .setBackground(GuiResource.getInstance().getColorLightBlue());
-      wRunConfiguration
-          .getComboWidget()
-          .setToolTipText(
-              BaseMessages.getString(
-                  PKG, "WorkflowExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
+    if (StringUtils.isNotEmpty(lastWorkflowRunConfig) && StringUtils.isNotEmpty(lastGlobalRunConfig) && !lastWorkflowRunConfig.equals(lastGlobalRunConfig)) {
+      wRunConfiguration.getLabelWidget().setBackground(GuiResource.getInstance().getColorLightBlue());
+      wRunConfiguration.getLabelWidget().setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
+      wRunConfiguration.getComboWidget().setBackground(GuiResource.getInstance().getColorLightBlue());
+      wRunConfiguration.getComboWidget().setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
     }
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          HopGui.getInstance().getLog(),
-          hopGui.getVariables(),
-          HopExtensionPoint.HopGuiRunConfiguration.id,
-          wRunConfiguration);
+      ExtensionPointHandler.callExtensionPoint(HopGui.getInstance().getLog(), hopGui.getVariables(), HopExtensionPoint.HopGuiRunConfiguration.id, wRunConfiguration);
     } catch (HopException e) {
       // Ignore errors
     }
@@ -279,8 +229,7 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
 
     String startAction = "";
     if (!Utils.isEmpty(getConfiguration().getStartActionName())) {
-      ActionMeta action =
-          ((WorkflowMeta) abstractMeta).findAction(getConfiguration().getStartActionName());
+      ActionMeta action = ((WorkflowMeta) abstractMeta).findAction(getConfiguration().getStartActionName());
       if (action != null) {
         startAction = action.getName();
       }
@@ -300,10 +249,9 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
   @Override
   public boolean getInfo() {
     try {
-      IHopMetadataSerializer<WorkflowRunConfiguration> serializer =
-          hopGui.getMetadataProvider().getSerializer(WorkflowRunConfiguration.class);
+      IHopMetadataSerializer<WorkflowRunConfiguration> serializer = hopGui.getMetadataProvider().getSerializer(WorkflowRunConfiguration.class);
 
-      // See if there are any run configurations defined.  If not, ask about creating a local one.
+      // See if there are any run configurations defined. If not, ask about creating a local one.
       //
       if (serializer.listObjectNames().isEmpty()) {
         String name = createLocalWorkflowConfiguration(shell, serializer);
@@ -313,12 +261,8 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
       String runConfigurationName = wRunConfiguration.getText();
       if (StringUtils.isEmpty(runConfigurationName)) {
         MessageBox box = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-        box.setText(
-            BaseMessages.getString(
-                PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationSpecified.Title"));
-        box.setMessage(
-            BaseMessages.getString(
-                PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationSpecified.Message"));
+        box.setText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationSpecified.Title"));
+        box.setMessage(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationSpecified.Message"));
         box.open();
         return false;
       }
@@ -327,24 +271,16 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
 
       if (!serializer.exists(runConfigurationName)) {
         MessageBox box = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        box.setText(
-            BaseMessages.getString(
-                PKG, "WorkflowExecutionConfigurationDialog.RunConfigurationDoesNotExist.Title"));
-        box.setMessage(
-            BaseMessages.getString(
-                PKG,
-                "WorkflowExecutionConfigurationDialog.RunConfigurationDoesNotExist.Message",
-                runConfigurationName));
+        box.setText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.RunConfigurationDoesNotExist.Title"));
+        box.setMessage(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.RunConfigurationDoesNotExist.Message", runConfigurationName));
         box.open();
         return false;
       }
 
       getConfiguration().setRunConfiguration(runConfigurationName);
-      AuditManagerGuiUtil.addLastUsedValue(
-          AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS, runConfigurationName);
+      AuditManagerGuiUtil.addLastUsedValue(AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS, runConfigurationName);
       if (StringUtils.isNotEmpty(abstractMeta.getName())) {
-        Map<String, String> usageMap =
-            AuditManagerGuiUtil.getUsageMap(MAP_TYPE_WORKFLOW_RUN_CONFIG_USAGE);
+        Map<String, String> usageMap = AuditManagerGuiUtil.getUsageMap(MAP_TYPE_WORKFLOW_RUN_CONFIG_USAGE);
         usageMap.put(abstractMeta.getName(), runConfigurationName);
         usageMap.put("LOG_LEVEL", String.valueOf(wLogLevel.getSelectionIndex()));
         AuditManagerGuiUtil.saveUsageMap(MAP_TYPE_WORKFLOW_RUN_CONFIG_USAGE, usageMap);
@@ -358,8 +294,7 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
       String startActionName = null;
       if (!Utils.isEmpty(wStartAction.getText()) && wStartAction.getSelectionIndex() >= 0) {
 
-        ActionMeta action =
-            ((WorkflowMeta) abstractMeta).getActions().get(wStartAction.getSelectionIndex());
+        ActionMeta action = ((WorkflowMeta) abstractMeta).getActions().get(wStartAction.getSelectionIndex());
         startActionName = action.getName();
       }
       getConfiguration().setStartActionName(startActionName);
@@ -375,40 +310,22 @@ public class WorkflowExecutionConfigurationDialog extends ConfigurationDialog {
     return false;
   }
 
-  public static final String createLocalWorkflowConfiguration(
-      Shell shell, IHopMetadataSerializer<WorkflowRunConfiguration> prcSerializer) {
+  public static final String createLocalWorkflowConfiguration(Shell shell, IHopMetadataSerializer<WorkflowRunConfiguration> prcSerializer) {
     try {
-      MessageBox box =
-          new MessageBox(HopGui.getInstance().getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-      box.setText(
-          BaseMessages.getString(
-              PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationDefined.Title"));
-      box.setMessage(
-          BaseMessages.getString(
-              PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationDefined.Message"));
+      MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+      box.setText(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationDefined.Title"));
+      box.setMessage(BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.NoRunConfigurationDefined.Message"));
       int answer = box.open();
       if ((answer & SWT.YES) != 0) {
-        LocalWorkflowRunConfiguration localWorkflowRunConfiguration =
-            new LocalWorkflowRunConfiguration();
+        LocalWorkflowRunConfiguration localWorkflowRunConfiguration = new LocalWorkflowRunConfiguration();
         localWorkflowRunConfiguration.setEnginePluginId("Local");
-        WorkflowRunConfiguration local =
-            new WorkflowRunConfiguration(
-                "local",
-                BaseMessages.getString(
-                    PKG, "WorkflowExecutionConfigurationDialog.LocalRunConfiguration.Description"),
-                localWorkflowRunConfiguration);
+        WorkflowRunConfiguration local = new WorkflowRunConfiguration("local", BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.LocalRunConfiguration.Description"), localWorkflowRunConfiguration);
         prcSerializer.save(local);
 
         return local.getName();
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(
-              PKG, "WorkflowExecutionConfigurationDialog.ErrorSavingRunConfiguration.Title"),
-          BaseMessages.getString(
-              PKG, "WorkflowExecutionConfigurationDialog.ErrorSavingRunConfiguration.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.ErrorSavingRunConfiguration.Title"), BaseMessages.getString(PKG, "WorkflowExecutionConfigurationDialog.ErrorSavingRunConfiguration.Message"), e);
     }
     return null;
   }

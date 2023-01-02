@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -82,10 +82,8 @@ public class HopGuiPipelineGridDelegate {
 
   private final ReentrantLock refreshViewLock;
 
-  /**
-   * @param hopGui
-   * @param pipelineGraph
-   */
+  /** @param hopGui
+   * @param pipelineGraph */
   public HopGuiPipelineGridDelegate(HopGui hopGui, HopGuiPipelineGraph pipelineGraph) {
     this.hopGui = hopGui;
     this.pipelineGraph = pipelineGraph;
@@ -130,78 +128,18 @@ public class HopGuiPipelineGridDelegate {
     addToolBar();
 
     // ignore whitespace for transformName column valueMeta, causing sorting to ignore whitespace
-    String transformNameColumnName =
-        BaseMessages.getString(PKG, "PipelineLog.Column.TransformName");
+    String transformNameColumnName = BaseMessages.getString(PKG, "PipelineLog.Column.TransformName");
     IValueMeta valueMeta = new ValueMetaString(transformNameColumnName);
     valueMeta.setIgnoreWhitespace(true);
-    ColumnInfo transformNameColumnInfo =
-        new ColumnInfo(transformNameColumnName, ColumnInfo.COLUMN_TYPE_TEXT, false, true);
+    ColumnInfo transformNameColumnInfo = new ColumnInfo(transformNameColumnName, ColumnInfo.COLUMN_TYPE_TEXT, false, true);
     transformNameColumnInfo.setValueMeta(valueMeta);
 
-    ColumnInfo[] columns =
-        new ColumnInfo[] {
-          transformNameColumnInfo,
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Copynr"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Read"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Written"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Input"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Output"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Updated"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Rejected"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Errors"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Active"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Time"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Speed"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.PriorityBufferSizes"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-        };
+    ColumnInfo[] columns = new ColumnInfo[] {transformNameColumnInfo, new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Copynr"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Read"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+        new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Written"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Input"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+        new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Output"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Updated"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+        new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Rejected"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Errors"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+        new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Active"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Time"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+        new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Speed"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.PriorityBufferSizes"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),};
 
     columns[1].setAlignment(SWT.RIGHT);
     columns[2].setAlignment(SWT.RIGHT);
@@ -216,16 +154,9 @@ public class HopGuiPipelineGridDelegate {
     columns[11].setAlignment(SWT.RIGHT);
     columns[12].setAlignment(SWT.RIGHT);
 
-    pipelineGridView =
-        new TableView(
-            pipelineGraph.getVariables(),
-            pipelineGridComposite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            1,
-            true, // readonly!
-            null, // Listener
-            hopGui.getProps());
+    pipelineGridView = new TableView(pipelineGraph.getVariables(), pipelineGridComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, 1, true, // readonly!
+        null, // Listener
+        hopGui.getProps());
     FormData fdView = new FormData();
     fdView.left = new FormAttachment(0, 0);
     fdView.right = new FormAttachment(100, 0);
@@ -234,22 +165,20 @@ public class HopGuiPipelineGridDelegate {
     pipelineGridView.setLayoutData(fdView);
 
     ColumnInfo numberColumn = pipelineGridView.getNumberColumn();
-    IValueMeta numberColumnValueMeta =
-        new ValueMetaString("#", HopGuiPipelineGridDelegate::subTransformCompare);
+    IValueMeta numberColumnValueMeta = new ValueMetaString("#", HopGuiPipelineGridDelegate::subTransformCompare);
     numberColumn.setValueMeta(numberColumnValueMeta);
 
     // Timer updates the view every UPDATE_TIME_VIEW interval
     final Timer tim = new Timer("HopGuiPipelineGraph: " + pipelineGraph.getMeta().getName());
 
-    TimerTask timtask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            if (!hopGui.getDisplay().isDisposed()) {
-              hopGui.getDisplay().asyncExec(HopGuiPipelineGridDelegate.this::refreshView);
-            }
-          }
-        };
+    TimerTask timtask = new TimerTask() {
+      @Override
+      public void run() {
+        if (!hopGui.getDisplay().isDisposed()) {
+          hopGui.getDisplay().asyncExec(HopGuiPipelineGridDelegate.this::refreshView);
+        }
+      }
+    };
 
     tim.schedule(timtask, 0L, UPDATE_TIME_VIEW);
 
@@ -260,11 +189,9 @@ public class HopGuiPipelineGridDelegate {
     pipelineGraph.extraViewTabFolder.setSelection(pipelineGridTab);
   }
 
-  /**
-   * When a toolbar is hit it knows the class so it will come here to ask for the instance.
+  /** When a toolbar is hit it knows the class so it will come here to ask for the instance.
    *
-   * @return The active instance of this class
-   */
+   * @return The active instance of this class */
   public static HopGuiPipelineGridDelegate getInstance() {
     IHopFileTypeHandler fileTypeHandler = HopGui.getInstance().getActiveFileTypeHandler();
     if (fileTypeHandler instanceof HopGuiPipelineGraph) {
@@ -290,11 +217,7 @@ public class HopGuiPipelineGridDelegate {
     toolbar.pack();
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ICON_SHOW_HIDE_INACTIVE,
-      toolTip = "i18n:org.apache.hop.ui.hopgui:PipelineLog.Button.ShowOnlyActiveTransforms",
-      image = "ui/images/show.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ICON_SHOW_HIDE_INACTIVE, toolTip = "i18n:org.apache.hop.ui.hopgui:PipelineLog.Button.ShowOnlyActiveTransforms", image = "ui/images/show.svg")
   public void showHideInactive() {
     hideInactiveTransforms = !hideInactiveTransforms;
 
@@ -309,11 +232,7 @@ public class HopGuiPipelineGridDelegate {
     refreshView();
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ICON_SHOW_HIDE_SELECTED,
-      toolTip = "i18n:org.apache.hop.ui.hopgui:PipelineLog.Button.ShowOnlySelectedTransforms",
-      image = "ui/images/show-all.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ICON_SHOW_HIDE_SELECTED, toolTip = "i18n:org.apache.hop.ui.hopgui:PipelineLog.Button.ShowOnlySelectedTransforms", image = "ui/images/show-all.svg")
   public void showHideSelected() {
     showSelectedTransforms = !showSelectedTransforms;
 
@@ -331,9 +250,7 @@ public class HopGuiPipelineGridDelegate {
   private void refreshView() {
     refreshViewLock.lock();
     try {
-      if (pipelineGraph.pipeline == null
-          || pipelineGridView == null
-          || pipelineGridView.isDisposed()) {
+      if (pipelineGraph.pipeline == null || pipelineGridView == null || pipelineGridView.isDisposed()) {
         return;
       }
 
@@ -363,29 +280,16 @@ public class HopGuiPipelineGridDelegate {
       // First the name of the component (transform):
       // Then the copy number
       //
-      columns.add(
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.TransformName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true));
-      ColumnInfo copyColumn =
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineLog.Column.Copynr"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              true,
-              true);
+      columns.add(new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.TransformName"), ColumnInfo.COLUMN_TYPE_TEXT, false, true));
+      ColumnInfo copyColumn = new ColumnInfo(BaseMessages.getString(PKG, "PipelineLog.Column.Copynr"), ColumnInfo.COLUMN_TYPE_TEXT, true, true);
       copyColumn.setAlignment(SWT.RIGHT);
       columns.add(copyColumn);
 
       List<IEngineMetric> usedMetrics = new ArrayList<>(engineMetrics.getMetricsList());
-      Collections.sort(
-          usedMetrics, (o1, o2) -> o1.getDisplayPriority().compareTo(o2.getDisplayPriority()));
+      Collections.sort(usedMetrics, (o1, o2) -> o1.getDisplayPriority().compareTo(o2.getDisplayPriority()));
 
       for (IEngineMetric metric : usedMetrics) {
-        ColumnInfo column =
-            new ColumnInfo(
-                metric.getHeader(), ColumnInfo.COLUMN_TYPE_TEXT, metric.isNumeric(), true);
+        ColumnInfo column = new ColumnInfo(metric.getHeader(), ColumnInfo.COLUMN_TYPE_TEXT, metric.isNumeric(), true);
         column.setToolTip(metric.getTooltip());
         IValueMeta stringMeta = new ValueMetaString(metric.getCode());
         ValueMetaInteger valueMeta = new ValueMetaInteger(metric.getCode(), 15, 0);
@@ -400,8 +304,7 @@ public class HopGuiPipelineGridDelegate {
 
       // Duration?
       //
-      ColumnInfo durationColumn =
-          new ColumnInfo("Duration", ColumnInfo.COLUMN_TYPE_TEXT, false, true); // TODO i18n
+      ColumnInfo durationColumn = new ColumnInfo("Duration", ColumnInfo.COLUMN_TYPE_TEXT, false, true); // TODO i18n
       durationColumn.setValueMeta(stringMeta);
       durationColumn.setAlignment(SWT.RIGHT);
       columns.add(durationColumn);
@@ -411,8 +314,7 @@ public class HopGuiPipelineGridDelegate {
       ValueMetaInteger speedMeta = new ValueMetaInteger("speed", 15, 0);
       speedMeta.setConversionMask(" ###,###,###,##0");
       stringMeta.setConversionMetadata(speedMeta);
-      ColumnInfo speedColumn =
-          new ColumnInfo("Speed", ColumnInfo.COLUMN_TYPE_TEXT, false, true); // TODO i18n
+      ColumnInfo speedColumn = new ColumnInfo("Speed", ColumnInfo.COLUMN_TYPE_TEXT, false, true); // TODO i18n
       speedColumn.setValueMeta(stringMeta);
       speedColumn.setAlignment(SWT.RIGHT);
       columns.add(speedColumn);
@@ -452,15 +354,7 @@ public class HopGuiPipelineGridDelegate {
         // Remove the old stuff on the composite...
         //
         pipelineGridView.dispose();
-        pipelineGridView =
-            new TableView(
-                pipelineGraph.getVariables(),
-                pipelineGridComposite,
-                SWT.NONE,
-                columns.toArray(new ColumnInfo[0]),
-                shownComponents.size(),
-                null,
-                PropsUi.getInstance());
+        pipelineGridView = new TableView(pipelineGraph.getVariables(), pipelineGridComposite, SWT.NONE, columns.toArray(new ColumnInfo[0]), shownComponents.size(), null, PropsUi.getInstance());
         pipelineGridView.setSortable(false); // TODO: re-implement
         FormData fdView = new FormData();
         fdView.left = new FormAttachment(0, 0);
@@ -566,12 +460,10 @@ public class HopGuiPipelineGridDelegate {
     }
   }
 
-  /**
-   * Anti-flicker: if nothing has changed, don't change it on the screen!
+  /** Anti-flicker: if nothing has changed, don't change it on the screen!
    *
    * @param fields
-   * @param row
-   */
+   * @param row */
   private void updateCellsIfChanged(String[] fields, TableItem row) {
     for (int f = 1; f < fields.length; f++) {
       if (!fields[f].equalsIgnoreCase(row.getText(f))) {
@@ -584,15 +476,13 @@ public class HopGuiPipelineGridDelegate {
     return pipelineGridTab;
   }
 
-  /**
-   * Sub Transform Compare
-   *
-   * <p>Note - nulls must be handled outside of this method
+  /** Sub Transform Compare
+   * <p>
+   * Note - nulls must be handled outside of this method
    *
    * @param o1 - First object to compare
    * @param o2 - Second object to compare
-   * @return 0 if equal, integer greater than 0 if o1 > o2, integer less than 0 if o2 > o1
-   */
+   * @return 0 if equal, integer greater than 0 if o1 > o2, integer less than 0 if o2 > o1 */
   static int subTransformCompare(Object o1, Object o2) {
     final String[] string1 = o1.toString().split("\\.");
     final String[] string2 = o2.toString().split("\\.");

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -75,10 +75,8 @@ public class HopServerConfig implements IXml {
 
   private IVariables variables;
 
-  /**
-   * This is provided by the server at runtime. It then usually points to nothing or a project or
-   * environment metadata folder.
-   */
+  /** This is provided by the server at runtime. It then usually points to nothing or a project or
+   * environment metadata folder. */
   private MultiMetadataProvider metadataProvider;
 
   public HopServerConfig() {
@@ -88,8 +86,7 @@ public class HopServerConfig implements IXml {
     passwordFile = null; // force lookup by server in ~/.hop or local folder
     variables = Variables.getADefaultVariableSpace();
     // An empty list of metadata providers by default
-    metadataProvider =
-        new MultiMetadataProvider(Encr.getEncoder(), Collections.emptyList(), variables);
+    metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), Collections.emptyList(), variables);
   }
 
   public HopServerConfig(HopServer hopServer) {
@@ -162,19 +159,16 @@ public class HopServerConfig implements IXml {
     Node autoSequenceNode = XmlHandler.getSubNode(node, XML_TAG_AUTOSEQUENCE);
     if (autoSequenceNode != null) {
       autoSequence = new HopServerSequence(autoSequenceNode, databases);
-      automaticCreationAllowed =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(autoSequenceNode, XML_TAG_AUTO_CREATE));
+      automaticCreationAllowed = "Y".equalsIgnoreCase(XmlHandler.getTagValue(autoSequenceNode, XML_TAG_AUTO_CREATE));
     }
 
     // Set Jetty Options
     setUpJettyOptions(node);
   }
 
-  /**
-   * Set up jetty options to the system properties
+  /** Set up jetty options to the system properties
    *
-   * @param node
-   */
+   * @param node */
   protected void setUpJettyOptions(Node node) {
     Map<String, String> jettyOptions = parseJettyOptions(node);
 
@@ -185,12 +179,10 @@ public class HopServerConfig implements IXml {
     }
   }
 
-  /**
-   * Read and parse jetty options
+  /** Read and parse jetty options
    *
    * @param node that contains jetty options nodes
-   * @return map of not empty jetty options
-   */
+   * @return map of not empty jetty options */
   protected Map<String, String> parseJettyOptions(Node node) {
 
     Map<String, String> jettyOptions = null;
@@ -201,19 +193,13 @@ public class HopServerConfig implements IXml {
 
       jettyOptions = new HashMap<>();
       if (XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPTORS) != null) {
-        jettyOptions.put(
-            Const.HOP_SERVER_JETTY_ACCEPTORS,
-            XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPTORS));
+        jettyOptions.put(Const.HOP_SERVER_JETTY_ACCEPTORS, XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPTORS));
       }
       if (XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPT_QUEUE_SIZE) != null) {
-        jettyOptions.put(
-            Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE,
-            XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPT_QUEUE_SIZE));
+        jettyOptions.put(Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE, XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPT_QUEUE_SIZE));
       }
       if (XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_LOW_RES_MAX_IDLE_TIME) != null) {
-        jettyOptions.put(
-            Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME,
-            XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_LOW_RES_MAX_IDLE_TIME));
+        jettyOptions.put(Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME, XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_LOW_RES_MAX_IDLE_TIME));
       }
     }
     return jettyOptions;
@@ -228,13 +214,10 @@ public class HopServerConfig implements IXml {
 
     try {
       DatabaseMeta databaseMeta = autoSequence.getDatabaseMeta();
-      ILoggingObject loggingInterface =
-          new SimpleLoggingObject("auto-sequence", LoggingObjectType.GENERAL, null);
+      ILoggingObject loggingInterface = new SimpleLoggingObject("auto-sequence", LoggingObjectType.GENERAL, null);
       database = new Database(loggingInterface, variables, databaseMeta);
       database.connect();
-      String schemaTable =
-          databaseMeta.getQuotedSchemaTableCombination(
-              variables, autoSequence.getSchemaName(), autoSequence.getTableName());
+      String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, autoSequence.getSchemaName(), autoSequence.getTableName());
       String seqField = databaseMeta.quoteField(autoSequence.getSequenceNameField());
       String valueField = databaseMeta.quoteField(autoSequence.getValueField());
 
@@ -248,23 +231,11 @@ public class HopServerConfig implements IXml {
         if (!Utils.isEmpty(sequenceName)) {
           Long value = rowMeta.getInteger(row, valueField, null);
           if (value != null) {
-            HopServerSequence hopServerSequence =
-                new HopServerSequence(
-                    sequenceName,
-                    value,
-                    databaseMeta,
-                    autoSequence.getSchemaName(),
-                    autoSequence.getTableName(),
-                    autoSequence.getSequenceNameField(),
-                    autoSequence.getValueField());
+            HopServerSequence hopServerSequence = new HopServerSequence(sequenceName, value, databaseMeta, autoSequence.getSchemaName(), autoSequence.getTableName(), autoSequence.getSequenceNameField(), autoSequence.getValueField());
 
             hopServerSequences.add(hopServerSequence);
 
-            LogChannel.GENERAL.logBasic(
-                "Automatically created server sequence '"
-                    + hopServerSequence.getName()
-                    + "' with start value "
-                    + hopServerSequence.getStartValue());
+            LogChannel.GENERAL.logBasic("Automatically created server sequence '" + hopServerSequence.getName() + "' with start value " + hopServerSequence.getStartValue());
           }
         }
       }
@@ -291,22 +262,10 @@ public class HopServerConfig implements IXml {
           // Also change the name of the server...
           //
           hopServer.setName(hopServer.getName() + "-" + newHostname);
-          log.logBasic(
-              "Hostname for hop server ["
-                  + hopServer.getName()
-                  + "] is set to ["
-                  + newHostname
-                  + "], information derived from network "
-                  + networkInterfaceName);
+          log.logBasic("Hostname for hop server [" + hopServer.getName() + "] is set to [" + newHostname + "], information derived from network " + networkInterfaceName);
         }
       } catch (SocketException e) {
-        log.logError(
-            "Unable to get the IP address for network interface "
-                + networkInterfaceName
-                + " for hop server ["
-                + hopServer.getName()
-                + "]",
-            e);
+        log.logError("Unable to get the IP address for network interface " + networkInterfaceName + " for hop server [" + hopServer.getName() + "]", e);
       }
     }
   }
@@ -317,34 +276,26 @@ public class HopServerConfig implements IXml {
     this.hopServer = new HopServer(hostname + ":" + port, hostname, "" + port, null, null);
   }
 
-  /**
-   * @return the hop server.<br>
-   *     The user name and password defined in here are used to contact this server by the masters.
-   */
+  /** @return the hop server.<br>
+   *         The user name and password defined in here are used to contact this server by the masters. */
   public HopServer getHopServer() {
     return hopServer;
   }
 
-  /**
-   * @param hopServer the hop server details to set.<br>
-   *     The user name and password defined in here are used to contact this server by the masters.
-   */
+  /** @param hopServer the hop server details to set.<br>
+   *        The user name and password defined in here are used to contact this server by the masters. */
   public void setHopServer(HopServer hopServer) {
     this.hopServer = hopServer;
   }
 
-  /**
-   * @return true if the webserver needs to join with the webserver threads (wait/block until
-   *     finished)
-   */
+  /** @return true if the webserver needs to join with the webserver threads (wait/block until
+   *         finished) */
   public boolean isJoining() {
     return joining;
   }
 
-  /**
-   * @param joining Set to true if the webserver needs to join with the webserver threads
-   *     (wait/block until finished)
-   */
+  /** @param joining Set to true if the webserver needs to join with the webserver threads
+   *        (wait/block until finished) */
   public void setJoining(boolean joining) {
     this.joining = joining;
   }
@@ -437,11 +388,9 @@ public class HopServerConfig implements IXml {
     this.passwordFile = passwordFile;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
@@ -451,11 +400,9 @@ public class HopServerConfig implements IXml {
     this.variables = variables;
   }
 
-  /**
-   * Gets metadataFolder
+  /** Gets metadataFolder
    *
-   * @return value of metadataFolder
-   */
+   * @return value of metadataFolder */
   public String getMetadataFolder() {
     return metadataFolder;
   }
@@ -465,11 +412,9 @@ public class HopServerConfig implements IXml {
     this.metadataFolder = metadataFolder;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   public MultiMetadataProvider getMetadataProvider() {
     return metadataProvider;
   }

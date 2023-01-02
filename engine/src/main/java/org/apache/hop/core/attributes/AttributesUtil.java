@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,41 +29,38 @@ public class AttributesUtil {
   public static final String XML_TAG_GROUP = "group";
   public static final String XML_TAG_ATTRIBUTE = "attribute";
 
-  /**
-   * Serialize an attributes group map to XML.
-   *
-   * <p>The information will be encapsulated in the default tag: {@link #XML_TAG}.
-   *
-   * <p>If a null or empty Map is given, the generated XML will have the default tag (with no
+  /** Serialize an attributes group map to XML.
+   * <p>
+   * The information will be encapsulated in the default tag: {@link #XML_TAG}.
+   * <p>
+   * If a null or empty Map is given, the generated XML will have the default tag (with no
    * content).
+   * <p>
+   * Equivalent to:
    *
-   * <p>Equivalent to:
-   *
-   * <pre>  <code>getAttributesXml( attributesMap, AttributesUtil.XML_TAG )</code></pre>
+   * <pre>
+   *   <code>getAttributesXml( attributesMap, AttributesUtil.XML_TAG )</code>
+   * </pre>
    *
    * @param attributesMap the attribute groups to serialize
    * @return the XML serialized attribute groups
-   * @see #getAttributesXml(Map, String)
-   */
+   * @see #getAttributesXml(Map, String) */
   public static String getAttributesXml(Map<String, Map<String, String>> attributesMap) {
     return getAttributesXml(attributesMap, XML_TAG);
   }
 
-  /**
-   * Serialize an attributes group map to XML.
-   *
-   * <p>The information will be encapsulated in the specified tag.
-   *
-   * <p>If a null or empty Map is given, the generated XML will have the provided tag (with no
+  /** Serialize an attributes group map to XML.
+   * <p>
+   * The information will be encapsulated in the specified tag.
+   * <p>
+   * If a null or empty Map is given, the generated XML will have the provided tag (with no
    * content).
    *
    * @param attributesMap the attribute groups to serialize
    * @param xmlTag the xml tag to use for the generated xml
    * @return the XML serialized attribute groups
-   * @see #getAttributesXml(Map)
-   */
-  public static String getAttributesXml(
-      Map<String, Map<String, String>> attributesMap, String xmlTag) {
+   * @see #getAttributesXml(Map) */
+  public static String getAttributesXml(Map<String, Map<String, String>> attributesMap, String xmlTag) {
     StringBuilder xml = new StringBuilder();
 
     xml.append(XmlHandler.openTag(xmlTag));
@@ -95,14 +92,12 @@ public class AttributesUtil {
     return xml.toString();
   }
 
-  /**
-   * Load the attribute groups from an XML DOM Node.
-   *
-   * <p>An empty Map will be returned if a null or empty Node is given.
+  /** Load the attribute groups from an XML DOM Node.
+   * <p>
+   * An empty Map will be returned if a null or empty Node is given.
    *
    * @param attributesNode the attributes node to read from
-   * @return the Map with the attribute groups
-   */
+   * @return the Map with the attribute groups */
   public static Map<String, Map<String, String>> loadAttributes(Node attributesNode) {
     Map<String, Map<String, String>> attributesMap = new HashMap<>();
 

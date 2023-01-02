@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,8 +59,7 @@ public class BaseMetadataProvider {
       PluginRegistry registry = PluginRegistry.getInstance();
       IPlugin plugin = registry.findPluginWithId(MetadataPluginType.class, key);
       if (plugin == null) {
-        throw new HopException(
-            "The metadata plugin for key " + key + " could not be found in the plugin registry");
+        throw new HopException("The metadata plugin for key " + key + " could not be found in the plugin registry");
       }
       String className = plugin.getClassMap().get(plugin.getMainType());
       Class<?> pluginClass = registry.getClassLoader(plugin).loadClass(className);
@@ -71,28 +70,22 @@ public class BaseMetadataProvider {
     }
   }
 
-  /**
-   * Get the variables
+  /** Get the variables
    *
-   * @return The variables which get inherited by all loaded objects which implement IVariables
-   */
+   * @return The variables which get inherited by all loaded objects which implement IVariables */
   public IVariables getVariables() {
     return variables;
   }
 
-  /**
-   * @param variables The variables which get inherited by all loaded objects which implement
-   *     IVariables
-   */
+  /** @param variables The variables which get inherited by all loaded objects which implement
+   *        IVariables */
   public void setVariables(IVariables variables) {
     this.variables = variables;
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   public String getDescription() {
     return description;
   }

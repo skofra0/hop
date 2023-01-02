@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,72 +44,10 @@ public class XmlMetadataUtilTest extends TestCase {
 
     String xml = XmlMetadataUtil.serializeObjectToXml(metaTest);
     assertEquals(
-        "<fields>"
-            + Const.CR
-            + "<field>"
-            + Const.CR
-            + "<length>50</length>"
-            + Const.CR
-            + "<name>a</name>"
-            + Const.CR
-            + "<ott>ONE</ott>"
-            + Const.CR
-            + "<precision>-1</precision>"
-            + Const.CR
-            + "<type>String</type>"
-            + Const.CR
-            + "</field>"
-            + Const.CR
-            + "<field>"
-            + Const.CR
-            + "<format>#;-#</format>"
-            + Const.CR
-            + "<length>10</length>"
-            + Const.CR
-            + "<name>b</name>"
-            + Const.CR
-            + "<precision>0</precision>"
-            + Const.CR
-            + "<type>Integer</type>"
-            + Const.CR
-            + "</field>"
-            + Const.CR
-            + "<field>"
-            + Const.CR
-            + "<format>yyyy/MM/dd HH:mm:ss</format>"
-            + Const.CR
-            + "<length>-1</length>"
-            + Const.CR
-            + "<name>c</name>"
-            + Const.CR
-            + "<ott>THREE</ott>"
-            + Const.CR
-            + "<precision>-1</precision>"
-            + Const.CR
-            + "<type>Date</type>"
-            + Const.CR
-            + "</field>"
-            + Const.CR
-            + "</fields>"
-            + Const.CR
-            + "<filename>filename.csv</filename>"
-            + Const.CR
-            + "<grouping_symbol>&#34;</grouping_symbol>"
-            + Const.CR
-            + "<field_separator>,</field_separator>"
-            + Const.CR
-            + "<test_enum>TWO</test_enum>"
-            + Const.CR
-            + "<values>"
-            + Const.CR
-            + "<value>v1</value>"
-            + Const.CR
-            + "<value>v2</value>"
-            + Const.CR
-            + "<value>v3</value>"
-            + Const.CR
-            + "</values>"
-            + Const.CR,
+        "<fields>" + Const.CR + "<field>" + Const.CR + "<length>50</length>" + Const.CR + "<name>a</name>" + Const.CR + "<ott>ONE</ott>" + Const.CR + "<precision>-1</precision>" + Const.CR + "<type>String</type>" + Const.CR + "</field>" + Const.CR + "<field>" + Const.CR + "<format>#;-#</format>"
+            + Const.CR + "<length>10</length>" + Const.CR + "<name>b</name>" + Const.CR + "<precision>0</precision>" + Const.CR + "<type>Integer</type>" + Const.CR + "</field>" + Const.CR + "<field>" + Const.CR + "<format>yyyy/MM/dd HH:mm:ss</format>" + Const.CR + "<length>-1</length>" + Const.CR
+            + "<name>c</name>" + Const.CR + "<ott>THREE</ott>" + Const.CR + "<precision>-1</precision>" + Const.CR + "<type>Date</type>" + Const.CR + "</field>" + Const.CR + "</fields>" + Const.CR + "<filename>filename.csv</filename>" + Const.CR + "<grouping_symbol>&#34;</grouping_symbol>"
+            + Const.CR + "<field_separator>,</field_separator>" + Const.CR + "<test_enum>TWO</test_enum>" + Const.CR + "<values>" + Const.CR + "<value>v1</value>" + Const.CR + "<value>v2</value>" + Const.CR + "<value>v3</value>" + Const.CR + "</values>" + Const.CR,
         xml);
 
     // Now load that object back in from XML...

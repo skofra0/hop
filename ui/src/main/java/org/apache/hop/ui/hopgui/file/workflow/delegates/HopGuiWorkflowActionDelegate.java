@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,22 +53,15 @@ public class HopGuiWorkflowActionDelegate {
     this.workflowGraph = workflowGraph;
   }
 
-  public ActionMeta newAction(
-      WorkflowMeta workflowMeta,
-      String pluginId,
-      String pluginName,
-      boolean openIt,
-      Point location) {
+  public ActionMeta newAction(WorkflowMeta workflowMeta, String pluginId, String pluginName, boolean openIt, Point location) {
     PluginRegistry registry = PluginRegistry.getInstance();
     IPlugin actionPlugin;
 
     try {
       if (pluginId == null) {
-        actionPlugin =
-            PluginRegistry.getInstance().findPluginWithName(ActionPluginType.class, pluginName);
+        actionPlugin = PluginRegistry.getInstance().findPluginWithName(ActionPluginType.class, pluginName);
       } else {
-        actionPlugin =
-            PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, pluginId);
+        actionPlugin = PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, pluginId);
       }
 
       if (actionPlugin != null) {
@@ -112,10 +105,7 @@ public class HopGuiWorkflowActionDelegate {
             //
             workflowMeta.renameActionIfNameCollides(actionMeta);
 
-            hopGui.undoDelegate.addUndoNew(
-                workflowMeta,
-                new ActionMeta[] {actionMeta},
-                new int[] {workflowMeta.indexOfAction(actionMeta)});
+            hopGui.undoDelegate.addUndoNew(workflowMeta, new ActionMeta[] {actionMeta}, new int[] {workflowMeta.indexOfAction(actionMeta)});
             workflowGraph.adjustScrolling();
             workflowGraph.updateGui();
             return actionMeta;
@@ -130,10 +120,7 @@ public class HopGuiWorkflowActionDelegate {
           }
           PropsUi.setLocation(actionMeta, location.x, location.y);
           workflowMeta.addAction(actionMeta);
-          hopGui.undoDelegate.addUndoNew(
-              workflowMeta,
-              new ActionMeta[] {actionMeta},
-              new int[] {workflowMeta.indexOfAction(actionMeta)});
+          hopGui.undoDelegate.addUndoNew(workflowMeta, new ActionMeta[] {actionMeta}, new int[] {workflowMeta.indexOfAction(actionMeta)});
           workflowGraph.adjustScrolling();
           workflowGraph.updateGui();
           return actionMeta;
@@ -142,26 +129,17 @@ public class HopGuiWorkflowActionDelegate {
         return null;
       }
     } catch (Throwable e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(
-              PKG, "HopGui.ErrorDialog.UnexpectedErrorCreatingNewJobGraphEntry.Title"),
-          BaseMessages.getString(
-              PKG, "HopGui.ErrorDialog.UnexpectedErrorCreatingNewJobGraphEntry.Message"),
-          new Exception(e));
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.ErrorDialog.UnexpectedErrorCreatingNewJobGraphEntry.Title"), BaseMessages.getString(PKG, "HopGui.ErrorDialog.UnexpectedErrorCreatingNewJobGraphEntry.Message"), new Exception(e));
       return null;
     }
   }
 
   public IActionDialog getActionDialog(IAction action, WorkflowMeta workflowMeta) {
-    Class<?>[] paramClasses =
-        new Class<?>[] {Shell.class, IAction.class, WorkflowMeta.class, IVariables.class};
-    Object[] paramArgs =
-        new Object[] {hopGui.getShell(), action, workflowMeta, workflowGraph.getVariables()};
+    Class<?>[] paramClasses = new Class<?>[] {Shell.class, IAction.class, WorkflowMeta.class, IVariables.class};
+    Object[] paramArgs = new Object[] {hopGui.getShell(), action, workflowMeta, workflowGraph.getVariables()};
 
     if (MissingAction.ID.equals(action.getPluginId())) {
-      return new MissingActionDialog(
-          hopGui.getShell(), action, workflowMeta, workflowGraph.getVariables());
+      return new MissingActionDialog(hopGui.getShell(), action, workflowMeta, workflowGraph.getVariables());
     }
 
     PluginRegistry registry = PluginRegistry.getInstance();
@@ -207,11 +185,8 @@ public class HopGuiWorkflowActionDelegate {
       return entryDialogInterface;
     } catch (Throwable t) {
       t.printStackTrace();
-      String errorTitle =
-          BaseMessages.getString(PKG, "HopGui.Dialog.ErrorCreatingWorkflowDialog.Title");
-      String errorMsg =
-          BaseMessages.getString(
-              PKG, "HopGui.Dialog.ErrorCreatingActionDialog.Message", dialogClassName);
+      String errorTitle = BaseMessages.getString(PKG, "HopGui.Dialog.ErrorCreatingWorkflowDialog.Title");
+      String errorMsg = BaseMessages.getString(PKG, "HopGui.Dialog.ErrorCreatingActionDialog.Message", dialogClassName);
       hopGui.getLog().logError(errorMsg);
       new ErrorDialog(hopGui.getShell(), errorTitle, errorMsg, t);
       return null;
@@ -220,9 +195,7 @@ public class HopGuiWorkflowActionDelegate {
 
   public void editAction(WorkflowMeta workflowMeta, ActionMeta action) {
     try {
-      hopGui
-          .getLog()
-          .logDetailed(BaseMessages.getString(PKG, "HopGui.Log.EditAction", action.getName()));
+      hopGui.getLog().logDetailed(BaseMessages.getString(PKG, "HopGui.Log.EditAction", action.getName()));
 
       ActionMeta before = (ActionMeta) action.cloneDeep();
 
@@ -237,11 +210,7 @@ public class HopGuiWorkflowActionDelegate {
           workflowMeta.renameActionIfNameCollides(action);
 
           ActionMeta after = (ActionMeta) action.clone();
-          hopGui.undoDelegate.addUndoChange(
-              workflowMeta,
-              new ActionMeta[] {before},
-              new ActionMeta[] {after},
-              new int[] {workflowMeta.indexOfAction(action)});
+          hopGui.undoDelegate.addUndoChange(workflowMeta, new ActionMeta[] {before}, new ActionMeta[] {after}, new int[] {workflowMeta.indexOfAction(action)});
         }
         workflowGraph.updateGui();
       } else {
@@ -253,11 +222,7 @@ public class HopGuiWorkflowActionDelegate {
 
     } catch (Exception e) {
       if (!hopGui.getShell().isDisposed()) {
-        new ErrorDialog(
-            hopGui.getShell(),
-            BaseMessages.getString(PKG, "HopGui.ErrorDialog.ErrorEditingAction.Title"),
-            BaseMessages.getString(PKG, "HopGui.ErrorDialog.ErrorEditingAction.Message"),
-            e);
+        new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.ErrorDialog.ErrorEditingAction.Title"), BaseMessages.getString(PKG, "HopGui.ErrorDialog.ErrorEditingAction.Message"), e);
       }
     }
   }
@@ -303,8 +268,7 @@ public class HopGuiWorkflowActionDelegate {
       WorkflowHopMeta hi = workflowMeta.getWorkflowHop(i);
       if (hi.getFromAction().equals(action) || hi.getToAction().equals(action)) {
         int idx = workflowMeta.indexOfWorkflowHop(hi);
-        hopGui.undoDelegate.addUndoDelete(
-            workflowMeta, new WorkflowHopMeta[] {(WorkflowHopMeta) hi.clone()}, new int[] {idx});
+        hopGui.undoDelegate.addUndoDelete(workflowMeta, new WorkflowHopMeta[] {(WorkflowHopMeta) hi.clone()}, new int[] {idx});
         workflowMeta.removeWorkflowHop(idx);
       }
     }

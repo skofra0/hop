@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,10 +28,8 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-/**
- * Encapsulates the Apache commons HTTP connection manager with a singleton. We can use this to
- * limit the number of open connections to hop servers.
- */
+/** Encapsulates the Apache commons HTTP connection manager with a singleton. We can use this to
+ * limit the number of open connections to hop servers. */
 public class ServerConnectionManager {
 
   private static final String SSL = "SSL";
@@ -45,10 +43,7 @@ public class ServerConnectionManager {
     if (needToInitializeSSLContext()) {
       try {
         SSLContext context = SSLContext.getInstance(SSL);
-        context.init(
-            new KeyManager[0],
-            new X509TrustManager[] {getDefaultTrustManager()},
-            new SecureRandom());
+        context.init(new KeyManager[0], new X509TrustManager[] {getDefaultTrustManager()}, new SecureRandom());
         SSLContext.setDefault(context);
       } catch (Exception ignored) {
       }
@@ -80,12 +75,10 @@ public class ServerConnectionManager {
   private static X509TrustManager getDefaultTrustManager() {
     return new X509TrustManager() {
       @Override
-      public void checkClientTrusted(X509Certificate[] certs, String param)
-          throws CertificateException {}
+      public void checkClientTrusted(X509Certificate[] certs, String param) throws CertificateException {}
 
       @Override
-      public void checkServerTrusted(X509Certificate[] certs, String param)
-          throws CertificateException {
+      public void checkServerTrusted(X509Certificate[] certs, String param) throws CertificateException {
         for (X509Certificate cert : certs) {
           cert.checkValidity(); // validate date
         }

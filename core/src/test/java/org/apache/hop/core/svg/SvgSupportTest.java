@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,12 +26,8 @@ import static org.junit.Assert.*;
 /** Unit tests for the SvgSupport class */
 public class SvgSupportTest {
 
-  public static final String svgImage =
-      "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-          + "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\"\n"
-          + "\twidth=\"38\" height=\"32\"  viewBox=\"0 0 39.875 33.6667\">\n"
-          + "<path style=\"stroke: none; fill: #323296;\" d=\"M 10,0 L 30.5,0 39.875,17.5 30.5,33.6667 10,33.6667 L 0,17.5"
-          + "L 10,0 z\"/>\n</svg>";
+  public static final String svgImage = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" + "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\"\n" + "\twidth=\"38\" height=\"32\"  viewBox=\"0 0 39.875 33.6667\">\n"
+      + "<path style=\"stroke: none; fill: #323296;\" d=\"M 10,0 L 30.5,0 39.875,17.5 30.5,33.6667 10,33.6667 L 0,17.5" + "L 10,0 z\"/>\n</svg>";
 
   @Before
   public void setUp() throws Exception {

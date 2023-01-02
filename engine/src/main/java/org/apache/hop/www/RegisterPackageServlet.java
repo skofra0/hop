@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,14 +70,8 @@ public class RegisterPackageServlet extends BaseWorkflowServlet {
   }
 
   @Override
-  WebResult generateBody(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      boolean useXML,
-      IVariables variables)
-      throws HopException, IOException, HopException, ParseException {
-    FileObject tempFile =
-        HopVfs.createTempFile("export", ".zip", System.getProperty("java.io.tmpdir"));
+  WebResult generateBody(HttpServletRequest request, HttpServletResponse response, boolean useXML, IVariables variables) throws HopException, IOException, HopException, ParseException {
+    FileObject tempFile = HopVfs.createTempFile("export", ".zip", System.getProperty("java.io.tmpdir"));
     OutputStream out = HopVfs.getOutputStream(tempFile, false);
     IOUtils.copy(request.getInputStream(), out);
     out.flush();
@@ -92,40 +86,24 @@ public class RegisterPackageServlet extends BaseWorkflowServlet {
       String resultId;
 
       String metaStoreJson = getMetaStoreJsonFromZIP(archiveUrl);
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(metaStoreJson);
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metaStoreJson);
 
       if (isWorkflow) {
-        Node node =
-            getConfigNodeFromZIP(
-                archiveUrl,
-                Workflow.CONFIGURATION_IN_EXPORT_FILENAME,
-                WorkflowExecutionConfiguration.XML_TAG);
-        WorkflowExecutionConfiguration workflowExecutionConfiguration =
-            new WorkflowExecutionConfiguration(node);
+        Node node = getConfigNodeFromZIP(archiveUrl, Workflow.CONFIGURATION_IN_EXPORT_FILENAME, WorkflowExecutionConfiguration.XML_TAG);
+        WorkflowExecutionConfiguration workflowExecutionConfiguration = new WorkflowExecutionConfiguration(node);
 
         WorkflowMeta workflowMeta = new WorkflowMeta(fileUrl);
-        WorkflowConfiguration workflowConfiguration =
-            new WorkflowConfiguration(
-                workflowMeta, workflowExecutionConfiguration, metadataProvider);
+        WorkflowConfiguration workflowConfiguration = new WorkflowConfiguration(workflowMeta, workflowExecutionConfiguration, metadataProvider);
 
         IWorkflowEngine<WorkflowMeta> workflow = createWorkflow(workflowConfiguration);
         resultId = workflow.getContainerId();
       } else {
-        Node node =
-            getConfigNodeFromZIP(
-                archiveUrl,
-                Pipeline.CONFIGURATION_IN_EXPORT_FILENAME,
-                PipelineExecutionConfiguration.XML_TAG);
-        PipelineExecutionConfiguration pipelineExecutionConfiguration =
-            new PipelineExecutionConfiguration(node);
+        Node node = getConfigNodeFromZIP(archiveUrl, Pipeline.CONFIGURATION_IN_EXPORT_FILENAME, PipelineExecutionConfiguration.XML_TAG);
+        PipelineExecutionConfiguration pipelineExecutionConfiguration = new PipelineExecutionConfiguration(node);
 
-        PipelineMeta pipelineMeta =
-            new PipelineMeta(fileUrl, metadataProvider, true, Variables.getADefaultVariableSpace());
+        PipelineMeta pipelineMeta = new PipelineMeta(fileUrl, metadataProvider, true, Variables.getADefaultVariableSpace());
 
-        PipelineConfiguration pipelineConfiguration =
-            new PipelineConfiguration(
-                pipelineMeta, pipelineExecutionConfiguration, metadataProvider);
+        PipelineConfiguration pipelineConfiguration = new PipelineConfiguration(pipelineMeta, pipelineExecutionConfiguration, metadataProvider);
 
         IPipelineEngine<PipelineMeta> pipeline = createPipeline(pipelineConfiguration);
         resultId = pipeline.getContainerId();
@@ -143,15 +121,13 @@ public class RegisterPackageServlet extends BaseWorkflowServlet {
     return true;
   }
 
-  protected Node getConfigNodeFromZIP(Object archiveUrl, Object fileName, String xmlTag)
-      throws HopXmlException {
+  protected Node getConfigNodeFromZIP(Object archiveUrl, Object fileName, String xmlTag) throws HopXmlException {
     String configUrl = MessageFormat.format(ZIP_CONT, archiveUrl, fileName);
     Document configDoc = XmlHandler.loadXmlFile(configUrl);
     return XmlHandler.getSubNode(configDoc, xmlTag);
   }
 
-  public static final String getMetaStoreJsonFromZIP(Object archiveUrl)
-      throws HopFileException, IOException {
+  public static final String getMetaStoreJsonFromZIP(Object archiveUrl) throws HopFileException, IOException {
     String filename = MessageFormat.format(ZIP_CONT, archiveUrl, "metadata.json");
     InputStream inputStream = HopVfs.getInputStream(filename);
     String metaStoreJson = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());

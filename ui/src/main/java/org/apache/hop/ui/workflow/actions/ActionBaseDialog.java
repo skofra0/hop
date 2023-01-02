@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -125,8 +125,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
   protected LogChannel log;
 
-  public ActionBaseDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionBaseDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     log = new LogChannel(workflowMeta);
   }
@@ -197,8 +196,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
     wPath.setLayoutData(fdPath);
 
     wlRunConfiguration = new Label(shell, SWT.LEFT);
-    wlRunConfiguration.setText(
-        BaseMessages.getString(PKG, "ActionPipeline.RunConfiguration.Label"));
+    wlRunConfiguration.setText(BaseMessages.getString(PKG, "ActionPipeline.RunConfiguration.Label"));
     props.setLook(wlRunConfiguration);
     FormData fdlRunConfiguration = new FormData();
     fdlRunConfiguration.left = new FormAttachment(0, 0);
@@ -362,8 +360,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
     wCreateParentFolder = new Button(gLogFile, SWT.CHECK);
     props.setLook(wCreateParentFolder);
-    wCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "ActionPipeline.Logfile.CreateParentFolder.Label"));
+    wCreateParentFolder.setText(BaseMessages.getString(PKG, "ActionPipeline.Logfile.CreateParentFolder.Label"));
     FormData fdCreateParent = new FormData();
     fdCreateParent.left = new FormAttachment(0, 0);
     fdCreateParent.top = new FormAttachment(wAppendLogfile, 10);
@@ -385,13 +382,12 @@ public abstract class ActionBaseDialog extends ActionDialog {
     fdIncludeTime.top = new FormAttachment(wAddDate, 10);
     wAddTime.setLayoutData(fdIncludeTime);
 
-    wSetLogfile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            setActive();
-          }
-        });
+    wSetLogfile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        setActive();
+      }
+    });
 
     wLoggingTab.setControl(wLogging);
 
@@ -421,13 +417,12 @@ public abstract class ActionBaseDialog extends ActionDialog {
     fdCopyResultsParams.left = new FormAttachment(0, 0);
     fdCopyResultsParams.top = new FormAttachment(0, 0);
     wPrevToParams.setLayoutData(fdCopyResultsParams);
-    wPrevToParams.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getAction().setChanged();
-          }
-        });
+    wPrevToParams.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getAction().setChanged();
+      }
+    });
 
     wPassParams = new Button(wParameterComp, SWT.CHECK);
     props.setLook(wPassParams);
@@ -445,34 +440,11 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
     final int parameterRows = getParameters() != null ? getParameters().length : 0;
 
-    ColumnInfo[] colinf =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionPipeline.Parameters.Parameter.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionPipeline.Parameters.ColumnName.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionPipeline.Parameters.Value.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] colinf = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "ActionPipeline.Parameters.Parameter.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false), new ColumnInfo(BaseMessages.getString(PKG, "ActionPipeline.Parameters.ColumnName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+        new ColumnInfo(BaseMessages.getString(PKG, "ActionPipeline.Parameters.Value.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[2].setUsingVariables(true);
 
-    wParameters =
-        new TableView(
-            variables,
-            wParameterComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            parameterRows,
-            false,
-            lsMod,
-            props,
-            false);
+    wParameters = new TableView(variables, wParameterComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, parameterRows, false, lsMod, props, false);
     props.setLook(wParameters);
     FormData fdParameters = new FormData();
     fdParameters.left = new FormAttachment(0, 0);
@@ -502,8 +474,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, Const.MARGIN, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, Const.MARGIN, null);
 
     Label hSpacer = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
     FormData fdhSpacer = new FormData();
@@ -522,9 +493,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
   protected void selectLogFile(String[] filters) {
 
-    String filename =
-        BaseDialog.presentFileDialog(
-            shell, wLogfile, variables, new String[] {"*.txt", "*.log", "*"}, filters, true);
+    String filename = BaseDialog.presentFileDialog(shell, wLogfile, variables, new String[] {"*.txt", "*.log", "*"}, filters, true);
     if (filename != null) {
       FileObject file = null;
       try {
@@ -532,10 +501,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
         // Set file extension ..
         wLogext.setText(file.getName().getExtension());
         // Set filename without extension ...
-        wLogfile.setText(
-            wLogfile
-                .getText()
-                .substring(0, wLogfile.getText().length() - wLogext.getText().length() - 1));
+        wLogfile.setText(wLogfile.getText().substring(0, wLogfile.getText().length() - wLogext.getText().length() - 1));
       } catch (Exception ex) {
         // Ignore
       }
@@ -585,8 +551,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
         String baseName = HopVfs.getFileObject(variables.resolve(filename)).getName().getBaseName();
         wName.setText(baseName);
       } catch (Exception e) {
-        new ErrorDialog(
-            shell, "Error", "Error extracting name from filename '" + filename + "'", e);
+        new ErrorDialog(shell, "Error", "Error extracting name from filename '" + filename + "'", e);
       }
     }
   }

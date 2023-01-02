@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,12 +47,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-@HopFileTypePlugin(
-    id = "HopFile-Pipeline-Plugin",
-    description = "The pipeline file information for the Hop GUI",
-    image = "ui/images/pipeline.svg")
-public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
-    implements IHopFileType {
+@HopFileTypePlugin(id = "HopFile-Pipeline-Plugin", description = "The pipeline file information for the Hop GUI", image = "ui/images/pipeline.svg")
+public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase implements IHopFileType {
 
   public static final Class<?> PKG = HopPipelineFileType.class; // i18n
   public static final String PIPELINE_FILE_TYPE_DESCRIPTION = "Pipeline";
@@ -104,8 +100,7 @@ public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
   }
 
   @Override
-  public IHopFileTypeHandler openFile(
-      HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
+  public IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
     try {
       // This file is opened in the data orchestration perspective
       //
@@ -115,8 +110,7 @@ public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
       // See if the same pipeline isn't already open.
       // Other file types we might allow to open more than once but not pipelines for now.
       //
-      TabItemHandler tabItemHandlerWithFilename =
-          perspective.findTabItemHandlerWithFilename(filename);
+      TabItemHandler tabItemHandlerWithFilename = perspective.findTabItemHandlerWithFilename(filename);
       if (tabItemHandlerWithFilename != null) {
         // Same file so we can simply switch to it.
         // This will prevent confusion.
@@ -127,8 +121,7 @@ public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
 
       // Load the pipeline
       //
-      PipelineMeta pipelineMeta =
-          new PipelineMeta(filename, hopGui.getMetadataProvider(), true, parentVariableSpace);
+      PipelineMeta pipelineMeta = new PipelineMeta(filename, hopGui.getMetadataProvider(), true, parentVariableSpace);
 
       // Pass the MetaStore for reference lookups
       //
@@ -144,11 +137,7 @@ public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
 
       // Inform those that want to know about it that we loaded a pipeline
       //
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(),
-          parentVariableSpace,
-          HopExtensionPoint.PipelineAfterOpen.id,
-          pipelineMeta);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), parentVariableSpace, HopExtensionPoint.PipelineAfterOpen.id, pipelineMeta);
 
       return typeHandler;
     } catch (Exception e) {
@@ -157,8 +146,7 @@ public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     try {
       // This file is created in the data orchestration perspective
       //
@@ -212,25 +200,13 @@ public class HopPipelineFileType<T extends PipelineMeta> extends HopFileTypeBase
     List<IGuiContextHandler> handlers = new ArrayList<>();
 
     GuiAction newAction =
-        new GuiAction(
-            ACTION_ID_NEW_PIPELINE,
-            GuiActionType.Create,
-            BaseMessages.getString(PKG, "HopPipelineFileType.GuiAction.Pipeline.Name"),
-            BaseMessages.getString(PKG, "HopPipelineFileType.GuiAction.Pipeline.Tooltip"),
-            "ui/images/pipeline.svg",
-            (shiftClicked, controlClicked, parameters) -> {
-              try {
-                HopPipelineFileType.this.newFile(hopGui, hopGui.getVariables());
-              } catch (Exception e) {
-                new ErrorDialog(
-                    hopGui.getShell(),
-                    BaseMessages.getString(
-                        PKG, "HopPipelineFileType.ErrorDialog.PipelineDrawing.Header"),
-                    BaseMessages.getString(
-                        PKG, "HopPipelineFileType.ErrorDialog.PipelineDrawing.Message"),
-                    e);
-              }
-            });
+        new GuiAction(ACTION_ID_NEW_PIPELINE, GuiActionType.Create, BaseMessages.getString(PKG, "HopPipelineFileType.GuiAction.Pipeline.Name"), BaseMessages.getString(PKG, "HopPipelineFileType.GuiAction.Pipeline.Tooltip"), "ui/images/pipeline.svg", (shiftClicked, controlClicked, parameters) -> {
+          try {
+            HopPipelineFileType.this.newFile(hopGui, hopGui.getVariables());
+          } catch (Exception e) {
+            new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopPipelineFileType.ErrorDialog.PipelineDrawing.Header"), BaseMessages.getString(PKG, "HopPipelineFileType.ErrorDialog.PipelineDrawing.Message"), e);
+          }
+        });
     newAction.setCategory("File");
     newAction.setCategoryOrder("1");
 

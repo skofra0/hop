@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,16 +30,13 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
-public abstract class BaseHopServerPlugin extends BaseHttpServlet
-    implements IHopServerPlugin, IHopServerRequestHandler {
-  /**
-   * @param req http servlet request
+public abstract class BaseHopServerPlugin extends BaseHttpServlet implements IHopServerPlugin, IHopServerRequestHandler {
+  /** @param req http servlet request
    * @param resp http servlet response
    * @throws IOException
    * @deprecated Should not be called directly. Use {@link #service(HttpServletRequest,
-   *     HttpServletResponse)} instead
-   */
-  @Deprecated(since="2.0")
+   *             HttpServletResponse)} instead */
+  @Deprecated(since = "2.0")
   @Override
   public void doGet(HttpServletRequest req, final HttpServletResponse resp) throws IOException {
     service(req, resp);

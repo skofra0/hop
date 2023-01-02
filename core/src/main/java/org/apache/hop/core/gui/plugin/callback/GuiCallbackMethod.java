@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,22 +37,13 @@ public class GuiCallbackMethod {
       Object singleton = getInstanceMethod.invoke(null);
       callbackMethod.invoke(singleton);
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error calling callback method with ID "
-              + callbackId
-              + " in class "
-              + singletonClass.getName()
-              + " with method "
-              + callbackMethod.getName(),
-          e);
+      throw new RuntimeException("Error calling callback method with ID " + callbackId + " in class " + singletonClass.getName() + " with method " + callbackMethod.getName(), e);
     }
   }
 
-  /**
-   * Gets callbackId
+  /** Gets callbackId
    *
-   * @return value of callbackId
-   */
+   * @return value of callbackId */
   public String getCallbackId() {
     return callbackId;
   }
@@ -62,11 +53,9 @@ public class GuiCallbackMethod {
     this.callbackId = callbackId;
   }
 
-  /**
-   * Gets singletonClass
+  /** Gets singletonClass
    *
-   * @return value of singletonClass
-   */
+   * @return value of singletonClass */
   public Class<?> getSingletonClass() {
     return singletonClass;
   }
@@ -76,11 +65,9 @@ public class GuiCallbackMethod {
     this.singletonClass = singletonClass;
   }
 
-  /**
-   * Gets callbackMethod
+  /** Gets callbackMethod
    *
-   * @return value of callbackMethod
-   */
+   * @return value of callbackMethod */
   public Method getCallbackMethod() {
     return callbackMethod;
   }

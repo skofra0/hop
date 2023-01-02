@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,8 +34,7 @@ public class GetRootServlet extends BaseHttpServlet implements IHopServerPlugin 
   public GetRootServlet() {}
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().equals(CONTEXT_PATH)) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
@@ -51,22 +50,14 @@ public class GetRootServlet extends BaseHttpServlet implements IHopServerPlugin 
     PrintWriter out = response.getWriter();
 
     out.println("<HTML>");
-    out.println(
-        "<HEAD><TITLE>"
-            + BaseMessages.getString(PKG, "GetRootServlet.HopHopServer.Title")
-            + "</TITLE>");
+    out.println("<HEAD><TITLE>" + BaseMessages.getString(PKG, "GetRootServlet.HopHopServer.Title") + "</TITLE>");
     out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
     out.println("</HEAD>");
     out.println("<BODY>");
     out.println("<H2>" + BaseMessages.getString(PKG, "GetRootServlet.HopServerMenu") + "</H2>");
 
     out.println("<p>");
-    out.println(
-        "<a href=\""
-            + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-            + "\">"
-            + BaseMessages.getString(PKG, "GetRootServlet.ShowStatus")
-            + "</a><br>");
+    out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "GetRootServlet.ShowStatus") + "</a><br>");
 
     out.println("<p>");
     out.println("</BODY>");

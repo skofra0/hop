@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,10 +38,8 @@ import org.w3c.dom.Node;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class describes the fact that a single Action can be used multiple times in the same
- * Workflow. Therefore it contains a link to a Action, a position, a number, etc.
- */
+/** This class describes the fact that a single Action can be used multiple times in the same
+ * Workflow. Therefore it contains a link to a Action, a position, a number, etc. */
 public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttributes, IBaseMeta {
   public static final String XML_TAG = "action";
 
@@ -77,8 +75,7 @@ public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttribute
     StringBuilder xml = new StringBuilder(100);
 
     xml.append("    ").append(XmlHandler.openTag(XML_TAG)).append(Const.CR);
-    action.setParentWorkflowMeta(
-        parentWorkflowMeta); // Attempt to set the WorkflowMeta for entries that need it
+    action.setParentWorkflowMeta(parentWorkflowMeta); // Attempt to set the WorkflowMeta for entries that need it
     xml.append(action.getXml());
 
     xml.append("      ").append(XmlHandler.addTagValue("parallel", launchingInParallel));
@@ -91,8 +88,7 @@ public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttribute
     return xml.toString();
   }
 
-  public ActionMeta(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public ActionMeta(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       String pluginId = XmlHandler.getTagValue(actionNode, "type");
       PluginRegistry registry = PluginRegistry.getInstance();
@@ -113,14 +109,12 @@ public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttribute
         action.loadXml(actionNode, metadataProvider, variables);
 
         // Handle GUI information: location?
-        setLaunchingInParallel(
-            "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, "parallel")));
+        setLaunchingInParallel("Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, "parallel")));
         int x = Const.toInt(XmlHandler.getTagValue(actionNode, "xloc"), 0);
         int y = Const.toInt(XmlHandler.getTagValue(actionNode, "yloc"), 0);
         setLocation(x, y);
 
-        Node actionCopyAttributesNode =
-            XmlHandler.getSubNode(actionNode, XML_ATTRIBUTE_WORKFLOW_ACTION_COPY);
+        Node actionCopyAttributesNode = XmlHandler.getSubNode(actionNode, XML_ATTRIBUTE_WORKFLOW_ACTION_COPY);
         if (actionCopyAttributesNode != null) {
           attributesMap = AttributesUtil.loadAttributes(actionCopyAttributesNode);
         } else {
@@ -131,9 +125,7 @@ public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttribute
           // scenarios the Workflow worked as expected; so by trying to load the LAST one into the
           // ActionCopy, we
           // simulate that behaviour.
-          attributesMap =
-              AttributesUtil.loadAttributes(
-                  XmlHandler.getLastSubNode(actionNode, AttributesUtil.XML_TAG));
+          attributesMap = AttributesUtil.loadAttributes(XmlHandler.getLastSubNode(actionNode, AttributesUtil.XML_TAG));
         }
       }
     } catch (Throwable e) {
@@ -198,8 +190,7 @@ public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttribute
     this.action = action;
     if (action != null) {
       if (action.getPluginId() == null) {
-        action.setPluginId(
-            PluginRegistry.getInstance().getPluginId(ActionPluginType.class, action));
+        action.setPluginId(PluginRegistry.getInstance().getPluginId(ActionPluginType.class, action));
       }
 
       // Check if action is deprecated by annotation
@@ -216,8 +207,7 @@ public class ActionMeta implements Cloneable, IGuiPosition, IChanged, IAttribute
 
   /** @return action in IAction.typeCode[] for native workflows, action.getTypeCode() for plugins */
   public String getTypeDesc() {
-    IPlugin plugin =
-        PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, action.getPluginId());
+    IPlugin plugin = PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, action.getPluginId());
     return plugin.getDescription();
   }
 

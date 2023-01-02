@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,26 +34,20 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
   protected IVariables variables;
   protected String description;
 
-  public MultiMetadataSerializer(
-      MultiMetadataProvider multiProvider,
-      Class<T> managedClass,
-      IVariables variables,
-      String description) {
+  public MultiMetadataSerializer(MultiMetadataProvider multiProvider, Class<T> managedClass, IVariables variables, String description) {
     this.multiProvider = multiProvider;
     this.managedClass = managedClass;
     this.variables = variables;
     this.description = description;
   }
 
-  /**
-   * Check the providers one at a time in reverse order. The first that has the object is the one
+  /** Check the providers one at a time in reverse order. The first that has the object is the one
    * that will be taken. This gives the possibility to override existing objects in parent projects
    * with local versions.
    *
    * @param objectName The name of the object to load
    * @return The object or null if it couldn't be found
-   * @throws HopException
-   */
+   * @throws HopException */
   @Override
   public T load(String objectName) throws HopException {
 
@@ -72,13 +66,11 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
     return null;
   }
 
-  /**
-   * We're going to save the object in the source specified in the object or if no source is
+  /** We're going to save the object in the source specified in the object or if no source is
    * specified in the last provider.
    *
    * @param t
-   * @throws HopException
-   */
+   * @throws HopException */
   @Override
   public void save(T t) throws HopException {
     IHopMetadataProvider provider;
@@ -95,25 +87,18 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
       String sourceDescription = t.getMetadataProviderName();
       provider = multiProvider.findProvider(sourceDescription);
       if (provider == null) {
-        throw new HopException(
-            "Hop metadata provider '"
-                + sourceDescription
-                + " could not be found to save object '"
-                + t.getName()
-                + "'");
+        throw new HopException("Hop metadata provider '" + sourceDescription + " could not be found to save object '" + t.getName() + "'");
       }
     }
     IHopMetadataSerializer<T> serializer = provider.getSerializer(managedClass);
     serializer.save(t);
   }
 
-  /**
-   * Delete the first object that matches the name in the providers.
+  /** Delete the first object that matches the name in the providers.
    *
    * @param name The name of the object to delete
    * @return The deleted object...
-   * @throws HopException
-   */
+   * @throws HopException */
   @Override
   public T delete(String name) throws HopException {
     List<IHopMetadataProvider> providers = multiProvider.getProviders();
@@ -125,8 +110,7 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
         return serializer.delete(name);
       }
     }
-    throw new HopException(
-        "Object '" + name + "' was not found nor deleted from any of the metadata providers");
+    throw new HopException("Object '" + name + "' was not found nor deleted from any of the metadata providers");
   }
 
   @Override

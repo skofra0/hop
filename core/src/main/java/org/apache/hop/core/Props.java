@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,10 +26,8 @@ import org.apache.hop.core.logging.LogChannel;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * We use Props to store all kinds of user interactive information such as the selected colors,
- * fonts, positions of windows, etc.
- */
+/** We use Props to store all kinds of user interactive information such as the selected colors,
+ * fonts, positions of windows, etc. */
 public class Props implements Cloneable {
   private static final Class<?> PKG = Const.class; // For Translator
 
@@ -55,8 +53,7 @@ public class Props implements Cloneable {
   public static final String STRING_ICON_SIZE = "IconSize";
   public static final String STRING_LINE_WIDTH = "LineWidth";
   public static final String STRING_MIDDLE_PCT = "MiddlePct";
-  public static final String STRING_INDICATE_SLOW_PIPELINE_TRANSFORMS =
-      "IndicateSlowPipelineTransforms";
+  public static final String STRING_INDICATE_SLOW_PIPELINE_TRANSFORMS = "IndicateSlowPipelineTransforms";
 
   public static final String STRING_LAST_PREVIEW_PIPELINE = "LastPreviewPipeline";
   public static final String STRING_LAST_PREVIEW_TRANSFORM = "LastPreviewTransform";
@@ -111,8 +108,7 @@ public class Props implements Cloneable {
       HopConfig.setGuiProperty(key, value);
       HopConfig.getInstance().saveToFile();
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error saving hop config option key '" + key + "', value '" + value + "'", e);
+      throw new RuntimeException("Error saving hop config option key '" + key + "', value '" + value + "'", e);
     }
   }
 
@@ -150,21 +146,17 @@ public class Props implements Cloneable {
     setProperty(TABLEOUTPUT_SORT_MAPPINGS, value ? YES : NO);
   }
 
-  /**
-   * @param parameterName The parameter name
+  /** @param parameterName The parameter name
    * @param defaultValue The default value in case the parameter doesn't exist yet.
-   * @return The custom parameter
-   */
+   * @return The custom parameter */
   public String getCustomParameter(String parameterName, String defaultValue) {
     return getProperty(STRING_CUSTOM_PARAMETER + parameterName, defaultValue);
   }
 
-  /**
-   * Set the custom parameter
+  /** Set the custom parameter
    *
    * @param parameterName The name of the parameter
-   * @param value The value to be stored in the properties file.
-   */
+   * @param value The value to be stored in the properties file. */
   public void setCustomParameter(String parameterName, String value) {
     setProperty(STRING_CUSTOM_PARAMETER + parameterName, value);
   }

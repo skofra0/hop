@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,14 +26,13 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 import java.util.*;
 
-/**
- * This class will help calculate and contain the data lineage for all values in the pipeline.<br>
+/** This class will help calculate and contain the data lineage for all values in the pipeline.<br>
  * What we will get is a List of ValueLineage objects for all the values transforms in the pipeline.
  * <br>
  * Each of these ValueLineage objects contains a list of all the transforms it passed through.<br>
  * As such, it's a hierarchical view of the pipeline.<br>
- *
- * <p>This view will allow us to see immediately where a certain value is being manipulated.<br>
+ * <p>
+ * This view will allow us to see immediately where a certain value is being manipulated.<br>
  */
 public class PipelineDataLineage {
   private PipelineMeta pipelineMeta;
@@ -65,19 +64,16 @@ public class PipelineDataLineage {
     this.valueLineages = valueLineages;
   }
 
-  /**
-   * Using the pipeline, we will calculate the data lineage for each field in each transform.
+  /** Using the pipeline, we will calculate the data lineage for each field in each transform.
    *
    * @throws HopTransformException In case there is an exception calculating the lineage. This is
-   *     usually caused by unavailable data sources etc.
-   */
+   *         usually caused by unavailable data sources etc. */
   public void calculateLineage(IVariables variables) throws HopTransformException {
 
     // After sorting the transforms we get a map of all the previous transforms of a certain
     // transform.
     //
-    final Map<TransformMeta, Map<TransformMeta, Boolean>> transformMap =
-        pipelineMeta.sortTransformsNatural();
+    final Map<TransformMeta, Map<TransformMeta, Boolean>> transformMap = pipelineMeta.sortTransformsNatural();
 
     // However, the we need a sorted list of previous transforms per transform, not a map.
     // So lets sort the maps, turn them into lists...
@@ -91,20 +87,18 @@ public class PipelineDataLineage {
 
       // Sort this list...
       //
-      Collections.sort(
-          previousTransforms,
-          (o1, o2) -> {
-            Map<TransformMeta, Boolean> beforeMap = transformMap.get(o1);
-            if (beforeMap != null) {
-              if (beforeMap.get(o2) == null) {
-                return -1;
-              } else {
-                return 1;
-              }
-            } else {
-              return o1.getName().compareToIgnoreCase(o2.getName());
-            }
-          });
+      Collections.sort(previousTransforms, (o1, o2) -> {
+        Map<TransformMeta, Boolean> beforeMap = transformMap.get(o1);
+        if (beforeMap != null) {
+          if (beforeMap.get(o2) == null) {
+            return -1;
+          } else {
+            return 1;
+          }
+        } else {
+          return o1.getName().compareToIgnoreCase(o2.getName());
+        }
+      });
     }
 
     fieldTransformsMap = new HashMap<>();
@@ -115,23 +109,19 @@ public class PipelineDataLineage {
     }
   }
 
-  /**
-   * Calculate the lineage for the specified transform only...
+  /** Calculate the lineage for the specified transform only...
    *
    * @param transformMeta The transform to calculate the lineage for.
    * @throws HopTransformException In case there is an exception calculating the lineage. This is
-   *     usually caused by unavailable data sources etc.
-   */
-  private void calculateLineage(IVariables variables, TransformMeta transformMeta)
-      throws HopTransformException {
+   *         usually caused by unavailable data sources etc. */
+  private void calculateLineage(IVariables variables, TransformMeta transformMeta) throws HopTransformException {
     IRowMeta outputMeta = pipelineMeta.getTransformFields(variables, transformMeta);
 
     // The lineage is basically a calculation of origin for each output of a certain transform.
     //
     for (IValueMeta valueMeta : outputMeta.getValueMetaList()) {
 
-      TransformMeta originTransformMeta =
-          pipelineMeta.findTransform(valueMeta.getOrigin(), transformMeta);
+      TransformMeta originTransformMeta = pipelineMeta.findTransform(valueMeta.getOrigin(), transformMeta);
       if (originTransformMeta != null) {
         /* List<TransformMeta> list = */
         fieldTransformsMap.get(originTransformMeta);

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,10 +23,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 
-/**
- * This class is used to define a number of default values for various settings throughout Hop. It
- * also contains a number of static final methods to make your life easier.
- */
+/** This class is used to define a number of default values for various settings throughout Hop. It
+ * also contains a number of static final methods to make your life easier. */
 public class ConstUi {
   /** Default icon size */
   public static final int ICON_SIZE = 32;
@@ -90,12 +88,10 @@ public class ConstUi {
   /** margin between points of controls */
   public static final int MEDUIM_MARGIN = 10;
 
-  /**
-   * Determine the level of where the TreeItem is position in a tree.
+  /** Determine the level of where the TreeItem is position in a tree.
    *
    * @param ti The TreeItem
-   * @return The level of the item in the tree
-   */
+   * @return The level of the item in the tree */
   public static final int getTreeLevel(TreeItem ti) {
     int level = 0;
     TreeItem parent = ti.getParentItem();
@@ -107,12 +103,10 @@ public class ConstUi {
     return level;
   }
 
-  /**
-   * Get an array of strings containing the path from the given TreeItem to the parent.
+  /** Get an array of strings containing the path from the given TreeItem to the parent.
    *
    * @param ti The TreeItem to look at
-   * @return An array of string describing the path to the TreeItem.
-   */
+   * @return An array of string describing the path to the TreeItem. */
   public static final String[] getTreeStrings(TreeItem ti) {
     int nrlevels = getTreeLevel(ti) + 1;
     String[] retval = new String[nrlevels];
@@ -129,14 +123,12 @@ public class ConstUi {
     return retval;
   }
 
-  /**
-   * Return the tree path seperated by Const.FILE_SEPARATOR, starting from a certain depth in the
+  /** Return the tree path seperated by Const.FILE_SEPARATOR, starting from a certain depth in the
    * tree.
    *
    * @param ti The TreeItem to get the path for
    * @param from The depth to start at, use 0 to get the complete tree.
-   * @return The tree path.
-   */
+   * @return The tree path. */
   public static final String getTreePath(TreeItem ti, int from) {
     String[] path = getTreeStrings(ti);
 
@@ -155,11 +147,9 @@ public class ConstUi {
     return retval;
   }
 
-  /**
-   * Flips the TreeItem from expanded to not expanded or vice-versa.
+  /** Flips the TreeItem from expanded to not expanded or vice-versa.
    *
-   * @param ti The TreeItem to flip.
-   */
+   * @param ti The TreeItem to flip. */
   public static final void flipExpanded(TreeItem ti) {
     ti.setExpanded(!ti.getExpanded());
   }
@@ -168,28 +158,23 @@ public class ConstUi {
     return findTreeItem(parent, null, name);
   }
 
-  /**
-   * Finds a TreeItem with a certain label (name) in a (part of a) tree.
+  /** Finds a TreeItem with a certain label (name) in a (part of a) tree.
    *
    * @param parent The TreeItem where we start looking.
    * @param parentName The name of the parent to match as well (null=not used)
    * @param name The name or item label to look for.
-   * @return The TreeItem if the label was found, null if nothing was found.
-   */
+   * @return The TreeItem if the label was found, null if nothing was found. */
   public static final TreeItem findTreeItem(TreeItem parent, String parentName, String name) {
     return findTreeItem(null, parent, parentName, name);
   }
 
-  private static final TreeItem findTreeItem(
-      TreeItem grandParent, TreeItem parent, String parentName, String name) {
+  private static final TreeItem findTreeItem(TreeItem grandParent, TreeItem parent, String parentName, String name) {
     if (Utils.isEmpty(parentName)) {
       if (parent.getText().equalsIgnoreCase(name)) {
         return parent;
       }
     } else {
-      if (grandParent != null
-          && grandParent.getText().equalsIgnoreCase(parentName)
-          && parent.getText().equalsIgnoreCase(name)) {
+      if (grandParent != null && grandParent.getText().equalsIgnoreCase(parentName) && parent.getText().equalsIgnoreCase(name)) {
         return parent;
       }
     }

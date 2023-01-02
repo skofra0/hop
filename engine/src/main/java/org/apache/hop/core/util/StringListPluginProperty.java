@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.prefs.Preferences;
 
-public class StringListPluginProperty extends KeyValue<List<String>>
-    implements IPluginProperty, Iterable<String> {
+public class StringListPluginProperty extends KeyValue<List<String>> implements IPluginProperty, Iterable<String> {
 
   /** Serial version UID. */
   private static final long serialVersionUID = 2003662016166396542L;
@@ -43,10 +42,8 @@ public class StringListPluginProperty extends KeyValue<List<String>>
     super(key, new ArrayList<>());
   }
 
-  /**
-   * @param list list to transform, maybe null.
-   * @return string, never null.
-   */
+  /** @param list list to transform, maybe null.
+   * @return string, never null. */
   public static String asString(final List<String> list) {
     if (list == null) {
       return "";
@@ -54,10 +51,8 @@ public class StringListPluginProperty extends KeyValue<List<String>>
     return StringUtils.join(list, SEPARATOR_CHAR);
   }
 
-  /**
-   * @param input the input.
-   * @return new list, never null.
-   */
+  /** @param input the input.
+   * @return new list, never null. */
   public static List<String> fromString(final String input) {
     final List<String> result = new ArrayList<>();
     if (StringUtils.isBlank(input)) {
@@ -116,11 +111,9 @@ public class StringListPluginProperty extends KeyValue<List<String>>
     }
   }
 
-  /**
-   * {@inheritDoc}
+  /** {@inheritDoc}
    *
-   * @see java.lang.Iterable#iterator()
-   */
+   * @see java.lang.Iterable#iterator() */
   @Override
   public Iterator<String> iterator() throws IllegalStateException {
     this.assertValueNotNull();
@@ -133,20 +126,16 @@ public class StringListPluginProperty extends KeyValue<List<String>>
     return this.getValue().isEmpty();
   }
 
-  /**
-   * @return size
-   * @throws IllegalStateException if value is null.
-   */
+  /** @return size
+   * @throws IllegalStateException if value is null. */
   public int size() throws IllegalStateException {
     this.assertValueNotNull();
     return this.getValue().size();
   }
 
-  /**
-   * Assert state, value not null.
+  /** Assert state, value not null.
    *
-   * @throws IllegalStateException if this.value is null.
-   */
+   * @throws IllegalStateException if this.value is null. */
   public void assertValueNotNull() throws IllegalStateException {
     if (this.getValue() == null) {
       throw new IllegalStateException("Value is null");

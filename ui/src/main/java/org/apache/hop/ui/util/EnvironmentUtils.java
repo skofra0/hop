@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,11 +45,9 @@ public class EnvironmentUtils {
     return ENVIRONMENT_UTILS;
   }
 
-  /**
-   * Checks the available browser to see if it is an unsupported one.
+  /** Checks the available browser to see if it is an unsupported one.
    *
-   * @return 'true' if in a unSupported browser environment 'false' otherwise.
-   */
+   * @return 'true' if in a unSupported browser environment 'false' otherwise. */
   public synchronized boolean isUnsupportedBrowserEnvironment() {
     if (getEnvironmentName().contains("linux")) {
       return false;
@@ -58,21 +56,16 @@ public class EnvironmentUtils {
     if (userAgent == null) {
       return true;
     }
-    return checkUserAgent(
-            MSIE_PATTERN.matcher(userAgent), getSupportedVersion("min.windows.browser.supported"))
-        || checkUserAgent(
-            SAFARI_PATTERN.matcher(userAgent), getSupportedVersion("min.mac.browser.supported"));
+    return checkUserAgent(MSIE_PATTERN.matcher(userAgent), getSupportedVersion("min.windows.browser.supported")) || checkUserAgent(SAFARI_PATTERN.matcher(userAgent), getSupportedVersion("min.mac.browser.supported"));
   }
 
   private boolean checkUserAgent(Matcher matcher, int version) {
     return (matcher.find() && Integer.parseInt(matcher.group(1)) < version);
   }
 
-  /**
-   * Ask for user Agent of the available browser.
+  /** Ask for user Agent of the available browser.
    *
-   * @return a string that contains the user agent of the browser.
-   */
+   * @return a string that contains the user agent of the browser. */
   protected String getUserAgent() {
     Browser browser;
     try {
@@ -86,40 +79,27 @@ public class EnvironmentUtils {
     return userAgent;
   }
 
-  /**
-   * Checks the existence of the webkit library on ubuntu 16 or ubuntu 14 .
+  /** Checks the existence of the webkit library on ubuntu 16 or ubuntu 14 .
    *
    * @return 'true' if the webkit library is not present in ubuntu 16 or ubuntu 14 , 'false'
-   *     otherwise.
-   */
+   *         otherwise. */
   public synchronized boolean isWebkitUnavailable() {
     String path = getWebkitPath();
     String osName = getEnvironmentName();
     return ((path == null || path.length() < 1 || !path.contains("webkit"))
-        && (osName.contains(
-                SUPPORTED_DISTRIBUTION_NAME
-                    + " "
-                    + getSupportedVersion("max.ubuntu.os.distribution.supported"))
-            || osName.contains(
-                SUPPORTED_DISTRIBUTION_NAME
-                    + " "
-                    + getSupportedVersion("min.ubuntu.os.distribution.supported"))));
+        && (osName.contains(SUPPORTED_DISTRIBUTION_NAME + " " + getSupportedVersion("max.ubuntu.os.distribution.supported")) || osName.contains(SUPPORTED_DISTRIBUTION_NAME + " " + getSupportedVersion("min.ubuntu.os.distribution.supported"))));
   }
 
-  /**
-   * Ask for the path in the system for the webkit library.
+  /** Ask for the path in the system for the webkit library.
    *
-   * @return a string that contains the path or 'null' if not found.
-   */
+   * @return a string that contains the path or 'null' if not found. */
   protected String getWebkitPath() {
     return System.getenv("LIBWEBKITGTK");
   }
 
-  /**
-   * Ask for the Operating system name.
+  /** Ask for the Operating system name.
    *
-   * @return a string that contains the current Operating System.
-   */
+   * @return a string that contains the current Operating System. */
   private String getEnvironmentName() {
     String osName = getOsName();
     if (osName.contentEquals("linux")) {
@@ -132,31 +112,25 @@ public class EnvironmentUtils {
     return System.getProperty("os.name").toLowerCase();
   }
 
-  /**
-   * Gets the supported version of the required Property.
+  /** Gets the supported version of the required Property.
    *
    * @param property a string with the required property.
-   * @return the value of the requiredProperty.
-   */
+   * @return the value of the requiredProperty. */
   protected int getSupportedVersion(String property) {
     return PropsUi.getInstance().getSupportedVersion(property);
   }
 
-  /**
-   * Ask if the browsing environment checks are disabled.
+  /** Ask if the browsing environment checks are disabled.
    *
-   * @return 'true' if disabled 'false' otherwise.
-   */
+   * @return 'true' if disabled 'false' otherwise. */
   public boolean isBrowserEnvironmentCheckDisabled() {
     return PropsUi.getInstance().isBrowserEnvironmentCheckDisabled();
   }
 
-  /**
-   * Ask for the running linux distribution.
+  /** Ask for the running linux distribution.
    *
    * @return a string that contains the distribution name or a empty string if it could not find the
-   *     name.
-   */
+   *         name. */
   private String getLinuxDistribution() {
     Process p = null;
     try {
@@ -182,11 +156,9 @@ public class EnvironmentUtils {
     return new BufferedReader(new InputStreamReader(p.getInputStream()));
   }
 
-  /**
-   * Ask for the browser name.
+  /** Ask for the browser name.
    *
-   * @return a String that contains the browser name.
-   */
+   * @return a String that contains the browser name. */
   public synchronized String getBrowserName() {
     final String userAgent = getUserAgent();
     if (userAgent == null) {
@@ -202,11 +174,9 @@ public class EnvironmentUtils {
     return "";
   }
 
-  /**
-   * Ask if the client is Hop Web.
+  /** Ask if the client is Hop Web.
    *
-   * @return 'true' if Hop Web 'false' otherwise.
-   */
+   * @return 'true' if Hop Web 'false' otherwise. */
   public boolean isWeb() {
     return SWT.getPlatform().equals("rap");
   }

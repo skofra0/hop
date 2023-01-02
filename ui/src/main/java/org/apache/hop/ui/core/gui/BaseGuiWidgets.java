@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,36 +32,28 @@ import java.util.List;
 
 public class BaseGuiWidgets {
 
-  /**
-   * Every set of widgets (toolbar, composite, menu, ...) gets its own unique ID It will cause a new
+  /** Every set of widgets (toolbar, composite, menu, ...) gets its own unique ID It will cause a new
    * object to be created per unique ID for the listener or GUI plugins if this plugin wasn't
-   * registered yet.
-   */
+   * registered yet. */
   protected String instanceId;
 
   public BaseGuiWidgets(String instanceId) {
     this.instanceId = instanceId;
   }
 
-  /**
-   * Let the GUI plugin system know that there is no need to instantiate new objects for the given
+  /** Let the GUI plugin system know that there is no need to instantiate new objects for the given
    * class. Instead this object can be taken. Make sure to call dispose() to prevent a (slow) memory
    * leak. Call this method before creating the widgets themselves.
    *
-   * @param guiPluginObject
-   */
+   * @param guiPluginObject */
   public void registerGuiPluginObject(Object guiPluginObject) {
     GuiRegistry guiRegistry = GuiRegistry.getInstance();
     String guiPluginClassName = guiPluginObject.getClass().getName();
-    guiRegistry.registerGuiPluginObject(
-        HopGui.getInstance().getId(), guiPluginClassName, instanceId, guiPluginObject);
+    guiRegistry.registerGuiPluginObject(HopGui.getInstance().getId(), guiPluginClassName, instanceId, guiPluginObject);
   }
 
   protected void addDeRegisterGuiPluginObjectListener(Control control) {
-    control.addDisposeListener(
-        e ->
-            GuiRegistry.getInstance()
-                .removeGuiPluginObjects(HopGui.getInstance().getId(), instanceId));
+    control.addDisposeListener(e -> GuiRegistry.getInstance().removeGuiPluginObjects(HopGui.getInstance().getId(), instanceId));
   }
 
   public void dispose() {
@@ -69,15 +61,13 @@ public class BaseGuiWidgets {
     GuiRegistry.getInstance().removeGuiPluginObjects(hopGuiId, instanceId);
   }
 
-  protected Object findGuiPluginInstance(ClassLoader classLoader, String listenerClassName)
-      throws Exception {
+  protected Object findGuiPluginInstance(ClassLoader classLoader, String listenerClassName) throws Exception {
     try {
       // This is the class that owns the listener method
       // It's a GuiPlugin class in other words
       //
       String hopGuiId = HopGui.getInstance().getId();
-      Object guiPluginObject =
-          GuiRegistry.getInstance().findGuiPluginObject(hopGuiId, listenerClassName, instanceId);
+      Object guiPluginObject = GuiRegistry.getInstance().findGuiPluginObject(hopGuiId, listenerClassName, instanceId);
       if (guiPluginObject == null) {
         // Create a new instance
         //
@@ -85,32 +75,19 @@ public class BaseGuiWidgets {
 
         // Store it
         //
-        GuiRegistry.getInstance()
-            .registerGuiPluginObject(hopGuiId, listenerClassName, instanceId, guiPluginObject);
+        GuiRegistry.getInstance().registerGuiPluginObject(hopGuiId, listenerClassName, instanceId, guiPluginObject);
       }
       return guiPluginObject;
     } catch (Exception e) {
-      throw new HopException(
-          "Error finding GuiPlugin instance for class '"
-              + listenerClassName
-              + "' and instance ID : "
-              + instanceId,
-          e);
+      throw new HopException("Error finding GuiPlugin instance for class '" + listenerClassName + "' and instance ID : " + instanceId, e);
     }
   }
 
   protected String[] getComboItems(GuiToolbarItem toolbarItem) {
     try {
-      Object singleton =
-          findGuiPluginInstance(toolbarItem.getClassLoader(), toolbarItem.getListenerClass());
+      Object singleton = findGuiPluginInstance(toolbarItem.getClassLoader(), toolbarItem.getListenerClass());
       if (singleton == null) {
-        LogChannel.UI.logError(
-            "Could not get instance of class '"
-                + toolbarItem.getListenerClass()
-                + " for toolbar item "
-                + toolbarItem
-                + ", combo values method : "
-                + toolbarItem.getGetComboValuesMethod());
+        LogChannel.UI.logError("Could not get instance of class '" + toolbarItem.getListenerClass() + " for toolbar item " + toolbarItem + ", combo values method : " + toolbarItem.getGetComboValuesMethod());
         return new String[] {};
       }
 
@@ -121,26 +98,12 @@ public class BaseGuiWidgets {
       Method method;
       Object[] arguments;
       try {
-        method =
-            singleton
-                .getClass()
-                .getMethod(
-                    toolbarItem.getGetComboValuesMethod(),
-                    ILogChannel.class,
-                    IHopMetadataProvider.class);
+        method = singleton.getClass().getMethod(toolbarItem.getGetComboValuesMethod(), ILogChannel.class, IHopMetadataProvider.class);
         arguments = new Object[] {LogChannel.UI, HopGui.getInstance().getMetadataProvider()};
       } catch (NoSuchMethodException nsme) {
         try {
-          method =
-              singleton
-                  .getClass()
-                  .getMethod(
-                      toolbarItem.getGetComboValuesMethod(),
-                      ILogChannel.class,
-                      IHopMetadataProvider.class,
-                      String.class); // Instance ID
-          arguments =
-              new Object[] {LogChannel.UI, HopGui.getInstance().getMetadataProvider(), instanceId};
+          method = singleton.getClass().getMethod(toolbarItem.getGetComboValuesMethod(), ILogChannel.class, IHopMetadataProvider.class, String.class); // Instance ID
+          arguments = new Object[] {LogChannel.UI, HopGui.getInstance().getMetadataProvider(), instanceId};
         } catch (NoSuchMethodException nsme2) {
           // Try to find the method without arguments...
           //
@@ -148,31 +111,19 @@ public class BaseGuiWidgets {
             method = singleton.getClass().getMethod(toolbarItem.getGetComboValuesMethod());
             arguments = new Object[] {};
           } catch (NoSuchMethodException nsme3) {
-            throw new HopException(
-                "Unable to find method '"
-                    + toolbarItem.getGetComboValuesMethod()
-                    + "' without parameters or with parameters ILogChannel and IHopMetadataProvider in class '"
-                    + toolbarItem.getListenerClass()
-                    + "'",
-                nsme2);
+            throw new HopException("Unable to find method '" + toolbarItem.getGetComboValuesMethod() + "' without parameters or with parameters ILogChannel and IHopMetadataProvider in class '" + toolbarItem.getListenerClass() + "'", nsme2);
           }
         }
       }
       List<String> values = (List<String>) method.invoke(singleton, arguments);
       return values.toArray(new String[0]);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error getting list of combo items for method '"
-              + toolbarItem.getGetComboValuesMethod()
-              + "' in class : "
-              + toolbarItem.getListenerClass(),
-          e);
+      LogChannel.UI.logError("Error getting list of combo items for method '" + toolbarItem.getGetComboValuesMethod() + "' in class : " + toolbarItem.getListenerClass(), e);
       return new String[] {};
     }
   }
 
-  protected Listener getListener(
-      ClassLoader classLoader, String listenerClassName, String listenerMethodName) {
+  protected Listener getListener(ClassLoader classLoader, String listenerClassName, String listenerMethodName) {
 
     // Call the method to which the GuiToolbarElement annotation belongs.
     //
@@ -181,19 +132,12 @@ public class BaseGuiWidgets {
         Object singleton = findGuiPluginInstance(classLoader, listenerClassName);
         Method listenerMethod = singleton.getClass().getDeclaredMethod(listenerMethodName);
         if (listenerMethod == null) {
-          throw new HopException(
-              "Unable to find method " + listenerMethodName + " in class " + listenerClassName);
+          throw new HopException("Unable to find method " + listenerMethodName + " in class " + listenerClassName);
         }
         try {
           listenerMethod.invoke(singleton);
         } catch (Exception ie) {
-          System.err.println(
-              "Unable to call method "
-                  + listenerMethodName
-                  + " in class "
-                  + listenerClassName
-                  + " : "
-                  + ie.getMessage());
+          System.err.println("Unable to call method " + listenerMethodName + " in class " + listenerClassName + " : " + ie.getMessage());
           throw ie;
         }
       } catch (Exception ex) {
@@ -202,11 +146,9 @@ public class BaseGuiWidgets {
     };
   }
 
-  /**
-   * Gets instanceId
+  /** Gets instanceId
    *
-   * @return value of instanceId
-   */
+   * @return value of instanceId */
   public String getInstanceId() {
     return instanceId;
   }

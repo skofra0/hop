@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,31 +23,25 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Contains a buffer of rows. Getting rows from the buffer or putting rows in the buffer is
- * synchronized to allow concurrent use of multiple Threads.
- */
+/** Contains a buffer of rows. Getting rows from the buffer or putting rows in the buffer is
+ * synchronized to allow concurrent use of multiple Threads. */
 public class BlockingRowSet extends BaseRowSet implements Comparable<IRowSet>, IRowSet {
   private BlockingQueue<Object[]> queArray;
 
   private int timeoutPut;
   private int timeoutGet;
 
-  /**
-   * Create new non-blocking-queue with maxSize capacity.
+  /** Create new non-blocking-queue with maxSize capacity.
    *
-   * @param maxSize
-   */
+   * @param maxSize */
   public BlockingRowSet(int maxSize) {
     super();
 
     // create an empty queue
     queArray = new ArrayBlockingQueue<>(maxSize, false);
 
-    timeoutGet =
-        Const.toInt(System.getProperty(Const.HOP_ROWSET_GET_TIMEOUT), Const.TIMEOUT_GET_MILLIS);
-    timeoutPut =
-        Const.toInt(System.getProperty(Const.HOP_ROWSET_PUT_TIMEOUT), Const.TIMEOUT_PUT_MILLIS);
+    timeoutGet = Const.toInt(System.getProperty(Const.HOP_ROWSET_GET_TIMEOUT), Const.TIMEOUT_GET_MILLIS);
+    timeoutPut = Const.toInt(System.getProperty(Const.HOP_ROWSET_PUT_TIMEOUT), Const.TIMEOUT_PUT_MILLIS);
   }
 
   /*

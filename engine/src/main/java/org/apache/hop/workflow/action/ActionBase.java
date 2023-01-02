@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,20 +48,11 @@ import org.w3c.dom.Node;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Base class for the different types of workflow actions. Workflow actions can extend this base
+/** Base class for the different types of workflow actions. Workflow actions can extend this base
  * class to get access to common member variables and default method behavior. However, ActionBase
  * does not implement IAction (although it implements most of the same methods), so individual
- * action classes must implement IAction and specifically the <code>execute()</code> method.
- */
-public abstract class ActionBase
-    implements IAction,
-        Cloneable,
-        ILoggingObject,
-        IAttributes,
-        IExtensionData,
-        ICheckResultSource,
-        IResourceHolder {
+ * action classes must implement IAction and specifically the <code>execute()</code> method. */
+public abstract class ActionBase implements IAction, Cloneable, ILoggingObject, IAttributes, IExtensionData, ICheckResultSource, IResourceHolder {
 
   /** The name of the action */
   private String name;
@@ -110,12 +101,10 @@ public abstract class ActionBase
     extensionDataMap = new HashMap<>();
   }
 
-  /**
-   * Instantiates a new action base object with the given name and description.
+  /** Instantiates a new action base object with the given name and description.
    *
    * @param name the name of the action
-   * @param description the description of the action
-   */
+   * @param description the description of the action */
   protected ActionBase(String name, String description) {
     setName(name);
     setDescription(description);
@@ -124,12 +113,10 @@ public abstract class ActionBase
     extensionDataMap = new HashMap<>();
   }
 
-  /**
-   * Checks if the Action object is equal to the specified object
+  /** Checks if the Action object is equal to the specified object
    *
    * @return true if the two objects are equal, false otherwise
-   * @see Object#equals(Object)
-   */
+   * @see Object#equals(Object) */
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof ActionBase)) {
@@ -155,54 +142,43 @@ public abstract class ActionBase
     changed = false;
   }
 
-  /**
-   * Gets the plug-in type description
+  /** Gets the plug-in type description
    *
-   * @return the plug-in type description
-   */
+   * @return the plug-in type description */
   public String getTypeDesc() {
-    IPlugin plugin =
-        PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, pluginId);
+    IPlugin plugin = PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, pluginId);
     return plugin.getDescription();
   }
 
-  /**
-   * Sets the name of the action
+  /** Sets the name of the action
    *
-   * @param name the new name
-   */
+   * @param name the new name */
   @Override
   public void setName(String name) {
     this.name = name;
   }
 
-  /**
-   * Gets the name of the action
+  /** Gets the name of the action
    *
    * @return the name of the action
-   * @see ICheckResultSource#getName()
-   */
+   * @see ICheckResultSource#getName() */
   @Override
   public String getName() {
     return name;
   }
 
-  /**
-   * Sets the description for the action.
+  /** Sets the description for the action.
    *
-   * @param description the new description
-   */
+   * @param description the new description */
   @Override
   public void setDescription(String description) {
     this.description = description;
   }
 
-  /**
-   * Gets the description of the action
+  /** Gets the description of the action
    *
    * @return the description of the action
-   * @see ICheckResultSource#getDescription()
-   */
+   * @see ICheckResultSource#getDescription() */
   @Override
   public String getDescription() {
     return description;
@@ -213,75 +189,61 @@ public abstract class ActionBase
     return ActionPluginType.ID;
   }
 
-  /**
-   * Sets that the action has changed (i.e. a call to setChanged(true))
+  /** Sets that the action has changed (i.e. a call to setChanged(true))
    *
-   * @see ActionBase#setChanged(boolean)
-   */
+   * @see ActionBase#setChanged(boolean) */
   @Override
   public void setChanged() {
     setChanged(true);
   }
 
-  /**
-   * Sets whether the action has changed
+  /** Sets whether the action has changed
    *
-   * @param ch true if the action has changed, false otherwise
-   */
+   * @param ch true if the action has changed, false otherwise */
   @Override
   public void setChanged(boolean ch) {
     changed = ch;
   }
 
-  /**
-   * Checks whether the action has changed
+  /** Checks whether the action has changed
    *
-   * @return true if the action has changed, false otherwise
-   */
+   * @return true if the action has changed, false otherwise */
   @Override
   public boolean hasChanged() {
     return changed;
   }
 
-  /**
-   * Checks if the action has started
+  /** Checks if the action has started
    *
-   * @return true if the action has started, false otherwise
-   */
+   * @return true if the action has started, false otherwise */
   @Override
   public boolean isStart() {
     return false;
   }
 
-  /**
-   * Checks if the action executes a workflow
+  /** Checks if the action executes a workflow
    *
-   * @return true if the action executes a workflow, false otherwise
-   */
+   * @return true if the action executes a workflow, false otherwise */
   @Override
   public boolean isWorkflow() {
     return "WORKFLOW".equals(pluginId);
   }
 
-  /**
-   * Checks if this action executes a pipeline
+  /** Checks if this action executes a pipeline
    *
-   * @return true if this action executes a pipeline, false otherwise
-   */
+   * @return true if this action executes a pipeline, false otherwise */
   @Override
   public boolean isPipeline() {
     return "PIPELINE".equals(pluginId);
   }
 
-  /**
-   * This method is called by Hop whenever a action needs to serialize its settings to XML. It is
+  /** This method is called by Hop whenever a action needs to serialize its settings to XML. It is
    * called when saving a workflow in HopGui. The method returns an XML string, containing the
    * serialized settings. The string contains a series of XML tags, typically one tag per setting.
    * The helper class org.apache.hop.core.xml.XmlHandler is typically used to construct the XML
    * string.
    *
-   * @return the xml representation of the action
-   */
+   * @return the xml representation of the action */
   @Override
   public String getXml() {
     StringBuilder xml = new StringBuilder();
@@ -301,15 +263,13 @@ public abstract class ActionBase
     return xml.toString();
   }
 
-  /**
-   * This method is called by Hop whenever a action needs to read its settings from XML. The XML
+  /** This method is called by Hop whenever a action needs to read its settings from XML. The XML
    * node containing the action's settings is passed in as an argument. Again, the helper class
    * org.apache.hop.core.xml.XmlHandler is typically used to conveniently read the settings from the
    * XML node.
    *
    * @param node the top-level XML node
-   * @throws HopXmlException if any errors occur during the loading of the XML
-   */
+   * @throws HopXmlException if any errors occur during the loading of the XML */
   public void loadXml(Node node) throws HopXmlException {
     try {
       setName(XmlHandler.getTagValue(node, "name"));
@@ -317,8 +277,7 @@ public abstract class ActionBase
 
       // Load the attribute groups map
       //
-      attributesMap =
-          AttributesUtil.loadAttributes(XmlHandler.getSubNode(node, AttributesUtil.XML_TAG));
+      attributesMap = AttributesUtil.loadAttributes(XmlHandler.getSubNode(node, AttributesUtil.XML_TAG));
 
     } catch (Exception e) {
       throw new HopXmlException("Unable to load base info for action", e);
@@ -326,8 +285,7 @@ public abstract class ActionBase
   }
 
   @Override
-  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     // Load name, description
     //
     loadXml(entryNode);
@@ -337,14 +295,12 @@ public abstract class ActionBase
     XmlMetadataUtil.deSerializeFromXml(entryNode, getClass(), this, metadataProvider);
   }
 
-  /**
-   * This method is called when a action is duplicated in HopGui. It needs to return a deep copy of
+  /** This method is called when a action is duplicated in HopGui. It needs to return a deep copy of
    * this action object. It is essential that the implementing class creates proper deep copies if
    * the action configuration is stored in modifiable objects, such as lists or custom helper
    * objects.
    *
-   * @return a clone of the object
-   */
+   * @return a clone of the object */
   @Override
   public Object clone() {
     ActionBase je;
@@ -356,138 +312,112 @@ public abstract class ActionBase
     return je;
   }
 
-  /**
-   * Returns a string representation of the object. For ActionBase, this method returns the name
+  /** Returns a string representation of the object. For ActionBase, this method returns the name
    *
-   * @see Object#toString()
-   */
+   * @see Object#toString() */
   @Override
   public String toString() {
     return name;
   }
 
-  /**
-   * Checks whether a reset of the number of errors is required before execution.
+  /** Checks whether a reset of the number of errors is required before execution.
    *
-   * @return true if a reset of the number of errors is required before execution, false otherwise
-   */
+   * @return true if a reset of the number of errors is required before execution, false otherwise */
   @Override
   public boolean resetErrorsBeforeExecution() {
     return true;
   }
 
-  /**
-   * This method must return true if the action supports the true/false outgoing hops. For
+  /** This method must return true if the action supports the true/false outgoing hops. For
    * ActionBase, this method always returns false
    *
-   * @return false
-   */
+   * @return false */
   @Override
   public boolean isEvaluation() {
     return false;
   }
 
-  /**
-   * This method must return true if the action supports the unconditional outgoing hop. For
+  /** This method must return true if the action supports the unconditional outgoing hop. For
    * ActionBase, this method always returns true
    *
-   * @return true
-   */
+   * @return true */
   @Override
   public boolean isUnconditional() {
     return true;
   }
 
-  /**
-   * Gets the SQL statements needed by this action to execute successfully, given a set of
+  /** Gets the SQL statements needed by this action to execute successfully, given a set of
    * variables. For ActionBase, this method returns an empty list.
    *
    * @param variables a variable variables object containing variable bindings
    * @return an empty list
-   * @throws HopException if any errors occur during the generation of SQL statements
-   */
+   * @throws HopException if any errors occur during the generation of SQL statements */
   @Override
-  public List<SqlStatement> getSqlStatements(
-      IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return new ArrayList<>();
   }
 
-  /**
-   * Gets the filename of the action. For ActionBase, this method always returns null
+  /** Gets the filename of the action. For ActionBase, this method always returns null
    *
    * @return null
-   * @see ILoggingObject#getFilename()
-   */
+   * @see ILoggingObject#getFilename() */
   @Override
   public String getFilename() {
     return null;
   }
 
-  /**
-   * Gets the real filename of the action, by substituting any environment variables present in the
+  /** Gets the real filename of the action, by substituting any environment variables present in the
    * filename. For ActionBase, this method always returns null
    *
-   * @return null
-   */
+   * @return null */
   @Override
   public String getRealFilename() {
     return null;
   }
 
-  /**
-   * Gets all the database connections that are used by the action. For ActionBase, this method
+  /** Gets all the database connections that are used by the action. For ActionBase, this method
    * returns an empty (non-null) array
    *
-   * @return an empty (non-null) array
-   */
+   * @return an empty (non-null) array */
   public DatabaseMeta[] getUsedDatabaseConnections() {
     return new DatabaseMeta[] {};
   }
 
-  /**
-   * Copies variables from a given variable variables to this action
+  /** Copies variables from a given variable variables to this action
    *
-   * @see IVariables#copyFrom(IVariables)
-   */
+   * @see IVariables#copyFrom(IVariables) */
   @Override
   public void copyFrom(IVariables variables) {
     this.variables.copyFrom(variables);
   }
 
-  /**
-   * Substitutes any variable values into the given string, and returns the resolved string
+  /** Substitutes any variable values into the given string, and returns the resolved string
    *
    * @return the string with any environment variables resolved and substituted
-   * @see IVariables#resolve(String)
-   */
+   * @see IVariables#resolve(String) */
   @Override
   public String resolve(String aString) {
     return variables.resolve(aString);
   }
 
-  /**
-   * Substitutes any variable values into each of the given strings, and returns an array containing
+  /** Substitutes any variable values into each of the given strings, and returns an array containing
    * the resolved string(s)
    *
-   * @see IVariables#resolve(String[])
-   */
+   * @see IVariables#resolve(String[]) */
   @Override
   public String[] resolve(String[] aString) {
     return variables.resolve(aString);
   }
 
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     return variables.resolve(aString, rowMeta, rowData);
   }
 
-  /**
-   * Gets the parent variable variables
+  /** Gets the parent variable variables
    *
    * @return the parent variable variables
-   * @see IVariables#getParentVariables()
-   */
+   * @see IVariables#getParentVariables() */
   @Override
   public IVariables getParentVariables() {
     if (parentWorkflow != null) {
@@ -496,50 +426,42 @@ public abstract class ActionBase
     return variables.getParentVariables();
   }
 
-  /**
-   * Sets the parent variable variables
+  /** Sets the parent variable variables
    *
-   * @see IVariables#setParentVariables( IVariables)
-   */
+   * @see IVariables#setParentVariables( IVariables) */
   @Override
   public void setParentVariables(IVariables parent) {
     variables.setParentVariables(parent);
   }
 
-  /**
-   * Gets the value of the specified variable, or returns a default value if no such variable exists
+  /** Gets the value of the specified variable, or returns a default value if no such variable exists
    *
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
-   * @see IVariables#getVariable(String, String)
-   */
+   *         exists
+   * @see IVariables#getVariable(String, String) */
   @Override
   public String getVariable(String variableName, String defaultValue) {
     return variables.getVariable(variableName, defaultValue);
   }
 
-  /**
-   * Gets the value of the specified variable, or returns a default value if no such variable exists
+  /** Gets the value of the specified variable, or returns a default value if no such variable exists
    *
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
-   * @see IVariables#getVariable(String)
-   */
+   *         exists
+   * @see IVariables#getVariable(String) */
   @Override
   public String getVariable(String variableName) {
     return variables.getVariable(variableName);
   }
 
-  /**
-   * Returns a boolean representation of the specified variable after performing any necessary
+  /** Returns a boolean representation of the specified variable after performing any necessary
    * substitution. Truth values include case-insensitive versions of "Y", "YES", "TRUE" or "1".
    *
    * @param variableName the name of the variable to interrogate
    * @return a boolean representation of the specified variable after performing any necessary
-   *     substitution
+   *         substitution
    * @boolean defaultValue the value to use if the specified variable is unassigned.
-   * @see IVariables#getVariableBoolean(String, boolean)
-   */
+   * @see IVariables#getVariableBoolean(String, boolean) */
   @Override
   public boolean getVariableBoolean(String variableName, boolean defaultValue) {
     if (!Utils.isEmpty(variableName)) {
@@ -551,158 +473,122 @@ public abstract class ActionBase
     return defaultValue;
   }
 
-  /**
-   * Sets the values of the action's variables to the values from the parent variables
+  /** Sets the values of the action's variables to the values from the parent variables
    *
-   * @see IVariables#initializeFrom( IVariables)
-   */
+   * @see IVariables#initializeFrom( IVariables) */
   @Override
   public void initializeFrom(IVariables parent) {
     variables.initializeFrom(parent);
   }
 
-  /**
-   * Gets a list of variable names for the action
+  /** Gets a list of variable names for the action
    *
    * @return a list of variable names
-   * @see IVariables#getVariableNames()
-   */
+   * @see IVariables#getVariableNames() */
   @Override
   public String[] getVariableNames() {
     return variables.getVariableNames();
   }
 
-  /**
-   * Sets the value of the specified variable to the specified value
+  /** Sets the value of the specified variable to the specified value
    *
-   * @see IVariables#setVariable(String, String)
-   */
+   * @see IVariables#setVariable(String, String) */
   @Override
   public void setVariable(String variableName, String variableValue) {
     variables.setVariable(variableName, variableValue);
   }
 
-  /**
-   * Shares a variable variables from another variable variables. This means that the object should
+  /** Shares a variable variables from another variable variables. This means that the object should
    * take over the variables used as argument.
    *
-   * @see IVariables#shareWith(IVariables)
-   */
+   * @see IVariables#shareWith(IVariables) */
   @Override
   public void shareWith(IVariables variables) {
     this.variables = variables;
   }
 
-  /**
-   * Injects variables using the given Map. The behavior should be that the properties object will
+  /** Injects variables using the given Map. The behavior should be that the properties object will
    * be stored and at the time the IVariables is initialized (or upon calling this method if the
    * variables is already initialized). After injecting the link of the properties object should be
    * removed.
    *
-   * @see IVariables#setVariables(Map)
-   */
+   * @see IVariables#setVariables(Map) */
   @Override
   public void setVariables(Map<String, String> map) {
     variables.setVariables(map);
   }
 
-  /**
-   * Allows Action objects to check themselves for consistency
+  /** Allows Action objects to check themselves for consistency
    *
    * @param remarks List of CheckResult objects indicating consistency status
    * @param workflowMeta the metadata object for the action
    * @param variables the variable variables to resolve string expressions with variables with
-   * @param metadataProvider the MetaStore to load common elements from
-   */
+   * @param metadataProvider the MetaStore to load common elements from */
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {}
 
-  /**
-   * Gets a list of all the resource dependencies that the transform is depending on. In ActionBase,
+  /** Gets a list of all the resource dependencies that the transform is depending on. In ActionBase,
    * this method returns an empty resource dependency list.
    *
    * @return an empty list of ResourceReferences
-   * @see ResourceReference
-   */
+   * @see ResourceReference */
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     return new ArrayList<>(5); // default: return an empty resource dependency list. Lower the
     // initial capacity
   }
 
-  /**
-   * Exports the object to a flat-file system, adding content with filename keys to a set of
+  /** Exports the object to a flat-file system, adding content with filename keys to a set of
    * definitions. The supplied resource naming interface allows the object to name appropriately
    * without worrying about those parts of the implementation specific details.
    *
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
-   * @throws HopException in case something goes wrong during the export
-   */
+   * @throws HopException in case something goes wrong during the export */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider) throws HopException {
     return null;
   }
 
-  /**
-   * Gets the plugin id.
+  /** Gets the plugin id.
    *
-   * @return the plugin id
-   */
+   * @return the plugin id */
   @Override
   public String getPluginId() {
     return pluginId;
   }
 
-  /**
-   * Sets the plugin id.
+  /** Sets the plugin id.
    *
-   * @param pluginId the new plugin id
-   */
+   * @param pluginId the new plugin id */
   @Override
   public void setPluginId(String pluginId) {
     this.pluginId = pluginId;
   }
 
-  /**
-   * You can use this to point to an alternate class for the Dialog. By default we return null. This
+  /** You can use this to point to an alternate class for the Dialog. By default we return null. This
    * means we simply add Dialog to the Action plugin class name.
    *
-   * @return full class name of the action dialog class (null by default)
-   */
+   * @return full class name of the action dialog class (null by default) */
   @Override
   public String getDialogClassName() {
     return null;
   }
 
-  /**
-   * Gets the variable bindings for the action.
+  /** Gets the variable bindings for the action.
    *
-   * @return the variable bindings for the action.
-   */
+   * @return the variable bindings for the action. */
   protected IVariables getVariables() {
     return variables;
   }
 
-  /**
-   * Sets the parent workflow.
+  /** Sets the parent workflow.
    *
-   * @param parentWorkflow the new parent workflow
-   */
+   * @param parentWorkflow the new parent workflow */
   @Override
   public void setParentWorkflow(IWorkflowEngine<WorkflowMeta> parentWorkflow) {
     this.parentWorkflow = parentWorkflow;
@@ -711,319 +597,254 @@ public abstract class ActionBase
     this.containerObjectId = parentWorkflow.getContainerId();
   }
 
-  /**
-   * Gets the parent workflow.
+  /** Gets the parent workflow.
    *
-   * @return the parent workflow
-   */
+   * @return the parent workflow */
   @Override
   public IWorkflowEngine<WorkflowMeta> getParentWorkflow() {
     return parentWorkflow;
   }
 
-  /**
-   * Checks if the logging level is basic.
+  /** Checks if the logging level is basic.
    *
-   * @return true if the logging level is basic, false otherwise
-   */
+   * @return true if the logging level is basic, false otherwise */
   public boolean isBasic() {
     return log.isBasic();
   }
 
-  /**
-   * Checks if the logging level is detailed.
+  /** Checks if the logging level is detailed.
    *
-   * @return true if the logging level is detailed, false otherwise
-   */
+   * @return true if the logging level is detailed, false otherwise */
   public boolean isDetailed() {
     return log.isDetailed();
   }
 
-  /**
-   * Checks if the logging level is debug.
+  /** Checks if the logging level is debug.
    *
-   * @return true if the logging level is debug, false otherwise
-   */
+   * @return true if the logging level is debug, false otherwise */
   public boolean isDebug() {
     return log.isDebug();
   }
 
-  /**
-   * Checks if the logging level is rowlevel.
+  /** Checks if the logging level is rowlevel.
    *
-   * @return true if the logging level is rowlevel, false otherwise
-   */
+   * @return true if the logging level is rowlevel, false otherwise */
   public boolean isRowlevel() {
     return log.isRowLevel();
   }
 
-  /**
-   * Logs the specified string at the minimal level.
+  /** Logs the specified string at the minimal level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logMinimal(String message) {
     log.logMinimal(message);
   }
 
-  /**
-   * Logs the specified string and arguments at the minimal level.
+  /** Logs the specified string and arguments at the minimal level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logMinimal(String message, Object... arguments) {
     log.logMinimal(message, arguments);
   }
 
-  /**
-   * Logs the specified string at the basic level.
+  /** Logs the specified string at the basic level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logBasic(String message) {
     log.logBasic(message);
   }
 
-  /**
-   * Logs the specified string and arguments at the basic level.
+  /** Logs the specified string and arguments at the basic level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logBasic(String message, Object... arguments) {
     log.logBasic(message, arguments);
   }
 
-  /**
-   * Logs the specified string at the detailed level.
+  /** Logs the specified string at the detailed level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDetailed(String message) {
     log.logDetailed(message);
   }
 
-  /**
-   * Logs the specified string and arguments at the detailed level.
+  /** Logs the specified string and arguments at the detailed level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDetailed(String message, Object... arguments) {
     log.logDetailed(message, arguments);
   }
 
-  /**
-   * Logs the specified string at the debug level.
+  /** Logs the specified string at the debug level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDebug(String message) {
     log.logDebug(message);
   }
 
-  /**
-   * Logs the specified string and arguments at the debug level.
+  /** Logs the specified string and arguments at the debug level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDebug(String message, Object... arguments) {
     log.logDebug(message, arguments);
   }
 
-  /**
-   * Logs the specified string at the row level.
+  /** Logs the specified string at the row level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logRowlevel(String message) {
     log.logRowlevel(message);
   }
 
-  /**
-   * Logs the specified string and arguments at the row level.
+  /** Logs the specified string and arguments at the row level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logRowlevel(String message, Object... arguments) {
     log.logRowlevel(message, arguments);
   }
 
-  /**
-   * Logs the specified string at the error level.
+  /** Logs the specified string at the error level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logError(String message) {
     log.logError(message);
   }
 
-  /**
-   * Logs the specified string and Throwable object at the error level.
+  /** Logs the specified string and Throwable object at the error level.
    *
    * @param message the message
-   * @param e the e
-   */
+   * @param e the e */
   public void logError(String message, Throwable e) {
     log.logError(message, e);
   }
 
-  /**
-   * Logs the specified string and arguments at the error level.
+  /** Logs the specified string and arguments at the error level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logError(String message, Object... arguments) {
     log.logError(message, arguments);
   }
 
-  /**
-   * Gets the log channel.
+  /** Gets the log channel.
    *
-   * @return the log channel
-   */
+   * @return the log channel */
   @Override
   public ILogChannel getLogChannel() {
     return log;
   }
 
-  /**
-   * Gets the logging channel id
+  /** Gets the logging channel id
    *
    * @return the log channel id
-   * @see ILoggingObject#getLogChannelId()
-   */
+   * @see ILoggingObject#getLogChannelId() */
   @Override
   public String getLogChannelId() {
     return log.getLogChannelId();
   }
 
-  /**
-   * Gets the object name
+  /** Gets the object name
    *
    * @return the object name
-   * @see ILoggingObject#getObjectName()
-   */
+   * @see ILoggingObject#getObjectName() */
   @Override
   public String getObjectName() {
     return getName();
   }
 
-  /**
-   * Gets a string identifying a copy in a series of transforms
+  /** Gets a string identifying a copy in a series of transforms
    *
    * @return a string identifying a copy in a series of transforms
-   * @see ILoggingObject#getObjectCopy()
-   */
+   * @see ILoggingObject#getObjectCopy() */
   @Override
   public String getObjectCopy() {
     return null;
   }
 
-  /**
-   * Gets the logging object type
+  /** Gets the logging object type
    *
    * @return the logging object type
-   * @see ILoggingObject#getObjectType()
-   */
+   * @see ILoggingObject#getObjectType() */
   @Override
   public LoggingObjectType getObjectType() {
     return LoggingObjectType.ACTION;
   }
 
-  /**
-   * Gets the logging object interface's parent
+  /** Gets the logging object interface's parent
    *
    * @return the logging object interface's parent
-   * @see ILoggingObject#getParent()
-   */
+   * @see ILoggingObject#getParent() */
   @Override
   public ILoggingObject getParent() {
     return parentWorkflow;
   }
 
-  /**
-   * Gets the logging level for the action
+  /** Gets the logging level for the action
    *
-   * @see ILoggingObject#getLogLevel()
-   */
+   * @see ILoggingObject#getLogLevel() */
   @Override
   public LogLevel getLogLevel() {
     return logLevel;
   }
 
-  /**
-   * Sets the logging level for the action
+  /** Sets the logging level for the action
    *
-   * @param logLevel the new log level
-   */
+   * @param logLevel the new log level */
   public void setLogLevel(LogLevel logLevel) {
     this.logLevel = logLevel;
     log.setLogLevel(logLevel);
   }
 
-  /**
-   * Gets the container object id
+  /** Gets the container object id
    *
-   * @return the container object id
-   */
+   * @return the container object id */
   @Override
   public String getContainerId() {
     return containerObjectId;
   }
 
-  /**
-   * Sets the container object id
+  /** Sets the container object id
    *
-   * @param containerObjectId the container object id to set
-   */
+   * @param containerObjectId the container object id to set */
   public void setContainerObjectId(String containerObjectId) {
     this.containerObjectId = containerObjectId;
   }
 
-  /**
-   * Returns the registration date for the action. For ActionBase, this method always returns null
+  /** Returns the registration date for the action. For ActionBase, this method always returns null
    *
-   * @return null
-   */
+   * @return null */
   @Override
   public Date getRegistrationDate() {
     return null;
   }
 
-  /**
-   * @return The objects referenced in the transform, like a a pipeline, a workflow, a mapper, a
-   *     reducer, a combiner, ...
-   */
+  /** @return The objects referenced in the transform, like a a pipeline, a workflow, a mapper, a
+   *         reducer, a combiner, ... */
   @Override
   public String[] getReferencedObjectDescriptions() {
     return null;
   }
 
-  /**
-   * @return true for each referenced object that is enabled or has a valid reference definition.
-   */
+  /** @return true for each referenced object that is enabled or has a valid reference definition. */
   @Override
   public boolean[] isReferencedObjectEnabled() {
     return null;
   }
 
-  /**
-   * Load the referenced object
+  /** Load the referenced object
    *
    * @param index the referenced object index to load (in case there are multiple references)
    * @param metadataProvider the metadataProvider to load from
    * @param variables the variable variables to use
    * @return the referenced object once loaded
-   * @throws HopException
-   */
+   * @throws HopException */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return null;
   }
 
@@ -1110,22 +931,18 @@ public abstract class ActionBase
     return parentWorkflowMeta;
   }
 
-  /**
-   * At save and run time, the system will attempt to set the workflowMeta so that it can be
+  /** At save and run time, the system will attempt to set the workflowMeta so that it can be
    * accessed by the actions if necessary.
    *
-   * @param parentWorkflowMeta the WorkflowMeta to which this IAction belongs
-   */
+   * @param parentWorkflowMeta the WorkflowMeta to which this IAction belongs */
   @Override
   public void setParentWorkflowMeta(WorkflowMeta parentWorkflowMeta) {
     this.parentWorkflowMeta = parentWorkflowMeta;
   }
 
-  /**
-   * Gets a Map of variables set in EntryTransformSetVariables
+  /** Gets a Map of variables set in EntryTransformSetVariables
    *
-   * @return a map of variable names and values
-   */
+   * @return a map of variable names and values */
   protected Map<String, String> getEntryTransformSetVariablesMap() {
     return entryTransformSetVariablesMap;
   }

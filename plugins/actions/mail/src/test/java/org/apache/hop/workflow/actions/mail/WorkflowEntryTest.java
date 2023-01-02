@@ -16,7 +16,7 @@
  */
 package org.apache.hop.workflow.actions.mail;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.hop.core.HopClientEnvironment;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.junit.rules.RestoreHopEngineEnvironment;

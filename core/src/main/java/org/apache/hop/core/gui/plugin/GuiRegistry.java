@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,21 +37,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-/**
- * This singleton keeps track of the various GUI elements that are made plug-able by the developers.
+/** This singleton keeps track of the various GUI elements that are made plug-able by the developers.
  * For example, a general menu with a certain ID is added by someone and then other developers can
  * then add menu items into it wherever they like. This registry keeps track of everything so that
- * menus can be built dynamically as needed.
- */
+ * menus can be built dynamically as needed. */
 public class GuiRegistry {
 
   private static GuiRegistry guiRegistry;
 
-  /**
-   * this map links the GUI class to the menu elements information. For example, it would contain
+  /** this map links the GUI class to the menu elements information. For example, it would contain
    * the root ID of the HopGui class at the top of the map. For the HopGui main menu we would have a
-   * menu elements stored per ID.
-   */
+   * menu elements stored per ID. */
   private Map<String, Map<String, GuiMenuItem>> guiMenuMap;
 
   private Map<String, Map<String, GuiToolbarItem>> guiToolbarMap;
@@ -61,10 +57,8 @@ public class GuiRegistry {
   private Map<String, List<GuiActionFilter>> contextActionFiltersMap;
   private Map<String, List<GuiCallbackMethod>> callbackMethodsMap;
 
-  /**
-   * The first entry in this map is the HopGui ID Then the maps found are GuiPlugin class names and
-   * their instances. It's used to get the methods and fields for toolbars, components, ...
-   */
+  /** The first entry in this map is the HopGui ID Then the maps found are GuiPlugin class names and
+   * their instances. It's used to get the methods and fields for toolbars, components, ... */
   private Map<String, Map<String, Map<String, Object>>> guiPluginObjectsMap;
 
   private GuiRegistry() {
@@ -85,13 +79,11 @@ public class GuiRegistry {
     return guiRegistry;
   }
 
-  /**
-   * Add GUI Menu elements under a particular gui root (example: HopGui-MainMenu) under a particular
+  /** Add GUI Menu elements under a particular gui root (example: HopGui-MainMenu) under a particular
    * parent element ID
    *
    * @param root
-   * @param guiMenuItem
-   */
+   * @param guiMenuItem */
   public void addGuiMenuItem(String root, GuiMenuItem guiMenuItem) {
     Map<String, GuiMenuItem> menuMap = guiMenuMap.get(root);
     if (menuMap == null) {
@@ -101,13 +93,11 @@ public class GuiRegistry {
     menuMap.put(guiMenuItem.getId(), guiMenuItem);
   }
 
-  /**
-   * Get the GUI Menu Item for the given root and the given ID.
+  /** Get the GUI Menu Item for the given root and the given ID.
    *
    * @param root
    * @param id
-   * @return The GUI Menu elements or null if the gui class name or ID can not be found.
-   */
+   * @return The GUI Menu elements or null if the gui class name or ID can not be found. */
   public GuiMenuItem findGuiMenuItem(String root, String id) {
     Map<String, GuiMenuItem> menuMap = guiMenuMap.get(root);
     if (menuMap == null) {
@@ -116,13 +106,11 @@ public class GuiRegistry {
     return menuMap.get(id);
   }
 
-  /**
-   * Find the root menu item for a certain GUI root (HopGui for example).
+  /** Find the root menu item for a certain GUI root (HopGui for example).
    *
    * @param root The menu root ID
    * @return An empty list if the root could not be found. The parent menu items or an empty list if
-   *     nothing was found.
-   */
+   *         nothing was found. */
   public List<GuiMenuItem> findChildGuiMenuItems(String root, String parentId) {
     Map<String, GuiMenuItem> menuMap = guiMenuMap.get(root);
     if (menuMap == null) {
@@ -137,13 +125,11 @@ public class GuiRegistry {
     return items;
   }
 
-  /**
-   * Add a GUI Toolbar element under a particular gui root (example: HopGui-MainMenu) under a
+  /** Add a GUI Toolbar element under a particular gui root (example: HopGui-MainMenu) under a
    * particular parent element ID
    *
    * @param root
-   * @param guiToolbarItem
-   */
+   * @param guiToolbarItem */
   public void addGuiToolbarItem(String root, GuiToolbarItem guiToolbarItem) {
     Map<String, GuiToolbarItem> toolbarMap = guiToolbarMap.get(root);
     if (toolbarMap == null) {
@@ -153,13 +139,11 @@ public class GuiRegistry {
     toolbarMap.put(guiToolbarItem.getId(), guiToolbarItem);
   }
 
-  /**
-   * Get the GUI Menu Item for the given root and the given ID.
+  /** Get the GUI Menu Item for the given root and the given ID.
    *
    * @param root
    * @param id
-   * @return The GUI Menu elements or null if the gui class name or ID can not be found.
-   */
+   * @return The GUI Menu elements or null if the gui class name or ID can not be found. */
   public GuiToolbarItem findGuiToolbarItem(String root, String id) {
     Map<String, GuiToolbarItem> toolbarMap = guiToolbarMap.get(root);
     if (toolbarMap == null) {
@@ -168,13 +152,11 @@ public class GuiRegistry {
     return toolbarMap.get(id);
   }
 
-  /**
-   * Find the root menu item for a certain GUI Toolbar root.
+  /** Find the root menu item for a certain GUI Toolbar root.
    *
    * @param root The toolbar root ID
    * @return Returns either: an empty list if the root could not be found, the toolbar items or an
-   *     empty list if nothing was found.
-   */
+   *         empty list if nothing was found. */
   public List<GuiToolbarItem> findGuiToolbarItems(String root) {
     Map<String, GuiToolbarItem> menuMap = guiToolbarMap.get(root);
     if (menuMap == null) {
@@ -187,16 +169,13 @@ public class GuiRegistry {
     return items;
   }
 
-  /**
-   * Add a bunch of GUI elements under a particular data class name (example: PostgresDatabaseMeta)
+  /** Add a bunch of GUI elements under a particular data class name (example: PostgresDatabaseMeta)
    * under a particular parent GUI element ID (the ID of the specific postgres database options)
    *
    * @param dataClassName
    * @param parentGuiElementId
-   * @param guiElements
-   */
-  public void putGuiElements(
-      String dataClassName, String parentGuiElementId, GuiElements guiElements) {
+   * @param guiElements */
+  public void putGuiElements(String dataClassName, String parentGuiElementId, GuiElements guiElements) {
     Map<String, GuiElements> elementsMap = dataElementsMap.get(dataClassName);
     if (elementsMap == null) {
       elementsMap = new HashMap<>();
@@ -205,13 +184,11 @@ public class GuiRegistry {
     elementsMap.put(parentGuiElementId, guiElements);
   }
 
-  /**
-   * Get the GUI elements for the given data class and parent GUI element ID.
+  /** Get the GUI elements for the given data class and parent GUI element ID.
    *
    * @param dataClassName
    * @param parentGuiElementId
-   * @return The GUI elements or null if the data class name or parent ID can not be found.
-   */
+   * @return The GUI elements or null if the data class name or parent ID can not be found. */
   public GuiElements findGuiElements(String dataClassName, String parentGuiElementId) {
     Map<String, GuiElements> elementsMap = dataElementsMap.get(dataClassName);
     if (elementsMap == null) {
@@ -229,14 +206,12 @@ public class GuiRegistry {
     return guiElements;
   }
 
-  /**
-   * Look at the given {@link GuiElements} object its children and see if the element with the given
+  /** Look at the given {@link GuiElements} object its children and see if the element with the given
    * ID is found.
    *
    * @param guiElements The element and its children to examine
    * @param id The element ID to look for
-   * @return The GuiElement if any is found or null if nothing is found.
-   */
+   * @return The GuiElement if any is found or null if nothing is found. */
   public GuiElements findChildGuiElementsById(GuiElements guiElements, String id) {
     if (guiElements.getId() != null && guiElements.getId().equals(id)) {
       return guiElements;
@@ -250,14 +225,12 @@ public class GuiRegistry {
     return null;
   }
 
-  /**
-   * Add a GUI element to the registry. If there is no elements objects for the parent ID under
+  /** Add a GUI element to the registry. If there is no elements objects for the parent ID under
    * which the element belongs, one will be added.
    *
    * @param dataClassName
    * @param guiElement
-   * @param field
-   */
+   * @param field */
   public void addGuiWidgetElement(String dataClassName, GuiWidgetElement guiElement, Field field) {
     GuiElements guiElements = findGuiElements(dataClassName, guiElement.parentId());
     if (guiElements == null) {
@@ -281,24 +254,17 @@ public class GuiRegistry {
     guiElements.getChildren().add(child);
   }
 
-  /**
-   * Add a GUI menu element to the registry. If there is no elements objects for the parent ID under
+  /** Add a GUI menu element to the registry. If there is no elements objects for the parent ID under
    * which the element belongs, one will be added.
    *
    * @param guiPluginClassName Class in which we paint the GUI element
    * @param guiElement
-   * @param guiPluginClassMethod
-   */
-  public void addGuiWidgetElement(
-      String guiPluginClassName,
-      GuiMenuElement guiElement,
-      Method guiPluginClassMethod,
-      ClassLoader classLoader) {
+   * @param guiPluginClassMethod */
+  public void addGuiWidgetElement(String guiPluginClassName, GuiMenuElement guiElement, Method guiPluginClassMethod, ClassLoader classLoader) {
 
     // Extract all the information we need from the available data at boot time
     //
-    GuiMenuItem guiMenuItem =
-        new GuiMenuItem(guiElement, guiPluginClassMethod, guiPluginClassName, classLoader);
+    GuiMenuItem guiMenuItem = new GuiMenuItem(guiElement, guiPluginClassMethod, guiPluginClassName, classLoader);
 
     // Store the element under the specified root
     // This holds together a menu
@@ -306,35 +272,26 @@ public class GuiRegistry {
     addGuiMenuItem(guiElement.root(), guiMenuItem);
   }
 
-  /**
-   * Add a GUI element to the registry. If there is no elements objects for the parent ID under
+  /** Add a GUI element to the registry. If there is no elements objects for the parent ID under
    * which the element belongs, one will be added.
    *
    * @param guiPluginClassName The parent under which the widgets are stored
    * @param toolbarElement
    * @param method
-   * @param classLoader
-   */
-  public void addGuiToolbarElement(
-      String guiPluginClassName,
-      GuiToolbarElement toolbarElement,
-      Method method,
-      ClassLoader classLoader) {
+   * @param classLoader */
+  public void addGuiToolbarElement(String guiPluginClassName, GuiToolbarElement toolbarElement, Method method, ClassLoader classLoader) {
 
     // Convert it to a class so we can work with it more easily compared to an annotation
     //
-    GuiToolbarItem toolbarItem =
-        new GuiToolbarItem(toolbarElement, guiPluginClassName, method, classLoader);
+    GuiToolbarItem toolbarItem = new GuiToolbarItem(toolbarElement, guiPluginClassName, method, classLoader);
 
     // Store the toolbar item under its root
     //
     addGuiToolbarItem(toolbarElement.root(), toolbarItem);
   }
 
-  /**
-   * Sort all the GUI elements in all data classes for all parent IDs You typically call this only
-   * once after loading all the GUI Plugins or when adding more plugins
-   */
+  /** Sort all the GUI elements in all data classes for all parent IDs You typically call this only
+   * once after loading all the GUI Plugins or when adding more plugins */
   public void sortAllElements() {
     Set<String> dataClassNames = dataElementsMap.keySet();
     for (String dataClassName : dataClassNames) {
@@ -347,18 +304,14 @@ public class GuiRegistry {
     }
   }
 
-  public void addKeyboardShortcut(
-      String guiPluginClassName, Method method, GuiKeyboardShortcut shortcut) {
-    List<KeyboardShortcut> shortcuts =
-        shortCutsMap.computeIfAbsent(guiPluginClassName, k -> new ArrayList<>());
+  public void addKeyboardShortcut(String guiPluginClassName, Method method, GuiKeyboardShortcut shortcut) {
+    List<KeyboardShortcut> shortcuts = shortCutsMap.computeIfAbsent(guiPluginClassName, k -> new ArrayList<>());
     KeyboardShortcut keyboardShortCut = new KeyboardShortcut(shortcut, method);
     shortcuts.add(keyboardShortCut);
   }
 
-  public void addKeyboardShortcut(
-      String parentClassName, Method parentMethod, GuiOsxKeyboardShortcut shortcut) {
-    List<KeyboardShortcut> shortcuts =
-        shortCutsMap.computeIfAbsent(parentClassName, k -> new ArrayList<>());
+  public void addKeyboardShortcut(String parentClassName, Method parentMethod, GuiOsxKeyboardShortcut shortcut) {
+    List<KeyboardShortcut> shortcuts = shortCutsMap.computeIfAbsent(parentClassName, k -> new ArrayList<>());
     shortcuts.add(new KeyboardShortcut(shortcut, parentMethod));
   }
 
@@ -368,8 +321,7 @@ public class GuiRegistry {
 
   // Shortcuts are pretty much global so we'll look everywhere...
   //
-  public KeyboardShortcut findKeyboardShortcut(
-      String parentClassName, String methodName, boolean osx) {
+  public KeyboardShortcut findKeyboardShortcut(String parentClassName, String methodName, boolean osx) {
     List<KeyboardShortcut> shortcuts = getKeyboardShortcuts(parentClassName);
     if (shortcuts != null) {
       for (KeyboardShortcut shortcut : shortcuts) {
@@ -381,32 +333,26 @@ public class GuiRegistry {
     return null;
   }
 
-  /**
-   * Add a GUI context action for the given method and its annotation. Also provide a classloader
+  /** Add a GUI context action for the given method and its annotation. Also provide a classloader
    * which can be used to load resources later.
    *
    * @param guiPluginClassName
    * @param method
    * @param ca
-   * @param classLoader
-   */
-  public void addGuiContextAction(
-      String guiPluginClassName, Method method, GuiContextAction ca, ClassLoader classLoader) {
+   * @param classLoader */
+  public void addGuiContextAction(String guiPluginClassName, Method method, GuiContextAction ca, ClassLoader classLoader) {
 
     String name = TranslateUtil.translate(ca.name(), method.getDeclaringClass());
     String category = TranslateUtil.translate(ca.category(), method.getDeclaringClass());
     String tooltip = TranslateUtil.translate(ca.tooltip(), method.getDeclaringClass());
 
-    GuiAction action =
-        new GuiAction(
-            ca.id(), ca.type(), name, tooltip, ca.image(), guiPluginClassName, method.getName());
+    GuiAction action = new GuiAction(ca.id(), ca.type(), name, tooltip, ca.image(), guiPluginClassName, method.getName());
     action.setCategory(StringUtils.isEmpty(category) ? null : category);
     action.setCategoryOrder(StringUtils.isEmpty(ca.categoryOrder()) ? null : ca.categoryOrder());
     action.setKeywords(List.of(ca.keywords()));
     action.setClassLoader(classLoader);
 
-    List<GuiAction> actions =
-        contextActionsMap.computeIfAbsent(ca.parentId(), k -> new ArrayList<>());
+    List<GuiAction> actions = contextActionsMap.computeIfAbsent(ca.parentId(), k -> new ArrayList<>());
     actions.add(action);
   }
 
@@ -414,15 +360,12 @@ public class GuiRegistry {
     return contextActionsMap.get(parentContextId);
   }
 
-  /**
-   * Register a new GUI callback method
+  /** Register a new GUI callback method
    *
    * @param singletonGuiClass
    * @param method
-   * @param guiCallback
-   */
-  public void registerGuiCallback(
-      Class<?> singletonGuiClass, Method method, GuiCallback guiCallback) {
+   * @param guiCallback */
+  public void registerGuiCallback(Class<?> singletonGuiClass, Method method, GuiCallback guiCallback) {
     String callbackId = guiCallback.callbackId();
 
     GuiCallbackMethod callbackMethod = new GuiCallbackMethod(callbackId, singletonGuiClass, method);
@@ -432,11 +375,9 @@ public class GuiRegistry {
     callbackMethodsMap.computeIfAbsent(callbackId, k -> new ArrayList<>()).add(callbackMethod);
   }
 
-  /**
-   * Execute the callback methods for the given ID
+  /** Execute the callback methods for the given ID
    *
-   * @param callbackId
-   */
+   * @param callbackId */
   public void executeCallbackMethods(String callbackId) {
     List<GuiCallbackMethod> methods = callbackMethodsMap.get(callbackId);
     if (methods == null) {
@@ -447,27 +388,20 @@ public class GuiRegistry {
     }
   }
 
-  /**
-   * @param hopGuiId The HopGui ID
+  /** @param hopGuiId The HopGui ID
    * @param guiPluginClassname
    * @param instanceId
-   * @param guiPluginObject
-   */
-  public void registerGuiPluginObject(
-      String hopGuiId, String guiPluginClassname, String instanceId, Object guiPluginObject) {
-    Map<String, Map<String, Object>> instanceObjectsMap =
-        guiPluginObjectsMap.computeIfAbsent(hopGuiId, k -> new HashMap<>());
-    Map<String, Object> objectsMap =
-        instanceObjectsMap.computeIfAbsent(instanceId, k -> new HashMap<>());
+   * @param guiPluginObject */
+  public void registerGuiPluginObject(String hopGuiId, String guiPluginClassname, String instanceId, Object guiPluginObject) {
+    Map<String, Map<String, Object>> instanceObjectsMap = guiPluginObjectsMap.computeIfAbsent(hopGuiId, k -> new HashMap<>());
+    Map<String, Object> objectsMap = instanceObjectsMap.computeIfAbsent(instanceId, k -> new HashMap<>());
     objectsMap.put(guiPluginClassname, guiPluginObject);
   }
 
-  /**
-   * @param hopGuiId The HopGui ID
+  /** @param hopGuiId The HopGui ID
    * @param guiPluginClassname
    * @param instanceId
-   * @return
-   */
+   * @return */
   public Object findGuiPluginObject(String hopGuiId, String guiPluginClassname, String instanceId) {
 
     Map<String, Map<String, Object>> instanceObjectsMap = guiPluginObjectsMap.get(hopGuiId);
@@ -481,13 +415,11 @@ public class GuiRegistry {
     return objectsMap.get(guiPluginClassname);
   }
 
-  /**
-   * Remove the GuiPlugin object once it's disposed.
+  /** Remove the GuiPlugin object once it's disposed.
    *
    * @param hopGuiId
    * @param guiPluginClassname
-   * @param instanceId
-   */
+   * @param instanceId */
   public void removeGuiPluginObject(String hopGuiId, String guiPluginClassname, String instanceId) {
     Map<String, Map<String, Object>> instanceObjectsMap = guiPluginObjectsMap.get(hopGuiId);
     if (instanceObjectsMap == null) {
@@ -500,12 +432,10 @@ public class GuiRegistry {
     objectsMap.remove(guiPluginClassname);
   }
 
-  /**
-   * Remove all objects with the given instanceId
+  /** Remove all objects with the given instanceId
    *
    * @param hopGuiId
-   * @param instanceId
-   */
+   * @param instanceId */
   public void removeGuiPluginObjects(String hopGuiId, String instanceId) {
     Map<String, Map<String, Object>> instanceObjectsMap = guiPluginObjectsMap.get(hopGuiId);
     if (instanceObjectsMap == null) {
@@ -514,20 +444,14 @@ public class GuiRegistry {
     instanceObjectsMap.remove(instanceId);
   }
 
-  /**
-   * Add a GUI action filter for the given method and its annotation. Also provide a classloader
+  /** Add a GUI action filter for the given method and its annotation. Also provide a classloader
    * which can be used to load resources later.
    *
    * @param guiPluginClassName
    * @param method
    * @param af
-   * @param classLoader
-   */
-  public void addGuiActionFilter(
-      String guiPluginClassName,
-      Method method,
-      GuiContextActionFilter af,
-      ClassLoader classLoader) {
+   * @param classLoader */
+  public void addGuiActionFilter(String guiPluginClassName, Method method, GuiContextActionFilter af, ClassLoader classLoader) {
 
     GuiActionFilter actionFilter = new GuiActionFilter();
     actionFilter.setGuiPluginClassName(guiPluginClassName);
@@ -535,8 +459,7 @@ public class GuiRegistry {
     actionFilter.setClassLoader(classLoader);
     actionFilter.setId(guiPluginClassName.getClass().getName() + "." + method.getName());
 
-    List<GuiActionFilter> actionFilters =
-        contextActionFiltersMap.computeIfAbsent(af.parentId(), k -> new ArrayList<>());
+    List<GuiActionFilter> actionFilters = contextActionFiltersMap.computeIfAbsent(af.parentId(), k -> new ArrayList<>());
     actionFilters.add(actionFilter);
   }
 
@@ -544,11 +467,9 @@ public class GuiRegistry {
     return contextActionFiltersMap.get(parentContextId);
   }
 
-  /**
-   * Gets dataElementsMap
+  /** Gets dataElementsMap
    *
-   * @return value of dataElementsMap
-   */
+   * @return value of dataElementsMap */
   public Map<String, Map<String, GuiElements>> getDataElementsMap() {
     return dataElementsMap;
   }
@@ -558,11 +479,9 @@ public class GuiRegistry {
     this.dataElementsMap = dataElementsMap;
   }
 
-  /**
-   * Gets shortCutsMap
+  /** Gets shortCutsMap
    *
-   * @return value of shortCutsMap
-   */
+   * @return value of shortCutsMap */
   public Map<String, List<KeyboardShortcut>> getShortCutsMap() {
     return shortCutsMap;
   }
@@ -572,11 +491,9 @@ public class GuiRegistry {
     this.shortCutsMap = shortCutsMap;
   }
 
-  /**
-   * Gets contextActionsMap
+  /** Gets contextActionsMap
    *
-   * @return value of contextActionsMap
-   */
+   * @return value of contextActionsMap */
   public Map<String, List<GuiAction>> getContextActionsMap() {
     return contextActionsMap;
   }
@@ -586,11 +503,9 @@ public class GuiRegistry {
     this.contextActionsMap = contextActionsMap;
   }
 
-  /**
-   * Gets guiMenuMap
+  /** Gets guiMenuMap
    *
-   * @return value of guiMenuMap
-   */
+   * @return value of guiMenuMap */
   public Map<String, Map<String, GuiMenuItem>> getGuiMenuMap() {
     return guiMenuMap;
   }
@@ -600,11 +515,9 @@ public class GuiRegistry {
     this.guiMenuMap = guiMenuMap;
   }
 
-  /**
-   * Gets guiToolbarMap
+  /** Gets guiToolbarMap
    *
-   * @return value of guiToolbarMap
-   */
+   * @return value of guiToolbarMap */
   public Map<String, Map<String, GuiToolbarItem>> getGuiToolbarMap() {
     return guiToolbarMap;
   }
@@ -614,33 +527,27 @@ public class GuiRegistry {
     this.guiToolbarMap = guiToolbarMap;
   }
 
-  /**
-   * Gets guiPluginObjectsMap
+  /** Gets guiPluginObjectsMap
    *
-   * @return value of guiPluginObjectsMap
-   */
+   * @return value of guiPluginObjectsMap */
   public Map<String, Map<String, Map<String, Object>>> getGuiPluginObjectsMap() {
     return guiPluginObjectsMap;
   }
 
   /** @param guiPluginObjectsMap The guiPluginObjectsMap to set */
-  public void setGuiPluginObjectsMap(
-      Map<String, Map<String, Map<String, Object>>> guiPluginObjectsMap) {
+  public void setGuiPluginObjectsMap(Map<String, Map<String, Map<String, Object>>> guiPluginObjectsMap) {
     this.guiPluginObjectsMap = guiPluginObjectsMap;
   }
 
-  /**
-   * Gets contextActionFiltersMap
+  /** Gets contextActionFiltersMap
    *
-   * @return value of contextActionFiltersMap
-   */
+   * @return value of contextActionFiltersMap */
   public Map<String, List<GuiActionFilter>> getContextActionFiltersMap() {
     return contextActionFiltersMap;
   }
 
   /** @param contextActionFiltersMap The contextActionFiltersMap to set */
-  public void setContextActionFiltersMap(
-      Map<String, List<GuiActionFilter>> contextActionFiltersMap) {
+  public void setContextActionFiltersMap(Map<String, List<GuiActionFilter>> contextActionFiltersMap) {
     this.contextActionFiltersMap = contextActionFiltersMap;
   }
 }

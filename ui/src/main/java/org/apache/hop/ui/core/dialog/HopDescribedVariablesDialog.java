@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,17 +48,11 @@ public class HopDescribedVariablesDialog extends Dialog {
   private List<DescribedVariable> describedVariables;
   private String selectedVariable;
 
-  /**
-   * Constructs a new dialog
+  /** Constructs a new dialog
    *
    * @param parent The parent shell to link to
-   * @param selectedVariable
-   */
-  public HopDescribedVariablesDialog(
-      Shell parent,
-      String message,
-      List<DescribedVariable> describedVariables,
-      String selectedVariable) {
+   * @param selectedVariable */
+  public HopDescribedVariablesDialog(Shell parent, String message, List<DescribedVariable> describedVariables, String selectedVariable) {
     super(parent, SWT.NONE);
     this.message = message;
     this.describedVariables = describedVariables;
@@ -71,9 +65,7 @@ public class HopDescribedVariablesDialog extends Dialog {
 
     shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX);
     shell.setText(BaseMessages.getString(PKG, "HopDescribedVariablesDialog.Title"));
-    shell.setImage(
-        GuiResource.getInstance()
-            .getImage("ui/images/variable.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
+    shell.setImage(GuiResource.getInstance().getImage("ui/images/variable.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     props.setLook(shell);
 
     FormLayout formLayout = new FormLayout();
@@ -108,36 +100,13 @@ public class HopDescribedVariablesDialog extends Dialog {
 
     int fieldsRows = 0;
 
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Name.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Value.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Description.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-    };
+    ColumnInfo[] columns = {new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Name.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false), new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Value.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+        new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Description.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columns[2].setDisabledListener(rowNr -> false);
 
     // Fields between the label and the buttons
     //
-    wFields =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            fieldsRows,
-            null,
-            props);
+    wFields = new TableView(Variables.getADefaultVariableSpace(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, fieldsRows, null, props);
 
     wFields.setReadonly(false);
 
@@ -187,11 +156,7 @@ public class HopDescribedVariablesDialog extends Dialog {
       }
 
     } catch (Exception e) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Exception.ErrorLoadingData.Title"),
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Exception.ErrorLoadingData.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "HopPropertiesFileDialog.Exception.ErrorLoadingData.Title"), BaseMessages.getString(PKG, "HopPropertiesFileDialog.Exception.ErrorLoadingData.Message"), e);
     }
   }
 

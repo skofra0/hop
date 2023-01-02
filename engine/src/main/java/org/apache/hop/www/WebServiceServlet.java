@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,8 +63,7 @@ public class WebServiceServlet extends BaseHttpServlet implements IHopServerPlug
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
@@ -80,19 +79,14 @@ public class WebServiceServlet extends BaseHttpServlet implements IHopServerPlug
 
     String webServiceName = request.getParameter("service");
     if (StringUtils.isEmpty(webServiceName)) {
-      throw new ServletException(
-          "Please specify a service parameter pointing to the name of the web service object");
+      throw new ServletException("Please specify a service parameter pointing to the name of the web service object");
     }
 
     try {
-      IHopMetadataSerializer<WebService> serializer =
-          metadataProvider.getSerializer(WebService.class);
+      IHopMetadataSerializer<WebService> serializer = metadataProvider.getSerializer(WebService.class);
       WebService webService = serializer.load(webServiceName);
       if (webService == null) {
-        throw new HopException(
-            "Unable to find web service '"
-                + webServiceName
-                + "'.  You can set the metadata_folder in the Hop server XML configuration");
+        throw new HopException("Unable to find web service '" + webServiceName + "'.  You can set the metadata_folder in the Hop server XML configuration");
       }
 
       if (!webService.isEnabled()) {
@@ -112,16 +106,14 @@ public class WebServiceServlet extends BaseHttpServlet implements IHopServerPlug
       response.setCharacterEncoding(Const.XML_ENCODING);
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
 
       // Load and start the pipeline
       // Output the data to the response output stream...
       //
       PipelineMeta pipelineMeta = new PipelineMeta(filename, metadataProvider, true, variables);
-      LocalPipelineEngine pipeline =
-          new LocalPipelineEngine(pipelineMeta, variables, servletLoggingObject);
+      LocalPipelineEngine pipeline = new LocalPipelineEngine(pipelineMeta, variables, servletLoggingObject);
       pipeline.setContainerId(serverObjectId);
 
       // Set all the other parameters as variables/parameters...
@@ -144,15 +136,9 @@ public class WebServiceServlet extends BaseHttpServlet implements IHopServerPlug
       // See if we need to add this to the status map...
       //
       if (webService.isListingStatus()) {
-        PipelineExecutionConfiguration pipelineExecutionConfiguration =
-            new PipelineExecutionConfiguration();
-        PipelineConfiguration pipelineConfiguration =
-            new PipelineConfiguration(
-                pipelineMeta,
-                pipelineExecutionConfiguration,
-                new SerializableMetadataProvider(metadataProvider));
-        getPipelineMap()
-            .addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
+        PipelineExecutionConfiguration pipelineExecutionConfiguration = new PipelineExecutionConfiguration();
+        PipelineConfiguration pipelineConfiguration = new PipelineConfiguration(pipelineMeta, pipelineExecutionConfiguration, new SerializableMetadataProvider(metadataProvider));
+        getPipelineMap().addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
       }
 
       // Allocate the threads...
@@ -164,27 +150,20 @@ public class WebServiceServlet extends BaseHttpServlet implements IHopServerPlug
       // TODO: add to all copies
       //
       IEngineComponent component = pipeline.findComponent(transformName, 0);
-      component.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              try {
-                String outputString = rowMeta.getString(row, fieldName, "");
-                outputStream.write(outputString.getBytes(StandardCharsets.UTF_8));
-                outputStream.flush();
-              } catch (HopValueException e) {
-                throw new HopTransformException(
-                    "Error getting output field '"
-                        + fieldName
-                        + " from row: "
-                        + rowMeta.toStringMeta(),
-                    e);
-              } catch (IOException e) {
-                throw new HopTransformException("Error writing output of '" + fieldName + "'", e);
-              }
-            }
-          });
+      component.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          try {
+            String outputString = rowMeta.getString(row, fieldName, "");
+            outputStream.write(outputString.getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+          } catch (HopValueException e) {
+            throw new HopTransformException("Error getting output field '" + fieldName + " from row: " + rowMeta.toStringMeta(), e);
+          } catch (IOException e) {
+            throw new HopTransformException("Error writing output of '" + fieldName + "'", e);
+          }
+        }
+      });
 
       pipeline.startThreads();
       pipeline.waitUntilFinished();

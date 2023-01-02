@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,27 +26,14 @@ import org.apache.hop.workflow.config.WorkflowRunConfiguration;
 import org.apache.hop.workflow.engines.empty.EmptyWorkflowRunConfiguration;
 
 @GuiPlugin(description = "Local workflow run configuration widgets")
-public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
-    implements IWorkflowEngineRunConfiguration {
+public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration implements IWorkflowEngineRunConfiguration {
 
-  @GuiWidgetElement(
-      order = "20",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
+  @GuiWidgetElement(order = "20", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
   @HopMetadataProperty(key = "safe_mode")
   protected boolean safeModeEnabled;
 
-  @GuiWidgetElement(
-      id = "transactional",
-      order = "090",
-      parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.ToolTip")
+  @GuiWidgetElement(id = "transactional", order = "090", parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.ToolTip")
   @HopMetadataProperty(key = "transactional")
   protected boolean transactional;
 
@@ -66,11 +53,9 @@ public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
     return new LocalWorkflowRunConfiguration(this);
   }
 
-  /**
-   * Gets safeModeEnabled
+  /** Gets safeModeEnabled
    *
-   * @return value of safeModeEnabled
-   */
+   * @return value of safeModeEnabled */
   public boolean isSafeModeEnabled() {
     return safeModeEnabled;
   }
@@ -80,11 +65,9 @@ public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
     this.safeModeEnabled = safeModeEnabled;
   }
 
-  /**
-   * Gets transactional
+  /** Gets transactional
    *
-   * @return value of transactional
-   */
+   * @return value of transactional */
   public boolean isTransactional() {
     return transactional;
   }

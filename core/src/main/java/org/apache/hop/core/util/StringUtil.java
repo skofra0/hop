@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,92 +53,37 @@ public class StringUtil {
 
   public static final String EMPTY_STRING = "";
 
-  protected static final String[] SYSTEM_PROPERTIES =
-      new String[] {
-        "java.version",
-        "java.vendor",
-        "java.vendor.url",
-        "java.home",
-        "java.vm.specification.version",
-        "java.vm.specification.vendor",
-        "java.vm.specification.name",
-        "java.vm.version",
-        "java.vm.vendor",
-        "java.vm.name",
-        "java.specification.version",
-        "java.specification.vendor",
-        "java.specification.name",
-        "java.class.version",
-        "java.class.path",
-        "java.library.path",
-        "java.io.tmpdir",
-        "java.compiler",
-        "java.ext.dirs",
-        "os.name",
-        "os.arch",
-        "os.version",
-        "file.separator",
-        "path.separator",
-        "line.separator",
-        "user.name",
-        "user.home",
-        "user.dir",
-        "user.country",
-        "user.language",
-        "user.timezone",
-        "org.apache.commons.logging.Log",
-        "org.apache.commons.logging.simplelog.log.org.apache.http",
-        "org.apache.commons.logging.simplelog.showdatetime",
-        "org.eclipse.swt.browser.XULRunnerInitialized",
-        "org.eclipse.swt.browser.XULRunnerPath",
-        "sun.arch.data.model",
-        "sun.boot.class.path",
-        "sun.boot.library.path",
-        "sun.cpu.endian",
-        "sun.cpu.isalist",
-        "sun.io.unicode.encoding",
-        "sun.java.launcher",
-        "sun.jnu.encoding",
-        "sun.management.compiler",
-        "sun.os.patch.level",
-      };
+  protected static final String[] SYSTEM_PROPERTIES = new String[] {"java.version", "java.vendor", "java.vendor.url", "java.home", "java.vm.specification.version", "java.vm.specification.vendor", "java.vm.specification.name", "java.vm.version", "java.vm.vendor", "java.vm.name",
+      "java.specification.version", "java.specification.vendor", "java.specification.name", "java.class.version", "java.class.path", "java.library.path", "java.io.tmpdir", "java.compiler", "java.ext.dirs", "os.name", "os.arch", "os.version", "file.separator", "path.separator", "line.separator",
+      "user.name", "user.home", "user.dir", "user.country", "user.language", "user.timezone", "org.apache.commons.logging.Log", "org.apache.commons.logging.simplelog.log.org.apache.http", "org.apache.commons.logging.simplelog.showdatetime", "org.eclipse.swt.browser.XULRunnerInitialized",
+      "org.eclipse.swt.browser.XULRunnerPath", "sun.arch.data.model", "sun.boot.class.path", "sun.boot.library.path", "sun.cpu.endian", "sun.cpu.isalist", "sun.io.unicode.encoding", "sun.java.launcher", "sun.jnu.encoding", "sun.management.compiler", "sun.os.patch.level",};
 
   private StringUtil() {}
 
-  /**
-   * Substitutes variables in <code>aString</code>. Variable names are delimited by open and close
+  /** Substitutes variables in <code>aString</code>. Variable names are delimited by open and close
    * strings. The values are retrieved from the given map.
    *
    * @param aString the string on which to apply the substitution.
    * @param variablesValues a map containing the variable values. The keys are the variable names,
-   *     the values are the variable values.
+   *        the values are the variable values.
    * @param open the open delimiter for variables.
    * @param close the close delimiter for variables.
-   * @return the string with the substitution applied.
-   */
-  public static String substitute(
-      String aString, Map<String, String> variablesValues, String open, String close) {
+   * @return the string with the substitution applied. */
+  public static String substitute(String aString, Map<String, String> variablesValues, String open, String close) {
     return substitute(aString, variablesValues, open, close, 0);
   }
 
-  /**
-   * Substitutes variables in <code>aString</code>. Variable names are delimited by open and close
+  /** Substitutes variables in <code>aString</code>. Variable names are delimited by open and close
    * strings. The values are retrieved from the given map.
    *
    * @param aString the string on which to apply the substitution.
    * @param variablesValues a map containg the variable values. The keys are the variable names, the
-   *     values are the variable values.
+   *        values are the variable values.
    * @param open the open delimiter for variables.
    * @param close the close delimiter for variables.
    * @param recursion the number of recursion (internal counter to avoid endless loops)
-   * @return the string with the substitution applied.
-   */
-  public static String substitute(
-      String aString,
-      Map<String, String> variablesValues,
-      String open,
-      String close,
-      int recursion) {
+   * @return the string with the substitution applied. */
+  public static String substitute(String aString, Map<String, String> variablesValues, String open, String close, int recursion) {
     if (aString == null) {
       return null;
     }
@@ -167,8 +112,7 @@ public class StringUtil {
             // for safety: avoid recursive
             if (recursion > 50) {
               // endless loops with stack overflow
-              throw new RuntimeException(
-                  "Endless loop detected for substitution of variable: " + value);
+              throw new RuntimeException("Endless loop detected for substitution of variable: " + value);
             }
             value = substitute((String) value, variablesValues, open, close, ++recursion);
           }
@@ -188,14 +132,12 @@ public class StringUtil {
     return buffer.toString();
   }
 
-  /**
-   * Substitutes hex values in <code>aString</code> and convert them to operating system char
+  /** Substitutes hex values in <code>aString</code> and convert them to operating system char
    * equivalents in the return string. Format is $[01] or $[6F,FF,00,1F] Example: "This is a hex
    * encoded six digits number 123456 in this string: $[31,32,33,34,35,36]"
    *
    * @param aString the string on which to apply the substitution.
-   * @return the string with the substitution applied.
-   */
+   * @return the string with the substitution applied. */
   public static String substituteHex(String aString) {
     if (aString == null) {
       return null;
@@ -238,16 +180,13 @@ public class StringUtil {
     return buffer.toString();
   }
 
-  /**
-   * Substitutes variables in <code>aString</code> with the environment values in the system
+  /** Substitutes variables in <code>aString</code> with the environment values in the system
    * properties
    *
    * @param aString the string on which to apply the substitution.
    * @param systemProperties the system properties to use
-   * @return the string with the substitution applied.
-   */
-  public static final synchronized String environmentSubstitute(
-      String aString, Map<String, String> systemProperties) {
+   * @return the string with the substitution applied. */
+  public static final synchronized String environmentSubstitute(String aString, Map<String, String> systemProperties) {
     Map<String, String> sysMap = new HashMap<>();
     synchronized (sysMap) {
       sysMap.putAll(Collections.synchronizedMap(systemProperties));
@@ -259,34 +198,29 @@ public class StringUtil {
     }
   }
 
-  /**
-   * Substitutes variables in <code>aString</code>. Variables are of the form "${<variable name>}",
+  /** Substitutes variables in <code>aString</code>. Variables are of the form "${<variable name>}",
    * following the Unix scripting convention. The values are retrieved from the given map.
    *
    * @param aString the string on which to apply the substitution.
    * @param variables a map containg the variable values. The keys are the variable names, the
-   *     values are the variable values.
-   * @return the string with the substitution applied.
-   */
+   *        values are the variable values.
+   * @return the string with the substitution applied. */
   public static String substituteUnix(String aString, Map<String, String> variables) {
     return substitute(aString, variables, UNIX_OPEN, UNIX_CLOSE);
   }
 
-  /**
-   * Substitutes variables in <code>aString</code>. Variables are of the form "%%<variable name>%%",
+  /** Substitutes variables in <code>aString</code>. Variables are of the form "%%<variable name>%%",
    * following the Windows convention. The values are retrieved from the given map.
    *
    * @param aString the string on which to apply the substitution.
    * @param variables a map containg the variable values. The keys are the variable names, the
-   *     values are the variable values.
-   * @return the string with the substitution applied.
-   */
+   *        values are the variable values.
+   * @return the string with the substitution applied. */
   public static String substituteWindows(String aString, Map<String, String> variables) {
     return substitute(aString, variables, WINDOWS_OPEN, WINDOWS_CLOSE);
   }
 
-  /**
-   * Substitutes field values in <code>aString</code>. Field values are of the form "?{<field
+  /** Substitutes field values in <code>aString</code>. Field values are of the form "?{<field
    * name>}". The values are retrieved from the specified row. Please note that the getString()
    * method is used to convert to a String, for all values in the row.
    *
@@ -294,10 +228,8 @@ public class StringUtil {
    * @param rowMeta The row metadata to use.
    * @param rowData The row data to use
    * @return the string with the substitution applied.
-   * @throws HopValueException In case there is a String conversion error
-   */
-  public static String substituteField(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+   * @throws HopValueException In case there is a String conversion error */
+  public static String substituteField(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     Map<String, String> variables = new HashMap<>();
     for (int i = 0; i < rowMeta.size(); i++) {
       variables.put(rowMeta.getValueMeta(i).getName(), rowMeta.getString(rowData, i));
@@ -305,21 +237,14 @@ public class StringUtil {
     return substitute(aString, variables, FIELD_OPEN, FIELD_CLOSE);
   }
 
-  /**
-   * Search the string and report back on the variables used
+  /** Search the string and report back on the variables used
    *
    * @param aString The string to search
    * @param open the open or "start of variable" characters ${ or %%
    * @param close the close or "end of variable" characters } or %%
    * @param list the list of variables to add to
-   * @param includeSystemVariables also check for system variables.
-   */
-  public static void getUsedVariables(
-      String aString,
-      String open,
-      String close,
-      List<String> list,
-      boolean includeSystemVariables) {
+   * @param includeSystemVariables also check for system variables. */
+  public static void getUsedVariables(String aString, String open, String close, List<String> list, boolean includeSystemVariables) {
     if (aString == null) {
       return;
     }
@@ -340,9 +265,7 @@ public class StringUtil {
           // Or it's a system variable but the value has not been set (and we offer the user the
           // option to set it)
           //
-          if ((Const.indexOfString(variable, list) < 0) && includeSystemVariables
-              || !isSystemVariable(variable)
-              || System.getProperty(variable) == null) {
+          if ((Const.indexOfString(variable, list) < 0) && includeSystemVariables || !isSystemVariable(variable) || System.getProperty(variable) == null) {
             list.add(variable);
           }
 
@@ -358,14 +281,12 @@ public class StringUtil {
     return Const.indexOfString(aString, SYSTEM_PROPERTIES) >= 0;
   }
 
-  public static void getUsedVariables(
-      String aString, List<String> list, boolean includeSystemVariables) {
+  public static void getUsedVariables(String aString, List<String> list, boolean includeSystemVariables) {
     getUsedVariables(aString, UNIX_OPEN, UNIX_CLOSE, list, includeSystemVariables);
     getUsedVariables(aString, WINDOWS_OPEN, WINDOWS_CLOSE, list, includeSystemVariables);
   }
 
-  public static String generateRandomString(
-      int length, String prefix, String postfix, boolean uppercase) {
+  public static String generateRandomString(int length, String prefix, String postfix, boolean uppercase) {
     StringBuilder buffer = new StringBuilder();
 
     if (!Utils.isEmpty(prefix)) {
@@ -401,24 +322,20 @@ public class StringUtil {
     }
   }
 
-  /**
-   * Check if the string supplied is empty. A String is empty when it is null or when the length is
+  /** Check if the string supplied is empty. A String is empty when it is null or when the length is
    * 0
    *
    * @param string The string to check
-   * @return true if the string supplied is empty
-   */
+   * @return true if the string supplied is empty */
   public static final boolean isEmpty(String string) {
     return string == null || string.length() == 0;
   }
 
-  /**
-   * Check if the StringBuilder supplied is empty. A StringBuilder is empty when it is null or when
+  /** Check if the StringBuilder supplied is empty. A StringBuilder is empty when it is null or when
    * the length is 0
    *
    * @param string The StringBuilder to check
-   * @return true if the StringBuilder supplied is empty
-   */
+   * @return true if the StringBuilder supplied is empty */
   public static final boolean isEmpty(StringBuilder string) {
     return string == null || string.length() == 0;
   }
@@ -427,25 +344,21 @@ public class StringUtil {
     return INDENTCHARS.substring(0, indentLevel);
   }
 
-  /**
-   * Giving back a date/time string in the format following the rule from the most to the least
+  /** Giving back a date/time string in the format following the rule from the most to the least
    * significant
    *
    * @param date the date to convert
-   * @return a string in the form yyyddMM_hhmmss
-   */
+   * @return a string in the form yyyddMM_hhmmss */
   public static String getFormattedDateTime(Date date) {
     return getFormattedDateTime(date, false);
   }
 
-  /**
-   * Giving back a date/time string in the format following the rule from the most to the least
+  /** Giving back a date/time string in the format following the rule from the most to the least
    * significant
    *
    * @param date the date to convert
    * @param milliseconds true when milliseconds should be added
-   * @return a string in the form yyyddMM_hhmmssSSS (milliseconds will be optional)
-   */
+   * @return a string in the form yyyddMM_hhmmssSSS (milliseconds will be optional) */
   public static String getFormattedDateTime(Date date, boolean milliseconds) {
     DateFormat dateFormat = null;
     if (milliseconds) {
@@ -456,23 +369,19 @@ public class StringUtil {
     return dateFormat.format(date);
   }
 
-  /**
-   * Giving back the actual time as a date/time string in the format following the rule from the
+  /** Giving back the actual time as a date/time string in the format following the rule from the
    * most to the least significant
    *
-   * @return a string in the form yyyddMM_hhmmss
-   */
+   * @return a string in the form yyyddMM_hhmmss */
   public static String getFormattedDateTimeNow() {
     return getFormattedDateTime(new Date(), false);
   }
 
-  /**
-   * Giving back the actual time as a date/time string in the format following the rule from the
+  /** Giving back the actual time as a date/time string in the format following the rule from the
    * most to the least significant
    *
    * @param milliseconds true when milliseconds should be added
-   * @return a string in the form yyyddMM_hhmmssSSS (milliseconds will be optional)
-   */
+   * @return a string in the form yyyddMM_hhmmssSSS (milliseconds will be optional) */
   public static String getFormattedDateTimeNow(boolean milliseconds) {
     return getFormattedDateTime(new Date(), milliseconds);
   }
@@ -510,17 +419,13 @@ public class StringUtil {
     return true;
   }
 
-  /**
-   * remove specification from variable
+  /** remove specification from variable
    *
    * @param variable the variable to look for, with the $ or % variable specification.
-   * @return the variable name
-   */
+   * @return the variable name */
   public static String getVariableName(String variable) {
     variable = variable.trim();
-    if (variable.startsWith(UNIX_OPEN)
-        || variable.startsWith(WINDOWS_OPEN)
-        || variable.startsWith(HEX_OPEN)) {
+    if (variable.startsWith(UNIX_OPEN) || variable.startsWith(WINDOWS_OPEN) || variable.startsWith(HEX_OPEN)) {
       variable = variable.substring(2);
     }
     if (variable.endsWith(UNIX_CLOSE) || variable.endsWith(HEX_CLOSE)) {
@@ -533,28 +438,22 @@ public class StringUtil {
     return variable;
   }
 
-  /**
-   * @param variable the variable to look for, with the $ or % variable specification.
-   * @return true if the input is a variable, false otherwise
-   */
+  /** @param variable the variable to look for, with the $ or % variable specification.
+   * @return true if the input is a variable, false otherwise */
   public static boolean isVariable(String variable) {
     if (variable == null) {
       return false;
     }
     variable = variable.trim();
-    return variable.startsWith(UNIX_OPEN) && variable.endsWith(UNIX_CLOSE)
-        || variable.startsWith(WINDOWS_OPEN) && variable.endsWith(WINDOWS_CLOSE)
-        || variable.startsWith(HEX_OPEN) && variable.endsWith(HEX_CLOSE);
+    return variable.startsWith(UNIX_OPEN) && variable.endsWith(UNIX_CLOSE) || variable.startsWith(WINDOWS_OPEN) && variable.endsWith(WINDOWS_CLOSE) || variable.startsWith(HEX_OPEN) && variable.endsWith(HEX_CLOSE);
   }
 
-  /**
-   * Calls the {@link String#toLowerCase()} method on the {@link String} returned by a call to
+  /** Calls the {@link String#toLowerCase()} method on the {@link String} returned by a call to
    * {@code obj.toString()}, guarding against {@link NullPointerException}s.
    *
    * @param obj the {@link Object} whose string representation is being turned to lower case
    * @return a lower case {@link String} representation of the {@link String} returned by a call to
-   *     {@code obj .toString()}
-   */
+   *         {@code obj .toString()} */
   public static String safeToLowerCase(final Object obj) {
     if (obj == null || obj.toString() == null) {
       return null;
@@ -563,13 +462,11 @@ public class StringUtil {
     }
   }
 
-  /**
-   * Removes all instances of the specified character from the start of the given {@link String}.
+  /** Removes all instances of the specified character from the start of the given {@link String}.
    *
    * @param source the {@link String} to trim
    * @param c the character to remove from the {@link String}
-   * @return a new string with all instances of the specified character removed from the start
-   */
+   * @return a new string with all instances of the specified character removed from the start */
   public static String trimStart(final String source, char c) {
     if (source == null) {
       return null;
@@ -585,13 +482,11 @@ public class StringUtil {
     return source.substring(index);
   }
 
-  /**
-   * Removes all instances of the specified character from the end of the given {@link String}.
+  /** Removes all instances of the specified character from the end of the given {@link String}.
    *
    * @param source the {@link String} to trim
    * @param c the character to remove from the {@link String}
-   * @return a new string with all instances of the specified character removed from the end
-   */
+   * @return a new string with all instances of the specified character removed from the end */
   public static String trimEnd(final String source, char c) {
     if (source == null) {
       return null;
@@ -606,15 +501,12 @@ public class StringUtil {
     return source.substring(0, index);
   }
 
-  /**
-   * Remove diacritical marks from a string (accents and cedilla) and return the same string withour
+  /** Remove diacritical marks from a string (accents and cedilla) and return the same string withour
    * marks.
    *
    * @param source the {@link String} to clean
-   * @return the string without marks
-   */
+   * @return the string without marks */
   public static String removeDiacriticalMarks(String source) {
-    return Normalizer.normalize(source, Normalizer.Form.NFD)
-        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    return Normalizer.normalize(source, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
   }
 }

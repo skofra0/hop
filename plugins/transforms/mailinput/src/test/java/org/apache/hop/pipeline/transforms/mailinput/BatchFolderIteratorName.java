@@ -17,7 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.mailinput;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;

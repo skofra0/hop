@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,55 +47,42 @@ public abstract class WidgetUtils {
     composite.setLayout(formLayout);
   }
 
-  /**
-   * creates a ComboVar populated with fields from the previous transform.
+  /** creates a ComboVar populated with fields from the previous transform.
    *
    * @param parentComposite - the composite in which the widget will be placed
    * @param props - PropsUi props for L&F
    * @param transformMeta - transformMeta of the current transform
-   * @param formData - FormData to use for placement
-   */
-  public static ComboVar createFieldDropDown(
-      Composite parentComposite,
-      PropsUi props,
-      IVariables variables,
-      BaseTransformMeta transformMeta,
-      FormData formData) {
+   * @param formData - FormData to use for placement */
+  public static ComboVar createFieldDropDown(Composite parentComposite, PropsUi props, IVariables variables, BaseTransformMeta transformMeta, FormData formData) {
     PipelineMeta pipelineMeta = transformMeta.getParentTransformMeta().getParentPipelineMeta();
-    ComboVar fieldDropDownCombo =
-        new ComboVar(variables, parentComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    ComboVar fieldDropDownCombo = new ComboVar(variables, parentComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     props.setLook(fieldDropDownCombo);
     fieldDropDownCombo.addModifyListener(e -> transformMeta.setChanged());
 
     fieldDropDownCombo.setLayoutData(formData);
-    Listener focusListener =
-        e -> {
-          String current = fieldDropDownCombo.getText();
-          fieldDropDownCombo.getCComboWidget().removeAll();
-          fieldDropDownCombo.setText(current);
+    Listener focusListener = e -> {
+      String current = fieldDropDownCombo.getText();
+      fieldDropDownCombo.getCComboWidget().removeAll();
+      fieldDropDownCombo.setText(current);
 
-          try {
-            IRowMeta rmi =
-                pipelineMeta.getPrevTransformFields(
-                    variables, transformMeta.getParentTransformMeta().getName());
-            List ls = rmi.getValueMetaList();
-            for (Object l : ls) {
-              ValueMetaBase vmb = (ValueMetaBase) l;
-              fieldDropDownCombo.add(vmb.getName());
-            }
-          } catch (HopTransformException ex) {
-            // can be ignored, since previous transform may not be set yet.
-            transformMeta.logDebug(ex.getMessage(), ex);
-          }
-        };
+      try {
+        IRowMeta rmi = pipelineMeta.getPrevTransformFields(variables, transformMeta.getParentTransformMeta().getName());
+        List ls = rmi.getValueMetaList();
+        for (Object l : ls) {
+          ValueMetaBase vmb = (ValueMetaBase) l;
+          fieldDropDownCombo.add(vmb.getName());
+        }
+      } catch (HopTransformException ex) {
+        // can be ignored, since previous transform may not be set yet.
+        transformMeta.logDebug(ex.getMessage(), ex);
+      }
+    };
     fieldDropDownCombo.getCComboWidget().addListener(SWT.FocusIn, focusListener);
     return fieldDropDownCombo;
   }
 
-  /**
-   * Creates a FormData object specifying placement below anchorControl, with pixelsBetweeenAnchor
-   * variables between anchor and the control.
-   */
+  /** Creates a FormData object specifying placement below anchorControl, with pixelsBetweeenAnchor
+   * variables between anchor and the control. */
   public static FormData formDataBelow(Control anchorControl, int width, int pixelsBetweenAnchor) {
     FormData fdMessageField = new FormData();
     fdMessageField.left = new FormAttachment(0, 0);

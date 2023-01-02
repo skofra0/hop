@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,29 +41,26 @@ public class EntryCurrentDirectoryChangedListener implements ICurrentDirectoryCh
     references = refs;
   }
 
-  public EntryCurrentDirectoryChangedListener(
-      Supplier<String> pathGetter, Consumer<String> pathSetter) {
-    this(
-        new IPathReference() {
+  public EntryCurrentDirectoryChangedListener(Supplier<String> pathGetter, Consumer<String> pathSetter) {
+    this(new IPathReference() {
 
-          @Override
-          public String getPath() {
-            return pathGetter.get();
-          }
+      @Override
+      public String getPath() {
+        return pathGetter.get();
+      }
 
-          @Override
-          public void setPath(String path) {
-            pathSetter.accept(path);
-          }
-        });
+      @Override
+      public void setPath(String path) {
+        pathSetter.accept(path);
+      }
+    });
   }
 
   @Override
   public void directoryChanged(Object origin, String oldCurrentDir, String newCurrentDir) {
     for (IPathReference ref : references) {
       String path = ref.getPath();
-      if (StringUtils.contains(path, Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER)
-          && !Objects.equal(oldCurrentDir, newCurrentDir)) {
+      if (StringUtils.contains(path, Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER) && !Objects.equal(oldCurrentDir, newCurrentDir)) {
         path = reapplyCurrentDir(oldCurrentDir, newCurrentDir, path);
         ref.setPath(path);
       }

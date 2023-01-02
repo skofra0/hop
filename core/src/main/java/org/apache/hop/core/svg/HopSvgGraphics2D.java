@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -76,8 +76,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
     DOMImplementation domImplementation = GenericDOMImplementation.getDOMImplementation();
 
     // Create an instance of org.w3c.dom.Document.
-    Document document =
-        domImplementation.createDocument(SVGDOMImplementation.SVG_NAMESPACE_URI, "svg", null);
+    Document document = domImplementation.createDocument(SVGDOMImplementation.SVG_NAMESPACE_URI, "svg", null);
 
     return new HopSvgGraphics2D(document);
   }
@@ -96,8 +95,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
     return new DecimalFormat("0.###").format(d);
   }
 
-  /**
-   * Embed the given SVG from the given node into this SVG 2D
+  /** Embed the given SVG from the given node into this SVG 2D
    *
    * @param svgNode The source SVG node which is copied
    * @param filename The filename will be added as information (not if null)
@@ -107,18 +105,8 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
    * @param height The height of the SVG to embed
    * @param xMagnification The horizontal magnification
    * @param yMagnification The vertical magnification
-   * @param angleDegrees The rotation angle in degrees (not radians)
-   */
-  public void embedSvg(
-      Node svgNode,
-      String filename,
-      int x,
-      int y,
-      float width,
-      float height,
-      float xMagnification,
-      float yMagnification,
-      double angleDegrees) {
+   * @param angleDegrees The rotation angle in degrees (not radians) */
+  public void embedSvg(Node svgNode, String filename, int x, int y, float width, float height, float xMagnification, float yMagnification, double angleDegrees) {
 
     Document domFactory = getDOMFactory();
     float centreX = width / 2;
@@ -127,8 +115,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
     // Add a <g> group tag
     // Do the magnification, translation and rotation in that group
     //
-    Element svgG =
-        domFactory.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_G_TAG);
+    Element svgG = domFactory.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_G_TAG);
     getDomGroupManager().addElement(svgG, (short) (DRAW | FILL));
 
     svgG.setAttributeNS(null, SVGConstants.SVG_STROKE_ATTRIBUTE, SVGConstants.SVG_NONE_VALUE);
@@ -136,8 +123,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
 
     String transformString = "translate(" + x + " " + y + ") ";
     transformString += "scale(" + format(xMagnification) + " " + format(yMagnification) + ") ";
-    transformString +=
-        "rotate(" + format(angleDegrees) + " " + format(centreX) + " " + format(centreY) + ")";
+    transformString += "rotate(" + format(angleDegrees) + " " + format(centreX) + " " + format(centreY) + ")";
     svgG.setAttributeNS(null, SVGConstants.SVG_TRANSFORM_ATTRIBUTE, transformString);
 
     if (filename != null) {

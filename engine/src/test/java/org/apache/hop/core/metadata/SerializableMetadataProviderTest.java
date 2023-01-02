@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,17 +38,12 @@ public class SerializableMetadataProviderTest {
   public void testRoundTrip() throws Exception {
     MemoryMetadataProvider source = new MemoryMetadataProvider();
     IHopMetadataSerializer<HopServer> sourceSerializer = source.getSerializer(HopServer.class);
-    HopServer sourceServer1 =
-        new HopServer(
-            "server1", "hostname1", "8181", "username1", "password1", null, null, null, false);
+    HopServer sourceServer1 = new HopServer("server1", "hostname1", "8181", "username1", "password1", null, null, null, false);
     sourceSerializer.save(sourceServer1);
-    HopServer sourceServer2 =
-        new HopServer(
-            "server2", "hostname2", "8282", "username2", "password2", null, null, null, true);
+    HopServer sourceServer2 = new HopServer("server2", "hostname2", "8282", "username2", "password2", null, null, null, true);
     sourceSerializer.save(sourceServer2);
 
-    SerializableMetadataProvider serializableMetadataProvider =
-        new SerializableMetadataProvider(source);
+    SerializableMetadataProvider serializableMetadataProvider = new SerializableMetadataProvider(source);
     String json = serializableMetadataProvider.toJson();
     SerializableMetadataProvider target = new SerializableMetadataProvider(json);
     IHopMetadataSerializer<HopServer> targetSerializer = target.getSerializer(HopServer.class);

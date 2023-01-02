@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,8 +38,7 @@ public class HopGuiSearchLocationIterator implements Iterator<ISearchable> {
   private List<ISearchable> searchables;
   private Iterator<ISearchable> searchableIterator;
 
-  public HopGuiSearchLocationIterator(HopGui hopGui, HopGuiSearchLocation location)
-      throws HopException {
+  public HopGuiSearchLocationIterator(HopGui hopGui, HopGuiSearchLocation location) throws HopException {
     this.hopGui = hopGui;
     this.location = location;
 
@@ -54,16 +53,10 @@ public class HopGuiSearchLocationIterator implements Iterator<ISearchable> {
     // Add the available metadata objects
     //
     for (Class<IHopMetadata> metadataClass : hopGui.getMetadataProvider().getMetadataClasses()) {
-      IHopMetadataSerializer<IHopMetadata> serializer =
-          hopGui.getMetadataProvider().getSerializer(metadataClass);
+      IHopMetadataSerializer<IHopMetadata> serializer = hopGui.getMetadataProvider().getSerializer(metadataClass);
       for (final String metadataName : serializer.listObjectNames()) {
         IHopMetadata hopMetadata = serializer.load(metadataName);
-        HopGuiMetadataSearchable searchable =
-            new HopGuiMetadataSearchable(
-                hopGui.getMetadataProvider(),
-                serializer,
-                hopMetadata,
-                serializer.getManagedClass());
+        HopGuiMetadataSearchable searchable = new HopGuiMetadataSearchable(hopGui.getMetadataProvider(), serializer, hopMetadata, serializer.getManagedClass());
         searchables.add(searchable);
       }
     }
@@ -88,11 +81,9 @@ public class HopGuiSearchLocationIterator implements Iterator<ISearchable> {
     return searchableIterator.next();
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }
@@ -102,11 +93,9 @@ public class HopGuiSearchLocationIterator implements Iterator<ISearchable> {
     this.hopGui = hopGui;
   }
 
-  /**
-   * Gets location
+  /** Gets location
    *
-   * @return value of location
-   */
+   * @return value of location */
   public HopGuiSearchLocation getLocation() {
     return location;
   }

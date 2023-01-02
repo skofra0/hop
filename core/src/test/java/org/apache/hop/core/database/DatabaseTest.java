@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,7 +42,8 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("deprecation")
 public class DatabaseTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME_OF_DB_CONNECTION = "TEST_CONNECTION";
   private static final String SQL_MOCK_EXCEPTION_MESSAGE = "SQL mock exception";
@@ -94,12 +95,7 @@ public class DatabaseTest {
     String columnType = "Integer";
     int columnSize = 15;
 
-    when(dbMetaData.getColumns(
-            nullable(String.class),
-            nullable(String.class),
-            nullable(String.class),
-            nullable(String.class)))
-        .thenReturn(rs);
+    when(dbMetaData.getColumns(nullable(String.class), nullable(String.class), nullable(String.class), nullable(String.class))).thenReturn(rs);
     when(rs.next()).thenReturn(true).thenReturn(false);
     when(rs.getString("COLUMN_NAME")).thenReturn(columnName);
     when(rs.getString("SOURCE_DATA_TYPE")).thenReturn(columnType);
@@ -175,9 +171,7 @@ public class DatabaseTest {
 
   @Test
   public void testCreateHopDatabaseBatchExceptionNotUpdatesWhenBatchUpdateException() {
-    assertNotNull(
-        Database.createHopDatabaseBatchException("", new BatchUpdateException(new int[0]))
-            .getUpdateCounts());
+    assertNotNull(Database.createHopDatabaseBatchException("", new BatchUpdateException(new int[0])).getUpdateCounts());
   }
 
   @Test
@@ -187,8 +181,7 @@ public class DatabaseTest {
     SQLException next2 = new SQLException();
     root.setNextException(next);
     next.setNextException(next2);
-    List<Exception> exceptionList =
-        Database.createHopDatabaseBatchException("", root).getExceptionsList();
+    List<Exception> exceptionList = Database.createHopDatabaseBatchException("", root).getExceptionsList();
     assertEquals(2, exceptionList.size());
     assertEquals(next, exceptionList.get(0));
     assertEquals(next2, exceptionList.get(1));

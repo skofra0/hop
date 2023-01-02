@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -100,19 +100,11 @@ public class EnvironmentUtilsTest {
     private static final String UBUNTU_16_NAME = "ubuntu 16";
     private static final String UBUNTU_14_NAME = "ubuntu 14";
     private static final String WINDOWS_NAME = "windows";
-    private static final String IE_10_AGENT =
-        "Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)";
-    private static final String MIDORI_AGENT =
-        "Mozilla/5.0 (X11; Linux) AppleWebKit/538.15 ("
-            + "KHTML, like Gecko) Chrome/46.0.2490.86 Safari/538.15 Midori/0.5";
-    private static final String SAFARI_7_AGENT =
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 "
-            + "(KHTML, like Gecko) Version/7.0.3 Safari/7046A194A";
-    private static final String IE_11_AGENT =
-        "Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0;  rv:11.0) like Gecko";
-    private static final String SAFARI_9_AGENT =
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.75.14 "
-            + "(KHTML, like Gecko) Version/9.3.2 Safari/537.75.14";
+    private static final String IE_10_AGENT = "Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)";
+    private static final String MIDORI_AGENT = "Mozilla/5.0 (X11; Linux) AppleWebKit/538.15 (" + "KHTML, like Gecko) Chrome/46.0.2490.86 Safari/538.15 Midori/0.5";
+    private static final String SAFARI_7_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 " + "(KHTML, like Gecko) Version/7.0.3 Safari/7046A194A";
+    private static final String IE_11_AGENT = "Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0;  rv:11.0) like Gecko";
+    private static final String SAFARI_9_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.75.14 " + "(KHTML, like Gecko) Version/9.3.2 Safari/537.75.14";
 
     public EnvironmentUtilsMock(Case option) {
       this.option = option;
@@ -217,12 +209,6 @@ public class EnvironmentUtilsTest {
   }
 
   enum Case {
-    UBUNTU_16,
-    UBUNTU_14,
-    UBUNTU_WRONG,
-    MAC_OS_X,
-    MACOS_X_WRONG,
-    WINDOWS,
-    WINDOWS_WRONG
+    UBUNTU_16, UBUNTU_14, UBUNTU_WRONG, MAC_OS_X, MACOS_X_WRONG, WINDOWS, WINDOWS_WRONG
   }
 }

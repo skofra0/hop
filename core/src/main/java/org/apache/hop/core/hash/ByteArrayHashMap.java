@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,15 +30,13 @@ import java.util.Set;
 public class ByteArrayHashMap extends AbstractHashedMap {
   private IRowMeta keyMeta;
 
-  /**
-   * Constructs an empty <tt>ByteArrayHashMap</tt> with the specified initial capacity and load
+  /** Constructs an empty <tt>ByteArrayHashMap</tt> with the specified initial capacity and load
    * factor.
    *
    * @param initialCapacity the initial capacity
    * @param loadFactor the load factor
    * @throws IllegalArgumentException if the initial capacity is negative or the load factor is
-   *     nonpositive
-   */
+   *         nonpositive */
   public ByteArrayHashMap(int initialCapacity, float loadFactor, IRowMeta keyMeta) {
     super(initialCapacity, loadFactor);
     this.keyMeta = keyMeta;
@@ -66,39 +64,33 @@ public class ByteArrayHashMap extends AbstractHashedMap {
     return false;
   }
 
-  /**
-   * Constructs an empty <tt>ByteArrayHashMap</tt> with the specified initial capacity and the
+  /** Constructs an empty <tt>ByteArrayHashMap</tt> with the specified initial capacity and the
    * default load factor (0.75).
    *
    * @param initialCapacity the initial capacity.
-   * @throws IllegalArgumentException if the initial capacity is negative.
-   */
+   * @throws IllegalArgumentException if the initial capacity is negative. */
   public ByteArrayHashMap(int initialCapacity, IRowMeta keyMeta) {
     this(initialCapacity, DEFAULT_LOAD_FACTOR, keyMeta);
   }
 
-  /**
-   * Constructs an empty <tt>HashMap</tt> with the default initial capacity (16) and the default
-   * load factor (0.75).
-   */
+  /** Constructs an empty <tt>HashMap</tt> with the default initial capacity (16) and the default
+   * load factor (0.75). */
   public ByteArrayHashMap(IRowMeta keyMeta) {
     this(DEFAULT_CAPACITY, DEFAULT_LOAD_FACTOR, keyMeta);
   }
 
-  /**
-   * Returns the entry to which the specified key is &quot;mapped&quot;, or, in other words, if this
+  /** Returns the entry to which the specified key is &quot;mapped&quot;, or, in other words, if this
    * index contains an entry that is equal to the given key, or {@code null} if this is not the
    * case.
-   *
-   * <p>More formally, if this index contains an entry {@code e} such that {@code key.equals(e))},
+   * <p>
+   * More formally, if this index contains an entry {@code e} such that {@code key.equals(e))},
    * then this method returns {@code e}; otherwise it returns {@code null}. (There can be at most
    * one such entry.)
    *
    * @param key The key to look up.
    * @throws HopValueException in case of a value conversion error
    * @see #put(Object)
-   * @see #insert(Object)
-   */
+   * @see #insert(Object) */
   public byte[] get(byte[] key) {
     return (byte[]) super.get(key);
   }
@@ -121,7 +113,7 @@ public class ByteArrayHashMap extends AbstractHashedMap {
   public List<byte[]> getKeys() {
     List<byte[]> rtn = new ArrayList<>(this.size());
     Set<byte[]> kSet = this.keySet();
-    for (Iterator<byte[]> it = kSet.iterator(); it.hasNext(); ) {
+    for (Iterator<byte[]> it = kSet.iterator(); it.hasNext();) {
       rtn.add(it.next());
     }
     return rtn;

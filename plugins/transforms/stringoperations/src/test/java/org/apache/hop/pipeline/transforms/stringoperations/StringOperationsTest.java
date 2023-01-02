@@ -17,7 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.stringoperations;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.hop.core.IRowSet;
 import org.apache.hop.core.QueueRowSet;
 import org.apache.hop.core.exception.HopException;

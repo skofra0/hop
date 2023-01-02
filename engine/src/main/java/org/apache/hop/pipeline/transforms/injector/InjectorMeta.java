@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,20 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO: check conversion of types from strings to numbers and back.
-//       As compared in the old version.
+// As compared in the old version.
 
-/**
- * Metadata class to allow a java program to inject rows of data into a pipeline. This transform can
- * be used as a starting point in such a "headless" pipeline.
- */
-@Transform(
-    id = "Injector",
-    image = "ui/images/injector.svg",
-    name = "i18n:org.apache.hop.pipeline.transform:BaseTransform.TypeLongDesc.Injector",
-    description = "i18n:org.apache.hop.pipeline.transform:BaseTransform.TypeTooltipDesc.Injector",
-    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Inline",
-    keywords = "i18n::InjectorMeta.keyword",
-    documentationUrl = "/pipeline/transforms/injector.html")
+/** Metadata class to allow a java program to inject rows of data into a pipeline. This transform can
+ * be used as a starting point in such a "headless" pipeline. */
+@Transform(id = "Injector", image = "ui/images/injector.svg", name = "i18n:org.apache.hop.pipeline.transform:BaseTransform.TypeLongDesc.Injector", description = "i18n:org.apache.hop.pipeline.transform:BaseTransform.TypeTooltipDesc.Injector",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Inline", keywords = "i18n::InjectorMeta.keyword", documentationUrl = "/pipeline/transforms/injector.html")
 public class InjectorMeta extends BaseTransformMeta<Injector, InjectorData> {
 
   private static final Class<?> PKG = InjectorMeta.class; // For Translator
@@ -66,14 +58,7 @@ public class InjectorMeta extends BaseTransformMeta<Injector, InjectorData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
-      throws HopTransformException {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) throws HopTransformException {
     for (InjectorField field : injectorFields) {
       try {
         inputRowMeta.addValueMeta(field.createValueMeta(variables));
@@ -84,41 +69,20 @@ public class InjectorMeta extends BaseTransformMeta<Injector, InjectorData> {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      String[] input,
-      String[] output,
-      IRowMeta info,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, String[] input, String[] output, IRowMeta info, IVariables variables, IHopMetadataProvider metadataProvider) {
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "InjectorMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "InjectorMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "InjectorMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "InjectorMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }
 
-  /**
-   * Gets injectorFields
+  /** Gets injectorFields
    *
-   * @return value of injectorFields
-   */
+   * @return value of injectorFields */
   public List<InjectorField> getInjectorFields() {
     return injectorFields;
   }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,9 +42,11 @@ public class SslConfiguration {
 
   private static final String NULL = "null";
 
-  @HopMetadataProperty private String keyStoreType = "JKS";
+  @HopMetadataProperty
+  private String keyStoreType = "JKS";
 
-  @HopMetadataProperty private String keyStore;
+  @HopMetadataProperty
+  private String keyStore;
 
   @HopMetadataProperty(password = true)
   private String keyStorePassword;
@@ -57,12 +59,8 @@ public class SslConfiguration {
   public SslConfiguration(Node sslConfigNode) {
     super();
     setKeyStore(XmlHandler.getTagValue(sslConfigNode, XML_TAG_KEY_STORE));
-    setKeyStorePassword(
-        Encr.decryptPasswordOptionallyEncrypted(
-            XmlHandler.getTagValue(sslConfigNode, XML_TAG_KEY_STORE_PASSWORD)));
-    setKeyPassword(
-        Encr.decryptPasswordOptionallyEncrypted(
-            XmlHandler.getTagValue(sslConfigNode, XML_TAG_KEY_PASSWORD)));
+    setKeyStorePassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(sslConfigNode, XML_TAG_KEY_STORE_PASSWORD)));
+    setKeyPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(sslConfigNode, XML_TAG_KEY_PASSWORD)));
     setKeyStoreType(XmlHandler.getTagValue(sslConfigNode, XML_TAG_KEY_STORE_TYPE));
   }
 
@@ -85,14 +83,8 @@ public class SslConfiguration {
 
   /** @param keyStore the keyStore to set */
   public void setKeyStore(String keyStore) {
-    Validate.notNull(
-        keyStore,
-        BaseMessages.getString(
-            PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE, NULL));
-    Validate.notEmpty(
-        keyStore,
-        BaseMessages.getString(
-            PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE, EMPTY));
+    Validate.notNull(keyStore, BaseMessages.getString(PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE, NULL));
+    Validate.notEmpty(keyStore, BaseMessages.getString(PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE, EMPTY));
     this.keyStore = keyStore;
   }
 
@@ -103,14 +95,8 @@ public class SslConfiguration {
 
   /** @param keyStorePassword the keyStorePassword to set */
   public void setKeyStorePassword(String keyStorePassword) {
-    Validate.notNull(
-        keyStorePassword,
-        BaseMessages.getString(
-            PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE_PASSWORD, NULL));
-    Validate.notEmpty(
-        keyStorePassword,
-        BaseMessages.getString(
-            PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE_PASSWORD, EMPTY));
+    Validate.notNull(keyStorePassword, BaseMessages.getString(PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE_PASSWORD, NULL));
+    Validate.notEmpty(keyStorePassword, BaseMessages.getString(PKG, "WebServer.Error.IllegalSslParameter", XML_TAG_KEY_STORE_PASSWORD, EMPTY));
     this.keyStorePassword = keyStorePassword;
   }
 

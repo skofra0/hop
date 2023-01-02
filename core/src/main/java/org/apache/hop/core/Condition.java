@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,34 +29,28 @@ import org.w3c.dom.Node;
 import java.util.*;
 import java.util.regex.Pattern;
 
-/**
- * This class describes a condition in a general meaning.
- *
- * <p>A condition can either be
- *
+/** This class describes a condition in a general meaning.
  * <p>
- *
- * <p>1) Atomic (a=10, B='aa')
- *
- * <p>2) Composite ( NOT Condition1 AND Condition2 OR Condition3 )
- *
+ * A condition can either be
  * <p>
- *
- * <p>If the nr of atomic conditions is 0, the condition is atomic, otherwise it's Composit.
- *
- * <p>Precedence doesn't exist. Conditions are evaluated in the order in which they are found.
- *
- * <p>A condition can be negated or not.
- *
  * <p>
- *
+ * 1) Atomic (a=10, B='aa')
+ * <p>
+ * 2) Composite ( NOT Condition1 AND Condition2 OR Condition3 )
+ * <p>
+ * <p>
+ * If the nr of atomic conditions is 0, the condition is atomic, otherwise it's Composit.
+ * <p>
+ * Precedence doesn't exist. Conditions are evaluated in the order in which they are found.
+ * <p>
+ * A condition can be negated or not.
+ * <p>
  * <p>
  */
 public class Condition implements Cloneable {
   public static final String XML_TAG = "condition";
 
-  public static final String[] operators =
-      new String[] {"-", "OR", "AND", "NOT", "OR NOT", "AND NOT", "XOR"};
+  public static final String[] operators = new String[] {"-", "OR", "AND", "NOT", "OR NOT", "AND NOT", "XOR"};
   public static final int OPERATOR_NONE = 0;
   public static final int OPERATOR_OR = 1;
   public static final int OPERATOR_AND = 2;
@@ -65,25 +59,8 @@ public class Condition implements Cloneable {
   public static final int OPERATOR_AND_NOT = 5;
   public static final int OPERATOR_XOR = 6;
 
-  public static final String[] functions =
-      new String[] {
-        "=",
-        "<>",
-        "<",
-        "<=",
-        ">",
-        ">=",
-        "REGEXP",
-        "IS NULL",
-        "IS NOT NULL",
-        "IN LIST",
-        "CONTAINS",
-        "STARTS WITH",
-        "ENDS WITH",
-        "LIKE",
-        "TRUE"
-        ,"IS EMPTY" , "NOT IS EMPTY" // NEXUS-MOD
-      };
+  public static final String[] functions = new String[] {"=", "<>", "<", "<=", ">", ">=", "REGEXP", "IS NULL", "IS NOT NULL", "IN LIST", "CONTAINS", "STARTS WITH", "ENDS WITH", "LIKE", "TRUE", "IS EMPTY", "NOT IS EMPTY" // NEXUS-MOD
+  };
 
   public static final int FUNC_EQUAL = 0;
   public static final int FUNC_NOT_EQUAL = 1;
@@ -100,8 +77,8 @@ public class Condition implements Cloneable {
   public static final int FUNC_ENDS_WITH = 12;
   public static final int FUNC_LIKE = 13;
   public static final int FUNC_TRUE = 14;
-  public static final int FUNC_IS_EMPTY      = 15;  // NEXUS-MOD 
-  public static final int FUNC_NOT_IS_EMPTY  = 16;  // NEXUS-MOD
+  public static final int FUNC_IS_EMPTY = 15; // NEXUS-MOD
+  public static final int FUNC_NOT_IS_EMPTY = 16; // NEXUS-MOD
 
   //
   // These parameters allow for:
@@ -124,10 +101,8 @@ public class Condition implements Cloneable {
 
   private String rightString;
 
-  /**
-   * Temporary variable, no need to persist this one. Contains the sorted array of strings in an IN
-   * LIST condition
-   */
+  /** Temporary variable, no need to persist this one. Contains the sorted array of strings in an IN
+   * LIST condition */
   private String[] inList;
 
   public Condition() {
@@ -149,8 +124,7 @@ public class Condition implements Cloneable {
     clearFieldPositions();
   }
 
-  public Condition(
-      int operator, String valuename, int function, String valuename2, ValueMetaAndData exact) {
+  public Condition(int operator, String valuename, int function, String valuename2, ValueMetaAndData exact) {
     this();
     this.operator = operator;
     this.leftValuename = valuename;
@@ -161,8 +135,7 @@ public class Condition implements Cloneable {
     clearFieldPositions();
   }
 
-  public Condition(
-      boolean negate, String valuename, int function, String valuename2, ValueMetaAndData exact) {
+  public Condition(boolean negate, String valuename, int function, String valuename2, ValueMetaAndData exact) {
     this(valuename, function, valuename2, exact);
     this.negate = negate;
   }
@@ -311,22 +284,18 @@ public class Condition implements Cloneable {
     return (isAtomic() && leftValuename == null);
   }
 
-  /**
-   * We cache the position of a value in a row. If ever we want to change the rowtype, we need to
-   * clear these cached field positions...
-   */
+  /** We cache the position of a value in a row. If ever we want to change the rowtype, we need to
+   * clear these cached field positions... */
   public void clearFieldPositions() {
     leftFieldnr = -2;
     rightFieldnr = -2;
   }
 
-  /**
-   * Evaluate the condition...
+  /** Evaluate the condition...
    *
    * @param rowMeta the row metadata
    * @param r the row data
-   * @return true if the condition evaluates to true.
-   */
+   * @return true if the condition evaluates to true. */
   public boolean evaluate(IRowMeta rowMeta, Object[] r) {
     // Start of evaluate
     boolean retval = false;
@@ -404,9 +373,7 @@ public class Condition implements Cloneable {
             if (fieldMeta.isNull(field) || field2 == null) {
               retval = false;
             } else {
-              retval =
-                  Pattern.matches(
-                      fieldMeta2.getCompatibleString(field2), fieldMeta.getCompatibleString(field));
+              retval = Pattern.matches(fieldMeta2.getCompatibleString(field2), fieldMeta.getCompatibleString(field));
             }
             break;
           case FUNC_NULL:
@@ -434,21 +401,10 @@ public class Condition implements Cloneable {
             retval = inIndex >= 0;
             break;
           case FUNC_CONTAINS:
-            retval =
-                fieldMeta.getCompatibleString(field) != null
-                    ? fieldMeta
-                            .getCompatibleString(field)
-                            .indexOf(fieldMeta2.getCompatibleString(field2))
-                        >= 0
-                    : false;
+            retval = fieldMeta.getCompatibleString(field) != null ? fieldMeta.getCompatibleString(field).indexOf(fieldMeta2.getCompatibleString(field2)) >= 0 : false;
             break;
           case FUNC_STARTS_WITH:
-            retval =
-                fieldMeta.getCompatibleString(field) != null
-                    ? fieldMeta
-                        .getCompatibleString(field)
-                        .startsWith(fieldMeta2.getCompatibleString(field2))
-                    : false;
+            retval = fieldMeta.getCompatibleString(field) != null ? fieldMeta.getCompatibleString(field).startsWith(fieldMeta2.getCompatibleString(field2)) : false;
             break;
           case FUNC_ENDS_WITH:
             String string = fieldMeta.getCompatibleString(field);
@@ -466,13 +422,13 @@ public class Condition implements Cloneable {
             }
             break;
           case FUNC_IS_EMPTY: // NEXUS-MOD
-              string = fieldMeta.getCompatibleString(field);
-              retval = string == null || string.isEmpty();
-              break;
-            case FUNC_NOT_IS_EMPTY: // NEXUS-MOD
-              string = fieldMeta.getCompatibleString(field);
-              retval = !(string == null || string.isEmpty());
-              break;
+            string = fieldMeta.getCompatibleString(field);
+            retval = string == null || string.isEmpty();
+            break;
+          case FUNC_NOT_IS_EMPTY: // NEXUS-MOD
+            string = fieldMeta.getCompatibleString(field);
+            retval = !(string == null || string.isEmpty());
+            break;
           case FUNC_LIKE:
             // Converts to a regular expression
             // TODO: optimize the patterns and String replacements
@@ -550,8 +506,7 @@ public class Condition implements Cloneable {
       /*
        * Copy current atomic setup...
        */
-      Condition current =
-          new Condition(getLeftValuename(), getFunction(), getRightValuename(), getRightExact());
+      Condition current = new Condition(getLeftValuename(), getFunction(), getRightValuename(), getRightExact());
       current.setNegated(isNegated());
       setNegated(false);
       list.add(current);
@@ -569,8 +524,7 @@ public class Condition implements Cloneable {
       /*
        * Copy current atomic setup...
        */
-      Condition current =
-          new Condition(getLeftValuename(), getFunction(), getRightValuename(), getRightExact());
+      Condition current = new Condition(getLeftValuename(), getFunction(), getRightValuename(), getRightExact());
       current.setNegated(isNegated());
       setNegated(false);
       list.add(current);
@@ -605,11 +559,9 @@ public class Condition implements Cloneable {
     }
   }
 
-  /**
-   * This method moves up atomic conditions if there is only one sub-condition.
+  /** This method moves up atomic conditions if there is only one sub-condition.
    *
-   * @return true if there was a simplification.
-   */
+   * @return true if there was a simplification. */
   public boolean simplify() {
 
     if (nrConditions() == 1) {
@@ -690,13 +642,12 @@ public class Condition implements Cloneable {
         retval.append(" TRUE");
       } else {
         retval.append(leftValuename + " " + getFunctionDesc());
-        if (function != FUNC_NULL && function != FUNC_NOT_NULL && function != FUNC_IS_EMPTY && function != FUNC_NOT_IS_EMPTY ) { // NEXUS-MOD
+        if (function != FUNC_NULL && function != FUNC_NOT_NULL && function != FUNC_IS_EMPTY && function != FUNC_NOT_IS_EMPTY) { // NEXUS-MOD
           if (rightValuename != null) {
             retval.append(" ");
             retval.append(rightValuename);
           } else {
-            retval.append(
-                " [" + (getRightExactString() == null ? "" : getRightExactString()) + "]");
+            retval.append(" [" + (getRightExactString() == null ? "" : getRightExactString()) + "]");
           }
         }
       }
@@ -785,12 +736,10 @@ public class Condition implements Cloneable {
     this(XmlHandler.loadXmlString(xml, Condition.XML_TAG));
   }
 
-  /**
-   * Build a new condition using an XML Document Node
+  /** Build a new condition using an XML Document Node
    *
    * @param condnode
-   * @throws HopXmlException
-   */
+   * @throws HopXmlException */
   public Condition(Node condnode) throws HopXmlException {
     this();
 

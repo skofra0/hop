@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,12 +22,8 @@ import org.apache.hop.partition.PartitionSchema;
 import java.util.ArrayList;
 import java.util.List;
 
-@SearchableAnalyserPlugin(
-    id = "PartitionSchemaSearchableAnalyser",
-    name = "Search in partition schema metadata")
-public class PartitionSchemaSearchableAnalyser
-    extends BaseMetadataSearchableAnalyser<PartitionSchema>
-    implements ISearchableAnalyser<PartitionSchema> {
+@SearchableAnalyserPlugin(id = "PartitionSchemaSearchableAnalyser", name = "Search in partition schema metadata")
+public class PartitionSchemaSearchableAnalyser extends BaseMetadataSearchableAnalyser<PartitionSchema> implements ISearchableAnalyser<PartitionSchema> {
 
   @Override
   public Class<PartitionSchema> getSearchableClass() {
@@ -35,27 +31,14 @@ public class PartitionSchemaSearchableAnalyser
   }
 
   @Override
-  public List<ISearchResult> search(
-      ISearchable<PartitionSchema> searchable, ISearchQuery searchQuery) {
+  public List<ISearchResult> search(ISearchable<PartitionSchema> searchable, ISearchQuery searchQuery) {
     PartitionSchema partitionSchema = searchable.getSearchableObject();
     String component = getMetadataComponent();
 
     List<ISearchResult> results = new ArrayList<>();
 
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Partition schema name",
-        partitionSchema.getName(),
-        component);
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Partition schema number of partitions",
-        partitionSchema.getNumberOfPartitions(),
-        component);
+    matchProperty(searchable, results, searchQuery, "Partition schema name", partitionSchema.getName(), component);
+    matchProperty(searchable, results, searchQuery, "Partition schema number of partitions", partitionSchema.getNumberOfPartitions(), component);
     return results;
   }
 }

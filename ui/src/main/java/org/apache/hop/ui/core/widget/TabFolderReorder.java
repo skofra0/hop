@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,98 +32,96 @@ public class TabFolderReorder {
   public TabFolderReorder(CTabFolder folder) {
     final DragSource source = new DragSource(folder, DND.DROP_MOVE);
     source.setTransfer(TabTransfer.INSTANCE);
-    source.addDragListener(
-        new DragSourceListener() {
-          private Image dragImage;
+    source.addDragListener(new DragSourceListener() {
+      private Image dragImage;
 
-          @Override
-          public void dragStart(DragSourceEvent event) {
-            Point point = folder.toControl(folder.getDisplay().getCursorLocation());
-            dragItem = folder.getItem(point);
+      @Override
+      public void dragStart(DragSourceEvent event) {
+        Point point = folder.toControl(folder.getDisplay().getCursorLocation());
+        dragItem = folder.getItem(point);
 
-            if (dragItem == null) {
-              return;
-            }
-            Rectangle columnBounds = dragItem.getBounds();
-            if (dragImage != null) {
-              dragImage.dispose();
-              dragImage = null;
-            }
-            GC gc = new GC(folder);
-            dragImage = new Image(Display.getCurrent(), columnBounds.width, columnBounds.height);
-            gc.copyArea(dragImage, columnBounds.x, columnBounds.y);
-            event.image = dragImage;
-            gc.dispose();
-          }
+        if (dragItem == null) {
+          return;
+        }
+        Rectangle columnBounds = dragItem.getBounds();
+        if (dragImage != null) {
+          dragImage.dispose();
+          dragImage = null;
+        }
+        GC gc = new GC(folder);
+        dragImage = new Image(Display.getCurrent(), columnBounds.width, columnBounds.height);
+        gc.copyArea(dragImage, columnBounds.x, columnBounds.y);
+        event.image = dragImage;
+        gc.dispose();
+      }
 
-          @Override
-          public void dragSetData(DragSourceEvent event) {
-            event.data = dragItem;
-          }
+      @Override
+      public void dragSetData(DragSourceEvent event) {
+        event.data = dragItem;
+      }
 
-          @Override
-          public void dragFinished(DragSourceEvent event) {
-            if (dragImage != null) {
-              dragImage.dispose();
-              dragImage = null;
-            }
-          }
-        });
+      @Override
+      public void dragFinished(DragSourceEvent event) {
+        if (dragImage != null) {
+          dragImage.dispose();
+          dragImage = null;
+        }
+      }
+    });
 
     DropTarget dropTarget = new DropTarget(folder, DND.DROP_MOVE);
     dropTarget.setTransfer(TabTransfer.INSTANCE, TextTransfer.getInstance());
-    dropTarget.addDropListener(
-        new DropTargetListener() {
-          @Override
-          public void dragEnter(DropTargetEvent event) {
-            handleDragEvent(event);
-          }
+    dropTarget.addDropListener(new DropTargetListener() {
+      @Override
+      public void dragEnter(DropTargetEvent event) {
+        handleDragEvent(event);
+      }
 
-          @Override
-          public void dragLeave(DropTargetEvent event) {
-            handleDragEvent(event);
-          }
+      @Override
+      public void dragLeave(DropTargetEvent event) {
+        handleDragEvent(event);
+      }
 
-          @Override
-          public void dragOperationChanged(DropTargetEvent event) {
-            handleDragEvent(event);
-          }
+      @Override
+      public void dragOperationChanged(DropTargetEvent event) {
+        handleDragEvent(event);
+      }
 
-          @Override
-          public void dragOver(DropTargetEvent event) {
-            handleDragEvent(event);
-          }
+      @Override
+      public void dragOver(DropTargetEvent event) {
+        handleDragEvent(event);
+      }
 
-          @Override
-          public void drop(DropTargetEvent event) {
-            handleDragEvent(event);
-            if (event.detail == DND.DROP_MOVE) {
-              moveTabs(folder, event);
-            }
-          }
+      @Override
+      public void drop(DropTargetEvent event) {
+        handleDragEvent(event);
+        if (event.detail == DND.DROP_MOVE) {
+          moveTabs(folder, event);
+        }
+      }
 
-          @Override
-          public void dropAccept(DropTargetEvent event) {
-            handleDragEvent(event);
-          }
+      @Override
+      public void dropAccept(DropTargetEvent event) {
+        handleDragEvent(event);
+      }
 
-          private void handleDragEvent(DropTargetEvent event) {
-            if (!isDropSupported(folder, event)) {
-              event.detail = DND.DROP_NONE;
-            } else {
-              event.detail = DND.DROP_MOVE;
-            }
-            event.feedback = DND.FEEDBACK_SELECT;
-          }
+      private void handleDragEvent(DropTargetEvent event) {
+        if (!isDropSupported(folder, event)) {
+          event.detail = DND.DROP_NONE;
+        } else {
+          event.detail = DND.DROP_MOVE;
+        }
+        event.feedback = DND.FEEDBACK_SELECT;
+      }
 
-          private boolean isDropSupported(CTabFolder folder, DropTargetEvent event) {
-            if (dragItem == null) {
-              return false;
-            }
-            Point point = folder.toControl(folder.getDisplay().getCursorLocation());
-            return folder.getItem(new Point(point.x, point.y)) != null;
-          }
-        });
+      private boolean isDropSupported(CTabFolder folder, DropTargetEvent event) {
+        if (dragItem == null) {
+          return false;
+        }
+        Point point = folder.toControl(folder.getDisplay().getCursorLocation());
+        return folder.getItem(new Point(point.x, point.y)) != null;
+      }
+    });
   }
 
   private void moveTabs(CTabFolder folder, DropTargetEvent event) {
@@ -161,8 +159,7 @@ public class TabFolderReorder {
   public static final class TabTransfer extends ByteArrayTransfer {
 
     public static final TabTransfer INSTANCE = new TabTransfer();
-    private static final String TYPE_NAME =
-        "TabTransfer.CTabItem Transfer" + System.currentTimeMillis() + ":" + INSTANCE.hashCode();
+    private static final String TYPE_NAME = "TabTransfer.CTabItem Transfer" + System.currentTimeMillis() + ":" + INSTANCE.hashCode();
     private static final int TYPEID = registerType(TYPE_NAME);
     private CTabItem item;
     private long startTime;
@@ -184,8 +181,7 @@ public class TabFolderReorder {
       item = (CTabItem) object;
       startTime = System.currentTimeMillis();
       if (transferData != null) {
-        super.javaToNative(
-            String.valueOf(startTime).getBytes(Charset.defaultCharset()), transferData);
+        super.javaToNative(String.valueOf(startTime).getBytes(Charset.defaultCharset()), transferData);
       }
     }
 

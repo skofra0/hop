@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,13 +52,11 @@ public class EnterStringsDialog extends Dialog {
   private String title;
   private Image shellImage;
 
-  /**
-   * Constructs a new dialog
+  /** Constructs a new dialog
    *
    * @param parent The parent shell to link to
    * @param style The style in which we want to draw this shell.
-   * @param strings The list of rows to change.
-   */
+   * @param strings The list of rows to change. */
   public EnterStringsDialog(Shell parent, int style, RowMetaAndData strings) {
     super(parent, style);
     this.strings = strings;
@@ -106,28 +104,9 @@ public class EnterStringsDialog extends Dialog {
     int nrRows = strings.getRowMeta().size();
 
     ColumnInfo[] columns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "EnterStringsDialog.StringName.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              readOnly),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "EnterStringsDialog.StringValue.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              readOnly)
-        };
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "EnterStringsDialog.StringName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, readOnly), new ColumnInfo(BaseMessages.getString(PKG, "EnterStringsDialog.StringValue.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, readOnly)};
 
-    wFields =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrRows,
-            null,
-            props);
+    wFields = new TableView(Variables.getADefaultVariableSpace(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrRows, null, props);
     wFields.setReadonly(readOnly);
 
     FormData fdFields = new FormData();

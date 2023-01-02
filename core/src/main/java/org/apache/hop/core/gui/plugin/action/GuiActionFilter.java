@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,19 +25,16 @@ public class GuiActionFilter {
 
   public GuiActionFilter() {}
 
-  public GuiActionFilter(
-      String id, String guiPluginClassName, String guiPluginMethodName, ClassLoader classLoader) {
+  public GuiActionFilter(String id, String guiPluginClassName, String guiPluginMethodName, ClassLoader classLoader) {
     this.id = id;
     this.guiPluginClassName = guiPluginClassName;
     this.guiPluginMethodName = guiPluginMethodName;
     this.classLoader = classLoader;
   }
 
-  /**
-   * Gets id
+  /** Gets id
    *
-   * @return value of id
-   */
+   * @return value of id */
   public String getId() {
     return id;
   }
@@ -47,11 +44,9 @@ public class GuiActionFilter {
     this.id = id;
   }
 
-  /**
-   * Gets guiPluginClassName
+  /** Gets guiPluginClassName
    *
-   * @return value of guiPluginClassName
-   */
+   * @return value of guiPluginClassName */
   public String getGuiPluginClassName() {
     return guiPluginClassName;
   }
@@ -61,11 +56,9 @@ public class GuiActionFilter {
     this.guiPluginClassName = guiPluginClassName;
   }
 
-  /**
-   * Gets guiPluginMethodName
+  /** Gets guiPluginMethodName
    *
-   * @return value of guiPluginMethodName
-   */
+   * @return value of guiPluginMethodName */
   public String getGuiPluginMethodName() {
     return guiPluginMethodName;
   }
@@ -75,11 +68,9 @@ public class GuiActionFilter {
     this.guiPluginMethodName = guiPluginMethodName;
   }
 
-  /**
-   * Gets classLoader
+  /** Gets classLoader
    *
-   * @return value of classLoader
-   */
+   * @return value of classLoader */
   public ClassLoader getClassLoader() {
     return classLoader;
   }

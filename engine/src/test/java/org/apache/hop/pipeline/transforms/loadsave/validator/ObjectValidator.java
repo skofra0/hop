@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,22 +33,14 @@ public class ObjectValidator<T> implements IFieldLoadSaveValidator<T> {
   private final Class<T> clazz;
   private final List<String> fieldNames;
 
-  public ObjectValidator(
-      IFieldLoadSaveValidatorFactory fieldLoadSaveValidatorFactory,
-      Class<T> clazz,
-      List<String> fieldNames,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap) {
+  public ObjectValidator(IFieldLoadSaveValidatorFactory fieldLoadSaveValidatorFactory, Class<T> clazz, List<String> fieldNames, Map<String, String> getterMap, Map<String, String> setterMap) {
     this.fieldLoadSaveValidatorFactory = fieldLoadSaveValidatorFactory;
     manipulator = new JavaBeanManipulator<>(clazz, fieldNames, getterMap, setterMap);
     this.clazz = clazz;
     this.fieldNames = new ArrayList<>(fieldNames);
   }
 
-  public ObjectValidator(
-      IFieldLoadSaveValidatorFactory fieldLoadSaveValidatorFactory,
-      Class<T> clazz,
-      List<String> fieldNames) {
+  public ObjectValidator(IFieldLoadSaveValidatorFactory fieldLoadSaveValidatorFactory, Class<T> clazz, List<String> fieldNames) {
     this(fieldLoadSaveValidatorFactory, clazz, fieldNames, new HashMap<>(), new HashMap<>());
   }
 
@@ -59,11 +51,7 @@ public class ObjectValidator<T> implements IFieldLoadSaveValidator<T> {
       T object = clazz.newInstance();
       for (String attribute : fieldNames) {
         ISetter setter = manipulator.getSetter(attribute);
-        setter.set(
-            object,
-            fieldLoadSaveValidatorFactory
-                .createValidator(manipulator.getGetter(attribute))
-                .getTestObject());
+        setter.set(object, fieldLoadSaveValidatorFactory.createValidator(manipulator.getGetter(attribute)).getTestObject());
       }
       return object;
     } catch (Exception e) {
@@ -79,8 +67,7 @@ public class ObjectValidator<T> implements IFieldLoadSaveValidator<T> {
     try {
       for (String attribute : fieldNames) {
         IGetter<?> getter = manipulator.getGetter(attribute);
-        IFieldLoadSaveValidator<?> validator =
-            fieldLoadSaveValidatorFactory.createValidator(getter);
+        IFieldLoadSaveValidator<?> validator = fieldLoadSaveValidatorFactory.createValidator(getter);
         Method validatorMethod = null;
         for (Method method : validator.getClass().getMethods()) {
           if ("validateTestObject".equals(method.getName())) {
@@ -92,11 +79,9 @@ public class ObjectValidator<T> implements IFieldLoadSaveValidator<T> {
           }
         }
         if (validatorMethod == null) {
-          throw new RuntimeException(
-              "Unable to find validator for " + attribute + " " + getter.getGenericType());
+          throw new RuntimeException("Unable to find validator for " + attribute + " " + getter.getGenericType());
         }
-        if (!(Boolean)
-            validatorMethod.invoke(validator, getter.get(testObject), getter.get(actual))) {
+        if (!(Boolean) validatorMethod.invoke(validator, getter.get(testObject), getter.get(actual))) {
           return false;
         }
       }

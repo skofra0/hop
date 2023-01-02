@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,24 +35,21 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * The ActionDialog class is responsible for constructing and opening the settings dialog for the
+/** The ActionDialog class is responsible for constructing and opening the settings dialog for the
  * action. Whenever the user opens the action settings in HopGui, it will instantiate the dialog
  * class passing in the IAction object and call the
  *
  * <pre>
  * open()
  * </pre>
- *
- * <p>method on the dialog. SWT is the native windowing environment of HopGui, and it is typically
- * the framework used for implementing action dialogs.
- */
+ * <p>
+ * method on the dialog. SWT is the native windowing environment of HopGui, and it is typically
+ * the framework used for implementing action dialogs. */
 public class ActionDialog extends Dialog {
   private static final Class<?> PKG = ITransform.class; // For Translator
 
   /** The loggingObject for the dialog */
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Action dialog", LoggingObjectType.ACTION_DIALOG, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Action dialog", LoggingObjectType.ACTION_DIALOG, null);
 
   /** The Metadata provider */
   protected IHopMetadataProvider metadataProvider;
@@ -66,12 +63,10 @@ public class ActionDialog extends Dialog {
   /** A reference to the properties user interface */
   protected PropsUi props;
 
-  /**
-   * Instantiates a new action dialog.
+  /** Instantiates a new action dialog.
    *
    * @param parent the parent shell
-   * @param workflowMeta the workflow metadata object
-   */
+   * @param workflowMeta the workflow metadata object */
   public ActionDialog(Shell parent, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, SWT.NONE);
     this.props = PropsUi.getInstance();
@@ -80,27 +75,16 @@ public class ActionDialog extends Dialog {
     this.workflowMeta = workflowMeta;
   }
 
-  /**
-   * Adds the connection line for the given parent and previous control, and returns a meta
+  /** Adds the connection line for the given parent and previous control, and returns a meta
    * selection manager control
    *
    * @param parent the parent composite object
    * @param previous the previous control
    * @param
-   * @return the combo box UI component
-   */
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
+   * @return the combo box UI component */
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
 
-    final MetaSelectionLine<DatabaseMeta> wConnection =
-        new MetaSelectionLine<>(
-            variables,
-            metadataProvider,
-            DatabaseMeta.class,
-            parent,
-            SWT.NONE,
-            BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Label"),
-            BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
+    final MetaSelectionLine<DatabaseMeta> wConnection = new MetaSelectionLine<>(variables, metadataProvider, DatabaseMeta.class, parent, SWT.NONE, BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Label"), BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
     wConnection.addToConnectionLine(parent, previous, selected, lsMod);
     return wConnection;
   }

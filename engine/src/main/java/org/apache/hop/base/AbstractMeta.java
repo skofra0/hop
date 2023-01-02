@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,8 +44,7 @@ import org.apache.hop.server.HopServer;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class AbstractMeta
-    implements IChanged, IUndo, IEngineMeta, INamedParameterDefinitions, IAttributes {
+public abstract class AbstractMeta implements IChanged, IUndo, IEngineMeta, INamedParameterDefinitions, IAttributes {
 
   /** Constant = 1 */
   public static final int TYPE_UNDO_CHANGE = 1;
@@ -69,17 +68,13 @@ public abstract class AbstractMeta
 
   protected String filename;
 
-  protected Set<INameChangedListener> nameChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<INameChangedListener> nameChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  protected Set<IFilenameChangedListener> filenameChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<IFilenameChangedListener> filenameChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  protected Set<IContentChangedListener> contentChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<IContentChangedListener> contentChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  protected Set<ICurrentDirectoryChangedListener> currentDirectoryChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<ICurrentDirectoryChangedListener> currentDirectoryChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   protected List<NotePadMeta> notes;
 
@@ -129,19 +124,16 @@ public abstract class AbstractMeta
 
   protected abstract String getExtension();
 
-  /**
-   * Get the name of the pipeline. If the name is synchronized with the filename, we return the base
+  /** Get the name of the pipeline. If the name is synchronized with the filename, we return the base
    * filename.
    *
-   * @return The name of the pipeline
-   */
+   * @return The name of the pipeline */
   @Override
   public String getName() {
     return extractNameFromFilename(nameSynchronizedWithFilename, name, filename, getExtension());
   }
 
-  public static final String extractNameFromFilename(
-      boolean sync, String name, String filename, String extension) {
+  public static final String extractNameFromFilename(boolean sync, String name, String filename, String extension) {
     if (filename == null) {
       return name;
     } else {
@@ -169,22 +161,18 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Set the name.
+  /** Set the name.
    *
-   * @param newName The new name
-   */
+   * @param newName The new name */
   @Override
   public void setName(String newName) {
     fireNameChangedListeners(this.name, newName);
     this.name = newName;
   }
 
-  /**
-   * Gets nameSynchronizedWithFilename
+  /** Gets nameSynchronizedWithFilename
    *
-   * @return value of nameSynchronizedWithFilename
-   */
+   * @return value of nameSynchronizedWithFilename */
   @Override
   public boolean isNameSynchronizedWithFilename() {
     return nameSynchronizedWithFilename;
@@ -196,38 +184,30 @@ public abstract class AbstractMeta
     this.nameSynchronizedWithFilename = nameSynchronizedWithFilename;
   }
 
-  /**
-   * Gets the description of the workflow.
+  /** Gets the description of the workflow.
    *
-   * @return The description of the workflow
-   */
+   * @return The description of the workflow */
   public String getDescription() {
     return description;
   }
 
-  /**
-   * Set the description of the workflow.
+  /** Set the description of the workflow.
    *
-   * @param description The new description of the workflow
-   */
+   * @param description The new description of the workflow */
   public void setDescription(String description) {
     this.description = description;
   }
 
-  /**
-   * Gets the extended description of the workflow.
+  /** Gets the extended description of the workflow.
    *
-   * @return The extended description of the workflow
-   */
+   * @return The extended description of the workflow */
   public String getExtendedDescription() {
     return extendedDescription;
   }
 
-  /**
-   * Set the description of the workflow.
+  /** Set the description of the workflow.
    *
-   * @param extendedDescription The new extended description of the workflow
-   */
+   * @param extendedDescription The new extended description of the workflow */
   public void setExtendedDescription(String extendedDescription) {
     this.extendedDescription = extendedDescription;
   }
@@ -240,22 +220,18 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Gets the filename.
+  /** Gets the filename.
    *
    * @return filename
-   * @see IEngineMeta#getFilename()
-   */
+   * @see IEngineMeta#getFilename() */
   @Override
   public String getFilename() {
     return filename;
   }
 
-  /**
-   * Set the filename of the workflow
+  /** Set the filename of the workflow
    *
-   * @param newFilename The new filename of the workflow
-   */
+   * @param newFilename The new filename of the workflow */
   @Override
   public void setFilename(String newFilename) {
     fireFilenameChangedListeners(this.filename, newFilename);
@@ -266,21 +242,17 @@ public abstract class AbstractMeta
   @Override
   public abstract void setInternalHopVariables(IVariables var);
 
-  /**
-   * Sets the internal filename hop variables.
+  /** Sets the internal filename hop variables.
    *
-   * @param var the new internal filename hop variables
-   */
+   * @param var the new internal filename hop variables */
   protected abstract void setInternalFilenameHopVariables(IVariables var);
 
-  /**
-   * Find a database connection by it's name
+  /** Find a database connection by it's name
    *
    * @deprecated use {@link #findDatabase(String name, IVariables variables)}
    * @param name The database name to look for
-   * @return The database connection or null if nothing was found.
-   */
-  @Deprecated(since="2.0")
+   * @return The database connection or null if nothing was found. */
+  @Deprecated(since = "2.0")
   public DatabaseMeta findDatabase(String name) {
     if (metadataProvider == null || StringUtils.isEmpty(name)) {
       return null;
@@ -289,30 +261,24 @@ public abstract class AbstractMeta
       DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(name);
       return databaseMeta;
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load database with name '" + name + "' from the metadata", e);
+      throw new RuntimeException("Unable to load database with name '" + name + "' from the metadata", e);
     }
   }
 
-  /**
-   * Find a database connection by it's name
+  /** Find a database connection by it's name
    *
    * @param name The database name to look for
    * @param variables Ivariables to use to resolve possible database name
-   * @return The database connection or null if nothing was found.
-   */
+   * @return The database connection or null if nothing was found. */
   public DatabaseMeta findDatabase(String name, IVariables variables) {
     if (metadataProvider == null || StringUtils.isEmpty(variables.resolve(name))) {
       return null;
     }
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(name));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(name));
       return databaseMeta;
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load database with name '" + variables.resolve(name) + "' from the metadata",
-          e);
+      throw new RuntimeException("Unable to load database with name '" + variables.resolve(name) + "' from the metadata", e);
     }
   }
 
@@ -320,27 +286,22 @@ public abstract class AbstractMeta
     try {
       return metadataProvider.getSerializer(DatabaseMeta.class).listObjectNames().size();
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load database with name '" + name + "' from the metadata", e);
+      throw new RuntimeException("Unable to load database with name '" + name + "' from the metadata", e);
     }
   }
 
-  /**
-   * Adds the name changed listener.
+  /** Adds the name changed listener.
    *
-   * @param listener the listener
-   */
+   * @param listener the listener */
   public void addNameChangedListener(INameChangedListener listener) {
     if (listener != null) {
       nameChangedListeners.add(listener);
     }
   }
 
-  /**
-   * Removes the name changed listener.
+  /** Removes the name changed listener.
    *
-   * @param listener the listener
-   */
+   * @param listener the listener */
   public void removeNameChangedListener(INameChangedListener listener) {
     if (listener != null) {
       nameChangedListeners.remove(listener);
@@ -352,12 +313,10 @@ public abstract class AbstractMeta
     nameChangedListeners.clear();
   }
 
-  /**
-   * Fire name changed listeners.
+  /** Fire name changed listeners.
    *
    * @param oldName the old name
-   * @param newName the new name
-   */
+   * @param newName the new name */
   protected void fireNameChangedListeners(String oldName, String newName) {
     if (nameChanged(oldName, newName)) {
       for (INameChangedListener listener : nameChangedListeners) {
@@ -366,34 +325,28 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Adds the filename changed listener.
+  /** Adds the filename changed listener.
    *
-   * @param listener the listener
-   */
+   * @param listener the listener */
   public void addFilenameChangedListener(IFilenameChangedListener listener) {
     if (listener != null) {
       filenameChangedListeners.add(listener);
     }
   }
 
-  /**
-   * Removes the filename changed listener.
+  /** Removes the filename changed listener.
    *
-   * @param listener the listener
-   */
+   * @param listener the listener */
   public void removeFilenameChangedListener(IFilenameChangedListener listener) {
     if (listener != null) {
       filenameChangedListeners.remove(listener);
     }
   }
 
-  /**
-   * Fire filename changed listeners.
+  /** Fire filename changed listeners.
    *
    * @param oldFilename the old filename
-   * @param newFilename the new filename
-   */
+   * @param newFilename the new filename */
   protected void fireFilenameChangedListeners(String oldFilename, String newFilename) {
     if (nameChanged(oldFilename, newFilename)) {
       for (IFilenameChangedListener listener : filenameChangedListeners) {
@@ -402,22 +355,18 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Adds the passed IContentChangedListener to the list of listeners.
+  /** Adds the passed IContentChangedListener to the list of listeners.
    *
-   * @param listener
-   */
+   * @param listener */
   public void addContentChangedListener(IContentChangedListener listener) {
     if (listener != null) {
       contentChangedListeners.add(listener);
     }
   }
 
-  /**
-   * Removes the passed IContentChangedListener from the list of listeners.
+  /** Removes the passed IContentChangedListener from the list of listeners.
    *
-   * @param listener
-   */
+   * @param listener */
   public void removeContentChangedListener(IContentChangedListener listener) {
     if (listener != null) {
       contentChangedListeners.remove(listener);
@@ -468,12 +417,10 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Find a hop server using the name
+  /** Find a hop server using the name
    *
    * @param serverString the name of the hop server
-   * @return the hop server or null if we couldn't spot an approriate entry.
-   */
+   * @return the hop server or null if we couldn't spot an approriate entry. */
   public HopServer findHopServer(String serverString) {
     if (metadataProvider == null || StringUtils.isEmpty(name)) {
       return null;
@@ -481,16 +428,13 @@ public abstract class AbstractMeta
     try {
       return metadataProvider.getSerializer(HopServer.class).load(name);
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load hop server with name '" + name + "' from the metadata", e);
+      throw new RuntimeException("Unable to load hop server with name '" + name + "' from the metadata", e);
     }
   }
 
-  /**
-   * Gets an array of hop server names.
+  /** Gets an array of hop server names.
    *
-   * @return An array list hop server names
-   */
+   * @return An array list hop server names */
   public String[] getHopServerNames() {
     try {
       List<String> names = metadataProvider.getSerializer(HopServer.class).listObjectNames();
@@ -508,14 +452,7 @@ public abstract class AbstractMeta
    * org.apache.hop.core.gui.Point[], org.apache.hop.core.gui.Point[], int, boolean)
    */
   @Override
-  public void addUndo(
-      Object[] from,
-      Object[] to,
-      int[] pos,
-      Point[] prev,
-      Point[] curr,
-      int typeOfChange,
-      boolean nextAlso) {
+  public void addUndo(Object[] from, Object[] to, int[] pos, Point[] prev, Point[] curr, int typeOfChange, boolean nextAlso) {
     // First clean up after the current position.
     // Example: position at 3, size=5
     // 012345
@@ -616,11 +553,9 @@ public abstract class AbstractMeta
     return retval;
   }
 
-  /**
-   * View current undo, don't change undo position
+  /** View current undo, don't change undo position
    *
-   * @return The current undo transaction
-   */
+   * @return The current undo transaction */
   @Override
   public ChangeAction viewThisUndo() {
     if (undo.isEmpty() || undoPosition < 0) {
@@ -672,11 +607,9 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Gets the undo size.
+  /** Gets the undo size.
    *
-   * @return the undo size
-   */
+   * @return the undo size */
   public int getUndoSize() {
     if (undo == null) {
       return 0;
@@ -723,36 +656,30 @@ public abstract class AbstractMeta
     return attributes.get(key);
   }
 
-  /**
-   * Add a new note at a certain location (i.e. the specified index). Also marks that the notes have
+  /** Add a new note at a certain location (i.e. the specified index). Also marks that the notes have
    * changed.
    *
    * @param p The index into the notes list
-   * @param ni The note to be added.
-   */
+   * @param ni The note to be added. */
   public void addNote(int p, NotePadMeta ni) {
     notes.add(p, ni);
     changedNotes = true;
   }
 
-  /**
-   * Add a new note. Also marks that the notes have changed.
+  /** Add a new note. Also marks that the notes have changed.
    *
-   * @param ni The note to be added.
-   */
+   * @param ni The note to be added. */
   public void addNote(NotePadMeta ni) {
     notes.add(ni);
     changedNotes = true;
   }
 
-  /**
-   * Find the note that is located on a certain point on the canvas.
+  /** Find the note that is located on a certain point on the canvas.
    *
    * @param x the x-coordinate of the point queried
    * @param y the y-coordinate of the point queried
    * @return The note information if a note is located at the point. Otherwise, if nothing was
-   *     found: null.
-   */
+   *         found: null. */
   public NotePadMeta getNote(int x, int y) {
     int i;
     int s;
@@ -763,40 +690,31 @@ public abstract class AbstractMeta
       NotePadMeta ni = notes.get(i);
       Point loc = ni.getLocation();
       Point p = new Point(loc.x, loc.y);
-      if (x >= p.x
-          && x <= p.x + ni.width + 2 * Const.NOTE_MARGIN
-          && y >= p.y
-          && y <= p.y + ni.height + 2 * Const.NOTE_MARGIN) {
+      if (x >= p.x && x <= p.x + ni.width + 2 * Const.NOTE_MARGIN && y >= p.y && y <= p.y + ni.height + 2 * Const.NOTE_MARGIN) {
         return ni;
       }
     }
     return null;
   }
 
-  /**
-   * Gets the note.
+  /** Gets the note.
    *
    * @param i the i
-   * @return the note
-   */
+   * @return the note */
   public NotePadMeta getNote(int i) {
     return notes.get(i);
   }
 
-  /**
-   * Gets the notes.
+  /** Gets the notes.
    *
-   * @return the notes
-   */
+   * @return the notes */
   public List<NotePadMeta> getNotes() {
     return notes;
   }
 
-  /**
-   * Gets a list of all selected notes.
+  /** Gets a list of all selected notes.
    *
-   * @return A list of all the selected notes.
-   */
+   * @return A list of all the selected notes. */
   public List<NotePadMeta> getSelectedNotes() {
     List<NotePadMeta> selection = new ArrayList<>();
     for (NotePadMeta note : notes) {
@@ -807,22 +725,18 @@ public abstract class AbstractMeta
     return selection;
   }
 
-  /**
-   * Finds the location (index) of the specified note.
+  /** Finds the location (index) of the specified note.
    *
    * @param ni The note queried
-   * @return The location of the note, or -1 if nothing was found.
-   */
+   * @return The location of the note, or -1 if nothing was found. */
   public int indexOfNote(NotePadMeta ni) {
     return notes.indexOf(ni);
   }
 
-  /**
-   * Lowers a note to the "bottom" of the list by removing the note at the specified index and
+  /** Lowers a note to the "bottom" of the list by removing the note at the specified index and
    * re-inserting it at the front. Also marks that the notes have changed.
    *
-   * @param p the index into the notes list.
-   */
+   * @param p the index into the notes list. */
   public void lowerNote(int p) {
     // if valid index and not first index
     if ((p > 0) && (p < notes.size())) {
@@ -832,21 +746,17 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Gets the number of notes.
+  /** Gets the number of notes.
    *
-   * @return The number of notes.
-   */
+   * @return The number of notes. */
   public int nrNotes() {
     return notes.size();
   }
 
-  /**
-   * Raises a note to the "top" of the list by removing the note at the specified index and
+  /** Raises a note to the "top" of the list by removing the note at the specified index and
    * re-inserting it at the end. Also marks that the notes have changed.
    *
-   * @param p the index into the notes list.
-   */
+   * @param p the index into the notes list. */
   public void raiseNote(int p) {
     // if valid index and not last index
     if ((p >= 0) && (p < notes.size() - 1)) {
@@ -856,12 +766,10 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Removes a note at a certain location (i.e. the specified index). Also marks that the notes have
+  /** Removes a note at a certain location (i.e. the specified index). Also marks that the notes have
    * changed.
    *
-   * @param i The index into the notes list
-   */
+   * @param i The index into the notes list */
   public void removeNote(int i) {
     if (i < 0 || i >= notes.size()) {
       return;
@@ -870,11 +778,9 @@ public abstract class AbstractMeta
     changedNotes = true;
   }
 
-  /**
-   * Checks whether or not any of the notes have been changed.
+  /** Checks whether or not any of the notes have been changed.
    *
-   * @return true if the notes have been changed, false otherwise
-   */
+   * @return true if the notes have been changed, false otherwise */
   public boolean haveNotesChanged() {
     if (changedNotes) {
       return true;
@@ -889,12 +795,10 @@ public abstract class AbstractMeta
     return false;
   }
 
-  /**
-   * Get an array of the locations of an array of notes
+  /** Get an array of the locations of an array of notes
    *
    * @param notes An array of notes
-   * @return an array of the locations of an array of notes
-   */
+   * @return an array of the locations of an array of notes */
   public int[] getNoteIndexes(List<NotePadMeta> notes) {
     int[] retval = new int[notes.size()];
 
@@ -905,11 +809,9 @@ public abstract class AbstractMeta
     return retval;
   }
 
-  /**
-   * Returns a list of the databases.
+  /** Returns a list of the databases.
    *
-   * @return Returns the databases.
-   */
+   * @return Returns the databases. */
   public List<DatabaseMeta> getDatabases() {
     try {
       return metadataProvider.getSerializer(DatabaseMeta.class).loadAll();
@@ -918,11 +820,9 @@ public abstract class AbstractMeta
     }
   }
 
-  /**
-   * Gets the database names.
+  /** Gets the database names.
    *
-   * @return the database names
-   */
+   * @return the database names */
   public String[] getDatabaseNames() {
     try {
       List<String> names = metadataProvider.getSerializer(DatabaseMeta.class).listObjectNames();
@@ -940,8 +840,7 @@ public abstract class AbstractMeta
    * java.lang.String)
    */
   @Override
-  public void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException {
+  public void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException {
     namedParams.addParameterDefinition(key, defValue, description);
   }
 
@@ -993,88 +892,70 @@ public abstract class AbstractMeta
     this.metadataProvider = metadataProvider;
   }
 
-  /**
-   * Sets the internal name hop variable.
+  /** Sets the internal name hop variable.
    *
-   * @param var the new internal name hop variable
-   */
+   * @param var the new internal name hop variable */
   protected abstract void setInternalNameHopVariable(IVariables var);
 
-  /**
-   * Gets the date the pipeline was created.
+  /** Gets the date the pipeline was created.
    *
-   * @return the date the pipeline was created.
-   */
+   * @return the date the pipeline was created. */
   @Override
   public Date getCreatedDate() {
     return createdDate;
   }
 
-  /**
-   * Sets the date the pipeline was created.
+  /** Sets the date the pipeline was created.
    *
-   * @param createdDate The creation date to set.
-   */
+   * @param createdDate The creation date to set. */
   @Override
   public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
 
-  /**
-   * Sets the user by whom the pipeline was created.
+  /** Sets the user by whom the pipeline was created.
    *
-   * @param createdUser The user to set.
-   */
+   * @param createdUser The user to set. */
   @Override
   public void setCreatedUser(String createdUser) {
     this.createdUser = createdUser;
   }
 
-  /**
-   * Gets the user by whom the pipeline was created.
+  /** Gets the user by whom the pipeline was created.
    *
-   * @return the user by whom the pipeline was created.
-   */
+   * @return the user by whom the pipeline was created. */
   @Override
   public String getCreatedUser() {
     return createdUser;
   }
 
-  /**
-   * Sets the date the pipeline was modified.
+  /** Sets the date the pipeline was modified.
    *
-   * @param modifiedDate The modified date to set.
-   */
+   * @param modifiedDate The modified date to set. */
   @Override
   public void setModifiedDate(Date modifiedDate) {
     this.modifiedDate = modifiedDate;
   }
 
-  /**
-   * Gets the date the pipeline was modified.
+  /** Gets the date the pipeline was modified.
    *
-   * @return the date the pipeline was modified.
-   */
+   * @return the date the pipeline was modified. */
   @Override
   public Date getModifiedDate() {
     return modifiedDate;
   }
 
-  /**
-   * Sets the user who last modified the pipeline.
+  /** Sets the user who last modified the pipeline.
    *
-   * @param modifiedUser The user name to set.
-   */
+   * @param modifiedUser The user name to set. */
   @Override
   public void setModifiedUser(String modifiedUser) {
     this.modifiedUser = modifiedUser;
   }
 
-  /**
-   * Gets the user who last modified the pipeline.
+  /** Gets the user who last modified the pipeline.
    *
-   * @return the user who last modified the pipeline.
-   */
+   * @return the user who last modified the pipeline. */
   @Override
   public String getModifiedUser() {
     return modifiedUser;
@@ -1141,12 +1022,10 @@ public abstract class AbstractMeta
     changedFlag.notifyObservers(arg);
   }
 
-  /**
-   * Checks whether the workflow can be saved. For WorkflowMeta, this method always returns true
+  /** Checks whether the workflow can be saved. For WorkflowMeta, this method always returns true
    *
    * @return true
-   * @see IEngineMeta#canSave()
-   */
+   * @see IEngineMeta#canSave() */
   @Override
   public boolean canSave() {
     return true;
@@ -1163,16 +1042,14 @@ public abstract class AbstractMeta
     return false;
   }
 
-  /**
-   * Checks whether the specified name has changed (i.e. is different from the specified old name).
+  /** Checks whether the specified name has changed (i.e. is different from the specified old name).
    * If both names are null, false is returned. If the old name is null and the new new name is
    * non-null, true is returned. Otherwise, if the name strings are equal then true is returned;
    * false is returned if the name strings are not equal.
    *
    * @param oldName the old name
    * @param newName the new name
-   * @return true if the names have changed, false otherwise
-   */
+   * @return true if the names have changed, false otherwise */
   private boolean nameChanged(String oldName, String newName) {
     if (oldName == null && newName == null) {
       return false;
@@ -1196,8 +1073,7 @@ public abstract class AbstractMeta
     if (StringUtils.isNotEmpty(meta1.getFilename()) && StringUtils.isEmpty(meta2.getFilename())) {
       return 1;
     }
-    if ((StringUtils.isEmpty(meta1.getFilename()) && StringUtils.isEmpty(meta2.getFilename())
-        || (meta1.getFilename().equals(meta2.getFilename())))) {
+    if ((StringUtils.isEmpty(meta1.getFilename()) && StringUtils.isEmpty(meta2.getFilename()) || (meta1.getFilename().equals(meta2.getFilename())))) {
       // Compare names...
       //
       if (Utils.isEmpty(meta1.getName()) && !Utils.isEmpty(meta2.getName())) {

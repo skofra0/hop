@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,9 +28,12 @@ public class InjectorField {
   @HopMetadataProperty(key = "name")
   private String name;
 
-  @HopMetadataProperty private String type;
-  @HopMetadataProperty private String length;
-  @HopMetadataProperty private String precision;
+  @HopMetadataProperty
+  private String type;
+  @HopMetadataProperty
+  private String length;
+  @HopMetadataProperty
+  private String precision;
 
   public InjectorField() {}
 
@@ -57,11 +60,9 @@ public class InjectorField {
     return valueMeta;
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   public String getName() {
     return name;
   }
@@ -71,11 +72,9 @@ public class InjectorField {
     this.name = name;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public String getType() {
     return type;
   }
@@ -85,11 +84,9 @@ public class InjectorField {
     this.type = type;
   }
 
-  /**
-   * Gets length
+  /** Gets length
    *
-   * @return value of length
-   */
+   * @return value of length */
   public String getLength() {
     return length;
   }
@@ -99,11 +96,9 @@ public class InjectorField {
     this.length = length;
   }
 
-  /**
-   * Gets precision
+  /** Gets precision
    *
-   * @return value of precision
-   */
+   * @return value of precision */
   public String getPrecision() {
     return precision;
   }

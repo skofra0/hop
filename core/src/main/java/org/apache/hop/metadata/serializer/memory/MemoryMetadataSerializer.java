@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,11 +36,7 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
   private Map<String, T> objectMap;
   protected String description;
 
-  public MemoryMetadataSerializer(
-      IHopMetadataProvider provider,
-      Class<T> managedClass,
-      IVariables variables,
-      String description) {
+  public MemoryMetadataSerializer(IHopMetadataProvider provider, Class<T> managedClass, IVariables variables, String description) {
     this.metadataProvider = provider;
     this.managedClass = managedClass;
     this.variables = variables;
@@ -92,8 +88,7 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
   @Override
   public T delete(String name) throws HopException {
     if (name == null) {
-      throw new HopException(
-          "Error: you need to specify the name of the metadata object to delete");
+      throw new HopException("Error: you need to specify the name of the metadata object to delete");
     }
     if (!exists(name)) {
       throw new HopException("Error: Object '" + name + "' doesn't exist");
@@ -115,11 +110,9 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
     return objectMap.containsKey(name);
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   @Override
   public IHopMetadataProvider getMetadataProvider() {
     return metadataProvider;
@@ -130,11 +123,9 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
     this.metadataProvider = metadataProvider;
   }
 
-  /**
-   * Gets managedClass
+  /** Gets managedClass
    *
-   * @return value of managedClass
-   */
+   * @return value of managedClass */
   @Override
   public Class<T> getManagedClass() {
     return managedClass;
@@ -145,11 +136,9 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
     this.managedClass = managedClass;
   }
 
-  /**
-   * Gets objectMap
+  /** Gets objectMap
    *
-   * @return value of objectMap
-   */
+   * @return value of objectMap */
   public Map<String, T> getObjectMap() {
     return objectMap;
   }
@@ -159,20 +148,16 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
     this.objectMap = objectMap;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   @Override
   public String getDescription() {
     return description;

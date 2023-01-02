@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,23 +24,27 @@ import java.util.Objects;
 
 public class Field {
 
-  @HopMetadataProperty String name;
+  @HopMetadataProperty
+  String name;
 
-  @HopMetadataProperty String type;
+  @HopMetadataProperty
+  String type;
 
-  @HopMetadataProperty int length;
+  @HopMetadataProperty
+  int length;
 
-  @HopMetadataProperty int precision;
+  @HopMetadataProperty
+  int precision;
 
-  @HopMetadataProperty String format;
+  @HopMetadataProperty
+  String format;
 
   @HopMetadataProperty(key = "ott")
   private TestEnum oneTwoThree;
 
   public Field() {}
 
-  public Field(
-      String name, String type, int length, int precision, String format, TestEnum oneTwoThree) {
+  public Field(String name, String type, int length, int precision, String format, TestEnum oneTwoThree) {
     this.name = name;
     this.type = type;
     this.length = length;
@@ -58,12 +62,7 @@ public class Field {
       return false;
     }
     Field field = (Field) o;
-    return length == field.length
-        && precision == field.precision
-        && StringUtils.equals(name, field.name)
-        && StringUtils.equals(type, field.type)
-        && StringUtils.equals(format, field.format)
-        && oneTwoThree == field.oneTwoThree;
+    return length == field.length && precision == field.precision && StringUtils.equals(name, field.name) && StringUtils.equals(type, field.type) && StringUtils.equals(format, field.format) && oneTwoThree == field.oneTwoThree;
   }
 
   @Override
@@ -71,11 +70,9 @@ public class Field {
     return Objects.hash(name, type, length, precision, format, oneTwoThree);
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   public String getName() {
     return name;
   }
@@ -85,11 +82,9 @@ public class Field {
     this.name = name;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public String getType() {
     return type;
   }
@@ -99,11 +94,9 @@ public class Field {
     this.type = type;
   }
 
-  /**
-   * Gets length
+  /** Gets length
    *
-   * @return value of length
-   */
+   * @return value of length */
   public int getLength() {
     return length;
   }
@@ -113,11 +106,9 @@ public class Field {
     this.length = length;
   }
 
-  /**
-   * Gets precision
+  /** Gets precision
    *
-   * @return value of precision
-   */
+   * @return value of precision */
   public int getPrecision() {
     return precision;
   }
@@ -127,11 +118,9 @@ public class Field {
     this.precision = precision;
   }
 
-  /**
-   * Gets format
+  /** Gets format
    *
-   * @return value of format
-   */
+   * @return value of format */
   public String getFormat() {
     return format;
   }
@@ -141,11 +130,9 @@ public class Field {
     this.format = format;
   }
 
-  /**
-   * Gets oneTwoThree
+  /** Gets oneTwoThree
    *
-   * @return value of oneTwoThree
-   */
+   * @return value of oneTwoThree */
   public TestEnum getOneTwoThree() {
     return oneTwoThree;
   }

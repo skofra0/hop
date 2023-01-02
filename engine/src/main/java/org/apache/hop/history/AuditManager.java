@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,11 +42,9 @@ public class AuditManager {
     return getInstance().getActiveAuditManager();
   }
 
-  /**
-   * Gets activeAuditManager
+  /** Gets activeAuditManager
    *
-   * @return value of activeAuditManager
-   */
+   * @return value of activeAuditManager */
   public IAuditManager getActiveAuditManager() {
     return activeAuditManager;
   }
@@ -58,17 +56,12 @@ public class AuditManager {
 
   // Convenience methods...
   //
-  public static final void registerEvent(String group, String type, String name, String operation)
-      throws HopException {
+  public static final void registerEvent(String group, String type, String name, String operation) throws HopException {
     getActive().storeEvent(new AuditEvent(group, type, name, operation, new Date()));
   }
 
-  public static final List<AuditEvent> findEvents(
-      String group, String type, String operation, int maxNrEvents, boolean unique)
-      throws HopException {
-    List<AuditEvent> events =
-        getActive()
-            .findEvents(group, type, unique); // We are getting events based on unique or not.
+  public static final List<AuditEvent> findEvents(String group, String type, String operation, int maxNrEvents, boolean unique) throws HopException {
+    List<AuditEvent> events = getActive().findEvents(group, type, unique); // We are getting events based on unique or not.
     Set<String> names = new HashSet<>();
 
     if (operation == null) {
@@ -96,12 +89,7 @@ public class AuditManager {
     return operationEvents;
   }
 
-  public static final void storeState(
-      ILogChannel log,
-      String group,
-      String type,
-      String name,
-      Map<String, Object> stateProperties) {
+  public static final void storeState(ILogChannel log, String group, String type, String name, Map<String, Object> stateProperties) {
     AuditState auditState = new AuditState(name, stateProperties);
     try {
       getActive().storeState(group, type, auditState);
@@ -110,8 +98,7 @@ public class AuditManager {
     }
   }
 
-  public static final AuditState retrieveState(
-      ILogChannel log, String group, String type, String name) {
+  public static final AuditState retrieveState(ILogChannel log, String group, String type, String name) {
     try {
       return getActive().retrieveState(group, type, name);
     } catch (Exception e) {
@@ -120,11 +107,9 @@ public class AuditManager {
     }
   }
 
-  /**
-   * Convenience method for clearing events.
+  /** Convenience method for clearing events.
    *
-   * @throws HopException
-   */
+   * @throws HopException */
   public static final void clearEvents() throws HopException {
     getActive().clearEvents();
   }

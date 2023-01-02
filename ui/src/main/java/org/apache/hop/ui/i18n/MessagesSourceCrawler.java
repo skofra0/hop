@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,37 +70,18 @@ public class MessagesSourceCrawler {
     this.filesToAvoid = new ArrayList<>();
     this.sourcePackageOccurrences = new HashMap<>();
 
-    packagePattern =
-        Pattern.compile("^package [a-z\\.0-9A-Z]*;$", Pattern.DOTALL | Pattern.MULTILINE);
-    importPattern =
-        Pattern.compile("^import [a-z\\._0-9A-Z]*;$", Pattern.DOTALL | Pattern.MULTILINE);
-    stringPkgPattern =
-        Pattern.compile("private static String PKG.*=.*$", Pattern.DOTALL | Pattern.MULTILINE);
-    classPkgPatterns =
-        Arrays.asList(
-            Pattern.compile(
-                "private static Class.*\\sPKG\\s*=.*\\.class;", Pattern.DOTALL | Pattern.MULTILINE),
-            Pattern.compile(
-                "private static final Class.*\\sPKG\\s*=.*\\.class;",
-                Pattern.DOTALL | Pattern.MULTILINE),
-            Pattern.compile(
-                "public static Class.*\\sPKG\\s*=.*\\.class;", Pattern.DOTALL | Pattern.MULTILINE),
-            Pattern.compile(
-                "public static final Class.*\\sPKG\\s*=.*\\.class;",
-                Pattern.DOTALL | Pattern.MULTILINE));
+    packagePattern = Pattern.compile("^package [a-z\\.0-9A-Z]*;$", Pattern.DOTALL | Pattern.MULTILINE);
+    importPattern = Pattern.compile("^import [a-z\\._0-9A-Z]*;$", Pattern.DOTALL | Pattern.MULTILINE);
+    stringPkgPattern = Pattern.compile("private static String PKG.*=.*$", Pattern.DOTALL | Pattern.MULTILINE);
+    classPkgPatterns = Arrays.asList(Pattern.compile("private static Class.*\\sPKG\\s*=.*\\.class;", Pattern.DOTALL | Pattern.MULTILINE), Pattern.compile("private static final Class.*\\sPKG\\s*=.*\\.class;", Pattern.DOTALL | Pattern.MULTILINE),
+        Pattern.compile("public static Class.*\\sPKG\\s*=.*\\.class;", Pattern.DOTALL | Pattern.MULTILINE), Pattern.compile("public static final Class.*\\sPKG\\s*=.*\\.class;", Pattern.DOTALL | Pattern.MULTILINE));
 
-    scanPhrasePattern =
-        Pattern.compile(
-            "BaseMessages\\s*.getString\\(\\s*PKG,.*\\);", Pattern.DOTALL | Pattern.MULTILINE);
+    scanPhrasePattern = Pattern.compile("BaseMessages\\s*.getString\\(\\s*PKG,.*\\);", Pattern.DOTALL | Pattern.MULTILINE);
     doubleQuotePattern = Pattern.compile("\"", Pattern.MULTILINE);
-    i18nStringPattern =
-        Pattern.compile(
-            "\"" + Const.I18N_PREFIX + "[a-z\\.0-9]*:[a-zA-Z0-9\\.]*\"",
-            Pattern.DOTALL | Pattern.MULTILINE);
+    i18nStringPattern = Pattern.compile("\"" + Const.I18N_PREFIX + "[a-z\\.0-9]*:[a-zA-Z0-9\\.]*\"", Pattern.DOTALL | Pattern.MULTILINE);
   }
 
-  public MessagesSourceCrawler(ILogChannel log, String rootFolder, BundlesStore bundlesStore)
-      throws HopException {
+  public MessagesSourceCrawler(ILogChannel log, String rootFolder, BundlesStore bundlesStore) throws HopException {
     this();
     this.log = log;
     this.rootFolder = rootFolder;
@@ -110,44 +91,28 @@ public class MessagesSourceCrawler {
     // Let's look for all the src/main/java folders in the root folder.
     //
     try {
-      Files.walk(Paths.get(rootFolder))
-          .filter(
-              path ->
-                  Files.isDirectory(path)
-                      && path.endsWith("src/main/java")
-                      && !path.toString().contains("archive")
-                      && !path.toString().contains("/impl/"))
-          .forEach(path -> sourceDirectories.add(path.toAbsolutePath().toFile().getPath()));
-      ;
+      Files.walk(Paths.get(rootFolder)).filter(path -> Files.isDirectory(path) && path.endsWith("src/main/java") && !path.toString().contains("archive") && !path.toString().contains("/impl/")).forEach(path -> sourceDirectories.add(path.toAbsolutePath().toFile().getPath()));;
     } catch (IOException e) {
-      throw new HopException(
-          "Error scanning root folder '" + rootFolder + "' for Java source files (*.java)", e);
+      throw new HopException("Error scanning root folder '" + rootFolder + "' for Java source files (*.java)", e);
     }
   }
 
-  /**
-   * Add a key occurrence to the list of occurrences. The list is kept sorted on key and message
+  /** Add a key occurrence to the list of occurrences. The list is kept sorted on key and message
    * package. If the key already exists, we increment the number of occurrences.
    *
-   * @param occ The key occurrence to add
-   */
+   * @param occ The key occurrence to add */
   public void addKeyOccurrence(KeyOccurrence occ) {
 
     String sourceFolder = occ.getSourceFolder();
     if (sourceFolder == null) {
-      throw new RuntimeException(
-          "No source folder found for key: "
-              + occ.getKey()
-              + " in package "
-              + occ.getMessagesPackage());
+      throw new RuntimeException("No source folder found for key: " + occ.getKey() + " in package " + occ.getMessagesPackage());
     }
     String messagesPackage = occ.getMessagesPackage();
 
     // Do we have a map for the source folders?
     // If not, add one...
     //
-    Map<String, List<KeyOccurrence>> packageOccurrences =
-        sourcePackageOccurrences.computeIfAbsent(sourceFolder, k -> new HashMap<>());
+    Map<String, List<KeyOccurrence>> packageOccurrences = sourcePackageOccurrences.computeIfAbsent(sourceFolder, k -> new HashMap<>());
 
     // Do we have a map entry for the occurrences list in the source folder?
     // If not, add a list for the messages package
@@ -171,19 +136,17 @@ public class MessagesSourceCrawler {
 
     for (final String sourceDirectory : sourceDirectories) {
       FileObject folder = HopVfs.getFileObject(sourceDirectory);
-      FileObject[] javaFiles =
-          folder.findFiles(
-              new FileSelector() {
-                @Override
-                public boolean traverseDescendents(FileSelectInfo info) {
-                  return true;
-                }
+      FileObject[] javaFiles = folder.findFiles(new FileSelector() {
+        @Override
+        public boolean traverseDescendents(FileSelectInfo info) {
+          return true;
+        }
 
-                @Override
-                public boolean includeFile(FileSelectInfo info) {
-                  return info.getFile().getName().getExtension().equals("java");
-                }
-              });
+        @Override
+        public boolean includeFile(FileSelectInfo info) {
+          return info.getFile().getName().getExtension().equals("java");
+        }
+      });
 
       for (FileObject javaFile : javaFiles) {
 
@@ -205,15 +168,12 @@ public class MessagesSourceCrawler {
     }
   }
 
-  /**
-   * Look for additional occurrences of keys in the specified file.
+  /** Look for additional occurrences of keys in the specified file.
    *
    * @param sourceFolder The folder the java file and messages files live in
    * @param javaFile The java source file to examine
-   * @throws IOException In case there is a problem accessing the specified source file.
-   */
-  public void lookForOccurrencesInFile(String sourceFolder, FileObject javaFile)
-      throws IOException {
+   * @throws IOException In case there is a problem accessing the specified source file. */
+  public void lookForOccurrencesInFile(String sourceFolder, FileObject javaFile) throws IOException {
 
     String filename = HopVfs.getFilename(javaFile);
     Path path = new File(filename).toPath();
@@ -230,8 +190,7 @@ public class MessagesSourceCrawler {
     if (specificMessagesStringPackage != null) {
       messagesPackage = specificMessagesStringPackage;
     }
-    String specificMessagesClassPackage =
-        findSpecificClassPackage(javaCode, importsMap, classPackage);
+    String specificMessagesClassPackage = findSpecificClassPackage(javaCode, importsMap, classPackage);
     if (specificMessagesClassPackage != null) {
       messagesPackage = specificMessagesClassPackage;
     }
@@ -249,10 +208,8 @@ public class MessagesSourceCrawler {
       // see if there's a character [a-z][A-Z] before the search string...
       // Otherwise we're looking at BaseMessages.getString(), etc.
       //
-      if (scanPhraseMatcher.start() > 0
-          && !Character.isJavaIdentifierPart(javaCode.charAt(scanPhraseMatcher.start() - 1))) {
-        addKeyOccurrence(
-            sourceFolder, javaFile, messagesPackage, expression, scanPhraseMatcher.start());
+      if (scanPhraseMatcher.start() > 0 && !Character.isJavaIdentifierPart(javaCode.charAt(scanPhraseMatcher.start() - 1))) {
+        addKeyOccurrence(sourceFolder, javaFile, messagesPackage, expression, scanPhraseMatcher.start());
       }
 
       startIndex = scanPhraseMatcher.start() + 1;
@@ -265,10 +222,9 @@ public class MessagesSourceCrawler {
     while (i18StringMatcher.find(startIndex)) {
       // We found something like:
       //
-      //    "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Transform"
+      // "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Transform"
       //
-      String expression =
-          javaCode.substring(i18StringMatcher.start() + 1, i18StringMatcher.end() - 1);
+      String expression = javaCode.substring(i18StringMatcher.start() + 1, i18StringMatcher.end() - 1);
 
       String[] i18n = expression.split(":");
       if (i18n.length == 3) {
@@ -288,26 +244,16 @@ public class MessagesSourceCrawler {
 
         // The source folder is derived from the Java file. It's all we have...
         //
-        String actualSourceFolder =
-            HopVfs.getFilename(javaFile).replaceAll("\\/src\\/main\\/java.*\\.java", "");
+        String actualSourceFolder = HopVfs.getFilename(javaFile).replaceAll("\\/src\\/main\\/java.*\\.java", "");
 
-        KeyOccurrence keyOccurrence =
-            new KeyOccurrence(
-                javaFile,
-                actualSourceFolder,
-                i18nPackage,
-                i18StringMatcher.start(),
-                i18nKey,
-                "",
-                expression);
+        KeyOccurrence keyOccurrence = new KeyOccurrence(javaFile, actualSourceFolder, i18nPackage, i18StringMatcher.start(), i18nKey, "", expression);
         addKeyOccurrence(keyOccurrence);
       }
       startIndex = i18StringMatcher.start() + 1;
     }
   }
 
-  private String findSpecificClassPackage(
-      String javaCode, Map<String, String> importedClasses, String classPackage) {
+  private String findSpecificClassPackage(String javaCode, Map<String, String> importedClasses, String classPackage) {
     for (Pattern classPkgPattern : classPkgPatterns) {
       Matcher matcher = classPkgPattern.matcher(javaCode);
       if (matcher.find()) {
@@ -339,20 +285,18 @@ public class MessagesSourceCrawler {
     return null;
   }
 
-  /**
-   * Look for the value of the PKG value...
-   *
-   * <p>private static String PKG = "org.apache.hop.foo.bar.somepkg";
-   *
-   * <p>This can be a wrapped line so we do a multi-line code scan
-   *
-   * <p>private static String PKG =
-   *
-   * <p>"org.apache.hop.foo.bar.somepkg"; *
+  /** Look for the value of the PKG value...
+   * <p>
+   * private static String PKG = "org.apache.hop.foo.bar.somepkg";
+   * <p>
+   * This can be a wrapped line so we do a multi-line code scan
+   * <p>
+   * private static String PKG =
+   * <p>
+   * "org.apache.hop.foo.bar.somepkg"; *
    *
    * @param javaCode
-   * @return The specific package or null if nothing was found
-   */
+   * @return The specific package or null if nothing was found */
   private String findSpecificStringPackage(String javaCode) {
     Matcher matcher = stringPkgPattern.matcher(javaCode);
     if (matcher.find()) {
@@ -401,22 +345,15 @@ public class MessagesSourceCrawler {
     return map;
   }
 
-  /**
-   * Extract the needed information from the expression and the index on which Messages.getString()
+  /** Extract the needed information from the expression and the index on which Messages.getString()
    * occurs.
    *
    * @param sourceFolder The source folder the messages and java files live in
    * @param fileObject the file we're reading
    * @param messagesPackage the messages package
    * @param expression the matching expression
-   * @param fileIndex the position in the java file
-   */
-  private void addKeyOccurrence(
-      String sourceFolder,
-      FileObject fileObject,
-      String messagesPackage,
-      String expression,
-      int fileIndex) {
+   * @param fileIndex the position in the java file */
+  private void addKeyOccurrence(String sourceFolder, FileObject fileObject, String messagesPackage, String expression, int fileIndex) {
 
     // Let's not keep too much around...
     //
@@ -489,15 +426,7 @@ public class MessagesSourceCrawler {
       //
       if (key.startsWith("System.")) {
         String i18nPackage = BaseMessages.class.getPackage().getName();
-        KeyOccurrence keyOccurrence =
-            new KeyOccurrence(
-                fileObject,
-                moduleSourceFolder,
-                i18nPackage,
-                fileIndex,
-                key,
-                arguments,
-                shortExpression);
+        KeyOccurrence keyOccurrence = new KeyOccurrence(fileObject, moduleSourceFolder, i18nPackage, fileIndex, key, arguments, shortExpression);
 
         // If we just add this key, we'll get doubles in the i18n package
         //
@@ -514,15 +443,7 @@ public class MessagesSourceCrawler {
         if (messagesPackage == null) {
           log.logError("Could not calculate messages package in file: " + fileObject);
         } else {
-          KeyOccurrence keyOccurrence =
-              new KeyOccurrence(
-                  fileObject,
-                  moduleSourceFolder,
-                  messagesPackage,
-                  fileIndex,
-                  key,
-                  arguments,
-                  shortExpression);
+          KeyOccurrence keyOccurrence = new KeyOccurrence(fileObject, moduleSourceFolder, messagesPackage, fileIndex, key, arguments, shortExpression);
           addKeyOccurrence(keyOccurrence);
         }
       }
@@ -531,19 +452,16 @@ public class MessagesSourceCrawler {
 
   /** @return A sorted list of distinct occurrences of the used message package names */
   public List<String> getMessagesPackagesList(String sourceFolder) {
-    Map<String, List<KeyOccurrence>> packageOccurrences =
-        sourcePackageOccurrences.get(sourceFolder);
+    Map<String, List<KeyOccurrence>> packageOccurrences = sourcePackageOccurrences.get(sourceFolder);
     List<String> list = new ArrayList<>(packageOccurrences.keySet());
     Collections.sort(list);
     return list;
   }
 
-  /**
-   * Get all the key occurrences for a certain messages package.
+  /** Get all the key occurrences for a certain messages package.
    *
    * @param messagesPackage the package to hunt for
-   * @return all the key occurrences for a certain messages package.
-   */
+   * @return all the key occurrences for a certain messages package. */
   public List<KeyOccurrence> getOccurrencesForPackage(String messagesPackage) {
     List<KeyOccurrence> list = new ArrayList<>();
 
@@ -564,8 +482,7 @@ public class MessagesSourceCrawler {
         List<KeyOccurrence> occurrences = po.get(selectedMessagesPackage);
         if (occurrences != null) {
           for (KeyOccurrence keyOccurrence : occurrences) {
-            if (keyOccurrence.getKey().equals(key)
-                && keyOccurrence.getMessagesPackage().equals(selectedMessagesPackage)) {
+            if (keyOccurrence.getKey().equals(key) && keyOccurrence.getMessagesPackage().equals(selectedMessagesPackage)) {
               return keyOccurrence;
             }
           }
@@ -575,11 +492,9 @@ public class MessagesSourceCrawler {
     return null;
   }
 
-  /**
-   * Get the unique package-key
+  /** Get the unique package-key
    *
-   * @param sourceFolder
-   */
+   * @param sourceFolder */
   public List<KeyOccurrence> getKeyOccurrences(String sourceFolder) {
     Map<String, KeyOccurrence> map = new HashMap<>();
     Map<String, List<KeyOccurrence>> po = sourcePackageOccurrences.get(sourceFolder);
@@ -595,11 +510,9 @@ public class MessagesSourceCrawler {
     return new ArrayList<>(map.values());
   }
 
-  /**
-   * Gets sourceDirectories
+  /** Gets sourceDirectories
    *
-   * @return value of sourceDirectories
-   */
+   * @return value of sourceDirectories */
   public List<String> getSourceDirectories() {
     return sourceDirectories;
   }
@@ -609,11 +522,9 @@ public class MessagesSourceCrawler {
     this.sourceDirectories = sourceDirectories;
   }
 
-  /**
-   * Gets bundlesStore
+  /** Gets bundlesStore
    *
-   * @return value of bundlesStore
-   */
+   * @return value of bundlesStore */
   public BundlesStore getBundlesStore() {
     return bundlesStore;
   }
@@ -623,26 +534,21 @@ public class MessagesSourceCrawler {
     this.bundlesStore = bundlesStore;
   }
 
-  /**
-   * Gets sourcePackageOccurrences
+  /** Gets sourcePackageOccurrences
    *
-   * @return value of sourcePackageOccurrences
-   */
+   * @return value of sourcePackageOccurrences */
   public Map<String, Map<String, List<KeyOccurrence>>> getSourcePackageOccurrences() {
     return sourcePackageOccurrences;
   }
 
   /** @param sourcePackageOccurrences The sourcePackageOccurrences to set */
-  public void setSourcePackageOccurrences(
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
+  public void setSourcePackageOccurrences(Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
     this.sourcePackageOccurrences = sourcePackageOccurrences;
   }
 
-  /**
-   * Gets filesToAvoid
+  /** Gets filesToAvoid
    *
-   * @return value of filesToAvoid
-   */
+   * @return value of filesToAvoid */
   public List<String> getFilesToAvoid() {
     return filesToAvoid;
   }
@@ -652,11 +558,9 @@ public class MessagesSourceCrawler {
     this.filesToAvoid = filesToAvoid;
   }
 
-  /**
-   * Gets packagePattern
+  /** Gets packagePattern
    *
-   * @return value of packagePattern
-   */
+   * @return value of packagePattern */
   public Pattern getPackagePattern() {
     return packagePattern;
   }
@@ -666,11 +570,9 @@ public class MessagesSourceCrawler {
     this.packagePattern = packagePattern;
   }
 
-  /**
-   * Gets importPattern
+  /** Gets importPattern
    *
-   * @return value of importPattern
-   */
+   * @return value of importPattern */
   public Pattern getImportPattern() {
     return importPattern;
   }
@@ -680,11 +582,9 @@ public class MessagesSourceCrawler {
     this.importPattern = importPattern;
   }
 
-  /**
-   * Gets stringPkgPattern
+  /** Gets stringPkgPattern
    *
-   * @return value of stringPkgPattern
-   */
+   * @return value of stringPkgPattern */
   public Pattern getStringPkgPattern() {
     return stringPkgPattern;
   }
@@ -694,11 +594,9 @@ public class MessagesSourceCrawler {
     this.stringPkgPattern = stringPkgPattern;
   }
 
-  /**
-   * Gets classPkgPatterns
+  /** Gets classPkgPatterns
    *
-   * @return value of classPkgPatterns
-   */
+   * @return value of classPkgPatterns */
   public List<Pattern> getClassPkgPatterns() {
     return classPkgPatterns;
   }
@@ -708,11 +606,9 @@ public class MessagesSourceCrawler {
     this.classPkgPatterns = classPkgPatterns;
   }
 
-  /**
-   * Gets log
+  /** Gets log
    *
-   * @return value of log
-   */
+   * @return value of log */
   public ILogChannel getLog() {
     return log;
   }
@@ -722,11 +618,9 @@ public class MessagesSourceCrawler {
     this.log = log;
   }
 
-  /**
-   * Gets rootFolder
+  /** Gets rootFolder
    *
-   * @return value of rootFolder
-   */
+   * @return value of rootFolder */
   public String getRootFolder() {
     return rootFolder;
   }

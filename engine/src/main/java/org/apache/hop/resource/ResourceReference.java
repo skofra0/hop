@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,10 +26,8 @@ public class ResourceReference {
   private IResourceHolder resourceReferenceHolder;
   private List<ResourceEntry> entries;
 
-  /**
-   * @param resourceReferenceHolder Where to put the resource references
-   * @param entries the resource entries list
-   */
+  /** @param resourceReferenceHolder Where to put the resource references
+   * @param entries the resource entries list */
   public ResourceReference(IResourceHolder resourceReferenceHolder, List<ResourceEntry> entries) {
     super();
     this.resourceReferenceHolder = resourceReferenceHolder;
@@ -75,8 +73,7 @@ public class ResourceReference {
 
   public String toXml(IResourceXmlPropertyEmitter injector, int indentLevel) {
     StringBuilder buff = new StringBuilder();
-    addXmlElementWithAttribute(
-        buff, indentLevel, "ActionComponent", "type", resourceReferenceHolder.getPluginId());
+    addXmlElementWithAttribute(buff, indentLevel, "ActionComponent", "type", resourceReferenceHolder.getPluginId());
     indentLevel++;
     addXmlElement(buff, indentLevel, "ComponentName", resourceReferenceHolder.getName());
     addXmlElement(buff, indentLevel, "ComponentId", resourceReferenceHolder.getTypeId());
@@ -99,43 +96,20 @@ public class ResourceReference {
     return buff.toString();
   }
 
-  public void addXmlElementWithAttribute(
-      StringBuilder buff, int indentLevel, String elementName, String attrName, String attrValue) {
-    buff.append(StringUtil.getIndent(indentLevel))
-        .append("<")
-        .append(elementName)
-        .append(" ")
-        .append(attrName)
-        .append("='");
+  public void addXmlElementWithAttribute(StringBuilder buff, int indentLevel, String elementName, String attrName, String attrValue) {
+    buff.append(StringUtil.getIndent(indentLevel)).append("<").append(elementName).append(" ").append(attrName).append("='");
     buff.append(attrValue).append("'>").append(StringUtil.CRLF);
   }
 
   public void addXmlCloseElement(StringBuilder buff, int indentLevel, String elementName) {
-    buff.append(StringUtil.getIndent(indentLevel))
-        .append("</")
-        .append(elementName)
-        .append(">")
-        .append(StringUtil.CRLF);
+    buff.append(StringUtil.getIndent(indentLevel)).append("</").append(elementName).append(">").append(StringUtil.CRLF);
   }
 
   public void addXmlElement(StringBuilder buff, int indentLevel, String elementName) {
-    buff.append(StringUtil.getIndent(indentLevel))
-        .append("<")
-        .append(elementName)
-        .append(">")
-        .append(StringUtil.CRLF);
+    buff.append(StringUtil.getIndent(indentLevel)).append("<").append(elementName).append(">").append(StringUtil.CRLF);
   }
 
-  public void addXmlElement(
-      StringBuilder buff, int indentLevel, String elementName, String elementValue) {
-    buff.append(StringUtil.getIndent(indentLevel))
-        .append("<")
-        .append(elementName)
-        .append("><![CDATA[")
-        .append(elementValue)
-        .append("]]></")
-        .append(elementName)
-        .append(">")
-        .append(StringUtil.CRLF);
+  public void addXmlElement(StringBuilder buff, int indentLevel, String elementName, String elementValue) {
+    buff.append(StringUtil.getIndent(indentLevel)).append("<").append(elementName).append("><![CDATA[").append(elementValue).append("]]></").append(elementName).append(">").append(StringUtil.CRLF);
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,13 +67,11 @@ public class SingleThreadedPipelineExecutor {
     transformInfoStreams = new ArrayList<>();
     transformInfoRowSets = new ArrayList<>();
     for (TransformMetaDataCombi combi : transforms) {
-      List<IStream> infoStreams =
-          combi.transformMeta.getTransform().getTransformIOMeta().getInfoStreams();
+      List<IStream> infoStreams = combi.transformMeta.getTransform().getTransformIOMeta().getInfoStreams();
       transformInfoStreams.add(infoStreams);
       List<IRowSet> infoRowSets = new ArrayList<>();
       for (IStream infoStream : infoStreams) {
-        IRowSet infoRowSet =
-            pipeline.findRowSet(infoStream.getTransformName(), 0, combi.transformName, 0);
+        IRowSet infoRowSet = pipeline.findRowSet(infoStream.getTransformName(), 0, combi.transformName, 0);
         if (infoRowSet != null) {
           infoRowSets.add(infoRowSet);
         }
@@ -195,13 +193,8 @@ public class SingleThreadedPipelineExecutor {
         transformsSize--;
         if (transformsSize <= transformsMinSize) {
           if (testing) {
-            tLogString.append(
-                String.format(
-                    "transformsMinSize:%s  transformsSize:%s", transformsMinSize, transformsSize));
-            tLogString
-                .append(
-                    "transformsSize is <= transformsMinSize.. exiting outer sort loop. index:" + x)
-                .append("\n");
+            tLogString.append(String.format("transformsMinSize:%s  transformsSize:%s", transformsMinSize, transformsSize));
+            tLogString.append("transformsSize is <= transformsMinSize.. exiting outer sort loop. index:" + x).append("\n");
           }
           break;
         }
@@ -216,16 +209,8 @@ public class SingleThreadedPipelineExecutor {
         transformsMinSize++;
         if (transformsMinSize >= transformsSize) {
           if (testing) {
-            tLogString
-                .append(
-                    String.format(
-                        "transformsMinSize:%s  transformsSize:%s",
-                        transformsMinSize, transformsSize))
-                .append("\n");
-            tLogString
-                .append(
-                    "transformsMinSize is >= transformsSize.. exiting outer sort loop. index:" + x)
-                .append("\n");
+            tLogString.append(String.format("transformsMinSize:%s  transformsSize:%s", transformsMinSize, transformsSize)).append("\n");
+            tLogString.append("transformsMinSize is >= transformsSize.. exiting outer sort loop. index:" + x).append("\n");
           }
           break;
         }
@@ -238,13 +223,7 @@ public class SingleThreadedPipelineExecutor {
 
       if (!forwardChange && !backwardChange) {
         if (testing) {
-          tLogString
-              .append(
-                  String.format(
-                      "existing outer loop because no "
-                          + "change was detected going forward or backward. index:%s  min:%s  max:%s",
-                      x, transformsMinSize, transformsSize))
-              .append("\n");
+          tLogString.append(String.format("existing outer loop because no " + "change was detected going forward or backward. index:%s  min:%s  max:%s", x, transformsMinSize, transformsSize)).append("\n");
         }
         break;
       }
@@ -292,11 +271,9 @@ public class SingleThreadedPipelineExecutor {
     return true;
   }
 
-  /**
-   * Give all transforms in the pipeline the chance to process all rows on input...
+  /** Give all transforms in the pipeline the chance to process all rows on input...
    *
-   * @return true if more iterations can be performed. False if this is not the case.
-   */
+   * @return true if more iterations can be performed. False if this is not the case. */
   public boolean oneIteration() throws HopException {
 
     this.exceptionsRaisedCounter = 0;
@@ -383,11 +360,10 @@ public class SingleThreadedPipelineExecutor {
       }
     } catch (Exception e) {
       if (handleExceptionsExternally) {
-        log.logDebug(
-            "An exception was raised during a transform's execution: "
-                + inProcessCombi.transformName);
+        log.logDebug("An exception was raised during a transform's execution: " + inProcessCombi.transformName);
         this.exceptionsRaisedCounter += 1;
-      } else throw new HopException("Error performing an iteration in a single threaded pipeline", e);
+      } else
+        throw new HopException("Error performing an iteration in a single threaded pipeline", e);
     }
     return nrDone < transforms.size() && !pipeline.isStopped();
   }
@@ -408,27 +384,9 @@ public class SingleThreadedPipelineExecutor {
       ILogChannel tLog = combi.transform.getLogChannel();
 
       if (li > 0 || lo > 0 || lr > 0 || lw > 0 || lu > 0 || lj > 0 || e > 0) {
-        tLog.logBasic(
-            BaseMessages.getString(
-                PKG,
-                "SingleThreadedPipeline.Log.SummaryInfo",
-                String.valueOf(li),
-                String.valueOf(lo),
-                String.valueOf(lr),
-                String.valueOf(lw),
-                String.valueOf(lu),
-                String.valueOf(e + lj)));
+        tLog.logBasic(BaseMessages.getString(PKG, "SingleThreadedPipeline.Log.SummaryInfo", String.valueOf(li), String.valueOf(lo), String.valueOf(lr), String.valueOf(lw), String.valueOf(lu), String.valueOf(e + lj)));
       } else {
-        tLog.logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "SingleThreadedPipeline.Log.SummaryInfo",
-                String.valueOf(li),
-                String.valueOf(lo),
-                String.valueOf(lr),
-                String.valueOf(lw),
-                String.valueOf(lu),
-                String.valueOf(e + lj)));
+        tLog.logDetailed(BaseMessages.getString(PKG, "SingleThreadedPipeline.Log.SummaryInfo", String.valueOf(li), String.valueOf(lo), String.valueOf(lr), String.valueOf(lw), String.valueOf(lu), String.valueOf(e + lj)));
       }
       ((BaseTransform) combi.transform).setLinesInput(0);
       ((BaseTransform) combi.transform).setLinesOutput(0);

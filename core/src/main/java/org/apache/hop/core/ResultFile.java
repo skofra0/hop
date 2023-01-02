@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,10 +31,8 @@ import org.w3c.dom.Node;
 
 import java.util.Date;
 
-/**
- * This is a result file: a file as a result of the execution of a action, a pipeline transform,
- * etc.
- */
+/** This is a result file: a file as a result of the execution of a action, a pipeline transform,
+ * etc. */
 public class ResultFile implements Cloneable {
   private static final Class<?> PKG = Const.class; // For Translator
 
@@ -46,30 +44,25 @@ public class ResultFile implements Cloneable {
 
   public static final String[] fileTypeCode = {"GENERAL", "LOG", "ERRORLINE", "ERROR", "WARNING"};
 
-  public static final String[] fileTypeDesc = {
-    BaseMessages.getString(PKG, "ResultFile.FileType.General"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.Log"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.ErrorLine"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.Error"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.Warning")
-  };
+  public static final String[] fileTypeDesc = {BaseMessages.getString(PKG, "ResultFile.FileType.General"), BaseMessages.getString(PKG, "ResultFile.FileType.Log"), BaseMessages.getString(PKG, "ResultFile.FileType.ErrorLine"), BaseMessages.getString(PKG, "ResultFile.FileType.Error"),
+      BaseMessages.getString(PKG, "ResultFile.FileType.Warning")};
   private static final String XML_TAG = "result-file";
 
-  @JsonIgnore private int type;
-  @JsonIgnore private FileObject file;
+  @JsonIgnore
+  private int type;
+  @JsonIgnore
+  private FileObject file;
   private String originParent;
   private String origin;
   private String comment;
   private Date timestamp;
 
-  /**
-   * Construct a new result file
+  /** Construct a new result file
    *
    * @param type The type of file : FILE_TYPE_GENERAL, ...
    * @param file The file to use
    * @param originParent The pipeline or workflow that has generated this result file
-   * @param origin The transform or action that has generated this result file
-   */
+   * @param origin The transform or action that has generated this result file */
   public ResultFile(int type, FileObject file, String originParent, String origin) {
     this.type = type;
     this.file = file;
@@ -80,13 +73,7 @@ public class ResultFile implements Cloneable {
 
   @Override
   public String toString() {
-    return file.toString()
-        + " - "
-        + getTypeDesc()
-        + " - "
-        + XmlHandler.date2string(timestamp)
-        + (origin == null ? "" : " - " + origin)
-        + (originParent == null ? "" : " - " + originParent);
+    return file.toString() + " - " + getTypeDesc() + " - " + XmlHandler.date2string(timestamp) + (origin == null ? "" : " - " + origin) + (originParent == null ? "" : " - " + originParent);
   }
 
   @Override
@@ -129,10 +116,8 @@ public class ResultFile implements Cloneable {
     return originParent;
   }
 
-  /**
-   * @param originParent The originParent to set : the pipeline or workflow that generated this
-   *     result file
-   */
+  /** @param originParent The originParent to set : the pipeline or workflow that generated this
+   *        result file */
   public void setOriginParent(String originParent) {
     this.originParent = originParent;
   }
@@ -158,13 +143,11 @@ public class ResultFile implements Cloneable {
     return fileTypeCode[type];
   }
 
-  /**
-   * Search for the result file type, looking in both the descriptions (i18n depending) and the
+  /** Search for the result file type, looking in both the descriptions (i18n depending) and the
    * codes
    *
    * @param typeString the type string to search for
-   * @return the result file type
-   */
+   * @return the result file type */
   public static final int getType(String typeString) {
     int idx = Const.indexOfString(typeString, fileTypeDesc);
     if (idx >= 0) {
@@ -178,18 +161,14 @@ public class ResultFile implements Cloneable {
     return FILE_TYPE_GENERAL;
   }
 
-  /**
-   * @param fileType the result file type
-   * @return the result file type code
-   */
+  /** @param fileType the result file type
+   * @return the result file type code */
   public static final String getTypeCode(int fileType) {
     return fileTypeCode[fileType];
   }
 
-  /**
-   * @param fileType the result file type
-   * @return the result file type description
-   */
+  /** @param fileType the result file type
+   * @return the result file type description */
   public static final String getTypeDesc(int fileType) {
     return fileTypeDesc[fileType];
   }

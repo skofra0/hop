@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,8 +30,7 @@ public class HopGuiWorkflowGraphExtension {
   private AreaOwner areaOwner;
   private boolean preventingDefault;
 
-  public HopGuiWorkflowGraphExtension(
-      HopGuiWorkflowGraph workflowGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
+  public HopGuiWorkflowGraphExtension(HopGuiWorkflowGraph workflowGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
     this.workflowGraph = workflowGraph;
     this.event = event;
     this.point = point;
@@ -39,11 +38,9 @@ public class HopGuiWorkflowGraphExtension {
     this.preventingDefault = false;
   }
 
-  /**
-   * Gets event
+  /** Gets event
    *
-   * @return value of event
-   */
+   * @return value of event */
   public MouseEvent getEvent() {
     return event;
   }
@@ -53,11 +50,9 @@ public class HopGuiWorkflowGraphExtension {
     this.event = event;
   }
 
-  /**
-   * Gets point
+  /** Gets point
    *
-   * @return value of point
-   */
+   * @return value of point */
   public Point getPoint() {
     return point;
   }
@@ -67,11 +62,9 @@ public class HopGuiWorkflowGraphExtension {
     this.point = point;
   }
 
-  /**
-   * Gets workflowGraph
+  /** Gets workflowGraph
    *
-   * @return value of workflowGraph
-   */
+   * @return value of workflowGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -81,11 +74,9 @@ public class HopGuiWorkflowGraphExtension {
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets areaOwner
+  /** Gets areaOwner
    *
-   * @return value of areaOwner
-   */
+   * @return value of areaOwner */
   public AreaOwner getAreaOwner() {
     return areaOwner;
   }
@@ -95,11 +86,9 @@ public class HopGuiWorkflowGraphExtension {
     this.areaOwner = areaOwner;
   }
 
-  /**
-   * Gets preventingDefault
+  /** Gets preventingDefault
    *
-   * @return value of preventingDefault
-   */
+   * @return value of preventingDefault */
   public boolean isPreventingDefault() {
     return preventingDefault;
   }

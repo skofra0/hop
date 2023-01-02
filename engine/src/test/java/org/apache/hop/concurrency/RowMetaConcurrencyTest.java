@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,8 +51,7 @@ public class RowMetaConcurrencyTest {
       getters.add(new Getter(condition, rowMeta));
     }
 
-    ConcurrencyTestRunner<List<IValueMeta>, ?> runner =
-        new ConcurrencyTestRunner<>(adders, getters, condition);
+    ConcurrencyTestRunner<List<IValueMeta>, ?> runner = new ConcurrencyTestRunner<>(adders, getters, condition);
     runner.runConcurrentTest();
 
     runner.checkNoExceptionRaised();
@@ -134,8 +133,7 @@ public class RowMetaConcurrencyTest {
     monitored.addAll(adders);
     monitored.addAll(removers);
 
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner<>(monitored, searchers, condition);
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner<>(monitored, searchers, condition);
     runner.runConcurrentTest();
 
     runner.checkNoExceptionRaised();
@@ -153,8 +151,7 @@ public class RowMetaConcurrencyTest {
     // adders should add all elements
     Set<IValueMeta> metas = new HashSet<>(rowMeta.getValueMetaList());
     for (Adder adder : adders) {
-      ExecutionResult<List<IValueMeta>> result =
-          (ExecutionResult<List<IValueMeta>>) results.get(adder);
+      ExecutionResult<List<IValueMeta>> result = (ExecutionResult<List<IValueMeta>>) results.get(adder);
       for (IValueMeta meta : result.getResult()) {
         assertTrue(meta.getName(), metas.remove(meta));
       }
@@ -228,8 +225,7 @@ public class RowMetaConcurrencyTest {
       while (condition.get()) {
         int index = rowMeta.indexOfValue(name);
         if (index < 0) {
-          throw new IllegalStateException(
-              name + " was not found among " + rowMeta.getValueMetaList());
+          throw new IllegalStateException(name + " was not found among " + rowMeta.getValueMetaList());
         }
         Thread.sleep(random.nextInt(100));
       }
@@ -274,7 +270,7 @@ public class RowMetaConcurrencyTest {
     List<String> doCall() throws Exception {
       Random random = new Random();
       List<String> result = new LinkedList<>(toRemove);
-      for (Iterator<String> it = result.iterator(); it.hasNext() && condition.get(); ) {
+      for (Iterator<String> it = result.iterator(); it.hasNext() && condition.get();) {
         String name = it.next();
         rowMeta.removeValueMeta(name);
         it.remove();

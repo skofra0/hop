@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 public class DatabaseConnectingTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String GROUP = "group";
   private static final String ANOTHER_GROUP = "another-group";
@@ -112,10 +113,7 @@ public class DatabaseConnectingTest {
     }
 
     for (DatabaseStub db : dbs) {
-      String message =
-          String.format(
-              "There should be %d shares of the connection, but found %d",
-              dbsAmount, db.getOpened());
+      String message = String.format("There should be %d shares of the connection, but found %d", dbsAmount, db.getOpened());
       // 0 is for those instances that use the shared connection
       assertTrue(message, db.getOpened() == 0 || db.getOpened() == dbsAmount);
 
@@ -206,11 +204,7 @@ public class DatabaseConnectingTest {
     private final Connection sharedConnection;
     private boolean connected;
 
-    public DatabaseStub(
-        ILoggingObject parentObject,
-        IVariables variables,
-        DatabaseMeta databaseMeta,
-        Connection sharedConnection) {
+    public DatabaseStub(ILoggingObject parentObject, IVariables variables, DatabaseMeta databaseMeta, Connection sharedConnection) {
       super(parentObject, variables, databaseMeta);
       this.sharedConnection = sharedConnection;
       this.connected = false;

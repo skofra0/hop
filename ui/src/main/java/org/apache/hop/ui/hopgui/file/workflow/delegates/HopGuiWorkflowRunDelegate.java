@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,10 +48,8 @@ public class HopGuiWorkflowRunDelegate {
 
   private WorkflowExecutionConfiguration workflowExecutionConfiguration;
 
-  /**
-   * This contains a map between the name of a workflow and the WorkflowMeta object. If the workflow
-   * has no name it will be mapped under a number [1], [2] etc.
-   */
+  /** This contains a map between the name of a workflow and the WorkflowMeta object. If the workflow
+   * has no name it will be mapped under a number [1], [2] etc. */
   private List<WorkflowMeta> workflowMap;
 
   /** @param hopGui */
@@ -65,8 +63,7 @@ public class HopGuiWorkflowRunDelegate {
     workflowMap = new ArrayList<>();
   }
 
-  public void executeWorkflow(
-      IVariables variables, WorkflowMeta workflowMeta, String startActionName) throws HopException {
+  public void executeWorkflow(IVariables variables, WorkflowMeta workflowMeta, String startActionName) throws HopException {
 
     if (workflowMeta == null) {
       return;
@@ -83,28 +80,21 @@ public class HopGuiWorkflowRunDelegate {
     executionConfiguration.setStartActionName(startActionName);
     executionConfiguration.setLogLevel(DefaultLogLevel.getLogLevel());
 
-    WorkflowExecutionConfigurationDialog dialog =
-        newWorkflowExecutionConfigurationDialog(executionConfiguration, workflowMeta);
+    WorkflowExecutionConfigurationDialog dialog = newWorkflowExecutionConfigurationDialog(executionConfiguration, workflowMeta);
 
     if (!workflowMeta.isShowDialog() || dialog.open()) {
 
       workflowGraph.workflowLogDelegate.addWorkflowLog();
 
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI,
-          workflowGraph.getVariables(),
-          HopExtensionPoint.HopGuiWorkflowExecutionConfiguration.id,
-          executionConfiguration);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, workflowGraph.getVariables(), HopExtensionPoint.HopGuiWorkflowExecutionConfiguration.id, executionConfiguration);
 
       workflowGraph.start(executionConfiguration);
     }
   }
 
   @VisibleForTesting
-  WorkflowExecutionConfigurationDialog newWorkflowExecutionConfigurationDialog(
-      WorkflowExecutionConfiguration executionConfiguration, WorkflowMeta workflowMeta) {
-    return new WorkflowExecutionConfigurationDialog(
-        hopGui.getShell(), executionConfiguration, workflowMeta);
+  WorkflowExecutionConfigurationDialog newWorkflowExecutionConfigurationDialog(WorkflowExecutionConfiguration executionConfiguration, WorkflowMeta workflowMeta) {
+    return new WorkflowExecutionConfigurationDialog(hopGui.getShell(), executionConfiguration, workflowMeta);
   }
 
   private static void showSaveJobBeforeRunningDialog(Shell shell) {
@@ -114,38 +104,20 @@ public class HopGuiWorkflowRunDelegate {
     m.open();
   }
 
-  private void monitorRemoteJob(
-      final WorkflowMeta workflowMeta,
-      final String serverObjectId,
-      final HopServer remoteHopServer) {
+  private void monitorRemoteJob(final WorkflowMeta workflowMeta, final String serverObjectId, final HopServer remoteHopServer) {
     // There is a workflow running in the background. When it finishes log the result on the
     // console.
     // Launch in a separate thread to prevent GUI blocking...
     //
-    Thread thread =
-        new Thread(
-            () ->
-                remoteHopServer.monitorRemoteWorkflow(
-                    hopGui.getVariables(),
-                    hopGui.getLog(),
-                    serverObjectId,
-                    workflowMeta.toString()));
+    Thread thread = new Thread(() -> remoteHopServer.monitorRemoteWorkflow(hopGui.getVariables(), hopGui.getLog(), serverObjectId, workflowMeta.toString()));
 
-    thread.setName(
-        "Monitor remote workflow '"
-            + workflowMeta.getName()
-            + "', carte object id="
-            + serverObjectId
-            + ", hop server: "
-            + remoteHopServer.getName());
+    thread.setName("Monitor remote workflow '" + workflowMeta.getName() + "', carte object id=" + serverObjectId + ", hop server: " + remoteHopServer.getName());
     thread.start();
   }
 
-  /**
-   * Gets workflowGraph
+  /** Gets workflowGraph
    *
-   * @return value of workflowGraph
-   */
+   * @return value of workflowGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -155,11 +127,9 @@ public class HopGuiWorkflowRunDelegate {
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }
@@ -169,26 +139,21 @@ public class HopGuiWorkflowRunDelegate {
     this.hopGui = hopGui;
   }
 
-  /**
-   * Gets workflowExecutionConfiguration
+  /** Gets workflowExecutionConfiguration
    *
-   * @return value of workflowExecutionConfiguration
-   */
+   * @return value of workflowExecutionConfiguration */
   public WorkflowExecutionConfiguration getWorkflowExecutionConfiguration() {
     return workflowExecutionConfiguration;
   }
 
   /** @param workflowExecutionConfiguration The workflowExecutionConfiguration to set */
-  public void setWorkflowExecutionConfiguration(
-      WorkflowExecutionConfiguration workflowExecutionConfiguration) {
+  public void setWorkflowExecutionConfiguration(WorkflowExecutionConfiguration workflowExecutionConfiguration) {
     this.workflowExecutionConfiguration = workflowExecutionConfiguration;
   }
 
-  /**
-   * Gets workflowMap
+  /** Gets workflowMap
    *
-   * @return value of workflowMap
-   */
+   * @return value of workflowMap */
   public List<WorkflowMeta> getWorkflowMap() {
     return workflowMap;
   }

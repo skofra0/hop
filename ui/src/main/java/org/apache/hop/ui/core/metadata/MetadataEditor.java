@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,8 +48,7 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 /** Abstract implementation of all metadata editors. */
-public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFileTypeHandler
-    implements IMetadataEditor<T> {
+public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFileTypeHandler implements IMetadataEditor<T> {
 
   private static final Class<?> PKG = MetadataEditorDialog.class; // For Translator
 
@@ -86,22 +85,10 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
     }
     this.setTitleToolTip(titleToolTip);
 
-    this.setTitleImage(
-        GuiResource.getInstance()
-            .getImage(
-                annotation.image(),
-                managedClass.getClassLoader(),
-                ConstUi.SMALL_ICON_SIZE,
-                ConstUi.SMALL_ICON_SIZE));
+    this.setTitleImage(GuiResource.getInstance().getImage(annotation.image(), managedClass.getClassLoader(), ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
 
     // Use SwtSvgImageUtil because GuiResource cache have small icon.
-    this.setImage(
-        SwtSvgImageUtil.getImage(
-            hopGui.getDisplay(),
-            managedClass.getClassLoader(),
-            annotation.image(),
-            ConstUi.LARGE_ICON_SIZE,
-            ConstUi.LARGE_ICON_SIZE));
+    this.setImage(SwtSvgImageUtil.getImage(hopGui.getDisplay(), managedClass.getClassLoader(), annotation.image(), ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE));
   }
 
   @Override
@@ -127,8 +114,7 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
 
   protected Button createHelpButton(final Shell shell) {
     HopMetadata annotation = manager.getManagedClass().getAnnotation(HopMetadata.class);
-    IPlugin plugin =
-        PluginRegistry.getInstance().getPlugin(MetadataPluginType.class, annotation.key());
+    IPlugin plugin = PluginRegistry.getInstance().getPlugin(MetadataPluginType.class, annotation.key());
     return HelpUtils.createHelpButton(shell, plugin);
   }
 
@@ -210,12 +196,10 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
   /** Inline usage: copy information from the metadata onto the various widgets */
   public abstract void setWidgetsContent();
 
-  /**
-   * Inline usage: Reads the information or state of the various widgets and modifies the provided
+  /** Inline usage: Reads the information or state of the various widgets and modifies the provided
    * metadata object.
    *
-   * @param meta The metadata object to populate from the widgets
-   */
+   * @param meta The metadata object to populate from the widgets */
   public abstract void getWidgetsContent(T meta);
 
   @Override
@@ -225,12 +209,9 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
     //
     if (this.hasChanged()) {
 
-      MessageBox messageDialog =
-          new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO | SWT.CANCEL);
+      MessageBox messageDialog = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO | SWT.CANCEL);
       messageDialog.setText(manager.getManagedName());
-      messageDialog.setMessage(
-          BaseMessages.getString(
-              PKG, "MetadataEditor.WantToSaveBeforeClosing.Message", getTitle()));
+      messageDialog.setMessage(BaseMessages.getString(PKG, "MetadataEditor.WantToSaveBeforeClosing.Message", getTitle()));
 
       int answer = messageDialog.open();
 
@@ -264,7 +245,7 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
       throw new HopException(BaseMessages.getString(PKG, "MetadataEditor.Error.NoName"));
     }
 
-    if(StringUtils.startsWith(name, "$")) {
+    if (StringUtils.startsWith(name, "$")) {
       throw new HopException(BaseMessages.getString(PKG, "MetadataEditor.Error.IncorrectName"));
     }
 
@@ -283,8 +264,7 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
       // See if the name collides with an existing one...
       //
       if (serializer.exists(name)) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "MetadataEditor.Error.NameAlreadyExists", name));
+        throw new HopException(BaseMessages.getString(PKG, "MetadataEditor.Error.NameAlreadyExists", name));
       } else {
         isRename = true;
       }
@@ -294,17 +274,9 @@ public abstract class MetadataEditor<T extends IHopMetadata> extends MetadataFil
     serializer.save(metadata);
 
     if (isCreated)
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(),
-          manager.getVariables(),
-          HopExtensionPoint.HopGuiMetadataObjectCreated.id,
-          metadata);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), manager.getVariables(), HopExtensionPoint.HopGuiMetadataObjectCreated.id, metadata);
     else
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(),
-          manager.getVariables(),
-          HopExtensionPoint.HopGuiMetadataObjectUpdated.id,
-          metadata);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), manager.getVariables(), HopExtensionPoint.HopGuiMetadataObjectUpdated.id, metadata);
 
     // Reset changed flag
     this.isChanged = false;

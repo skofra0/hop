@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,11 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-@HopFileTypePlugin(
-    id = "FolderFileType",
-    name = "Folder File Type",
-    description = "Folder handling in the explorer perspective",
-    image = "ui/images/folder.svg")
+@HopFileTypePlugin(id = "FolderFileType", name = "Folder File Type", description = "Folder handling in the explorer perspective", image = "ui/images/folder.svg")
 public class FolderFileType implements IHopFileType {
   @Override
   public String getName() {
@@ -70,25 +66,21 @@ public class FolderFileType implements IHopFileType {
   }
 
   @Override
-  public IHopFileTypeHandler openFile(
-      HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
+  public IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 
-  /**
-   * See if this is a folder
+  /** See if this is a folder
    *
    * @param filename The filename
    * @param checkContent True if we want to look inside the file content
    * @return
-   * @throws HopException
-   */
+   * @throws HopException */
   @Override
   public boolean isHandledBy(String filename, boolean checkContent) throws HopException {
     try {

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,27 +31,20 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.types.base.BaseExplore
 
 import java.util.Properties;
 
-@HopFileTypePlugin(
-    id = "SvgExplorerFileType",
-    name = "SVG File Type",
-    description = "SVG file handling in the explorer perspective",
-    image = "ui/images/image.svg")
-public class SvgExplorerFileType extends BaseExplorerFileType<SvgExplorerFileTypeHandler>
-    implements IExplorerFileType<SvgExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "SvgExplorerFileType", name = "SVG File Type", description = "SVG file handling in the explorer perspective", image = "ui/images/image.svg")
+public class SvgExplorerFileType extends BaseExplorerFileType<SvgExplorerFileTypeHandler> implements IExplorerFileType<SvgExplorerFileTypeHandler> {
 
   public SvgExplorerFileType() {
     super("SVG file", ".svg", new String[] {"*.svg"}, new String[] {"SVG Files"}, new Properties());
   }
 
   @Override
-  public SvgExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public SvgExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new SvgExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 }

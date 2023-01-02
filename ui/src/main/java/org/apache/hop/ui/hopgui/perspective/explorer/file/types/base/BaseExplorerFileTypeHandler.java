@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,8 +46,7 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
   protected ExplorerPerspective perspective;
   protected ExplorerFile explorerFile;
 
-  public BaseExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public BaseExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     this.hopGui = hopGui;
     this.perspective = perspective;
     this.explorerFile = explorerFile;
@@ -66,8 +65,7 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
         throw new HopException("File '" + explorerFile.getFilename() + "' doesn't exist");
       }
     } catch (IOException e) {
-      throw new HopException(
-          "I/O exception while reading contents of file '" + explorerFile.getFilename() + "'", e);
+      throw new HopException("I/O exception while reading contents of file '" + explorerFile.getFilename() + "'", e);
     }
   }
 
@@ -174,11 +172,9 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
   public boolean isCloseable() {
     try {
       if (explorerFile.isChanged()) {
-        MessageBox messageDialog =
-            new MessageBox(hopGui.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO | SWT.CANCEL);
+        MessageBox messageDialog = new MessageBox(hopGui.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO | SWT.CANCEL);
         messageDialog.setText("Save file?");
-        messageDialog.setMessage(
-            "Do you want to save file '" + explorerFile.getName() + "' before closing?");
+        messageDialog.setMessage("Do you want to save file '" + explorerFile.getName() + "' before closing?");
         int answer = messageDialog.open();
         if ((answer & SWT.YES) != 0) {
           save();
@@ -192,11 +188,7 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
       }
       return true;
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error preparing file close of '" + explorerFile.getName() + "'",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error preparing file close of '" + explorerFile.getName() + "'", e);
       return false;
     }
   }
@@ -230,11 +222,9 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
     return hopGui.getVariables();
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }
@@ -244,11 +234,9 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
     this.hopGui = hopGui;
   }
 
-  /**
-   * Gets perspective
+  /** Gets perspective
    *
-   * @return value of perspective
-   */
+   * @return value of perspective */
   public ExplorerPerspective getPerspective() {
     return perspective;
   }
@@ -258,11 +246,9 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
     this.perspective = perspective;
   }
 
-  /**
-   * Gets explorerFile
+  /** Gets explorerFile
    *
-   * @return value of explorerFile
-   */
+   * @return value of explorerFile */
   public ExplorerFile getExplorerFile() {
     return explorerFile;
   }

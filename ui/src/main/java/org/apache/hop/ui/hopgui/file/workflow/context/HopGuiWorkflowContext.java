@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,8 +44,7 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowContext> lambdaBuilder;
 
-  public HopGuiWorkflowContext(
-      WorkflowMeta workflowMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
+  public HopGuiWorkflowContext(WorkflowMeta workflowMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     this.workflowMeta = workflowMeta;
     this.workflowGraph = workflowGraph;
     this.click = click;
@@ -57,12 +56,10 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
     return CONTEXT_ID;
   }
 
-  /**
-   * Create a list of supported actions on a workflow. We'll add the creation of every possible
+  /** Create a list of supported actions on a workflow. We'll add the creation of every possible
    * action as well as the modification of the workflow itself from the annotations.
    *
-   * @return The list of supported actions
-   */
+   * @return The list of supported actions */
   @Override
   public List<GuiAction> getSupportedActions() {
     List<GuiAction> guiActions = new ArrayList<>();
@@ -82,29 +79,15 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
     List<IPlugin> actionPlugins = registry.getPlugins(ActionPluginType.class);
     for (IPlugin actionPlugin : actionPlugins) {
 
-      GuiAction createActionGuiAction =
-          new GuiAction(
-              "workflow-graph-create-workflow-action-" + actionPlugin.getIds()[0],
-              GuiActionType.Create,
-              actionPlugin.getName(),
-              actionPlugin.getDescription(),
-              actionPlugin.getImageFile(),
-              (shiftClicked, controlClicked, t) ->
-                  workflowGraph.workflowActionDelegate.newAction(
-                      workflowMeta,
-                      actionPlugin.getIds()[0],
-                      actionPlugin.getName(),
-                      controlClicked,
-                      click));
+      GuiAction createActionGuiAction = new GuiAction("workflow-graph-create-workflow-action-" + actionPlugin.getIds()[0], GuiActionType.Create, actionPlugin.getName(), actionPlugin.getDescription(), actionPlugin.getImageFile(),
+          (shiftClicked, controlClicked, t) -> workflowGraph.workflowActionDelegate.newAction(workflowMeta, actionPlugin.getIds()[0], actionPlugin.getName(), controlClicked, click));
       createActionGuiAction.getKeywords().addAll(Arrays.asList(actionPlugin.getKeywords()));
       createActionGuiAction.setCategory(actionPlugin.getCategory());
-      createActionGuiAction.setCategoryOrder(
-          "9999_" + actionPlugin.getCategory()); // sort alphabetically
+      createActionGuiAction.setCategoryOrder("9999_" + actionPlugin.getCategory()); // sort alphabetically
       try {
         createActionGuiAction.setClassLoader(registry.getClassLoader(actionPlugin));
       } catch (HopPluginException e) {
-        LogChannel.UI.logError(
-            "Unable to get classloader for action plugin " + actionPlugin.getIds()[0], e);
+        LogChannel.UI.logError("Unable to get classloader for action plugin " + actionPlugin.getIds()[0], e);
       }
       createActionGuiAction.getKeywords().add(actionPlugin.getCategory());
       guiActions.add(createActionGuiAction);
@@ -113,11 +96,9 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
     return guiActions;
   }
 
-  /**
-   * Gets workflowMeta
+  /** Gets workflowMeta
    *
-   * @return value of workflowMeta
-   */
+   * @return value of workflowMeta */
   public WorkflowMeta getWorkflowMeta() {
     return workflowMeta;
   }
@@ -127,11 +108,9 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
     this.workflowMeta = workflowMeta;
   }
 
-  /**
-   * Gets workflowGraph
+  /** Gets workflowGraph
    *
-   * @return value of workflowGraph
-   */
+   * @return value of workflowGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -141,11 +120,9 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets click
+  /** Gets click
    *
-   * @return value of click
-   */
+   * @return value of click */
   public Point getClick() {
     return click;
   }
@@ -155,11 +132,9 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
     this.click = click;
   }
 
-  /**
-   * Gets lambdaBuilder
+  /** Gets lambdaBuilder
    *
-   * @return value of lambdaBuilder
-   */
+   * @return value of lambdaBuilder */
   public GuiActionLambdaBuilder<HopGuiWorkflowContext> getLambdaBuilder() {
     return lambdaBuilder;
   }

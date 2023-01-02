@@ -38,6 +38,7 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.monetdb.mcl.io.BufferedMCLReader;
 import org.monetdb.mcl.io.BufferedMCLWriter;
+import org.monetdb.mcl.io.LineType;
 import org.monetdb.mcl.net.MapiSocket;
 
 import java.math.BigDecimal;
@@ -717,17 +718,17 @@ public class MonetDbBulkLoader extends BaseTransform<MonetDbBulkLoaderMeta, Mone
       out.writeLine("");
 
       while (in.readLine() != null) {
-        int type = in.getLineType();
+        LineType type = in.getLineType();
 
         // read till we get back to the prompt
-        if (type == BufferedMCLReader.PROMPT) {
+        if (type == LineType.PROMPT) {
           break;
         }
 
         switch (type) {
-          case BufferedMCLReader.ERROR:
+          case ERROR:
             break;
-          case BufferedMCLReader.RESULT:
+          case RESULT:
             break;
           default:
             // unknown, header, ...

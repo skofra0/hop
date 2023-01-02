@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,33 +18,33 @@
 package org.apache.hop.core.plugins;
 
 public class BasePluginTypeTest {
-  //  @Test
-  //  public void testRegisterNativesCloseResAsStream() throws Exception {
-  //    BasePluginType bpt = spy( DatabasePluginType.getInstance() );
+  // @Test
+  // public void testRegisterNativesCloseResAsStream() throws Exception {
+  // BasePluginType bpt = spy( DatabasePluginType.getInstance() );
   //
-  //    InputStream is = mock( InputStream.class );
+  // InputStream is = mock( InputStream.class );
   //
-  //    doReturn( is ).when( bpt ).getResAsStreamExternal( anyString() );
-  //    doNothing().when( bpt ).registerPlugins( is );
+  // doReturn( is ).when( bpt ).getResAsStreamExternal( anyString() );
+  // doNothing().when( bpt ).registerPlugins( is );
   //
-  //    bpt.registerNatives();
+  // bpt.registerNatives();
   //
-  //    verify( is ).close();
-  //  }
+  // verify( is ).close();
+  // }
   //
-  //  @Test
-  //  public void testRegisterNativesCloseFileInStream() throws Exception {
-  //    BasePluginType bpt = spy( TwoWayPasswordEncoderPluginType.getInstance() );
+  // @Test
+  // public void testRegisterNativesCloseFileInStream() throws Exception {
+  // BasePluginType bpt = spy( TwoWayPasswordEncoderPluginType.getInstance() );
   //
-  //    InputStream is = mock( InputStream.class );
+  // InputStream is = mock( InputStream.class );
   //
-  //    doReturn( "foo" ).when( bpt ).getPropertyExternal( anyString(), anyString() );
-  //    doReturn( null ).when( bpt ).getResAsStreamExternal( anyString() );
-  //    doReturn( is ).when( bpt ).getFileInputStreamExternal( anyString() );
-  //    doNothing().when( bpt ).registerPlugins( is );
+  // doReturn( "foo" ).when( bpt ).getPropertyExternal( anyString(), anyString() );
+  // doReturn( null ).when( bpt ).getResAsStreamExternal( anyString() );
+  // doReturn( is ).when( bpt ).getFileInputStreamExternal( anyString() );
+  // doNothing().when( bpt ).registerPlugins( is );
   //
-  //    bpt.registerNatives();
+  // bpt.registerNatives();
   //
-  //    verify( is ).close();
-  //  }
+  // verify( is ).close();
+  // }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,8 @@ import static org.junit.Assert.*;
 
 public class ResultFileTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Before
   public void before() throws Exception {
@@ -49,8 +50,7 @@ public class ResultFileTest {
     File tempDir = new File(new TemporaryFolder().toString());
     FileObject tempFile = HopVfs.createTempFile("prefix", "suffix", tempDir.toString());
     Date timeBeforeFile = Calendar.getInstance().getTime();
-    ResultFile resultFile =
-        new ResultFile(ResultFile.FILE_TYPE_GENERAL, tempFile, "myOriginParent", "myOrigin");
+    ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, tempFile, "myOriginParent", "myOrigin");
     Date timeAfterFile = Calendar.getInstance().getTime();
 
     assertNotNull(resultFile);
@@ -67,10 +67,7 @@ public class ResultFileTest {
     assertEquals(ResultFile.FILE_TYPE_GENERAL, resultFile.getType());
     assertEquals("myOrigin", resultFile.getOrigin());
     assertEquals("myOriginParent", resultFile.getOriginParent());
-    assertTrue(
-        "ResultFile timestamp is created in the expected window",
-        timeBeforeFile.compareTo(resultFile.getTimestamp()) <= 0
-            && timeAfterFile.compareTo(resultFile.getTimestamp()) >= 0);
+    assertTrue("ResultFile timestamp is created in the expected window", timeBeforeFile.compareTo(resultFile.getTimestamp()) <= 0 && timeAfterFile.compareTo(resultFile.getTimestamp()) >= 0);
 
     tempFile.delete();
     tempDir.delete();

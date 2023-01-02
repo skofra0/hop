@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,20 +19,17 @@ package org.apache.hop.lineage;
 
 import java.util.List;
 
-/**
- * This describes how a field gets renamed in a certain transform.<br>
+/** This describes how a field gets renamed in a certain transform.<br>
  * It helps us to do the complete lineage from source to target and back.<br>
  */
 public class FieldnameLineage {
   private String inputFieldname;
   private String outputFieldname;
 
-  /**
-   * Create a new field lineage object
+  /** Create a new field lineage object
    *
    * @param inputFieldname The input field name
-   * @param outputFieldname The output field name
-   */
+   * @param outputFieldname The output field name */
   public FieldnameLineage(String inputFieldname, String outputFieldname) {
     super();
     this.inputFieldname = inputFieldname;
@@ -59,16 +56,13 @@ public class FieldnameLineage {
     this.outputFieldname = outputFieldname;
   }
 
-  /**
-   * Search for a field name lineage object in a list.
+  /** Search for a field name lineage object in a list.
    *
    * @param lineages The list
    * @param input the input field name to look for
    * @return The first encountered field name lineage object where the input field name matches. If
-   *     nothing is found null is returned.
-   */
-  public static final FieldnameLineage findFieldnameLineageWithInput(
-      List<FieldnameLineage> lineages, String input) {
+   *         nothing is found null is returned. */
+  public static final FieldnameLineage findFieldnameLineageWithInput(List<FieldnameLineage> lineages, String input) {
     for (FieldnameLineage lineage : lineages) {
       if (lineage.getInputFieldname().equalsIgnoreCase(input)) {
         return lineage;

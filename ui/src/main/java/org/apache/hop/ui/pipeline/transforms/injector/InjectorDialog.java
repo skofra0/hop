@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,8 +45,7 @@ public class InjectorDialog extends BaseTransformDialog implements ITransformDia
 
   private InjectorMeta input;
 
-  public InjectorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public InjectorDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (InjectorMeta) in;
   }
@@ -102,34 +101,10 @@ public class InjectorDialog extends BaseTransformDialog implements ITransformDia
     final int nrFieldsRows = input.getInjectorFields().size();
 
     ColumnInfo[] columns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Fieldname"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Fieldname"), ColumnInfo.COLUMN_TYPE_TEXT, false), new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false), new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrFieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrFieldsRows, lsMod, props);
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);
@@ -189,11 +164,7 @@ public class InjectorDialog extends BaseTransformDialog implements ITransformDia
 
     input.getInjectorFields().clear();
     for (TableItem item : wFields.getNonEmptyItems()) {
-      input
-          .getInjectorFields()
-          .add(
-              new InjectorField(
-                  item.getText(1), item.getText(2), item.getText(3), item.getText(4)));
+      input.getInjectorFields().add(new InjectorField(item.getText(1), item.getText(2), item.getText(3), item.getText(4)));
     }
     dispose();
   }

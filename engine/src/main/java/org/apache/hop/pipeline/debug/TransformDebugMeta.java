@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,10 +24,8 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class is used to define debugging meta data for a certain transform. Basically it defines
- * for which condition a break-point becomes active.
- */
+/** This class is used to define debugging meta data for a certain transform. Basically it defines
+ * for which condition a break-point becomes active. */
 public class TransformDebugMeta {
 
   public static final String XML_TAG = "transform-debug-meta";
@@ -80,21 +78,17 @@ public class TransformDebugMeta {
     this.condition = condition;
   }
 
-  /**
-   * Add a break-point listener to the debug information. The listener will be called whenever a
+  /** Add a break-point listener to the debug information. The listener will be called whenever a
    * condition is hit
    *
-   * @param breakPointListener the break point listener to add
-   */
+   * @param breakPointListener the break point listener to add */
   public void addBreakPointListener(IBreakPointListener breakPointListener) {
     breakPointListers.add(breakPointListener);
   }
 
-  /**
-   * Remove a break-point listener from the debug information.
+  /** Remove a break-point listener from the debug information.
    *
-   * @param breakPointListener the break point listener to remove
-   */
+   * @param breakPointListener the break point listener to remove */
   public void removeBreakPointListener(IBreakPointListener breakPointListener) {
     breakPointListers.remove(breakPointListener);
   }

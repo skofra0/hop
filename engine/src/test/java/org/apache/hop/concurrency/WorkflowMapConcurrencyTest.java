@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,11 +53,7 @@ public class WorkflowMapConcurrencyTest {
   public static void init() {
     workflowMap = new WorkflowMap();
     for (int i = 0; i < INITIAL_WORKFLOW_MAP_SIZE; i++) {
-      workflowMap.addWorkflow(
-          WORKFLOW_NAME_STRING + i,
-          WORKFLOW_ID_STRING + i,
-          mockWorkflow(i),
-          mock(WorkflowConfiguration.class));
+      workflowMap.addWorkflow(WORKFLOW_NAME_STRING + i, WORKFLOW_ID_STRING + i, mockWorkflow(i), mock(WorkflowConfiguration.class));
     }
   }
 
@@ -89,9 +85,8 @@ public class WorkflowMapConcurrencyTest {
       replacers.add(new Replacer(workflowMap, condition));
     }
 
-    //noinspection unchecked
-    ConcurrencyTestRunner.runAndCheckNoExceptionRaised(
-        updaters, ListUtils.union(replacers, getters), condition);
+    // noinspection unchecked
+    ConcurrencyTestRunner.runAndCheckNoExceptionRaised(updaters, ListUtils.union(replacers, getters), condition);
   }
 
   private static class Getter extends StopOnErrorCallable<Object> {
@@ -112,24 +107,18 @@ public class WorkflowMapConcurrencyTest {
         HopServerObjectEntry entry = workflowMap.getWorkflowObjects().get(i);
 
         if (entry == null) {
-          throw new IllegalStateException(
-              String.format("Returned HopServerObjectEntry must not be null. EntryId = %d", i));
+          throw new IllegalStateException(String.format("Returned HopServerObjectEntry must not be null. EntryId = %d", i));
         }
         final String workflowName = WORKFLOW_NAME_STRING + i;
 
         IWorkflowEngine<WorkflowMeta> workflow = workflowMap.getWorkflow(entry.getName());
         if (workflow == null) {
-          throw new IllegalStateException(
-              String.format(
-                  "Returned workflow must not be null. Workflow name = %s", workflowName));
+          throw new IllegalStateException(String.format("Returned workflow must not be null. Workflow name = %s", workflowName));
         }
 
         WorkflowConfiguration workflowConfiguration = workflowMap.getConfiguration(entry.getName());
         if (workflowConfiguration == null) {
-          throw new IllegalStateException(
-              String.format(
-                  "Returned workflowConfiguration must not be null. Workflow name = %s",
-                  workflowName));
+          throw new IllegalStateException(String.format("Returned workflowConfiguration must not be null. Workflow name = %s", workflowName));
         }
       }
 
@@ -154,11 +143,7 @@ public class WorkflowMapConcurrencyTest {
       try {
         for (int i = 0; i < cycles; i++) {
           int id = generator.get();
-          workflowMap.addWorkflow(
-              WORKFLOW_NAME_STRING + id,
-              WORKFLOW_ID_STRING + id,
-              mockWorkflow(id),
-              mock(WorkflowConfiguration.class));
+          workflowMap.addWorkflow(WORKFLOW_NAME_STRING + id, WORKFLOW_ID_STRING + id, mockWorkflow(id), mock(WorkflowConfiguration.class));
         }
       } catch (Exception e) {
         exception = e;
@@ -187,8 +172,7 @@ public class WorkflowMapConcurrencyTest {
 
       HopServerObjectEntry entry = new HopServerObjectEntry(workflowName, workflowId);
 
-      workflowMap.replaceWorkflow(
-          mockWorkflow(i + 1), mockWorkflow(i + 1), mock(WorkflowConfiguration.class));
+      workflowMap.replaceWorkflow(mockWorkflow(i + 1), mockWorkflow(i + 1), mock(WorkflowConfiguration.class));
 
       return null;
     }

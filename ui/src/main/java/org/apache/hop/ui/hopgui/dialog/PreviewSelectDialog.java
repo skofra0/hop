@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,9 +72,7 @@ public class PreviewSelectDialog extends Dialog {
     formLayout.marginHeight = Const.FORM_MARGIN;
 
     shell.setLayout(formLayout);
-    shell.setText(
-        BaseMessages.getString(
-            PKG, "PreviewSelectDialog.Dialog.PreviewSelection.Title")); // Preview
+    shell.setText(BaseMessages.getString(PKG, "PreviewSelectDialog.Dialog.PreviewSelection.Title")); // Preview
     // selection
     // screen
     shell.setImage(GuiResource.getInstance().getImageHopUi());
@@ -89,12 +87,10 @@ public class PreviewSelectDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Close"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wPreview, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wPreview, wCancel}, margin, null);
 
     Label wlFields = new Label(shell, SWT.NONE);
-    wlFields.setText(
-        BaseMessages.getString(PKG, "PreviewSelectDialog.Label.Transforms")); // Transforms:
+    wlFields.setText(BaseMessages.getString(PKG, "PreviewSelectDialog.Label.Transforms")); // Transforms:
     props.setLook(wlFields);
     FormData fdlFields = new FormData();
     fdlFields.left = new FormAttachment(0, 0);
@@ -104,29 +100,12 @@ public class PreviewSelectDialog extends Dialog {
     List<TransformMeta> usedTransforms = pipelineMeta.getUsedTransforms();
     final int nrRows = usedTransforms.size();
 
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PreviewSelectDialog.Column.TransformName"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true), // TransformName
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PreviewSelectDialog.Column.PreviewSize"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false), // Preview size
+    ColumnInfo[] columns = {new ColumnInfo(BaseMessages.getString(PKG, "PreviewSelectDialog.Column.TransformName"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), // TransformName
+        new ColumnInfo(BaseMessages.getString(PKG, "PreviewSelectDialog.Column.PreviewSize"), ColumnInfo.COLUMN_TYPE_TEXT, false, false), // Preview size
     };
 
-    wFields =
-        new TableView(
-            HopGui.getInstance().getVariables(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrRows,
-            true, // read-only
-            null,
-            props);
+    wFields = new TableView(HopGui.getInstance().getVariables(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrRows, true, // read-only
+        null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);

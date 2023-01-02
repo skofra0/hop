@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -65,12 +65,7 @@ import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.*;
 
-@HopMetadata(
-    key = "server",
-    name = "Hop Server",
-    description = "Defines a Hop Hop Server",
-    image = "ui/images/server.svg",
-    documentationUrl = "/metadata-types/hop-server.html")
+@HopMetadata(key = "server", name = "Hop Server", description = "Defines a Hop Hop Server", image = "ui/images/server.svg", documentationUrl = "/metadata-types/hop-server.html")
 public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopMetadata {
   private static final Class<?> PKG = HopServer.class; // For Translator
 
@@ -99,8 +94,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
 
   public static int getBackoffIncrements() {
     try {
-      return Integer.parseInt(
-          Const.NVL(System.getProperty("HOP_SERVER_RETRY_BACKOFF_INCREMENTS"), "1000"));
+      return Integer.parseInt(Const.NVL(System.getProperty("HOP_SERVER_RETRY_BACKOFF_INCREMENTS"), "1000"));
     } catch (Exception e) {
       return 1000;
     }
@@ -108,32 +102,43 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
 
   private ILogChannel log;
 
-  @HopMetadataProperty private String hostname;
+  @HopMetadataProperty
+  private String hostname;
 
-  @HopMetadataProperty private String port;
+  @HopMetadataProperty
+  private String port;
 
-  @HopMetadataProperty private String webAppName;
+  @HopMetadataProperty
+  private String webAppName;
 
-  @HopMetadataProperty private String username;
+  @HopMetadataProperty
+  private String username;
 
   @HopMetadataProperty(password = true)
   private String password;
 
-  @HopMetadataProperty private String proxyHostname;
+  @HopMetadataProperty
+  private String proxyHostname;
 
-  @HopMetadataProperty private String proxyPort;
+  @HopMetadataProperty
+  private String proxyPort;
 
-  @HopMetadataProperty private String nonProxyHosts;
+  @HopMetadataProperty
+  private String nonProxyHosts;
 
-  @HopMetadataProperty private String propertiesMasterName;
+  @HopMetadataProperty
+  private String propertiesMasterName;
 
-  @HopMetadataProperty private boolean overrideExistingProperties;
+  @HopMetadataProperty
+  private boolean overrideExistingProperties;
 
   private Date changedDate;
 
-  @HopMetadataProperty private boolean sslMode;
+  @HopMetadataProperty
+  private boolean sslMode;
 
-  @HopMetadataProperty private SslConfiguration sslConfig;
+  @HopMetadataProperty
+  private SslConfiguration sslConfig;
 
   public HopServer() {
     this.log = new LogChannel(STRING_HOP_SERVER);
@@ -144,28 +149,11 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     this(name, hostname, port, username, password, null, null, null, false);
   }
 
-  public HopServer(
-      String name,
-      String hostname,
-      String port,
-      String username,
-      String password,
-      String proxyHostname,
-      String proxyPort,
-      String nonProxyHosts) {
+  public HopServer(String name, String hostname, String port, String username, String password, String proxyHostname, String proxyPort, String nonProxyHosts) {
     this(name, hostname, port, username, password, proxyHostname, proxyPort, nonProxyHosts, false);
   }
 
-  public HopServer(
-      String name,
-      String hostname,
-      String port,
-      String username,
-      String password,
-      String proxyHostname,
-      String proxyPort,
-      String nonProxyHosts,
-      boolean sslMode) {
+  public HopServer(String name, String hostname, String port, String username, String password, String proxyHostname, String proxyPort, String nonProxyHosts, boolean sslMode) {
     this();
     this.name = name;
     this.hostname = hostname;
@@ -187,14 +175,12 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     this.port = XmlHandler.getTagValue(node, "port");
     this.webAppName = XmlHandler.getTagValue(node, "webAppName");
     this.username = XmlHandler.getTagValue(node, "username");
-    this.password =
-        Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(node, "password"));
+    this.password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(node, "password"));
     this.proxyHostname = XmlHandler.getTagValue(node, "proxy_hostname");
     this.proxyPort = XmlHandler.getTagValue(node, "proxy_port");
     this.nonProxyHosts = XmlHandler.getTagValue(node, "non_proxy_hosts");
     this.propertiesMasterName = XmlHandler.getTagValue(node, "get_properties_from_master");
-    this.overrideExistingProperties =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(node, "override_existing_properties"));
+    this.overrideExistingProperties = "Y".equalsIgnoreCase(XmlHandler.getTagValue(node, "override_existing_properties"));
     this.log = new LogChannel(this);
 
     setSslMode("Y".equalsIgnoreCase(XmlHandler.getTagValue(node, SSL_MODE_TAG)));
@@ -220,9 +206,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     xml.append("        ").append(XmlHandler.addTagValue("port", port));
     xml.append("        ").append(XmlHandler.addTagValue("webAppName", webAppName));
     xml.append("        ").append(XmlHandler.addTagValue("username", username));
-    xml.append(
-        XmlHandler.addTagValue(
-            "password", Encr.encryptPasswordIfNotUsingVariables(password), false));
+    xml.append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password), false));
     xml.append("        ").append(XmlHandler.addTagValue("proxy_hostname", proxyHostname));
     xml.append("        ").append(XmlHandler.addTagValue("proxy_port", proxyPort));
     xml.append("        ").append(XmlHandler.addTagValue("non_proxy_hosts", nonProxyHosts));
@@ -291,114 +275,82 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     this.hostname = urlString;
   }
 
-  /**
-   * @return the password
-   */
+  /** @return the password */
   public String getPassword() {
     return password;
   }
 
-  /**
-   * @param password the password to set
-   */
+  /** @param password the password to set */
   public void setPassword(String password) {
     this.password = password;
   }
 
-  /**
-   * @return the username
-   */
+  /** @return the username */
   public String getUsername() {
     return username;
   }
 
-  /**
-   * @param username the username to set
-   */
+  /** @param username the username to set */
   public void setUsername(String username) {
     this.username = username;
   }
 
-  /**
-   * @return the username
-   */
+  /** @return the username */
   public String getWebAppName() {
     return webAppName;
   }
 
-  /**
-   * @param webAppName the web application name to set
-   */
+  /** @param webAppName the web application name to set */
   public void setWebAppName(String webAppName) {
     this.webAppName = webAppName;
   }
 
-  /**
-   * @return the nonProxyHosts
-   */
+  /** @return the nonProxyHosts */
   public String getNonProxyHosts() {
     return nonProxyHosts;
   }
 
-  /**
-   * @param nonProxyHosts the nonProxyHosts to set
-   */
+  /** @param nonProxyHosts the nonProxyHosts to set */
   public void setNonProxyHosts(String nonProxyHosts) {
     this.nonProxyHosts = nonProxyHosts;
   }
 
-  /**
-   * @return the proxyHostname
-   */
+  /** @return the proxyHostname */
   public String getProxyHostname() {
     return proxyHostname;
   }
 
-  /**
-   * @param proxyHostname the proxyHostname to set
-   */
+  /** @param proxyHostname the proxyHostname to set */
   public void setProxyHostname(String proxyHostname) {
     this.proxyHostname = proxyHostname;
   }
 
-  /**
-   * @return the proxyPort
-   */
+  /** @return the proxyPort */
   public String getProxyPort() {
     return proxyPort;
   }
 
-  /**
-   * @param proxyPort the proxyPort to set
-   */
+  /** @param proxyPort the proxyPort to set */
   public void setProxyPort(String proxyPort) {
     this.proxyPort = proxyPort;
   }
 
-  /**
-   * @return the Master name for read properties
-   */
+  /** @return the Master name for read properties */
   public String getPropertiesMasterName() {
     return propertiesMasterName;
   }
 
-  /**
-   * @return flag for read properties from Master
-   */
+  /** @return flag for read properties from Master */
   public boolean isOverrideExistingProperties() {
     return overrideExistingProperties;
   }
 
-  /**
-   * @return the port
-   */
+  /** @return the port */
   public String getPort() {
     return port;
   }
 
-  /**
-   * @param port the port to set
-   */
+  /** @param port the port to set */
   public void setPort(String port) {
     this.port = port;
   }
@@ -412,8 +364,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return portSpec;
   }
 
-  public String constructUrl(IVariables variables, String serviceAndArguments)
-      throws UnsupportedEncodingException {
+  public String constructUrl(IVariables variables, String serviceAndArguments) throws UnsupportedEncodingException {
     String realHostname = null;
     String proxyHostname = null;
     realHostname = variables.resolve(hostname);
@@ -426,19 +377,13 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       serviceAndArguments = "/" + variables.resolve(getWebAppName()) + serviceAndArguments;
     }
 
-    String result =
-        (isSslMode() ? HTTPS : HTTP)
-            + "://"
-            + realHostname
-            + getPortSpecification(variables)
-            + serviceAndArguments;
+    String result = (isSslMode() ? HTTPS : HTTP) + "://" + realHostname + getPortSpecification(variables) + serviceAndArguments;
     result = Const.replace(result, " ", "%20");
     return result;
   }
 
   // Method is defined as package-protected in order to be accessible by unit tests
-  HttpPost buildSendXmlMethod(IVariables variables, byte[] content, String service)
-      throws Exception {
+  HttpPost buildSendXmlMethod(IVariables variables, byte[] content, String service) throws Exception {
     // Prepare HTTP put
     //
     String urlString = constructUrl(variables, service);
@@ -465,51 +410,29 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       // Release current connection to the connection pool once you are done
       method.releaseConnection();
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG, "HopServer.DETAILED_SentXmlToService", service, variables.resolve(hostname)));
+        log.logDetailed(BaseMessages.getString(PKG, "HopServer.DETAILED_SentXmlToService", service, variables.resolve(hostname)));
       }
     }
   }
 
   /** Throws if not ok */
-  private void handleStatus(
-      IVariables variables, HttpUriRequest method, StatusLine statusLine, int status)
-      throws HopException {
+  private void handleStatus(IVariables variables, HttpUriRequest method, StatusLine statusLine, int status) throws HopException {
     if (status >= 300) {
       String message;
       if (status == HttpStatus.SC_NOT_FOUND) {
-        message =
-            String.format(
-                "%s%s%s%s",
-                BaseMessages.getString(PKG, "HopServer.Error.404.Title"),
-                Const.CR,
-                Const.CR,
-                BaseMessages.getString(PKG, "HopServer.Error.404.Message"));
+        message = String.format("%s%s%s%s", BaseMessages.getString(PKG, "HopServer.Error.404.Title"), Const.CR, Const.CR, BaseMessages.getString(PKG, "HopServer.Error.404.Message"));
       } else {
-        message =
-            String.format(
-                "HTTP Status %d - %s - %s",
-                status, method.getURI().toString(), statusLine.getReasonPhrase());
+        message = String.format("HTTP Status %d - %s - %s", status, method.getURI().toString(), statusLine.getReasonPhrase());
       }
       throw new HopException(message);
     }
   }
 
   // Method is defined as package-protected in order to be accessible by unit tests
-  HttpPost buildSendExportMethod(IVariables variables, String type, String load, InputStream is)
-      throws UnsupportedEncodingException {
+  HttpPost buildSendExportMethod(IVariables variables, String type, String load, InputStream is) throws UnsupportedEncodingException {
     String serviceUrl = RegisterPackageServlet.CONTEXT_PATH;
     if (type != null && load != null) {
-      serviceUrl +=
-          "/?"
-              + RegisterPackageServlet.PARAMETER_TYPE
-              + "="
-              + type
-              + "&"
-              + RegisterPackageServlet.PARAMETER_LOAD
-              + "="
-              + URLEncoder.encode(load, "UTF-8");
+      serviceUrl += "/?" + RegisterPackageServlet.PARAMETER_TYPE + "=" + type + "&" + RegisterPackageServlet.PARAMETER_LOAD + "=" + URLEncoder.encode(load, "UTF-8");
     }
 
     String urlString = constructUrl(variables, serviceUrl);
@@ -524,17 +447,14 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return method;
   }
 
-  /**
-   * Send an exported archive over to this hop server
+  /** Send an exported archive over to this hop server
    *
    * @param filename The archive to send
    * @param type The type of file to add to the hop server (AddExportServlet.TYPE_*)
    * @param load The filename to load in the archive (the .hwf or .hpl)
    * @return the XML of the web result
-   * @throws Exception in case something goes awry
-   */
-  public String sendExport(IVariables variables, String filename, String type, String load)
-      throws Exception {
+   * @throws Exception in case something goes awry */
+  public String sendExport(IVariables variables, String filename, String type, String load) throws Exception {
     // Request content will be retrieved directly from the input stream
     try (InputStream is = HopVfs.getInputStream(HopVfs.getFileObject(filename))) {
       // Execute request
@@ -545,41 +465,30 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
         // Release current connection to the connection pool once you are done
         method.releaseConnection();
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "HopServer.DETAILED_SentExportToService",
-                  RegisterPackageServlet.CONTEXT_PATH,
-                  variables.resolve(hostname)));
+          log.logDetailed(BaseMessages.getString(PKG, "HopServer.DETAILED_SentExportToService", RegisterPackageServlet.CONTEXT_PATH, variables.resolve(hostname)));
         }
       }
     }
   }
 
-  /**
-   * Executes method with authentication.
+  /** Executes method with authentication.
    *
    * @param method
    * @return
    * @throws IOException
    * @throws ClientProtocolException
-   * @throws HopException if response not ok
-   */
-  private String executeAuth(IVariables variables, HttpUriRequest method)
-      throws IOException, ClientProtocolException, HopException {
+   * @throws HopException if response not ok */
+  private String executeAuth(IVariables variables, HttpUriRequest method) throws IOException, ClientProtocolException, HopException {
     HttpResponse httpResponse = getHttpClient().execute(method, getAuthContext(variables));
     return getResponse(variables, method, httpResponse);
   }
 
-  private String getResponse(IVariables variables, HttpUriRequest method, HttpResponse httpResponse)
-      throws IOException, HopException {
+  private String getResponse(IVariables variables, HttpUriRequest method, HttpResponse httpResponse) throws IOException, HopException {
     StatusLine statusLine = httpResponse.getStatusLine();
     int statusCode = statusLine.getStatusCode();
     // The status code
     if (log.isDebug()) {
-      log.logDebug(
-          BaseMessages.getString(
-              PKG, "HopServer.DEBUG_ResponseStatus", Integer.toString(statusCode)));
+      log.logDebug(BaseMessages.getString(PKG, "HopServer.DEBUG_ResponseStatus", Integer.toString(statusCode)));
     }
 
     String responseBody = getResponseBodyAsString(httpResponse.getEntity().getContent());
@@ -636,9 +545,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     context.setRequestConfig(requestConfig);
   }
 
-  /**
-   * @return HttpClientContext with authorization credentials
-   */
+  /** @return HttpClientContext with authorization credentials */
   protected HttpClientContext getAuthContext(IVariables variables) {
     HttpClientContext context = HttpClientContext.create();
     addCredentials(variables, context);
@@ -703,9 +610,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
   }
 
   // Method is defined as package-protected in order to be accessible by unit tests
-  HttpGet buildExecuteServiceMethod(
-      IVariables variables, String service, Map<String, String> headerValues)
-      throws UnsupportedEncodingException {
+  HttpGet buildExecuteServiceMethod(IVariables variables, String service, Map<String, String> headerValues) throws UnsupportedEncodingException {
     HttpGet method = new HttpGet(constructUrl(variables, service));
 
     for (String key : headerValues.keySet()) {
@@ -714,8 +619,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return method;
   }
 
-  public String execService(IVariables variables, String service, Map<String, String> headerValues)
-      throws Exception {
+  public String execService(IVariables variables, String service, Map<String, String> headerValues) throws Exception {
     // Prepare HTTP get
     HttpGet method = buildExecuteServiceMethod(variables, service, headerValues);
     // Execute request
@@ -726,29 +630,20 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
 
       // The status code
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(
-                PKG, "HopServer.DEBUG_ResponseStatus", Integer.toString(statusCode)));
+        log.logDebug(BaseMessages.getString(PKG, "HopServer.DEBUG_ResponseStatus", Integer.toString(statusCode)));
       }
 
       String responseBody = getResponseBodyAsString(httpResponse.getEntity().getContent());
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "HopServer.DETAILED_FinishedReading",
-                Integer.toString(responseBody.getBytes().length)));
+        log.logDetailed(BaseMessages.getString(PKG, "HopServer.DETAILED_FinishedReading", Integer.toString(responseBody.getBytes().length)));
       }
       if (log.isDebug()) {
         log.logDebug(BaseMessages.getString(PKG, "HopServer.DEBUG_ResponseBody", responseBody));
       }
 
       if (statusCode >= 400) {
-        throw new HopException(
-            String.format(
-                "HTTP Status %d - %s - %s",
-                statusCode, method.getURI().toString(), statusLine.getReasonPhrase()));
+        throw new HopException(String.format("HTTP Status %d - %s - %s", statusCode, method.getURI().toString(), statusLine.getReasonPhrase()));
       }
 
       return responseBody;
@@ -756,8 +651,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       // Release current connection to the connection pool once you are done
       method.releaseConnection();
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(PKG, "HopServer.DETAILED_ExecutedService", service, hostname));
+        log.logDetailed(BaseMessages.getString(PKG, "HopServer.DETAILED_ExecutedService", service, hostname));
       }
     }
   }
@@ -769,11 +663,9 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
         // Connect over an HTTPS connection
         //
         TrustStrategy acceptingTrustStrategy = new TrustSelfSignedStrategy();
-        SSLContext sslContext =
-            SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
 
-        SSLConnectionSocketFactory socketFactory =
-            new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+        SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
         return HttpClients.custom().setSSLSocketFactory(socketFactory).build();
       } else {
         // Connect using a regular HTTP connection
@@ -790,27 +682,12 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return HopServerStatus.fromXml(xml);
   }
 
-  public HopServerPipelineStatus getPipelineStatus(
-      IVariables variables, String pipelineName, String serverObjectId, int startLogLineNr)
-      throws Exception {
+  public HopServerPipelineStatus getPipelineStatus(IVariables variables, String pipelineName, String serverObjectId, int startLogLineNr) throws Exception {
     return getPipelineStatus(variables, pipelineName, serverObjectId, startLogLineNr, false);
   }
 
-  public HopServerPipelineStatus getPipelineStatus(
-      IVariables variables,
-      String pipelineName,
-      String serverObjectId,
-      int startLogLineNr,
-      boolean sendResultXmlWithStatus)
-      throws Exception {
-    String query =
-        GetPipelineStatusServlet.CONTEXT_PATH
-            + "/?name="
-            + URLEncoder.encode(pipelineName, "UTF-8")
-            + "&id="
-            + Const.NVL(serverObjectId, "")
-            + "&xml=Y&from="
-            + startLogLineNr;
+  public HopServerPipelineStatus getPipelineStatus(IVariables variables, String pipelineName, String serverObjectId, int startLogLineNr, boolean sendResultXmlWithStatus) throws Exception {
+    String query = GetPipelineStatusServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y&from=" + startLogLineNr;
     if (sendResultXmlWithStatus) {
       query = query + "&" + GetPipelineStatusServlet.SEND_RESULT + "=Y";
     }
@@ -818,116 +695,43 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return HopServerPipelineStatus.fromXml(xml);
   }
 
-  public HopServerWorkflowStatus getWorkflowStatus(
-      IVariables variables, String workflowName, String serverObjectId, int startLogLineNr)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            GetWorkflowStatusServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(workflowName, "UTF-8")
-                + "&id="
-                + Const.NVL(serverObjectId, "")
-                + "&xml=Y&from="
-                + startLogLineNr,
-            true);
+  public HopServerWorkflowStatus getWorkflowStatus(IVariables variables, String workflowName, String serverObjectId, int startLogLineNr) throws Exception {
+    String xml = execService(variables, GetWorkflowStatusServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(workflowName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y&from=" + startLogLineNr, true);
     return HopServerWorkflowStatus.fromXml(xml);
   }
 
-  public WebResult stopPipeline(IVariables variables, String pipelineName, String serverObjectId)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            StopPipelineServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(pipelineName, "UTF-8")
-                + "&id="
-                + Const.NVL(serverObjectId, "")
-                + "&xml=Y");
+  public WebResult stopPipeline(IVariables variables, String pipelineName, String serverObjectId) throws Exception {
+    String xml = execService(variables, StopPipelineServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y");
     return WebResult.fromXmlString(xml);
   }
 
-  public WebResult pauseResumePipeline(
-      IVariables variables, String pipelineName, String serverObjectId) throws Exception {
-    String xml =
-        execService(
-            variables,
-            PausePipelineServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(pipelineName, "UTF-8")
-                + "&id="
-                + Const.NVL(serverObjectId, "")
-                + "&xml=Y");
+  public WebResult pauseResumePipeline(IVariables variables, String pipelineName, String serverObjectId) throws Exception {
+    String xml = execService(variables, PausePipelineServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y");
     return WebResult.fromXmlString(xml);
   }
 
-  public WebResult removePipeline(IVariables variables, String pipelineName, String serverObjectId)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            RemovePipelineServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(pipelineName, "UTF-8")
-                + "&id="
-                + Const.NVL(serverObjectId, "")
-                + "&xml=Y");
+  public WebResult removePipeline(IVariables variables, String pipelineName, String serverObjectId) throws Exception {
+    String xml = execService(variables, RemovePipelineServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y");
     return WebResult.fromXmlString(xml);
   }
 
-  public WebResult removeWorkflow(IVariables variables, String workflowName, String serverObjectId)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            RemoveWorkflowServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(workflowName, "UTF-8")
-                + "&id="
-                + Const.NVL(serverObjectId, "")
-                + "&xml=Y");
+  public WebResult removeWorkflow(IVariables variables, String workflowName, String serverObjectId) throws Exception {
+    String xml = execService(variables, RemoveWorkflowServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(workflowName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y");
     return WebResult.fromXmlString(xml);
   }
 
-  public WebResult stopWorkflow(IVariables variables, String pipelineName, String serverObjectId)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            StopWorkflowServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(pipelineName, "UTF-8")
-                + "&xml=Y&id="
-                + Const.NVL(serverObjectId, ""));
+  public WebResult stopWorkflow(IVariables variables, String pipelineName, String serverObjectId) throws Exception {
+    String xml = execService(variables, StopWorkflowServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&xml=Y&id=" + Const.NVL(serverObjectId, ""));
     return WebResult.fromXmlString(xml);
   }
 
-  public WebResult startPipeline(IVariables variables, String pipelineName, String serverObjectId)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            StartPipelineServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(pipelineName, "UTF-8")
-                + "&id="
-                + Const.NVL(serverObjectId, "")
-                + "&xml=Y");
+  public WebResult startPipeline(IVariables variables, String pipelineName, String serverObjectId) throws Exception {
+    String xml = execService(variables, StartPipelineServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + Const.NVL(serverObjectId, "") + "&xml=Y");
     return WebResult.fromXmlString(xml);
   }
 
-  public WebResult startWorkflow(IVariables variables, String workflowName, String serverObjectId)
-      throws Exception {
-    String xml =
-        execService(
-            variables,
-            StartWorkflowServlet.CONTEXT_PATH
-                + "/?name="
-                + URLEncoder.encode(workflowName, "UTF-8")
-                + "&xml=Y&id="
-                + Const.NVL(serverObjectId, ""));
+  public WebResult startWorkflow(IVariables variables, String workflowName, String serverObjectId) throws Exception {
+    String xml = execService(variables, StartWorkflowServlet.CONTEXT_PATH + "/?name=" + URLEncoder.encode(workflowName, "UTF-8") + "&xml=Y&id=" + Const.NVL(serverObjectId, ""));
     return WebResult.fromXmlString(xml);
   }
 
@@ -940,8 +744,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return null;
   }
 
-  public static String[] getHopServerNames(IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public static String[] getHopServerNames(IHopMetadataProvider metadataProvider) throws HopException {
     List<String> names = metadataProvider.getSerializer(HopServer.class).listObjectNames();
     return names.toArray(new String[0]);
   }
@@ -955,14 +758,12 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     // NOT USED
   }
 
-  /**
-   * Verify the name of the hop server and if required, change it if it already exists in the list
+  /** Verify the name of the hop server and if required, change it if it already exists in the list
    * of hop servers.
    *
    * @param hopServers the hop servers to check against.
    * @param oldname the old name of the hop server
-   * @return the new hop server name
-   */
+   * @return the new hop server name */
   public String verifyAndModifyHopServerName(List<HopServer> hopServers, String oldname) {
     String name = getName();
     if (name.equalsIgnoreCase(oldname)) {
@@ -977,8 +778,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return getName();
   }
 
-  /**
-   * Sniff rows on a the hop server, return xml containing the row metadata and data.
+  /** Sniff rows on a the hop server, return xml containing the row metadata and data.
    *
    * @param pipelineName pipeline name
    * @param id the id on the server
@@ -987,87 +787,35 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
    * @param lines lines number
    * @param type transform type
    * @return xml with row metadata and data
-   * @throws Exception
-   */
-  public String sniffTransform(
-      IVariables variables,
-      String pipelineName,
-      String transformName,
-      String id,
-      String copyNr,
-      int lines,
-      String type)
-      throws Exception {
-    return execService(
-        variables,
-        SniffTransformServlet.CONTEXT_PATH
-            + "/?pipeline="
-            + URLEncoder.encode(pipelineName, "UTF-8")
-            + "&id="
-            + URLEncoder.encode(id, "UTF-8")
-            + "&transform="
-            + URLEncoder.encode(transformName, "UTF-8")
-            + "&copynr="
-            + copyNr
-            + "&type="
-            + type
-            + "&lines="
-            + lines
-            + "&xml=Y");
+   * @throws Exception */
+  public String sniffTransform(IVariables variables, String pipelineName, String transformName, String id, String copyNr, int lines, String type) throws Exception {
+    return execService(variables,
+        SniffTransformServlet.CONTEXT_PATH + "/?pipeline=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "&transform=" + URLEncoder.encode(transformName, "UTF-8") + "&copynr=" + copyNr + "&type=" + type + "&lines=" + lines + "&xml=Y");
   }
 
-  public long getNextServerSequenceValue(
-      IVariables variables, String serverSequenceName, long incrementValue) throws HopException {
+  public long getNextServerSequenceValue(IVariables variables, String serverSequenceName, long incrementValue) throws HopException {
     try {
-      String xml =
-          execService(
-              variables,
-              NextSequenceValueServlet.CONTEXT_PATH
-                  + "/"
-                  + "?"
-                  + NextSequenceValueServlet.PARAM_NAME
-                  + "="
-                  + URLEncoder.encode(serverSequenceName, "UTF-8")
-                  + "&"
-                  + NextSequenceValueServlet.PARAM_INCREMENT
-                  + "="
-                  + Long.toString(incrementValue));
+      String xml = execService(variables, NextSequenceValueServlet.CONTEXT_PATH + "/" + "?" + NextSequenceValueServlet.PARAM_NAME + "=" + URLEncoder.encode(serverSequenceName, "UTF-8") + "&" + NextSequenceValueServlet.PARAM_INCREMENT + "=" + Long.toString(incrementValue));
 
       Document doc = XmlHandler.loadXmlString(xml);
       Node seqNode = XmlHandler.getSubNode(doc, NextSequenceValueServlet.XML_TAG);
-      String nextValueString =
-          XmlHandler.getTagValue(seqNode, NextSequenceValueServlet.XML_TAG_VALUE);
+      String nextValueString = XmlHandler.getTagValue(seqNode, NextSequenceValueServlet.XML_TAG_VALUE);
       String errorString = XmlHandler.getTagValue(seqNode, NextSequenceValueServlet.XML_TAG_ERROR);
 
       if (!Utils.isEmpty(errorString)) {
         throw new HopException(errorString);
       }
       if (Utils.isEmpty(nextValueString)) {
-        throw new HopException(
-            "No value retrieved from server sequence '"
-                + serverSequenceName
-                + "' on server "
-                + toString());
+        throw new HopException("No value retrieved from server sequence '" + serverSequenceName + "' on server " + toString());
       }
       long nextValue = Const.toLong(nextValueString, Long.MIN_VALUE);
       if (nextValue == Long.MIN_VALUE) {
-        throw new HopException(
-            "Incorrect value '"
-                + nextValueString
-                + "' retrieved from server sequence '"
-                + serverSequenceName
-                + "' on server "
-                + toString());
+        throw new HopException("Incorrect value '" + nextValueString + "' retrieved from server sequence '" + serverSequenceName + "' on server " + toString());
       }
 
       return nextValue;
     } catch (Exception e) {
-      throw new HopException(
-          "There was a problem retrieving a next sequence value from server sequence '"
-              + serverSequenceName
-              + "' on server "
-              + toString(),
-          e);
+      throw new HopException("There was a problem retrieving a next sequence value from server sequence '" + serverSequenceName + "' on server " + toString(), e);
     }
   }
 
@@ -1080,32 +828,22 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     return client;
   }
 
-  /**
-   * Monitors a remote pipeline every 5 seconds.
+  /** Monitors a remote pipeline every 5 seconds.
    *
    * @param log the log channel interface
    * @param serverObjectId the HopServer object ID
-   * @param pipelineName the pipeline name
-   */
-  public void monitorRemotePipeline(
-      IVariables variables, ILogChannel log, String serverObjectId, String pipelineName) {
+   * @param pipelineName the pipeline name */
+  public void monitorRemotePipeline(IVariables variables, ILogChannel log, String serverObjectId, String pipelineName) {
     monitorRemotePipeline(variables, log, serverObjectId, pipelineName, 5);
   }
 
-  /**
-   * Monitors a remote pipeline at the specified interval.
+  /** Monitors a remote pipeline at the specified interval.
    *
    * @param log the log channel interface
    * @param serverObjectId the HopServer object ID
    * @param pipelineName the pipeline name
-   * @param sleepTimeSeconds the sleep time (in seconds)
-   */
-  public void monitorRemotePipeline(
-      IVariables variables,
-      ILogChannel log,
-      String serverObjectId,
-      String pipelineName,
-      int sleepTimeSeconds) {
+   * @param sleepTimeSeconds the sleep time (in seconds) */
+  public void monitorRemotePipeline(IVariables variables, ILogChannel log, String serverObjectId, String pipelineName, int sleepTimeSeconds) {
     long errors = 0;
     boolean allFinished = false;
     while (!allFinished && errors == 0) {
@@ -1115,8 +853,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       // Check the remote server
       if (allFinished && errors == 0) {
         try {
-          HopServerPipelineStatus pipelineStatus =
-              getPipelineStatus(variables, pipelineName, serverObjectId, 0);
+          HopServerPipelineStatus pipelineStatus = getPipelineStatus(variables, pipelineName, serverObjectId, 0);
           if (pipelineStatus.isRunning()) {
             if (log.isDetailed()) {
               log.logDetailed(pipelineName, "Remote pipeline is still running.");
@@ -1131,12 +868,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
           errors += result.getNrErrors();
         } catch (Exception e) {
           errors += 1;
-          log.logError(
-              pipelineName,
-              "Unable to contact remote hop server '"
-                  + this.getName()
-                  + "' to check pipeline status : "
-                  + e.toString());
+          log.logError(pipelineName, "Unable to contact remote hop server '" + this.getName() + "' to check pipeline status : " + e.toString());
         }
       }
 
@@ -1147,8 +879,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       if (!allFinished) {
         // Not finished or error: wait a bit longer
         if (log.isDetailed()) {
-          log.logDetailed(
-              pipelineName, "The remote pipeline is still running, waiting a few seconds...");
+          log.logDetailed(pipelineName, "The remote pipeline is still running, waiting a few seconds...");
         }
         try {
           Thread.sleep(sleepTimeSeconds * 1000);
@@ -1161,32 +892,22 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     log.logBasic(pipelineName, "The remote pipeline has finished.");
   }
 
-  /**
-   * Monitors a remote workflow every 5 seconds.
+  /** Monitors a remote workflow every 5 seconds.
    *
    * @param log the log channel interface
    * @param serverObjectId the HopServer object ID
-   * @param workflowName the workflow name
-   */
-  public void monitorRemoteWorkflow(
-      IVariables variables, ILogChannel log, String serverObjectId, String workflowName) {
+   * @param workflowName the workflow name */
+  public void monitorRemoteWorkflow(IVariables variables, ILogChannel log, String serverObjectId, String workflowName) {
     monitorRemoteWorkflow(variables, log, serverObjectId, workflowName, 5);
   }
 
-  /**
-   * Monitors a remote workflow at the specified interval.
+  /** Monitors a remote workflow at the specified interval.
    *
    * @param log the log channel interface
    * @param serverObjectId the HopServer object ID
    * @param workflowName the workflow name
-   * @param sleepTimeSeconds the sleep time (in seconds)
-   */
-  public void monitorRemoteWorkflow(
-      IVariables variables,
-      ILogChannel log,
-      String serverObjectId,
-      String workflowName,
-      int sleepTimeSeconds) {
+   * @param sleepTimeSeconds the sleep time (in seconds) */
+  public void monitorRemoteWorkflow(IVariables variables, ILogChannel log, String serverObjectId, String workflowName, int sleepTimeSeconds) {
     long errors = 0;
     boolean allFinished = false;
     while (!allFinished && errors == 0) {
@@ -1196,8 +917,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       // Check the remote server
       if (allFinished && errors == 0) {
         try {
-          HopServerWorkflowStatus jobStatus =
-              getWorkflowStatus(variables, workflowName, serverObjectId, 0);
+          HopServerWorkflowStatus jobStatus = getWorkflowStatus(variables, workflowName, serverObjectId, 0);
           if (jobStatus.isRunning()) {
             if (log.isDetailed()) {
               log.logDetailed(workflowName, "Remote workflow is still running.");
@@ -1212,12 +932,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
           errors += result.getNrErrors();
         } catch (Exception e) {
           errors += 1;
-          log.logError(
-              workflowName,
-              "Unable to contact remote hop server '"
-                  + this.getName()
-                  + "' to check workflow status : "
-                  + e.toString());
+          log.logError(workflowName, "Unable to contact remote hop server '" + this.getName() + "' to check workflow status : " + e.toString());
         }
       }
 
@@ -1228,8 +943,7 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
       if (!allFinished) {
         // Not finished or error: wait a bit longer
         if (log.isDetailed()) {
-          log.logDetailed(
-              workflowName, "The remote workflow is still running, waiting a few seconds...");
+          log.logDetailed(workflowName, "The remote workflow is still running, waiting a few seconds...");
         }
         try {
           Thread.sleep(sleepTimeSeconds * 1000);
@@ -1242,51 +956,37 @@ public class HopServer extends HopMetadataBase implements Cloneable, IXml, IHopM
     log.logBasic(workflowName, "The remote workflow has finished.");
   }
 
-  /**
-   * @return the changedDate
-   */
+  /** @return the changedDate */
   public Date getChangedDate() {
     return changedDate;
   }
 
-  /**
-   * @param sslMode
-   */
+  /** @param sslMode */
   public void setSslMode(boolean sslMode) {
     this.sslMode = sslMode;
   }
 
-  /**
-   * @return the sslMode
-   */
+  /** @return the sslMode */
   public boolean isSslMode() {
     return sslMode;
   }
 
-  /**
-   * @return the sslConfig
-   */
+  /** @return the sslConfig */
   public SslConfiguration getSslConfig() {
     return sslConfig;
   }
 
-  /**
-   * @param sslConfig The sslConfig to set
-   */
+  /** @param sslConfig The sslConfig to set */
   public void setSslConfig(SslConfiguration sslConfig) {
     this.sslConfig = sslConfig;
   }
 
-  /**
-   * @param overrideExistingProperties The overrideExistingProperties to set
-   */
+  /** @param overrideExistingProperties The overrideExistingProperties to set */
   public void setOverrideExistingProperties(boolean overrideExistingProperties) {
     this.overrideExistingProperties = overrideExistingProperties;
   }
 
-  /**
-   * @param propertiesMasterName The propertiesMasterName to set
-   */
+  /** @param propertiesMasterName The propertiesMasterName to set */
   public void setPropertiesMasterName(String propertiesMasterName) {
     this.propertiesMasterName = propertiesMasterName;
   }

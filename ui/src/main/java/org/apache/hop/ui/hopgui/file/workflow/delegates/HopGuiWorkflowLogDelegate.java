@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -105,10 +105,7 @@ public class HopGuiWorkflowLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    workflowLogText =
-        new Text(
-            workflowLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    workflowLogText = new Text(workflowLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     hopGui.getProps().setLook(workflowLogText);
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
@@ -127,23 +124,20 @@ public class HopGuiWorkflowLogDelegate {
     // If the workflow is closed, we should dispose of all the logging information in the buffer and
     // registry for it
     //
-    workflowGraph.addDisposeListener(
-        event -> {
-          if (workflowGraph.getWorkflow() != null) {
-            HopLogStore.discardLines(workflowGraph.getWorkflow().getLogChannelId(), true);
-          }
-        });
+    workflowGraph.addDisposeListener(event -> {
+      if (workflowGraph.getWorkflow() != null) {
+        HopLogStore.discardLines(workflowGraph.getWorkflow().getLogChannelId(), true);
+      }
+    });
 
     workflowLogTab.setControl(workflowLogComposite);
 
     workflowGraph.extraViewTabFolder.setSelection(workflowLogTab);
   }
 
-  /**
-   * When a toolbar is hit it knows the class so it will come here to ask for the instance.
+  /** When a toolbar is hit it knows the class so it will come here to ask for the instance.
    *
-   * @return The active instance of this class
-   */
+   * @return The active instance of this class */
   public static HopGuiWorkflowLogDelegate getInstance() {
     IHopFileTypeHandler fileTypeHandler = HopGui.getInstance().getActiveFileTypeHandler();
     if (fileTypeHandler instanceof HopGuiWorkflowGraph) {
@@ -179,22 +173,16 @@ public class HopGuiWorkflowLogDelegate {
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ICON_LOG_SETTINGS,
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ICON_LOG_SETTINGS,
       // label = "WorkflowLog.Button.LogSettings",
-      toolTip = "i18n:org.apache.hop.ui.hopgui:WorkflowLog.Button.LogSettings",
-      image = "ui/images/settings.svg")
+      toolTip = "i18n:org.apache.hop.ui.hopgui:WorkflowLog.Button.LogSettings", image = "ui/images/settings.svg")
   public void showLogSettings() {
     // TODO: implement or rethink
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ICON_SHOW_ERROR_LINES,
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ICON_SHOW_ERROR_LINES,
       // label = "WorkflowLog.Button.ShowErrorLines",
-      toolTip = "i18n:org.apache.hop.ui.hopgui:WorkflowLog.Button.ShowErrorLines",
-      image = "ui/images/filter.svg")
+      toolTip = "i18n:org.apache.hop.ui.hopgui:WorkflowLog.Button.ShowErrorLines", image = "ui/images/filter.svg")
   public void showErrors() {
     String all = workflowLogText.getText();
     ArrayList<String> err = new ArrayList<>();
@@ -209,9 +197,7 @@ public class HopGuiWorkflowLogDelegate {
       if (all.substring(i, i + crlen).equalsIgnoreCase(Const.CR)) {
         line = all.substring(startpos, i);
         lineUpper = line.toUpperCase();
-        if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0
-            || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION"))
-                >= 0) {
+        if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0 || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
           err.add(line);
         }
         // New start of line
@@ -222,8 +208,7 @@ public class HopGuiWorkflowLogDelegate {
     }
     line = all.substring(startpos);
     lineUpper = line.toUpperCase();
-    if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0
-        || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
+    if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0 || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
       err.add(line);
     }
 
@@ -233,12 +218,7 @@ public class HopGuiWorkflowLogDelegate {
         errLines[i] = err.get(i);
       }
 
-      EnterSelectionDialog esd =
-          new EnterSelectionDialog(
-              workflowGraph.getShell(),
-              errLines,
-              BaseMessages.getString(PKG, "WorkflowLog.Dialog.ErrorLines.Title"),
-              BaseMessages.getString(PKG, "WorkflowLog.Dialog.ErrorLines.Message"));
+      EnterSelectionDialog esd = new EnterSelectionDialog(workflowGraph.getShell(), errLines, BaseMessages.getString(PKG, "WorkflowLog.Dialog.ErrorLines.Title"), BaseMessages.getString(PKG, "WorkflowLog.Dialog.ErrorLines.Message"));
       line = esd.open();
       if (line != null) {
         WorkflowMeta workflowMeta = workflowGraph.getManagedObject();
@@ -257,13 +237,9 @@ public class HopGuiWorkflowLogDelegate {
     return workflowLogTab;
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ICON_LOG_PAUSE_RESUME,
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ICON_LOG_PAUSE_RESUME,
       // label = "WorkflowLog.Button.Pause",
-      toolTip = "i18n:org.apache.hop.ui.hopgui:WorkflowLog.Button.Pause",
-      image = "ui/images/pause.svg",
-      separator = true)
+      toolTip = "i18n:org.apache.hop.ui.hopgui:WorkflowLog.Button.Pause", image = "ui/images/pause.svg", separator = true)
   public void pauseLog() {
     ToolItem item = toolBarWidgets.findToolItem(TOOLBAR_ICON_LOG_PAUSE_RESUME);
     if (logBrowser.isPaused()) {
@@ -276,9 +252,7 @@ public class HopGuiWorkflowLogDelegate {
   }
 
   public boolean hasSelectedText() {
-    return workflowLogText != null
-        && !workflowLogText.isDisposed()
-        && StringUtils.isNotEmpty(workflowLogText.getSelectionText());
+    return workflowLogText != null && !workflowLogText.isDisposed() && StringUtils.isNotEmpty(workflowLogText.getSelectionText());
   }
 
   public void copySelected() {

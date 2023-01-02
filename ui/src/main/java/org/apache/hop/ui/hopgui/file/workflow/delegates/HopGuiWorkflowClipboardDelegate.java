@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -68,11 +68,7 @@ public class HopGuiWorkflowClipboardDelegate {
     try {
       GuiResource.getInstance().toClipboard(clipText);
     } catch (Throwable e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Title"),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Title"), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionCopyToClipboard.Message"), e);
     }
   }
 
@@ -80,11 +76,7 @@ public class HopGuiWorkflowClipboardDelegate {
     try {
       return GuiResource.getInstance().fromClipboard();
     } catch (Throwable e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Title"),
-          BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Title"), BaseMessages.getString(PKG, "HopGui.Dialog.ExceptionPasteFromClipboard.Message"), e);
       return null;
     }
   }
@@ -108,8 +100,7 @@ public class HopGuiWorkflowClipboardDelegate {
       // Load the entries...
       for (int i = 0; i < nr; i++) {
         Node actionNode = XmlHandler.getSubNodeByNr(actionsNode, ActionMeta.XML_TAG, i);
-        actions[i] =
-            new ActionMeta(actionNode, hopGui.getMetadataProvider(), workflowGraph.getVariables());
+        actions[i] = new ActionMeta(actionNode, hopGui.getMetadataProvider(), workflowGraph.getVariables());
 
         if (locaction != null) {
           Point p = actions[i].getLocation();
@@ -200,8 +191,7 @@ public class HopGuiWorkflowClipboardDelegate {
     workflowGraph.redraw();
   }
 
-  private void pasteNoXmlContent(
-      WorkflowMeta workflowMeta, String clipboardContent, Point location) {
+  private void pasteNoXmlContent(WorkflowMeta workflowMeta, String clipboardContent, Point location) {
     try {
       // Are we pasting filenames?
       //
@@ -215,13 +205,8 @@ public class HopGuiWorkflowClipboardDelegate {
           // See if the filename needs to be treated somehow...
           // We don't have a file dialog so we pass in null.
           //
-          HopGuiFileOpenedExtension ext =
-              new HopGuiFileOpenedExtension(null, hopGui.getVariables(), cleanFilename);
-          ExtensionPointHandler.callExtensionPoint(
-              LogChannel.UI,
-              workflowGraph.getVariables(),
-              HopGuiExtensionPoint.HopGuiFileOpenedDialog.id,
-              ext);
+          HopGuiFileOpenedExtension ext = new HopGuiFileOpenedExtension(null, hopGui.getVariables(), cleanFilename);
+          ExtensionPointHandler.callExtensionPoint(LogChannel.UI, workflowGraph.getVariables(), HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
           if (ext.filename != null) {
             cleanFilename = ext.filename;
           }
@@ -237,38 +222,21 @@ public class HopGuiWorkflowClipboardDelegate {
 
           // Try the plugins to see which one responds
           //
-          ExtensionPointHandler.callExtensionPoint(
-              LogChannel.UI,
-              workflowGraph.getVariables(),
-              HopGuiExtensionPoint.HopGuiWorkflowClipboardFilePaste.id,
-              wce);
+          ExtensionPointHandler.callExtensionPoint(LogChannel.UI, workflowGraph.getVariables(), HopGuiExtensionPoint.HopGuiWorkflowClipboardFilePaste.id, wce);
         }
       } else {
         // Add a notepad
         //
-        NotePadMeta notePadMeta =
-            new NotePadMeta(
-                clipboardContent,
-                location.x,
-                location.y,
-                ConstUi.NOTE_MIN_SIZE,
-                ConstUi.NOTE_MIN_SIZE);
+        NotePadMeta notePadMeta = new NotePadMeta(clipboardContent, location.x, location.y, ConstUi.NOTE_MIN_SIZE, ConstUi.NOTE_MIN_SIZE);
         workflowMeta.addNote(notePadMeta);
-        hopGui.undoDelegate.addUndoNew(
-            workflowMeta,
-            new NotePadMeta[] {notePadMeta},
-            new int[] {workflowMeta.indexOfNote(notePadMeta)});
+        hopGui.undoDelegate.addUndoNew(workflowMeta, new NotePadMeta[] {notePadMeta}, new int[] {workflowMeta.indexOfNote(notePadMeta)});
         shiftLocation(location);
       }
 
     } catch (Exception e) {
       // "Error pasting transforms...",
       // "I was unable to paste transforms to this pipeline"
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteEntries.Title"),
-          BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteEntries.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteEntries.Title"), BaseMessages.getString(PKG, "HopGui.Dialog.UnablePasteEntries.Message"), e);
     }
   }
 
@@ -297,8 +265,7 @@ public class HopGuiWorkflowClipboardDelegate {
     return uniqueName;
   }
 
-  public void copySelected(
-      WorkflowMeta workflowMeta, List<ActionMeta> actions, List<NotePadMeta> notes) {
+  public void copySelected(WorkflowMeta workflowMeta, List<ActionMeta> actions, List<NotePadMeta> notes) {
     if (actions == null || actions.size() == 0) {
       return;
     }
@@ -346,11 +313,9 @@ public class HopGuiWorkflowClipboardDelegate {
     }
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }
@@ -360,11 +325,9 @@ public class HopGuiWorkflowClipboardDelegate {
     this.hopGui = hopGui;
   }
 
-  /**
-   * Gets workflowGraph
+  /** Gets workflowGraph
    *
-   * @return value of workflowGraph
-   */
+   * @return value of workflowGraph */
   public HopGuiWorkflowGraph getJobGraph() {
     return workflowGraph;
   }
@@ -374,11 +337,9 @@ public class HopGuiWorkflowClipboardDelegate {
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets log
+  /** Gets log
    *
-   * @return value of log
-   */
+   * @return value of log */
   public ILogChannel getLog() {
     return log;
   }

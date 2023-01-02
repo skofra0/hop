@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,15 +30,7 @@ public class ValueMetaBaseLenientStringConversionTest {
   public void testStrToIntLenient() throws Exception {
     System.setProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "Y");
 
-    Object[] values =
-        new Object[] {
-          1L, "1",
-          1L, "1b",
-          1L, "1,5",
-          1L, "1.5",
-          10L, "10,000,000.25",
-          10L, "10.000.000,25"
-        };
+    Object[] values = new Object[] {1L, "1", 1L, "1b", 1L, "1,5", 1L, "1.5", 10L, "10,000,000.25", 10L, "10.000.000,25"};
 
     ValueMetaInteger meta = new ValueMetaInteger();
     for (int i = 0; i < values.length; i += 2) {
@@ -63,9 +55,7 @@ public class ValueMetaBaseLenientStringConversionTest {
       } catch (Exception e) {
         exc = e;
       } finally {
-        Assert.assertTrue(
-            "Conversion of '" + value + "' didn't fail. Value is " + converted,
-            exc instanceof HopValueException);
+        Assert.assertTrue("Conversion of '" + value + "' didn't fail. Value is " + converted, exc instanceof HopValueException);
         exc = null;
       }
     }
@@ -75,15 +65,7 @@ public class ValueMetaBaseLenientStringConversionTest {
   public void testStrToBigNumberLenient() throws Exception {
     System.setProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "Y");
 
-    Object[] values =
-        new Object[] {
-          1D, "1",
-          1D, "1b",
-          1D, "1,5",
-          1.5D, "1.5",
-          10D, "10,000,000.25",
-          10D, "10.000.000,25"
-        };
+    Object[] values = new Object[] {1D, "1", 1D, "1b", 1D, "1,5", 1.5D, "1.5", 10D, "10,000,000.25", 10D, "10.000.000,25"};
 
     ValueMetaBigNumber meta = new ValueMetaBigNumber();
     for (int i = 0; i < values.length; i += 2) {
@@ -109,9 +91,7 @@ public class ValueMetaBaseLenientStringConversionTest {
       } catch (Exception e) {
         exc = e;
       } finally {
-        Assert.assertTrue(
-            "Conversion of '" + value + "' didn't fail. Value is " + converted,
-            exc instanceof HopValueException);
+        Assert.assertTrue("Conversion of '" + value + "' didn't fail. Value is " + converted, exc instanceof HopValueException);
         exc = null;
       }
     }

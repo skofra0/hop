@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,8 +63,7 @@ public class HopGuiNotePadDelegate {
     int idx = meta.indexOfNote(notePadMeta);
     if (idx >= 0) {
       meta.removeNote(idx);
-      hopGui.undoDelegate.addUndoDelete(
-          meta, new NotePadMeta[] {(NotePadMeta) notePadMeta.clone()}, new int[] {idx});
+      hopGui.undoDelegate.addUndoDelete(meta, new NotePadMeta[] {(NotePadMeta) notePadMeta.clone()}, new int[] {idx});
     }
     handler.updateGui();
   }
@@ -74,29 +73,10 @@ public class HopGuiNotePadDelegate {
     NotePadDialog dd = new NotePadDialog(variables, hopGui.getShell(), title);
     NotePadMeta n = dd.open();
     if (n != null) {
-      NotePadMeta npi =
-          new NotePadMeta(
-              n.getNote(),
-              x,
-              y,
-              ConstUi.NOTE_MIN_SIZE,
-              ConstUi.NOTE_MIN_SIZE,
-              n.getFontName(),
-              n.getFontSize(),
-              n.isFontBold(),
-              n.isFontItalic(),
-              n.getFontColorRed(),
-              n.getFontColorGreen(),
-              n.getFontColorBlue(),
-              n.getBackGroundColorRed(),
-              n.getBackGroundColorGreen(),
-              n.getBackGroundColorBlue(),
-              n.getBorderColorRed(),
-              n.getBorderColorGreen(),
-              n.getBorderColorBlue());
+      NotePadMeta npi = new NotePadMeta(n.getNote(), x, y, ConstUi.NOTE_MIN_SIZE, ConstUi.NOTE_MIN_SIZE, n.getFontName(), n.getFontSize(), n.isFontBold(), n.isFontItalic(), n.getFontColorRed(), n.getFontColorGreen(), n.getFontColorBlue(), n.getBackGroundColorRed(), n.getBackGroundColorGreen(),
+          n.getBackGroundColorBlue(), n.getBorderColorRed(), n.getBorderColorGreen(), n.getBorderColorBlue());
       meta.addNote(npi);
-      hopGui.undoDelegate.addUndoNew(
-          meta, new NotePadMeta[] {npi}, new int[] {meta.indexOfNote(npi)});
+      hopGui.undoDelegate.addUndoNew(meta, new NotePadMeta[] {npi}, new int[] {meta.indexOfNote(npi)});
       handler.updateGui();
     }
   }

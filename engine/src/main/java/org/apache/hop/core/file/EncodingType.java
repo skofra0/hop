@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,7 @@ import org.apache.hop.core.util.Utils;
 import java.io.UnsupportedEncodingException;
 
 public enum EncodingType {
-  SINGLE(1, 0, '\r', '\n'),
-  DOUBLE_BIG_ENDIAN(2, 0xFEFF, 0x000d, 0x000a),
-  DOUBLE_LITTLE_ENDIAN(2, 0xFFFE, 0x0d00, 0x0a00);
+  SINGLE(1, 0, '\r', '\n'), DOUBLE_BIG_ENDIAN(2, 0xFEFF, 0x000d, 0x000a), DOUBLE_LITTLE_ENDIAN(2, 0xFFFE, 0x0d00, 0x0a00);
 
   private int length;
 
@@ -34,10 +32,8 @@ public enum EncodingType {
   private int carriageReturnChar;
   private int lineFeedChar;
 
-  /**
-   * @param length
-   * @param bom
-   */
+  /** @param length
+   * @param bom */
   private EncodingType(int length, int bom, int carriageReturnChar, int lineFeedChar) {
     this.length = length;
     this.bom = bom;

@@ -17,7 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.memgroupby;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.logging.ILoggingObject;
 import org.apache.hop.core.row.IRowMeta;

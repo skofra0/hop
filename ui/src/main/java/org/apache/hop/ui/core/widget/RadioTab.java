@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,10 +78,7 @@ public class RadioTab extends Composite {
     props.setLook(button);
     FormData fdButton = new FormData();
     fdButton.top = new FormAttachment(0);
-    fdButton.left =
-        existingButtons.length == 0
-            ? new FormAttachment(0)
-            : new FormAttachment(existingButtons[existingButtons.length - 1], 40);
+    fdButton.left = existingButtons.length == 0 ? new FormAttachment(0) : new FormAttachment(existingButtons[existingButtons.length - 1], 40);
     button.setLayoutData(fdButton);
     button.setSelection(existingButtons.length == 0);
     Composite content = new Composite(contentArea, SWT.NONE);
@@ -89,16 +86,15 @@ public class RadioTab extends Composite {
     props.setLook(content);
     content.setLayout(noMarginLayout);
     content.setLayoutData(fdMaximize);
-    button.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            for (Control control : contentArea.getChildren()) {
-              control.setVisible(false);
-            }
-            content.setVisible(true);
-          }
-        });
+    button.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        for (Control control : contentArea.getChildren()) {
+          control.setVisible(false);
+        }
+        content.setVisible(true);
+      }
+    });
     return content;
   }
 

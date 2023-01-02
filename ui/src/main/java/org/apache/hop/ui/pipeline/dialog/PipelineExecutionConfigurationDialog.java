@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,15 +51,12 @@ import java.util.Map;
 public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
   private static final Class<?> PKG = PipelineExecutionConfigurationDialog.class; // For Translator
 
-  public static final String AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS =
-      "last-pipeline-run-configurations";
-  public static final String MAP_TYPE_PIPELINE_RUN_CONFIG_USAGE =
-      "pipeline-run-configuration-usage";
+  public static final String AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS = "last-pipeline-run-configurations";
+  public static final String MAP_TYPE_PIPELINE_RUN_CONFIG_USAGE = "pipeline-run-configuration-usage";
 
   private MetaSelectionLine<PipelineRunConfiguration> wRunConfiguration;
 
-  public PipelineExecutionConfigurationDialog(
-      Shell parent, PipelineExecutionConfiguration configuration, PipelineMeta pipelineMeta) {
+  public PipelineExecutionConfigurationDialog(Shell parent, PipelineExecutionConfiguration configuration, PipelineMeta pipelineMeta) {
     super(parent, configuration, pipelineMeta);
   }
 
@@ -70,18 +67,15 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
 
     wlLogLevel = new Label(gDetails, SWT.NONE);
     props.setLook(wlLogLevel);
-    wlLogLevel.setText(
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LogLevel.Label"));
-    wlLogLevel.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LogLevel.Tooltip"));
+    wlLogLevel.setText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LogLevel.Label"));
+    wlLogLevel.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LogLevel.Tooltip"));
     FormData fdlLogLevel = new FormData();
     fdlLogLevel.top = new FormAttachment(0, 0);
     fdlLogLevel.left = new FormAttachment(0, 0);
     wlLogLevel.setLayoutData(fdlLogLevel);
 
     wLogLevel = new CCombo(gDetails, SWT.READ_ONLY | SWT.BORDER);
-    wLogLevel.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LogLevel.Tooltip"));
+    wLogLevel.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LogLevel.Tooltip"));
     props.setLook(wLogLevel);
     FormData fdLogLevel = new FormData();
     fdLogLevel.top = new FormAttachment(wlLogLevel, -2, SWT.TOP);
@@ -91,10 +85,8 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
     wLogLevel.setItems(LogLevel.getLogLevelDescriptions());
 
     wClearLog = new Button(gDetails, SWT.CHECK);
-    wClearLog.setText(
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.ClearLog.Label"));
-    wClearLog.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.ClearLog.Tooltip"));
+    wClearLog.setText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.ClearLog.Label"));
+    wClearLog.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.ClearLog.Tooltip"));
     props.setLook(wClearLog);
     FormData fdClearLog = new FormData();
     fdClearLog.top = new FormAttachment(wLogLevel, 10);
@@ -103,23 +95,15 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
   }
 
   public boolean open() {
-    String shellTitle =
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.Shell.Title");
+    String shellTitle = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.Shell.Title");
     mainLayout(shellTitle, GuiResource.getInstance().getImagePipeline());
 
-    String alwaysShowOptionLabel =
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.AlwaysOption.Value");
-    String alwaysShowOptionTooltip =
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.alwaysShowOption");
-    String docUrl =
-        Const.getDocUrl(
-            BaseMessages.getString(
-                HopGui.class, "HopGui.PipelineExecutionConfigurationDialog.Help"));
+    String alwaysShowOptionLabel = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.AlwaysOption.Value");
+    String alwaysShowOptionTooltip = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.alwaysShowOption");
+    String docUrl = Const.getDocUrl(BaseMessages.getString(HopGui.class, "HopGui.PipelineExecutionConfigurationDialog.Help"));
     String docTitle = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.docTitle");
-    String docHeader =
-        BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.docHeader");
-    buttonsSectionLayout(
-        alwaysShowOptionLabel, alwaysShowOptionTooltip, docTitle, docUrl, docHeader);
+    String docHeader = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.docHeader");
+    buttonsSectionLayout(alwaysShowOptionLabel, alwaysShowOptionTooltip, docTitle, docUrl, docHeader);
 
     addRunConfigurationSectionLayout();
 
@@ -132,23 +116,10 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
   }
 
   private void addRunConfigurationSectionLayout() {
-    String runConfigLabel =
-        BaseMessages.getString(
-            PKG, "PipelineExecutionConfigurationDialog.PipelineRunConfiguration.Label");
-    String runConfigTooltip =
-        BaseMessages.getString(
-            PKG, "PipelineExecutionConfigurationDialog.PipelineRunConfiguration.Tooltip");
+    String runConfigLabel = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.PipelineRunConfiguration.Label");
+    String runConfigTooltip = BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.PipelineRunConfiguration.Tooltip");
 
-    wRunConfiguration =
-        new MetaSelectionLine<>(
-            hopGui.getVariables(),
-            hopGui.getMetadataProvider(),
-            PipelineRunConfiguration.class,
-            shell,
-            SWT.BORDER,
-            runConfigLabel,
-            runConfigTooltip,
-            true);
+    wRunConfiguration = new MetaSelectionLine<>(hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineRunConfiguration.class, shell, SWT.BORDER, runConfigLabel, runConfigTooltip, true);
     wRunConfigurationControl = wRunConfiguration;
     props.setLook(wRunConfiguration);
     FormData fdRunConfiguration = new FormData();
@@ -184,8 +155,7 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
 
     try {
       wRunConfiguration.fillItems();
-      if (Const.indexOfString(configuration.getRunConfiguration(), wRunConfiguration.getItems())
-          < 0) {
+      if (Const.indexOfString(configuration.getRunConfiguration(), wRunConfiguration.getItems()) < 0) {
         getConfiguration().setRunConfiguration(null);
       }
     } catch (Exception e) {
@@ -193,8 +163,7 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
     }
 
     Map<String, String> pipelineUsageMap = null;
-    String lastGlobalRunConfig =
-        AuditManagerGuiUtil.getLastUsedValue(AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS);
+    String lastGlobalRunConfig = AuditManagerGuiUtil.getLastUsedValue(AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS);
     String lastPipelineRunConfig = null;
     if (StringUtils.isNotEmpty(abstractMeta.getName())) {
       pipelineUsageMap = AuditManagerGuiUtil.getUsageMap(MAP_TYPE_PIPELINE_RUN_CONFIG_USAGE);
@@ -203,41 +172,17 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
 
     wRunConfiguration.setText(Const.NVL(lastPipelineRunConfig, ""));
 
-    if (StringUtils.isNotEmpty(lastPipelineRunConfig)
-        && StringUtils.isNotEmpty(lastGlobalRunConfig)
-        && !lastPipelineRunConfig.equals(lastGlobalRunConfig)) {
-      wRunConfiguration
-          .getLabelWidget()
-          .setBackground(GuiResource.getInstance().getColorLightBlue());
-      wRunConfiguration
-          .getLabelWidget()
-          .setToolTipText(
-              BaseMessages.getString(
-                  PKG, "PipelineExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
-      wRunConfiguration
-          .getComboWidget()
-          .setBackground(GuiResource.getInstance().getColorLightBlue());
-      wRunConfiguration
-          .getComboWidget()
-          .setToolTipText(
-              BaseMessages.getString(
-                  PKG, "PipelineExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
+    if (StringUtils.isNotEmpty(lastPipelineRunConfig) && StringUtils.isNotEmpty(lastGlobalRunConfig) && !lastPipelineRunConfig.equals(lastGlobalRunConfig)) {
+      wRunConfiguration.getLabelWidget().setBackground(GuiResource.getInstance().getColorLightBlue());
+      wRunConfiguration.getLabelWidget().setToolTipText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
+      wRunConfiguration.getComboWidget().setBackground(GuiResource.getInstance().getColorLightBlue());
+      wRunConfiguration.getComboWidget().setToolTipText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.VerifyRunConfigurationName.Warning"));
     }
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI,
-          hopGui.getVariables(),
-          HopExtensionPoint.HopGuiRunConfiguration.id,
-          wRunConfiguration);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, hopGui.getVariables(), HopExtensionPoint.HopGuiRunConfiguration.id, wRunConfiguration);
     } catch (HopException e) {
-      hopGui
-          .getLog()
-          .logError(
-              "Error calling extension point with ID '"
-                  + HopExtensionPoint.HopGuiRunConfiguration.id
-                  + "'",
-              e);
+      hopGui.getLog().logError("Error calling extension point with ID '" + HopExtensionPoint.HopGuiRunConfiguration.id + "'", e);
     }
 
     // If we don't have a run configuration from history or from a plugin,
@@ -255,7 +200,7 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
       wLogLevel.select(Integer.parseInt(pipelineUsageMap.get(LOG_LEVEL)));
     } else {
       wLogLevel.select(configuration.getLogLevel().getLevel());
-}
+    }
     getParamsData();
     getVariablesData();
   }
@@ -263,10 +208,9 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
   @Override
   public boolean getInfo() {
     try {
-      IHopMetadataSerializer<PipelineRunConfiguration> serializer =
-          hopGui.getMetadataProvider().getSerializer(PipelineRunConfiguration.class);
+      IHopMetadataSerializer<PipelineRunConfiguration> serializer = hopGui.getMetadataProvider().getSerializer(PipelineRunConfiguration.class);
 
-      // See if there are any run configurations defined.  If not, ask about creating a local one.
+      // See if there are any run configurations defined. If not, ask about creating a local one.
       //
       if (serializer.listObjectNames().isEmpty()) {
         String name = createLocalPipelineConfiguration(shell, serializer);
@@ -276,12 +220,8 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
       String runConfigurationName = wRunConfiguration.getText();
       if (StringUtils.isEmpty(runConfigurationName)) {
         MessageBox box = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-        box.setText(
-            BaseMessages.getString(
-                PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationSpecified.Title"));
-        box.setMessage(
-            BaseMessages.getString(
-                PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationSpecified.Message"));
+        box.setText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationSpecified.Title"));
+        box.setMessage(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationSpecified.Message"));
         box.open();
         return false;
       }
@@ -290,24 +230,16 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
 
       if (!serializer.exists(runConfigurationName)) {
         MessageBox box = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        box.setText(
-            BaseMessages.getString(
-                PKG, "PipelineExecutionConfigurationDialog.RunConfigurationDoesNotExist.Title"));
-        box.setMessage(
-            BaseMessages.getString(
-                PKG,
-                "PipelineExecutionConfigurationDialog.RunConfigurationDoesNotExist.Message",
-                runConfigurationName));
+        box.setText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.RunConfigurationDoesNotExist.Title"));
+        box.setMessage(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.RunConfigurationDoesNotExist.Message", runConfigurationName));
         box.open();
         return false;
       }
 
       getConfiguration().setRunConfiguration(runConfigurationName);
-      AuditManagerGuiUtil.addLastUsedValue(
-          AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS, runConfigurationName);
+      AuditManagerGuiUtil.addLastUsedValue(AUDIT_LIST_TYPE_LAST_USED_RUN_CONFIGURATIONS, runConfigurationName);
       if (StringUtils.isNotEmpty(abstractMeta.getName())) {
-        Map<String, String> usageMap =
-            AuditManagerGuiUtil.getUsageMap(MAP_TYPE_PIPELINE_RUN_CONFIG_USAGE);
+        Map<String, String> usageMap = AuditManagerGuiUtil.getUsageMap(MAP_TYPE_PIPELINE_RUN_CONFIG_USAGE);
         usageMap.put(abstractMeta.getName(), runConfigurationName);
         usageMap.put("LOG_LEVEL", String.valueOf(wLogLevel.getSelectionIndex()));
         AuditManagerGuiUtil.saveUsageMap(MAP_TYPE_PIPELINE_RUN_CONFIG_USAGE, usageMap);
@@ -321,51 +253,27 @@ public class PipelineExecutionConfigurationDialog extends ConfigurationDialog {
 
       return true;
     } catch (Exception e) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "PipelineDialog.RunConfigurationSettingsDialog.Error.Header"),
-          BaseMessages.getString(
-              PKG, "PipelineDialog.RunConfigurationSettingsDialog.Error.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "PipelineDialog.RunConfigurationSettingsDialog.Error.Header"), BaseMessages.getString(PKG, "PipelineDialog.RunConfigurationSettingsDialog.Error.Message"), e);
       return false;
     }
   }
 
-  public static final String createLocalPipelineConfiguration(
-      Shell shell, IHopMetadataSerializer<PipelineRunConfiguration> prcSerializer) {
+  public static final String createLocalPipelineConfiguration(Shell shell, IHopMetadataSerializer<PipelineRunConfiguration> prcSerializer) {
     try {
-      MessageBox box =
-          new MessageBox(HopGui.getInstance().getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-      box.setText(
-          BaseMessages.getString(
-              PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationDefined.Title"));
-      box.setMessage(
-          BaseMessages.getString(
-              PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationDefined.Message"));
+      MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+      box.setText(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationDefined.Title"));
+      box.setMessage(BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.NoRunConfigurationDefined.Message"));
       int answer = box.open();
       if ((answer & SWT.YES) != 0) {
-        LocalPipelineRunConfiguration localPipelineRunConfiguration =
-            new LocalPipelineRunConfiguration();
+        LocalPipelineRunConfiguration localPipelineRunConfiguration = new LocalPipelineRunConfiguration();
         localPipelineRunConfiguration.setEnginePluginId("Local");
-        PipelineRunConfiguration local =
-            new PipelineRunConfiguration(
-                "local",
-                BaseMessages.getString(
-                    PKG, "PipelineExecutionConfigurationDialog.LocalRunConfiguration.Description"),
-                new ArrayList<>(),
-                localPipelineRunConfiguration);
+        PipelineRunConfiguration local = new PipelineRunConfiguration("local", BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.LocalRunConfiguration.Description"), new ArrayList<>(), localPipelineRunConfiguration);
         prcSerializer.save(local);
 
         return local.getName();
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(
-              PKG, "PipelineExecutionConfigurationDialog.ErrorSavingRunConfiguration.Title"),
-          BaseMessages.getString(
-              PKG, "PipelineExecutionConfigurationDialog.ErrorSavingRunConfiguration.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.ErrorSavingRunConfiguration.Title"), BaseMessages.getString(PKG, "PipelineExecutionConfigurationDialog.ErrorSavingRunConfiguration.Message"), e);
     }
     return null;
   }

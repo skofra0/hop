@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,13 +38,11 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 /** This handles a text file in the file explorer perspective: open, save, ... */
-public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
   private Text wText;
 
-  public BaseTextExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public BaseTextExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 
@@ -72,17 +70,15 @@ public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       String contents = readTextFileContent("UTF-8");
       wText.setText(Const.NVL(contents, ""));
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error reading contents of file '" + explorerFile.getFilename() + "'", e);
+      LogChannel.UI.logError("Error reading contents of file '" + explorerFile.getFilename() + "'", e);
     }
 
     // If the widget changes after this it's been changed by the user
     //
-    wText.addModifyListener(
-        e -> {
-          explorerFile.setChanged();
-          perspective.updateGui();
-        });
+    wText.addModifyListener(e -> {
+      explorerFile.setChanged();
+      perspective.updateGui();
+    });
   }
 
   @Override

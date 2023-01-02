@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,49 +24,39 @@ import java.util.Map;
 
 public abstract class BaseFragmentType<T extends Annotation> extends BasePluginType<T> {
 
-  BaseFragmentType(
-      Class<T> pluginType, String id, String name, Class<? extends IPluginType> typeToTrack) {
+  BaseFragmentType(Class<T> pluginType, String id, String name, Class<? extends IPluginType> typeToTrack) {
     super(pluginType, id, name);
     initListeners(this.getClass(), typeToTrack);
   }
 
-  protected void initListeners(
-      Class<? extends IPluginType> aClass, Class<? extends IPluginType> typeToTrack) {
+  protected void initListeners(Class<? extends IPluginType> aClass, Class<? extends IPluginType> typeToTrack) {
     // keep track of new fragments
-    registry.addPluginListener(
-        aClass,
-        new FragmentTypeListener(registry, typeToTrack) {
-          /**
-           * Keep track of new Fragments, keep note of the method signature's order
-           *
-           * @param fragment The plugin fragment to merge
-           * @param plugin The plugin to be merged
-           */
-          @Override
-          void mergePlugin(IPlugin fragment, IPlugin plugin) {
-            if (plugin != null) {
-              plugin.merge(fragment);
-            }
-          }
-        });
+    registry.addPluginListener(aClass, new FragmentTypeListener(registry, typeToTrack) {
+      /** Keep track of new Fragments, keep note of the method signature's order
+       *
+       * @param fragment The plugin fragment to merge
+       * @param plugin The plugin to be merged */
+      @Override
+      void mergePlugin(IPlugin fragment, IPlugin plugin) {
+        if (plugin != null) {
+          plugin.merge(fragment);
+        }
+      }
+    });
 
     // start listening to interested parties
-    registry.addPluginListener(
-        typeToTrack,
-        new FragmentTypeListener(registry, aClass) {
-          /**
-           * Keep track of new Fragments, keep note of the method signature's order
-           *
-           * @param plugin The plugin to be merged
-           * @param fragment The plugin fragment to merge
-           */
-          @Override
-          void mergePlugin(IPlugin plugin, IPlugin fragment) {
-            if (plugin != null) {
-              plugin.merge(fragment);
-            }
-          }
-        });
+    registry.addPluginListener(typeToTrack, new FragmentTypeListener(registry, aClass) {
+      /** Keep track of new Fragments, keep note of the method signature's order
+       *
+       * @param plugin The plugin to be merged
+       * @param fragment The plugin fragment to merge */
+      @Override
+      void mergePlugin(IPlugin plugin, IPlugin fragment) {
+        if (plugin != null) {
+          plugin.merge(fragment);
+        }
+      }
+    });
   }
 
   @Override

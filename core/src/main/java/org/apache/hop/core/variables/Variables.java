@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -142,8 +142,7 @@ public class Variables implements IVariables {
     return StringUtil.environmentSubstitute(aString, properties);
   }
 
-  /**
-   * Substitutes field values in <code>aString</code>. Field values are of the form "?{<field
+  /** Substitutes field values in <code>aString</code>. Field values are of the form "?{<field
    * name>}". The values are retrieved from the specified row. Please note that the getString()
    * method is used to convert to a String, for all values in the row.
    *
@@ -151,11 +150,9 @@ public class Variables implements IVariables {
    * @param rowMeta The row metadata to use.
    * @param rowData The row data to use
    * @return the string with the substitution applied.
-   * @throws HopValueException In case there is a String conversion error
-   */
+   * @throws HopValueException In case there is a String conversion error */
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     if (aString == null || aString.length() == 0) {
       return aString;
     }
@@ -183,7 +180,7 @@ public class Variables implements IVariables {
     if (initialized) {
       // variables are already initialized
       if (map != null) {
-        for (Map.Entry<String,String> entry : map.entrySet()) {          
+        for (Map.Entry<String, String> entry : map.entrySet()) {
           if (!Utils.isEmpty(entry.getKey())) {
             properties.put(entry.getKey(), Const.NVL(entry.getValue(), ""));
           }
@@ -194,7 +191,7 @@ public class Variables implements IVariables {
       // We have our own personal copy, so changes afterwards
       // to the input properties don't affect us.
       injection = new Hashtable<>();
-      for (Map.Entry<String,String> entry : map.entrySet()) { 
+      for (Map.Entry<String, String> entry : map.entrySet()) {
         if (!Utils.isEmpty(entry.getKey())) {
           injection.put(entry.getKey(), Const.NVL(entry.getValue(), ""));
         }
@@ -202,11 +199,9 @@ public class Variables implements IVariables {
     }
   }
 
-  /**
-   * Get a default variable variables as a placeholder. Every time you will get a new instance.
+  /** Get a default variable variables as a placeholder. Every time you will get a new instance.
    *
-   * @return a default variable variables.
-   */
+   * @return a default variable variables. */
   public static synchronized IVariables getADefaultVariableSpace() {
     IVariables variables = new Variables();
 

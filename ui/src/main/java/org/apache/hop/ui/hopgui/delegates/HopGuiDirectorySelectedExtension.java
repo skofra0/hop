@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,18 +25,15 @@ public class HopGuiDirectorySelectedExtension {
   public IVariables variables;
   public String folderName;
 
-  public HopGuiDirectorySelectedExtension(
-      IDirectoryDialog directoryDialog, IVariables variables, String folderName) {
+  public HopGuiDirectorySelectedExtension(IDirectoryDialog directoryDialog, IVariables variables, String folderName) {
     this.directoryDialog = directoryDialog;
     this.variables = variables;
     this.folderName = folderName;
   }
 
-  /**
-   * Gets directoryDialog
+  /** Gets directoryDialog
    *
-   * @return value of directoryDialog
-   */
+   * @return value of directoryDialog */
   public IDirectoryDialog getDirectoryDialog() {
     return directoryDialog;
   }
@@ -46,11 +43,9 @@ public class HopGuiDirectorySelectedExtension {
     this.directoryDialog = directoryDialog;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
@@ -60,11 +55,9 @@ public class HopGuiDirectorySelectedExtension {
     this.variables = variables;
   }
 
-  /**
-   * Gets folderName
+  /** Gets folderName
    *
-   * @return value of folderName
-   */
+   * @return value of folderName */
   public String getFolderName() {
     return folderName;
   }

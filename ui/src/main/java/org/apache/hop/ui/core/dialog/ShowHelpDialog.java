@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,8 +40,7 @@ import java.net.URL;
 public class ShowHelpDialog extends Dialog {
   private static final Class<?> PKG = HopGui.class;
 
-  private static final String DOC_URL =
-      Const.getDocUrl(BasePropertyHandler.getProperty("documentationUrl"));
+  private static final String DOC_URL = Const.getDocUrl(BasePropertyHandler.getProperty("documentationUrl"));
   private static final String PREFIX = "https://help";
   private static final String PRINT_PREFIX = "https://f1.help";
   private static final String PRINT_SCRIPT = "javascript:window.print();";
@@ -117,8 +116,7 @@ public class ShowHelpDialog extends Dialog {
 
       tltmForward = new ToolItem(navigateToolBar, SWT.NONE);
       tltmForward.setImage(GuiResource.getInstance().getImageNavigateForward());
-      tltmForward.setToolTipText(
-          BaseMessages.getString(PKG, "HopGui.Documentation.Tooltip.Forward"));
+      tltmForward.setToolTipText(BaseMessages.getString(PKG, "HopGui.Documentation.Tooltip.Forward"));
       tltmForward.setEnabled(false);
       tltmForward.addListener(SWT.Selection, e -> forward());
     }
@@ -169,42 +167,40 @@ public class ShowHelpDialog extends Dialog {
   }
 
   private void addProgressAndLocationListener() {
-    ProgressListener progressListener =
-        new ProgressListener() {
-          @Override
-          public void changed(ProgressEvent event) {
-            // Disable changed event
-          }
+    ProgressListener progressListener = new ProgressListener() {
+      @Override
+      public void changed(ProgressEvent event) {
+        // Disable changed event
+      }
 
-          @Override
-          public void completed(ProgressEvent event) {
-            if (fromPrint) {
-              wBrowser.execute(PRINT_SCRIPT);
-              fromPrint = false;
-            }
-            if (!EnvironmentUtils.getInstance().isWeb()) {
-              // Browser in RAP does not implement back() and forward()
-              setBackEnable(wBrowser.isBackEnabled());
-              setForwardEnable(wBrowser.isForwardEnabled());
-            }
-          }
-        };
+      @Override
+      public void completed(ProgressEvent event) {
+        if (fromPrint) {
+          wBrowser.execute(PRINT_SCRIPT);
+          fromPrint = false;
+        }
+        if (!EnvironmentUtils.getInstance().isWeb()) {
+          // Browser in RAP does not implement back() and forward()
+          setBackEnable(wBrowser.isBackEnabled());
+          setForwardEnable(wBrowser.isForwardEnabled());
+        }
+      }
+    };
 
-    LocationListener listener =
-        new LocationListener() {
-          @Override
-          public void changing(LocationEvent event) {
-            if (event.location.endsWith(".pdf")) {
-              Program.launch(event.location);
-              event.doit = false;
-            }
-          }
+    LocationListener listener = new LocationListener() {
+      @Override
+      public void changing(LocationEvent event) {
+        if (event.location.endsWith(".pdf")) {
+          Program.launch(event.location);
+          event.doit = false;
+        }
+      }
 
-          @Override
-          public void changed(LocationEvent event) {
-            textURL.setText(event.location);
-          }
-        };
+      @Override
+      public void changed(LocationEvent event) {
+        textURL.setText(event.location);
+      }
+    };
     wBrowser.addProgressListener(progressListener);
     wBrowser.addLocationListener(listener);
   }

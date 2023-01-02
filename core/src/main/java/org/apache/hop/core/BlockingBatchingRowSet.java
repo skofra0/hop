@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,15 +23,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Contains a buffer of rows. Instead of passing rows along the chain immediately we will batch them
+/** Contains a buffer of rows. Instead of passing rows along the chain immediately we will batch them
  * up to lower locking overhead. The row set will start in accepting mode (accepting = true) It will
  * remain there until the buffer is full. Then it will switch to delivering mode (accepting = false)
  * It will remain there until the buffer is empty.
- *
- * <p>When the row set is done and no more rows will be entering the row set we will switch to
- * delivering mode.
- */
+ * <p>
+ * When the row set is done and no more rows will be entering the row set we will switch to
+ * delivering mode. */
 public class BlockingBatchingRowSet extends BaseRowSet implements Comparable<IRowSet>, IRowSet {
   private BlockingQueue<Object[][]> putArray;
   private BlockingQueue<Object[][]> getArray;
@@ -46,11 +44,9 @@ public class BlockingBatchingRowSet extends BaseRowSet implements Comparable<IRo
 
   private final int BATCHSIZE = 2;
 
-  /**
-   * Create new non-blocking-queue with maxSize capacity.
+  /** Create new non-blocking-queue with maxSize capacity.
    *
-   * @param maxSize
-   */
+   * @param maxSize */
   public BlockingBatchingRowSet(int maxSize) {
     super();
 

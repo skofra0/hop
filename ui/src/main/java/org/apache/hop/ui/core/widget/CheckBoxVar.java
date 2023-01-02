@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,10 +33,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 
-/**
- * A Widget that combines a Check Box widget with a Variable button that will insert an Environment
- * variable.
- */
+/** A Widget that combines a Check Box widget with a Variable button that will insert an Environment
+ * variable. */
 public class CheckBoxVar extends Composite {
   private static final Class<?> PKG = CheckBoxVar.class; // For Translator
 
@@ -50,8 +48,7 @@ public class CheckBoxVar extends Composite {
     this(variables, composite, flags, null);
   }
 
-  public CheckBoxVar(
-      final IVariables variables, final Composite composite, int flags, String variable) {
+  public CheckBoxVar(final IVariables variables, final Composite composite, int flags, String variable) {
     super(composite, SWT.NONE);
 
     props.setLook(this);
@@ -68,13 +65,9 @@ public class CheckBoxVar extends Composite {
     wBox = new Button(this, flags);
     props.setLook(wBox);
     wText = new TextVar(variables, this, flags | SWT.NO_BACKGROUND);
-    wText
-        .getTextWidget()
-        .setForeground(GuiResource.getInstance().getColorRed()); // Put it in a red color to make it
+    wText.getTextWidget().setForeground(GuiResource.getInstance().getColorRed()); // Put it in a red color to make it
     // shine...
-    wText
-        .getTextWidget()
-        .setBackground(composite.getBackground()); // make it blend in with the rest...
+    wText.getTextWidget().setBackground(composite.getBackground()); // make it blend in with the rest...
     wText.setText(Const.NVL(variable, ""));
 
     FormData fdBox = new FormData();

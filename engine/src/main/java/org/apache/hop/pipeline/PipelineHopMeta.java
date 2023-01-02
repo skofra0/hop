@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,8 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 /** Defines a link between 2 transforms in a pipeline */
-public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
-    implements Comparable<PipelineHopMeta>, Cloneable {
+public class PipelineHopMeta extends BaseHopMeta<TransformMeta> implements Comparable<PipelineHopMeta>, Cloneable {
   private static final Class<?> PKG = Pipeline.class; // For Translator
 
   public static final String XML_HOP_TAG = "hop";
@@ -55,11 +54,8 @@ public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
 
   public PipelineHopMeta(Node hopNode, List<TransformMeta> transforms) throws HopXmlException {
     try {
-      this.from =
-          searchTransform(
-              transforms, XmlHandler.getTagValue(hopNode, PipelineHopMeta.XML_FROM_TAG));
-      this.to =
-          searchTransform(transforms, XmlHandler.getTagValue(hopNode, PipelineHopMeta.XML_TO_TAG));
+      this.from = searchTransform(transforms, XmlHandler.getTagValue(hopNode, PipelineHopMeta.XML_FROM_TAG));
+      this.to = searchTransform(transforms, XmlHandler.getTagValue(hopNode, PipelineHopMeta.XML_TO_TAG));
       String en = XmlHandler.getTagValue(hopNode, "enabled");
 
       if (en == null) {
@@ -68,19 +64,12 @@ public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
         enabled = en.equalsIgnoreCase("Y");
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "PipelineHopMeta.Exception.UnableToLoadHopInfo"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "PipelineHopMeta.Exception.UnableToLoadHopInfo"), e);
     }
   }
 
   public PipelineHopMeta(PipelineHopMeta hop) {
-    super(
-        hop.isSplit(),
-        hop.getFromTransform(),
-        hop.getToTransform(),
-        hop.isEnabled(),
-        hop.hasChanged(),
-        hop.isErrorHop());
+    super(hop.isSplit(), hop.getFromTransform(), hop.getToTransform(), hop.isEnabled(), hop.hasChanged(), hop.isErrorHop());
   }
 
   @Override
@@ -149,10 +138,8 @@ public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
 
     if (this.from != null && this.to != null) {
       xml.append("    ").append(XmlHandler.openTag(XML_TAG)).append(Const.CR);
-      xml.append("      ")
-          .append(XmlHandler.addTagValue(PipelineHopMeta.XML_FROM_TAG, this.from.getName()));
-      xml.append("      ")
-          .append(XmlHandler.addTagValue(PipelineHopMeta.XML_TO_TAG, this.to.getName()));
+      xml.append("      ").append(XmlHandler.addTagValue(PipelineHopMeta.XML_FROM_TAG, this.from.getName()));
+      xml.append("      ").append(XmlHandler.addTagValue(PipelineHopMeta.XML_TO_TAG, this.to.getName()));
       xml.append("      ").append(XmlHandler.addTagValue("enabled", enabled));
       xml.append("    ").append(XmlHandler.closeTag(XML_TAG)).append(Const.CR);
     }

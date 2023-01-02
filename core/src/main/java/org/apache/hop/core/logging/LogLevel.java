@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,25 +20,12 @@ package org.apache.hop.core.logging;
 import org.apache.hop.i18n.BaseMessages;
 
 public enum LogLevel {
-  NOTHING(0, "Nothing"),
-  ERROR(1, "Error"),
-  MINIMAL(2, "Minimal"),
-  BASIC(3, "Basic"),
-  DETAILED(4, "Detailed"),
-  DEBUG(5, "Debug"),
-  ROWLEVEL(6, "Rowlevel");
+  NOTHING(0, "Nothing"), ERROR(1, "Error"), MINIMAL(2, "Minimal"), BASIC(3, "Basic"), DETAILED(4, "Detailed"), DEBUG(5, "Debug"), ROWLEVEL(6, "Rowlevel");
 
   private static final Class<?> PKG = LogLevel.class; // For Translator
 
-  public static final String[] logLevelDescriptions = {
-    BaseMessages.getString(PKG, "LogWriter.Level.Nothing.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Error.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Minimal.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Basic.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Detailed.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Debug.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Rowlevel.LongDesc"),
-  };
+  public static final String[] logLevelDescriptions = {BaseMessages.getString(PKG, "LogWriter.Level.Nothing.LongDesc"), BaseMessages.getString(PKG, "LogWriter.Level.Error.LongDesc"), BaseMessages.getString(PKG, "LogWriter.Level.Minimal.LongDesc"),
+      BaseMessages.getString(PKG, "LogWriter.Level.Basic.LongDesc"), BaseMessages.getString(PKG, "LogWriter.Level.Detailed.LongDesc"), BaseMessages.getString(PKG, "LogWriter.Level.Debug.LongDesc"), BaseMessages.getString(PKG, "LogWriter.Level.Rowlevel.LongDesc"),};
 
   private int level;
   private String code;
@@ -60,12 +47,10 @@ public enum LogLevel {
     return logLevelDescriptions[level];
   }
 
-  /**
-   * Return the log level for a certain log level code
+  /** Return the log level for a certain log level code
    *
    * @param code the code to look for
-   * @return the log level or BASIC if nothing matches.
-   */
+   * @return the log level or BASIC if nothing matches. */
   public static LogLevel getLogLevelForCode(String code) {
     for (LogLevel logLevel : values()) {
       if (logLevel.getCode().equalsIgnoreCase(code)) {
@@ -75,10 +60,8 @@ public enum LogLevel {
     return BASIC;
   }
 
-  /**
-   * @param filterLogLevel the filter log level
-   * @return true if the log level is visible compared to the filter log level specified
-   */
+  /** @param filterLogLevel the filter log level
+   * @return true if the log level is visible compared to the filter log level specified */
   public boolean isVisible(LogLevel filterLogLevel) {
     return getLevel() <= filterLogLevel.getLevel();
   }

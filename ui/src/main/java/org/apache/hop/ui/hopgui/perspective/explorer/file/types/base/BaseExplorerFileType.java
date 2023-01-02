@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,8 +39,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
-    extends HopFileTypeBase implements IExplorerFileType<T> {
+public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler> extends HopFileTypeBase implements IExplorerFileType<T> {
 
   private String name;
   private String defaultFileExtension;
@@ -50,12 +49,7 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
 
   public BaseExplorerFileType() {}
 
-  public BaseExplorerFileType(
-      String name,
-      String defaultFileExtension,
-      String[] filterExtensions,
-      String[] filterNames,
-      Properties capabilities) {
+  public BaseExplorerFileType(String name, String defaultFileExtension, String[] filterExtensions, String[] filterNames, Properties capabilities) {
     this.name = name;
     this.defaultFileExtension = defaultFileExtension;
     this.filterExtensions = filterExtensions;
@@ -73,87 +67,67 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
     return Collections.emptyList();
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   @Override
   public String getName() {
     return name;
   }
 
-  /**
-   * @param name The name to set
-   */
+  /** @param name The name to set */
   public void setName(String name) {
     this.name = name;
   }
 
-  /**
-   * Gets defaultFileExtension
+  /** Gets defaultFileExtension
    *
-   * @return value of defaultFileExtension
-   */
+   * @return value of defaultFileExtension */
   @Override
   public String getDefaultFileExtension() {
     return defaultFileExtension;
   }
 
-  /**
-   * @param defaultFileExtension The defaultFileExtension to set
-   */
+  /** @param defaultFileExtension The defaultFileExtension to set */
   public void setDefaultFileExtension(String defaultFileExtension) {
     this.defaultFileExtension = defaultFileExtension;
   }
 
-  /**
-   * Gets filterExtensions
+  /** Gets filterExtensions
    *
-   * @return value of filterExtensions
-   */
+   * @return value of filterExtensions */
   @Override
   public String[] getFilterExtensions() {
     return filterExtensions;
   }
 
-  /**
-   * @param filterExtensions The filterExtensions to set
-   */
+  /** @param filterExtensions The filterExtensions to set */
   public void setFilterExtensions(String[] filterExtensions) {
     this.filterExtensions = filterExtensions;
   }
 
-  /**
-   * Gets filterNames
+  /** Gets filterNames
    *
-   * @return value of filterNames
-   */
+   * @return value of filterNames */
   @Override
   public String[] getFilterNames() {
     return filterNames;
   }
 
-  /**
-   * @param filterNames The filterNames to set
-   */
+  /** @param filterNames The filterNames to set */
   public void setFilterNames(String[] filterNames) {
     this.filterNames = filterNames;
   }
 
-  /**
-   * Gets capabilities
+  /** Gets capabilities
    *
-   * @return value of capabilities
-   */
+   * @return value of capabilities */
   @Override
   public Properties getCapabilities() {
     return capabilities;
   }
 
-  /**
-   * @param capabilities The capabilities to set
-   */
+  /** @param capabilities The capabilities to set */
   public void setCapabilities(Properties capabilities) {
     this.capabilities = capabilities;
   }
@@ -164,8 +138,7 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
   }
 
   @Override
-  public T openFile(HopGui hopGui, String filename, IVariables parentVariables)
-      throws HopException {
+  public T openFile(HopGui hopGui, String filename, IVariables parentVariables) throws HopException {
 
     try {
       FileObject fileObject = HopVfs.getFileObject(parentVariables.resolve(filename));
@@ -185,19 +158,7 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
       if (sizeMb > maxSizeMb) {
         MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
         box.setText("Open large file?");
-        box.setMessage(
-            name
-                + Const.CR
-                + Const.CR
-                + "The file to open is "
-                + sizeMb
-                + "MB in size. "
-                + "This is larger than the configured maximum of "
-                + maxSizeMb
-                + "MB.  There might be a danger of running out of memory. "
-                + Const.CR
-                + Const.CR
-                + "Are you sure you still want to open this file?");
+        box.setMessage(name + Const.CR + Const.CR + "The file to open is " + sizeMb + "MB in size. " + "This is larger than the configured maximum of " + maxSizeMb + "MB.  There might be a danger of running out of memory. " + Const.CR + Const.CR + "Are you sure you still want to open this file?");
         int answer = box.open();
         if ((answer & SWT.YES) == 0) {
           return null;
@@ -221,12 +182,10 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
 
       return fileTypeHandler;
     } catch (Exception e) {
-      throw new HopException(
-          "Error opening file '" + filename + "' in a new tab in the Explorer perspective", e);
+      throw new HopException("Error opening file '" + filename + "' in a new tab in the Explorer perspective", e);
     }
   }
 
   @Override
-  public abstract T createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file);
+  public abstract T createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file);
 }

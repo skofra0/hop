@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,42 +63,25 @@ import java.util.Map;
 
 public class HopRun implements Runnable, IHasHopMetadataProvider {
 
-  @Option(
-      names = {"-f", "--file"},
-      description = "The filename of the workflow or pipeline to run")
+  @Option(names = {"-f", "--file"}, description = "The filename of the workflow or pipeline to run")
   private String filename;
 
-  @Option(
-      names = {"-l", "--level"},
-      description = "The debug level, one of NONE, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
+  @Option(names = {"-l", "--level"}, description = "The debug level, one of NONE, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
   private String level;
 
-  @Option(
-      names = {"-h", "--help"},
-      usageHelp = true,
-      description = "Displays this help message and quits.")
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "Displays this help message and quits.")
   private boolean helpRequested;
 
-  @Option(
-      names = {"-p", "--parameters"},
-      description = "A comma separated list of PARAMETER=VALUE pairs",
-      split = ",")
+  @Option(names = {"-p", "--parameters"}, description = "A comma separated list of PARAMETER=VALUE pairs", split = ",")
   private String[] parameters = null;
 
-  @Option(
-      names = {"-s", "--system-properties"},
-      description = "A comma separated list of KEY=VALUE pairs",
-      split = ",")
+  @Option(names = {"-s", "--system-properties"}, description = "A comma separated list of KEY=VALUE pairs", split = ",")
   private String[] systemProperties = null;
 
-  @Option(
-      names = {"-r", "--runconfig"},
-      description = "The name of the Run Configuration to use")
+  @Option(names = {"-r", "--runconfig"}, description = "The name of the Run Configuration to use")
   private String runConfigurationName = null;
 
-  @Option(
-      names = {"-o", "--printoptions"},
-      description = "Print the used options")
+  @Option(names = {"-o", "--printoptions"}, description = "Print the used options")
   private boolean printingOptions = false;
 
   private IVariables variables;
@@ -125,8 +108,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       // Allow plugins to modify the elements loaded so far, before a pipeline or workflow is even
       // loaded
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopRunStart.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRunStart.id, this);
 
       // Handle the options of the configuration plugins
       //
@@ -146,11 +128,9 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
         runWorkflow(cmd, log);
       }
 
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopRunEnd.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRunEnd.id, this);
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of file '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of file '" + filename + "'", e);
     }
   }
 
@@ -202,8 +182,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       //
       runPipeline(cmd, log, configuration, pipelineMeta);
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of pipeline '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of pipeline '" + filename + "'", e);
     }
   }
 
@@ -211,20 +190,13 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
   private void calculateRealFilename() throws HopException {
     realFilename = variables.resolve(filename);
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, variables, HopExtensionPoint.HopRunCalculateFilename.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRunCalculateFilename.id, this);
   }
 
-  private void runPipeline(
-      CommandLine cmd,
-      ILogChannel log,
-      PipelineExecutionConfiguration configuration,
-      PipelineMeta pipelineMeta) {
+  private void runPipeline(CommandLine cmd, ILogChannel log, PipelineExecutionConfiguration configuration, PipelineMeta pipelineMeta) {
     try {
       String pipelineRunConfigurationName = variables.resolve(configuration.getRunConfiguration());
-      IPipelineEngine<PipelineMeta> pipeline =
-          PipelineEngineFactory.createPipelineEngine(
-              variables, pipelineRunConfigurationName, metadataProvider, pipelineMeta);
+      IPipelineEngine<PipelineMeta> pipeline = PipelineEngineFactory.createPipelineEngine(variables, pipelineRunConfigurationName, metadataProvider, pipelineMeta);
       pipeline.getPipelineMeta().setInternalHopVariables(pipeline);
       pipeline.initializeFrom(null);
       pipeline.setVariables(configuration.getVariablesMap());
@@ -269,13 +241,9 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       //
       parseOptions(cmd, configuration, workflowMeta);
 
-      // Certain Hop plugins rely on this.  Meh.
+      // Certain Hop plugins rely on this. Meh.
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log,
-          variables,
-          HopExtensionPoint.HopGuiWorkflowBeforeStart.id,
-          new Object[] {configuration, null, workflowMeta, null});
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopGuiWorkflowBeforeStart.id, new Object[] {configuration, null, workflowMeta, null});
 
       // Before running, do we print the options?
       //
@@ -286,21 +254,14 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       runWorkflow(cmd, log, configuration, workflowMeta);
 
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of workflow '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of workflow '" + filename + "'", e);
     }
   }
 
-  private void runWorkflow(
-      CommandLine cmd,
-      ILogChannel log,
-      WorkflowExecutionConfiguration configuration,
-      WorkflowMeta workflowMeta) {
+  private void runWorkflow(CommandLine cmd, ILogChannel log, WorkflowExecutionConfiguration configuration, WorkflowMeta workflowMeta) {
     try {
       String runConfigurationName = variables.resolve(configuration.getRunConfiguration());
-      IWorkflowEngine<WorkflowMeta> workflow =
-          WorkflowEngineFactory.createWorkflowEngine(
-              variables, runConfigurationName, metadataProvider, workflowMeta, null);
+      IWorkflowEngine<WorkflowMeta> workflow = WorkflowEngineFactory.createWorkflowEngine(variables, runConfigurationName, metadataProvider, workflowMeta, null);
       workflow.initializeFrom(null);
       workflow.getWorkflowMeta().setInternalHopVariables(workflow);
       workflow.setVariables(configuration.getVariablesMap());
@@ -325,11 +286,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     }
   }
 
-  private void parseOptions(
-      CommandLine cmd,
-      IExecutionConfiguration configuration,
-      INamedParameterDefinitions namedParams)
-      throws HopException {
+  private void parseOptions(CommandLine cmd, IExecutionConfiguration configuration, INamedParameterDefinitions namedParams) throws HopException {
 
     realRunConfigurationName = variables.resolve(runConfigurationName);
     configuration.setRunConfiguration(realRunConfigurationName);
@@ -344,8 +301,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     return LogLevel.getLogLevelForCode(variables.resolve(level));
   }
 
-  private void configureHopServer(IExecutionConfiguration configuration, String name)
-      throws HopException {
+  private void configureHopServer(IExecutionConfiguration configuration, String name) throws HopException {
 
     IHopMetadataSerializer<HopServer> serializer = metadataProvider.getSerializer(HopServer.class);
     HopServer hopServer = serializer.load(name);
@@ -376,17 +332,12 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     }
   }
 
-  /**
-   * Set the variables and parameters
+  /** Set the variables and parameters
    *
    * @param cmd
    * @param configuration
-   * @param namedParams
-   */
-  private void parseParametersAndVariables(
-      CommandLine cmd,
-      IExecutionConfiguration configuration,
-      INamedParameterDefinitions namedParams) {
+   * @param namedParams */
+  private void parseParametersAndVariables(CommandLine cmd, IExecutionConfiguration configuration, INamedParameterDefinitions namedParams) {
     try {
       String[] availableParameters = namedParams.listParameters();
       if (parameters != null) {
@@ -411,24 +362,17 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
         }
       }
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of pipeline '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of pipeline '" + filename + "'", e);
     }
   }
 
-  /**
-   * Configure the variables and parameters in the given configuration on the given variable
+  /** Configure the variables and parameters in the given configuration on the given variable
    * variables and named parameters
    *
    * @param cmd
    * @param configuration
-   * @param namedParams
-   */
-  private void configureParametersAndVariables(
-      CommandLine cmd,
-      IExecutionConfiguration configuration,
-      IVariables variables,
-      INamedParameters namedParams) {
+   * @param namedParams */
+  private void configureParametersAndVariables(CommandLine cmd, IExecutionConfiguration configuration, IVariables variables, INamedParameters namedParams) {
 
     // Copy variables over to the pipeline or workflow
     //
@@ -461,8 +405,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
 
   private void validateOptions() {
     if (StringUtils.isEmpty(filename)) {
-      throw new ParameterException(
-          new CommandLine(this), "A filename is needed to run a workflow or pipeline");
+      throw new ParameterException(new CommandLine(this), "A filename is needed to run a workflow or pipeline");
     }
   }
 
@@ -484,234 +427,177 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     if (!configuration.getParametersMap().isEmpty()) {
       log.logMinimal("OPTION: Parameters: ");
       for (String parameter : configuration.getParametersMap().keySet()) {
-        log.logMinimal(
-            "OPTION:   " + parameter + " : '" + configuration.getParametersMap().get(parameter));
+        log.logMinimal("OPTION:   " + parameter + " : '" + configuration.getParametersMap().get(parameter));
       }
     }
   }
 
-  /**
-   * Gets log
+  /** Gets log
    *
-   * @return value of log
-   */
+   * @return value of log */
   public ILogChannel getLog() {
     return log;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   @Override
   public MultiMetadataProvider getMetadataProvider() {
     return metadataProvider;
   }
 
-  /**
-   * Gets cmd
+  /** Gets cmd
    *
-   * @return value of cmd
-   */
+   * @return value of cmd */
   public CommandLine getCmd() {
     return cmd;
   }
 
-  /**
-   * @param cmd The cmd to set
-   */
+  /** @param cmd The cmd to set */
   public void setCmd(CommandLine cmd) {
     this.cmd = cmd;
   }
 
-  /**
-   * Gets filename
+  /** Gets filename
    *
-   * @return value of filename
-   */
+   * @return value of filename */
   public String getFilename() {
     return filename;
   }
 
-  /**
-   * @param filename The filename to set
-   */
+  /** @param filename The filename to set */
   public void setFilename(String filename) {
     this.filename = filename;
   }
 
-  /**
-   * Gets level
+  /** Gets level
    *
-   * @return value of level
-   */
+   * @return value of level */
   public String getLevel() {
     return level;
   }
 
-  /**
-   * @param level The level to set
-   */
+  /** @param level The level to set */
   public void setLevel(String level) {
     this.level = level;
   }
 
-  /**
-   * Gets helpRequested
+  /** Gets helpRequested
    *
-   * @return value of helpRequested
-   */
+   * @return value of helpRequested */
   public boolean isHelpRequested() {
     return helpRequested;
   }
 
-  /**
-   * @param helpRequested The helpRequested to set
-   */
+  /** @param helpRequested The helpRequested to set */
   public void setHelpRequested(boolean helpRequested) {
     this.helpRequested = helpRequested;
   }
 
-  /**
-   * Gets parameters
+  /** Gets parameters
    *
-   * @return value of parameters
-   */
+   * @return value of parameters */
   public String[] getParameters() {
     return parameters;
   }
 
-  /**
-   * @param parameters The parameters to set
-   */
+  /** @param parameters The parameters to set */
   public void setParameters(String[] parameters) {
     this.parameters = parameters;
   }
 
-  /**
-   * Gets runConfigurationName
+  /** Gets runConfigurationName
    *
-   * @return value of runConfigurationName
-   */
+   * @return value of runConfigurationName */
   public String getRunConfigurationName() {
     return runConfigurationName;
   }
 
-  /**
-   * @param runConfigurationName The runConfigurationName to set
-   */
+  /** @param runConfigurationName The runConfigurationName to set */
   public void setRunConfigurationName(String runConfigurationName) {
     this.runConfigurationName = runConfigurationName;
   }
 
-  /**
-   * Gets printingOptions
+  /** Gets printingOptions
    *
-   * @return value of printingOptions
-   */
+   * @return value of printingOptions */
   public boolean isPrintingOptions() {
     return printingOptions;
   }
 
-  /**
-   * @param printingOptions The printingOptions to set
-   */
+  /** @param printingOptions The printingOptions to set */
   public void setPrintingOptions(boolean printingOptions) {
     this.printingOptions = printingOptions;
   }
 
-  /**
-   * Gets systemProperties
+  /** Gets systemProperties
    *
-   * @return value of systemProperties
-   */
+   * @return value of systemProperties */
   public String[] getSystemProperties() {
     return systemProperties;
   }
 
-  /**
-   * @param systemProperties The systemProperties to set
-   */
+  /** @param systemProperties The systemProperties to set */
   public void setSystemProperties(String[] systemProperties) {
     this.systemProperties = systemProperties;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
 
-  /**
-   * @param variables The variables to set
-   */
+  /** @param variables The variables to set */
   public void setVariables(IVariables variables) {
     this.variables = variables;
   }
 
-  /**
-   * Gets realRunConfigurationName
+  /** Gets realRunConfigurationName
    *
-   * @return value of realRunConfigurationName
-   */
+   * @return value of realRunConfigurationName */
   public String getRealRunConfigurationName() {
     return realRunConfigurationName;
   }
 
-  /**
-   * @param realRunConfigurationName The realRunConfigurationName to set
-   */
+  /** @param realRunConfigurationName The realRunConfigurationName to set */
   public void setRealRunConfigurationName(String realRunConfigurationName) {
     this.realRunConfigurationName = realRunConfigurationName;
   }
 
-  /**
-   * Gets realFilename
+  /** Gets realFilename
    *
-   * @return value of realFilename
-   */
+   * @return value of realFilename */
   public String getRealFilename() {
     return realFilename;
   }
 
-  /**
-   * @param realFilename The realFilename to set
-   */
+  /** @param realFilename The realFilename to set */
   public void setRealFilename(String realFilename) {
     this.realFilename = realFilename;
   }
 
-  /**
-   * @param log The log to set
-   */
+  /** @param log The log to set */
   public void setLog(ILogChannel log) {
     this.log = log;
   }
 
-  /**
-   * @param metadataProvider The metadataProvider to set
-   */
+  /** @param metadataProvider The metadataProvider to set */
   @Override
   public void setMetadataProvider(MultiMetadataProvider metadataProvider) {
     this.metadataProvider = metadataProvider;
   }
 
-  /**
-   * Gets finished status of pipeline or workflow
+  /** Gets finished status of pipeline or workflow
    *
-   * @return boolean indicating no errors
-   */
+   * @return boolean indicating no errors */
   public boolean isFinishedWithoutError() {
     return finishedWithoutError;
   }
 
-  /**
-   * @param finishedWithoutError Boolean indicating if pipeline or workflow finished without errors
-   */
+  /** @param finishedWithoutError Boolean indicating if pipeline or workflow finished without errors */
   public void setFinishedWithoutError(boolean finishedWithoutError) {
     this.finishedWithoutError = finishedWithoutError;
   }
@@ -756,8 +642,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       for (IPlugin configPlugin : configPlugins) {
         // Load only the plugins of the "run" category
         if (ConfigPlugin.CATEGORY_RUN.equals(configPlugin.getCategory())) {
-          IConfigOptions configOptions =
-              PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
+          IConfigOptions configOptions = PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
           cmd.addMixin(configPlugin.getIds()[0], configOptions);
         }
       }

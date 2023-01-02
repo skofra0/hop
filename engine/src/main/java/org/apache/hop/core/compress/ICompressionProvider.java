@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,65 +21,49 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * The ICompressionProvider interface specifies the operations needed to interact with a stream
- * whose data is compressed on output and decompressed on input.
- */
+/** The ICompressionProvider interface specifies the operations needed to interact with a stream
+ * whose data is compressed on output and decompressed on input. */
 public interface ICompressionProvider {
 
-  /**
-   * Creates an input stream that decompresses data (according to the provider's implementation)
+  /** Creates an input stream that decompresses data (according to the provider's implementation)
    *
    * @param in An existing input stream to wrap
    * @return a CompressionInputStream object that decompresses incoming data
-   * @throws IOException
-   */
+   * @throws IOException */
   CompressionInputStream createInputStream(InputStream in) throws IOException;
 
-  /**
-   * Whether this compression provider supports input streams
+  /** Whether this compression provider supports input streams
    *
-   * @return true if the provider supports input streams, false otherwise
-   */
+   * @return true if the provider supports input streams, false otherwise */
   boolean supportsInput();
 
-  /**
-   * Creates an output stream that compresses data (according to the provider's implementation)
+  /** Creates an output stream that compresses data (according to the provider's implementation)
    *
    * @param out An existing output stream to wrap
    * @return a CompressionOutputStream object that compresses outgoing data
-   * @throws IOException
-   */
+   * @throws IOException */
   CompressionOutputStream createOutputStream(OutputStream out) throws IOException;
 
-  /**
-   * Whether this compression provider supports output streams
+  /** Whether this compression provider supports output streams
    *
-   * @return true if the provider supports output streams, false otherwise
-   */
+   * @return true if the provider supports output streams, false otherwise */
   boolean supportsOutput();
 
-  /**
-   * Gets the name of this provider. Used for display and as a reference in saved artifacts
+  /** Gets the name of this provider. Used for display and as a reference in saved artifacts
    * (pipelines, e.g.)
    *
-   * @return A String containing the name of this provider
-   */
+   * @return A String containing the name of this provider */
   String getName();
 
-  /**
-   * Gets the name of this provider. Used for display e.g.
+  /** Gets the name of this provider. Used for display e.g.
    *
-   * @return A String containing a description of this provider
-   */
+   * @return A String containing a description of this provider */
   String getDescription();
 
-  /**
-   * Gets the default file extension for this provider. If the streams are wrapped in File streams,
+  /** Gets the default file extension for this provider. If the streams are wrapped in File streams,
    * this method can be used to determine an appropriate extension to append to the filename so the
    * file will be recognized as an artifact of the compression mechanism (.zip, .bz2, e.g.)
    *
-   * @return A String containing the default file extension for this provider
-   */
+   * @return A String containing the default file extension for this provider */
   String getDefaultExtension();
 }

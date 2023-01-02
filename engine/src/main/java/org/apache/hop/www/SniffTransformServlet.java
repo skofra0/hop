@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,8 +57,7 @@ public class SniffTransformServlet extends BaseHttpServlet implements IHopServer
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -138,39 +137,32 @@ public class SniffTransformServlet extends BaseHttpServlet implements IHopServer
           final boolean read = type.equalsIgnoreCase(TYPE_INPUT);
           final boolean written = type.equalsIgnoreCase(TYPE_OUTPUT) || !read;
 
-          IRowListener rowListener =
-              new IRowListener() {
-                @Override
-                public void rowReadEvent(IRowMeta rowMeta, Object[] row)
-                    throws HopTransformException {
-                  if (read && rowBuffer.getBuffer().size() < nrLines) {
-                    rowBuffer.setRowMeta(rowMeta);
-                    rowBuffer.getBuffer().add(row);
-                  }
-                }
+          IRowListener rowListener = new IRowListener() {
+            @Override
+            public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+              if (read && rowBuffer.getBuffer().size() < nrLines) {
+                rowBuffer.setRowMeta(rowMeta);
+                rowBuffer.getBuffer().add(row);
+              }
+            }
 
-                @Override
-                public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                    throws HopTransformException {
-                  if (written && rowBuffer.getBuffer().size() < nrLines) {
-                    rowBuffer.setRowMeta(rowMeta);
-                    rowBuffer.getBuffer().add(row);
-                  }
-                }
+            @Override
+            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+              if (written && rowBuffer.getBuffer().size() < nrLines) {
+                rowBuffer.setRowMeta(rowMeta);
+                rowBuffer.getBuffer().add(row);
+              }
+            }
 
-                @Override
-                public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                    throws HopTransformException {}
-              };
+            @Override
+            public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {}
+          };
 
           component.addRowListener(rowListener);
 
           // Wait until we have enough rows...
           //
-          while (rowBuffer.getBuffer().size() < nrLines
-              && component.isRunning()
-              && !pipeline.isFinished()
-              && !pipeline.isStopped()) {
+          while (rowBuffer.getBuffer().size() < nrLines && component.isRunning() && !pipeline.isFinished() && !pipeline.isStopped()) {
             try {
               Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -201,27 +193,12 @@ public class SniffTransformServlet extends BaseHttpServlet implements IHopServer
 
           out.println("<HTML>");
           out.println("<HEAD>");
-          out.println(
-              "<TITLE>"
-                  + BaseMessages.getString(PKG, "SniffTransformServlet.SniffResults")
-                  + "</TITLE>");
-          out.println(
-              "<META http-equiv=\"Refresh\" content=\"10;url="
-                  + convertContextPath(CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "\">");
+          out.println("<TITLE>" + BaseMessages.getString(PKG, "SniffTransformServlet.SniffResults") + "</TITLE>");
+          out.println("<META http-equiv=\"Refresh\" content=\"10;url=" + convertContextPath(CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "\">");
           out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
           out.println("</HEAD>");
           out.println("<BODY>");
-          out.println(
-              "<H1>"
-                  + Encode.forHtml(
-                      BaseMessages.getString(
-                          PKG, "SniffTransformServlet.SniffResultsForTransform", transformName))
-                  + "</H1>");
+          out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "SniffTransformServlet.SniffResultsForTransform", transformName)) + "</H1>");
 
           try {
             out.println("<table border=\"1\">");
@@ -267,52 +244,18 @@ public class SniffTransformServlet extends BaseHttpServlet implements IHopServer
         }
       } else {
         if (useXML) {
-          out.println(
-              new WebResult(
-                      WebResult.STRING_ERROR,
-                      BaseMessages.getString(
-                          PKG,
-                          "SniffTransformServlet.Log.CoundNotFindSpecTransform",
-                          transformName))
-                  .getXml());
+          out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "SniffTransformServlet.Log.CoundNotFindSpecTransform", transformName)).getXml());
         } else {
-          out.println(
-              "<H1>"
-                  + Encode.forHtml(
-                      BaseMessages.getString(
-                          PKG,
-                          "SniffTransformServlet.Log.CoundNotFindSpecTransform",
-                          transformName))
-                  + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "SniffTransformServlet.Log.CoundNotFindSpecTransform", transformName)) + "</H1>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
         }
       }
     } else {
       if (useXML) {
-        out.println(
-            new WebResult(
-                    WebResult.STRING_ERROR,
-                    BaseMessages.getString(
-                        PKG, "SniffTransformServlet.Log.CoundNotFindSpecPipeline", pipelineName))
-                .getXml());
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "SniffTransformServlet.Log.CoundNotFindSpecPipeline", pipelineName)).getXml());
       } else {
-        out.println(
-            "<H1>"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "SniffTransformServlet.Log.CoundNotFindPipeline", pipelineName))
-                + "</H1>");
-        out.println(
-            "<a href=\""
-                + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                + "\">"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                + "</a><p>");
+        out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "SniffTransformServlet.Log.CoundNotFindPipeline", pipelineName)) + "</H1>");
+        out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
       }
     }
   }

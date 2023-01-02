@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,8 +37,7 @@ public class HttpUtil {
 
   private HttpUtil() {}
 
-  /**
-   * Returns http GET request string using specified parameters.
+  /** Returns http GET request string using specified parameters.
    *
    * @param variables
    * @param hostname
@@ -46,37 +45,18 @@ public class HttpUtil {
    * @param webAppName
    * @param serviceAndArguments
    * @return
-   * @throws UnsupportedEncodingException
-   */
-  public static String constructUrl(
-      IVariables variables,
-      String hostname,
-      String port,
-      String webAppName,
-      String serviceAndArguments)
-      throws UnsupportedEncodingException {
+   * @throws UnsupportedEncodingException */
+  public static String constructUrl(IVariables variables, String hostname, String port, String webAppName, String serviceAndArguments) throws UnsupportedEncodingException {
     return constructUrl(variables, hostname, port, webAppName, serviceAndArguments, false);
   }
 
-  public static String constructUrl(
-      IVariables variables,
-      String hostname,
-      String port,
-      String webAppName,
-      String serviceAndArguments,
-      boolean isSecure)
-      throws UnsupportedEncodingException {
+  public static String constructUrl(IVariables variables, String hostname, String port, String webAppName, String serviceAndArguments, boolean isSecure) throws UnsupportedEncodingException {
     String realHostname = variables.resolve(hostname);
     if (!StringUtils.isEmpty(webAppName)) {
       serviceAndArguments = "/" + variables.resolve(webAppName) + serviceAndArguments;
     }
     String protocol = isSecure ? PROTOCOL_SECURE : PROTOCOL_UNSECURE;
-    String retval =
-        protocol
-            + "://"
-            + realHostname
-            + getPortSpecification(variables, port)
-            + serviceAndArguments;
+    String retval = protocol + "://" + realHostname + getPortSpecification(variables, port) + serviceAndArguments;
     retval = Const.replace(retval, " ", "%20");
     return retval;
   }
@@ -90,14 +70,12 @@ public class HttpUtil {
     return portSpec;
   }
 
-  /**
-   * Base 64 decode, unzip and extract text using UTF-8 charset value for byte-wise multi-byte
+  /** Base 64 decode, unzip and extract text using UTF-8 charset value for byte-wise multi-byte
    * character handling.
    *
    * @param loggingString64 base64 zip archive string representation
    * @return text from zip archive
-   * @throws IOException
-   */
+   * @throws IOException */
   public static String decodeBase64ZippedString(String loggingString64) throws IOException {
     if (loggingString64 == null || loggingString64.isEmpty()) {
       return "";
@@ -109,15 +87,13 @@ public class HttpUtil {
     ByteArrayInputStream zip = new ByteArrayInputStream(bytes64);
 
     // originally used xml encoding in servlet
-    try (GZIPInputStream unzip = new GZIPInputStream(zip, HttpUtil.ZIP_BUFFER_SIZE);
-        BufferedInputStream in = new BufferedInputStream(unzip, HttpUtil.ZIP_BUFFER_SIZE);
-        InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+    try (GZIPInputStream unzip = new GZIPInputStream(zip, HttpUtil.ZIP_BUFFER_SIZE); BufferedInputStream in = new BufferedInputStream(unzip, HttpUtil.ZIP_BUFFER_SIZE); InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
 
       writer = new StringWriter();
 
       // use same buffer size
       char[] buff = new char[HttpUtil.ZIP_BUFFER_SIZE];
-      for (int length = 0; (length = reader.read(buff)) > 0; ) {
+      for (int length = 0; (length = reader.read(buff)) > 0;) {
         writer.write(buff, 0, length);
       }
     }
@@ -126,8 +102,7 @@ public class HttpUtil {
 
   public static String encodeBase64ZippedString(String in) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-    try (Base64OutputStream base64OutputStream = new Base64OutputStream(baos);
-        GZIPOutputStream gzos = new GZIPOutputStream(base64OutputStream)) {
+    try (Base64OutputStream base64OutputStream = new Base64OutputStream(baos); GZIPOutputStream gzos = new GZIPOutputStream(base64OutputStream)) {
       gzos.write(in.getBytes(StandardCharsets.UTF_8));
     }
     return baos.toString();

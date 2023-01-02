@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,12 +48,7 @@ import java.util.List;
 public class HopGuiEnvironment extends HopClientEnvironment {
 
   public static void init() throws HopException {
-    init(
-        List.of(
-            GuiPluginType.getInstance(),
-            HopPerspectivePluginType.getInstance(),
-            HopFileTypePluginType.getInstance(),
-            SearchableAnalyserPluginType.getInstance()));
+    init(List.of(GuiPluginType.getInstance(), HopPerspectivePluginType.getInstance(), HopFileTypePluginType.getInstance(), SearchableAnalyserPluginType.getInstance()));
   }
 
   public static void init(List<IPluginType> pluginTypes) throws HopException {
@@ -66,11 +61,9 @@ public class HopGuiEnvironment extends HopClientEnvironment {
     initGuiPlugins();
   }
 
-  /**
-   * Look for GuiWidgetElement annotated fields in all the GuiPlugins. Put them in the Gui registry
+  /** Look for GuiWidgetElement annotated fields in all the GuiPlugins. Put them in the Gui registry
    *
-   * @throws HopException
-   */
+   * @throws HopException */
   public static void initGuiPlugins() throws HopException {
 
     try {
@@ -107,8 +100,7 @@ public class HopGuiEnvironment extends HopClientEnvironment {
           }
           GuiToolbarElement toolbarElement = method.getAnnotation(GuiToolbarElement.class);
           if (toolbarElement != null) {
-            guiRegistry.addGuiToolbarElement(
-                guiPluginClassName, toolbarElement, method, classLoader);
+            guiRegistry.addGuiToolbarElement(guiPluginClassName, toolbarElement, method, classLoader);
           }
           GuiKeyboardShortcut shortcut = method.getAnnotation(GuiKeyboardShortcut.class);
           if (shortcut != null) {
@@ -158,12 +150,7 @@ public class HopGuiEnvironment extends HopClientEnvironment {
           IHopFileType hopFileTypeInterface = registry.loadClass(plugin, IHopFileType.class);
           HopFileTypeRegistry.getInstance().registerHopFile(hopFileTypeInterface);
         } catch (HopPluginException e) {
-          throw new HopException(
-              "Unable to load plugin with ID '"
-                  + plugin.getIds()[0]
-                  + "' and type : "
-                  + plugin.getPluginType().getName(),
-              e);
+          throw new HopException("Unable to load plugin with ID '" + plugin.getIds()[0] + "' and type : " + plugin.getPluginType().getName(), e);
         }
       }
     } catch (Exception e) {

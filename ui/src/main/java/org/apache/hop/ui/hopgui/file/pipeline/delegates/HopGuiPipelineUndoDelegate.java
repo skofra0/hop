@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,10 +48,9 @@ public class HopGuiPipelineUndoDelegate {
     handler.updateGui();
   }
 
-  public void undoPipelineAction(
-      IHopFileTypeHandler handler, PipelineMeta pipelineMeta, ChangeAction changeAction) {
+  public void undoPipelineAction(IHopFileTypeHandler handler, PipelineMeta pipelineMeta, ChangeAction changeAction) {
     switch (changeAction.getType()) {
-        // We created a new transform : undo this...
+      // We created a new transform : undo this...
       case NewTransform:
         // Delete the transform at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -60,7 +59,7 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        // We created a new note : undo this...
+      // We created a new note : undo this...
       case NewNote:
         // Delete the note at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -69,7 +68,7 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        // We created a new hop : undo this...
+      // We created a new hop : undo this...
       case NewHop:
         // Delete the hop at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -78,11 +77,11 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        //
-        // DELETE
-        //
+      //
+      // DELETE
+      //
 
-        // We delete a transform : undo this...
+      // We delete a transform : undo this...
       case DeleteTransform:
         // un-Delete the transform at correct location: re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -92,7 +91,7 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        // We delete new note : undo this...
+      // We delete new note : undo this...
       case DeleteNote:
         // re-insert the note at correct location:
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -102,7 +101,7 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        // We deleted a hop : undo this...
+      // We deleted a hop : undo this...
       case DeleteHop:
         // re-insert the hop at correct location:
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -116,23 +115,22 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        //
-        // CHANGE
-        //
+      //
+      // CHANGE
+      //
 
-        // We changed a transform : undo this...
+      // We changed a transform : undo this...
       case ChangeTransform:
         // Delete the current transform, insert previous version.
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
-          TransformMeta prev =
-              (TransformMeta) ((TransformMeta) changeAction.getPrevious()[i]).clone();
+          TransformMeta prev = (TransformMeta) ((TransformMeta) changeAction.getPrevious()[i]).clone();
           int idx = changeAction.getCurrentIndex()[i];
 
           pipelineMeta.getTransform(idx).replaceMeta(prev);
         }
         break;
 
-        // We changed a note : undo this...
+      // We changed a note : undo this...
       case ChangeNote:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -143,7 +141,7 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        // We changed a hop : undo this...
+      // We changed a hop : undo this...
       case ChangeHop:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -155,21 +153,20 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        //
-        // POSITION
-        //
+      //
+      // POSITION
+      //
 
-        // The position of a transform has changed: undo this...
+      // The position of a transform has changed: undo this...
       case PositionTransform:
         // Find the location of the transform:
         for (int i = 0; i < changeAction.getCurrentIndex().length; i++) {
-          TransformMeta transformMeta =
-              pipelineMeta.getTransform(changeAction.getCurrentIndex()[i]);
+          TransformMeta transformMeta = pipelineMeta.getTransform(changeAction.getCurrentIndex()[i]);
           transformMeta.setLocation(changeAction.getPreviousLocation()[i]);
         }
         break;
 
-        // The position of a note has changed: undo this...
+      // The position of a note has changed: undo this...
       case PositionNote:
         for (int i = 0; i < changeAction.getCurrentIndex().length; i++) {
           int idx = changeAction.getCurrentIndex()[i];
@@ -199,8 +196,7 @@ public class HopGuiPipelineUndoDelegate {
     handler.updateGui();
   }
 
-  public void redoPipelineAction(
-      IHopFileTypeHandler handler, PipelineMeta pipelineMeta, ChangeAction changeAction) {
+  public void redoPipelineAction(IHopFileTypeHandler handler, PipelineMeta pipelineMeta, ChangeAction changeAction) {
     switch (changeAction.getType()) {
       case NewTransform:
         // re-delete the transform at correct location:
@@ -229,9 +225,9 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        //
-        // DELETE
-        //
+      //
+      // DELETE
+      //
       case DeleteTransform:
         // re-remove the transform at correct location:
         for (int i = changeAction.getCurrent().length - 1; i >= 0; i--) {
@@ -256,21 +252,20 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        //
-        // CHANGE
-        //
+      //
+      // CHANGE
+      //
 
-        // We changed a transform : undo this...
+      // We changed a transform : undo this...
       case ChangeTransform:
         // Delete the current transform, insert previous version.
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
-          TransformMeta transformMeta =
-              (TransformMeta) ((TransformMeta) changeAction.getCurrent()[i]).clone();
+          TransformMeta transformMeta = (TransformMeta) ((TransformMeta) changeAction.getCurrent()[i]).clone();
           pipelineMeta.getTransform(changeAction.getCurrentIndex()[i]).replaceMeta(transformMeta);
         }
         break;
 
-        // We changed a note : undo this...
+      // We changed a note : undo this...
       case ChangeNote:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -282,7 +277,7 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        // We changed a hop : undo this...
+      // We changed a hop : undo this...
       case ChangeHop:
         // Delete & re-insert
         for (int i = 0; i < changeAction.getCurrent().length; i++) {
@@ -294,14 +289,13 @@ public class HopGuiPipelineUndoDelegate {
         }
         break;
 
-        //
-        // CHANGE POSITION
-        //
+      //
+      // CHANGE POSITION
+      //
       case PositionTransform:
         for (int i = 0; i < changeAction.getCurrentIndex().length; i++) {
           // Find & change the location of the transform:
-          TransformMeta transformMeta =
-              pipelineMeta.getTransform(changeAction.getCurrentIndex()[i]);
+          TransformMeta transformMeta = pipelineMeta.getTransform(changeAction.getCurrentIndex()[i]);
           transformMeta.setLocation(changeAction.getCurrentLocation()[i]);
         }
         break;
@@ -325,11 +319,9 @@ public class HopGuiPipelineUndoDelegate {
     }
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiPipelineGraph getPipelineGraph() {
     return pipelineGraph;
   }
@@ -339,11 +331,9 @@ public class HopGuiPipelineUndoDelegate {
     this.pipelineGraph = pipelineGraph;
   }
 
-  /**
-   * Gets hopGui
+  /** Gets hopGui
    *
-   * @return value of hopGui
-   */
+   * @return value of hopGui */
   public HopGui getHopGui() {
     return hopGui;
   }

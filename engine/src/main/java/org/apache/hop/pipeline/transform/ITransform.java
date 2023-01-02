@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,34 +34,27 @@ import org.apache.hop.pipeline.engine.IPipelineEngine;
 
 import java.util.*;
 
-/**
- * The interface that any pipeline transform or plugin needs to implement.
- *
- * <p>Created on 12-AUG-2004
- */
-public interface ITransform
-    extends IVariables, IHasLogChannel, IEngineComponent, IExtensionData {
+/** The interface that any pipeline transform or plugin needs to implement.
+ * <p>
+ * Created on 12-AUG-2004 */
+public interface ITransform extends IVariables, IHasLogChannel, IEngineComponent, IExtensionData {
 
   /** @return the pipeline that is executing this transform */
   IPipelineEngine<PipelineMeta> getPipeline();
 
-  /**
-   * Perform the equivalent of processing one row. Typically this means reading a row from input
+  /** Perform the equivalent of processing one row. Typically this means reading a row from input
    * (getRow()) and passing a row to output (putRow)).
    *
    * @return false if no more rows can be processed or an error occurred.
-   * @throws HopException
-   */
+   * @throws HopException */
   boolean processRow() throws HopException;
 
-  /**
-   * This method checks if the transform is capable of processing at least one row.
-   *
-   * <p>For example, if a transform has no input records but needs at least one to function, it will
+  /** This method checks if the transform is capable of processing at least one row.
+   * <p>
+   * For example, if a transform has no input records but needs at least one to function, it will
    * return false.
    *
-   * @return true if the transform can process a row.
-   */
+   * @return true if the transform can process a row. */
   boolean canProcessOneRow();
 
   /** Initialize and do work where other transforms need to wait for... */
@@ -83,11 +76,9 @@ public interface ITransform
   @Override
   boolean isRunning();
 
-  /**
-   * Flag the transform as running or not
+  /** Flag the transform as running or not
    *
-   * @param running the running flag to set
-   */
+   * @param running the running flag to set */
   void setRunning(boolean running);
 
   /** @return True if the transform is marked as stopped. Execution should stop immediate. */
@@ -118,11 +109,9 @@ public interface ITransform
   /** Resume a running transform */
   void resumeRunning();
 
-  /**
-   * Get the name of the transform.
+  /** Get the name of the transform.
    *
-   * @return the name of the transform
-   */
+   * @return the name of the transform */
   String getTransformName();
 
   /** @return The transforms copy number (default 0) */
@@ -131,19 +120,15 @@ public interface ITransform
   /** @return the type ID of the transform... */
   String getTransformPluginId();
 
-  /**
-   * Get the number of errors
+  /** Get the number of errors
    *
-   * @return the number of errors
-   */
+   * @return the number of errors */
   @Override
   long getErrors();
 
-  /**
-   * Sets the number of errors
+  /** Sets the number of errors
    *
-   * @param errors the number of errors to set
-   */
+   * @param errors the number of errors to set */
   void setErrors(long errors);
 
   /** @return Returns the linesInput. */
@@ -173,11 +158,9 @@ public interface ITransform
   @Override
   long getLinesRejected();
 
-  /**
-   * Put a row on the destination rowsets.
+  /** Put a row on the destination rowsets.
    *
-   * @param row The row to send to the destinations transforms
-   */
+   * @param row The row to send to the destinations transforms */
   void putRow(IRowMeta row, Object[] data) throws HopException;
 
   /** @return a row from the source transform(s). */
@@ -186,20 +169,16 @@ public interface ITransform
   /** Signal output done to destination transforms */
   void setOutputDone();
 
-  /**
-   * Add a rowlistener to the transform allowing you to inspect (or manipulate, be careful) the rows
+  /** Add a rowlistener to the transform allowing you to inspect (or manipulate, be careful) the rows
    * coming in or exiting the transform.
    *
-   * @param rowListener the rowlistener to add
-   */
+   * @param rowListener the rowlistener to add */
   @Override
   void addRowListener(IRowListener rowListener);
 
-  /**
-   * Remove a rowlistener from this transform.
+  /** Remove a rowlistener from this transform.
    *
-   * @param rowListener the rowlistener to remove
-   */
+   * @param rowListener the rowlistener to remove */
   @Override
   void removeRowListener(IRowListener rowListener);
 
@@ -224,29 +203,23 @@ public interface ITransform
   /** Cleanup any left-over resources for this transform. */
   void cleanup();
 
-  /**
-   * This method is executed by Pipeline right before the threads start and right after
+  /** This method is executed by Pipeline right before the threads start and right after
    * initialization.<br>
    * <br>
    * <b>!!! A plugin implementing this method should make sure to also call
    * <i>super.initBeforeStart();</i> !!!</b>
    *
-   * @throws HopTransformException In case there is an error
-   */
+   * @throws HopTransformException In case there is an error */
   void initBeforeStart() throws HopTransformException;
 
-  /**
-   * Attach a transform listener to be notified when a transform finishes
+  /** Attach a transform listener to be notified when a transform finishes
    *
-   * @param transformListener The listener to add to the transform
-   */
+   * @param transformListener The listener to add to the transform */
   void addTransformFinishedListener(ITransformFinishedListener transformListener);
 
-  /**
-   * Attach a transform listener to be notified when a transform starts
+  /** Attach a transform listener to be notified when a transform starts
    *
-   * @param transformListener The listener to add to the transform
-   */
+   * @param transformListener The listener to add to the transform */
   void addTransformStartedListener(ITransformStartedListener transformListener);
 
   /** @return true if the thread is a special mapping transform */
@@ -265,10 +238,8 @@ public interface ITransform
   /** @return The total amount of rows in the output buffers */
   int rowsetOutputSize();
 
-  /**
-   * @return The number of "processed" lines of a transform. Well, a representable metric for that
-   *     anyway.
-   */
+  /** @return The number of "processed" lines of a transform. Well, a representable metric for that
+   *         anyway. */
   long getProcessed();
 
   /** @return The result files for this transform */
@@ -282,10 +253,8 @@ public interface ITransform
   @Override
   long getExecutionDuration();
 
-  /**
-   * To be used to flag an error output channel of a transform prior to execution for performance
-   * reasons.
-   */
+  /** To be used to flag an error output channel of a transform prior to execution for performance
+   * reasons. */
   void identifyErrorOutput();
 
   /** @param partitioned true if this transform is partitioned */
@@ -294,20 +263,16 @@ public interface ITransform
   /** @param partitioningMethod The repartitioning method */
   void setRepartitioning(int partitioningMethod);
 
-  /**
-   * Calling this method will alert the transform that we finished passing a batch of records to the
+  /** Calling this method will alert the transform that we finished passing a batch of records to the
    * transform. Specifically for transforms like "Sort Rows" it means that the buffered rows can be
    * sorted and passed on.
    *
-   * @throws HopException In case an error occurs during the processing of the batch of rows.
-   */
+   * @throws HopException In case an error occurs during the processing of the batch of rows. */
   void batchComplete() throws HopException;
 
-  /**
-   * Pass along the metadata to use when loading external elements at runtime.
+  /** Pass along the metadata to use when loading external elements at runtime.
    *
-   * @param metadataProvider The metadata to use
-   */
+   * @param metadataProvider The metadata to use */
   void setMetadataProvider(IHopMetadataProvider metadataProvider);
 
   /** @return The metadata that the transform uses to load external elements from. */
@@ -340,18 +305,14 @@ public interface ITransform
   /** @return Returns the transform specific metadata. */
   ITransformMeta getMeta();
 
-  /**
-   * Get the transform data
+  /** Get the transform data
    *
-   * @return the tansform data
-   */
+   * @return the tansform data */
   ITransformData getData();
 
-  /**
-   * Gets initStartDate
+  /** Gets initStartDate
    *
-   * @return value of initStartDate
-   */
+   * @return value of initStartDate */
   @Override
   Date getInitStartDate();
 
@@ -359,11 +320,9 @@ public interface ITransform
   @Override
   void setInitStartDate(Date initStartDate);
 
-  /**
-   * Gets executionStartDate
+  /** Gets executionStartDate
    *
-   * @return value of executionStartDate
-   */
+   * @return value of executionStartDate */
   @Override
   Date getExecutionStartDate();
 
@@ -371,11 +330,9 @@ public interface ITransform
   @Override
   void setExecutionStartDate(Date executionStartDate);
 
-  /**
-   * Gets firstRowReadDate
+  /** Gets firstRowReadDate
    *
-   * @return value of firstRowReadDate
-   */
+   * @return value of firstRowReadDate */
   @Override
   Date getFirstRowReadDate();
 
@@ -383,11 +340,9 @@ public interface ITransform
   @Override
   void setFirstRowReadDate(Date firstRowReadDate);
 
-  /**
-   * Gets lastRowWrittenDate
+  /** Gets lastRowWrittenDate
    *
-   * @return value of lastRowWrittenDate
-   */
+   * @return value of lastRowWrittenDate */
   @Override
   Date getLastRowWrittenDate();
 
@@ -395,11 +350,9 @@ public interface ITransform
   @Override
   void setLastRowWrittenDate(Date lastRowWrittenDate);
 
-  /**
-   * Gets executionEndDate
+  /** Gets executionEndDate
    *
-   * @return value of executionEndDate
-   */
+   * @return value of executionEndDate */
   @Override
   Date getExecutionEndDate();
 

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,7 @@ public class UuidResourceNaming extends SimpleResourceNaming {
   // ${HOP_FILE_BASE}!Marc_Sample_Pipeline_03a32f25-1538-11dc-ae07-5dbf1395f3fd.hpl
   // Output Example 3 (file system prefix: ${HOP_FILE_BASE}!, path is used)
   // ${HOP_FILE_BASE}!japps/hop/samples/
-  //   Marc_Sample_Pipeline_03a32f25-1538-11dc-ae07-5dbf1395f3fd.hpl
+  // Marc_Sample_Pipeline_03a32f25-1538-11dc-ae07-5dbf1395f3fd.hpl
 
   protected String getFileNameUniqueIdentifier() {
     // This implementation assumes that the name alone

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,14 +36,9 @@ public class PipelineConfiguration {
   private PipelineExecutionConfiguration pipelineExecutionConfiguration;
   private SerializableMetadataProvider metadataProvider;
 
-  /**
-   * @param pipelineMeta
-   * @param pipelineExecutionConfiguration
-   */
-  public PipelineConfiguration(
-      PipelineMeta pipelineMeta,
-      PipelineExecutionConfiguration pipelineExecutionConfiguration,
-      SerializableMetadataProvider metadataProvider) {
+  /** @param pipelineMeta
+   * @param pipelineExecutionConfiguration */
+  public PipelineConfiguration(PipelineMeta pipelineMeta, PipelineExecutionConfiguration pipelineExecutionConfiguration, SerializableMetadataProvider metadataProvider) {
     this.pipelineMeta = pipelineMeta;
     this.pipelineExecutionConfiguration = pipelineExecutionConfiguration;
     this.metadataProvider = metadataProvider;
@@ -65,19 +60,16 @@ public class PipelineConfiguration {
     return xml.toString();
   }
 
-  public PipelineConfiguration(Node configNode)
-      throws HopException, HopException, ParseException, IOException {
+  public PipelineConfiguration(Node configNode) throws HopException, HopException, ParseException, IOException {
     Node trecNode = XmlHandler.getSubNode(configNode, PipelineExecutionConfiguration.XML_TAG);
     pipelineExecutionConfiguration = new PipelineExecutionConfiguration(trecNode);
-    String metaStoreJson =
-        HttpUtil.decodeBase64ZippedString(XmlHandler.getTagValue(configNode, "metastore_json"));
+    String metaStoreJson = HttpUtil.decodeBase64ZippedString(XmlHandler.getTagValue(configNode, "metastore_json"));
     metadataProvider = new SerializableMetadataProvider(metaStoreJson);
     Node pipelineNode = XmlHandler.getSubNode(configNode, PipelineMeta.XML_TAG);
     pipelineMeta = new PipelineMeta(pipelineNode, metadataProvider);
   }
 
-  public static final PipelineConfiguration fromXml(String xml)
-      throws HopException, HopException, ParseException, IOException {
+  public static final PipelineConfiguration fromXml(String xml) throws HopException, HopException, ParseException, IOException {
     Document document = XmlHandler.loadXmlString(xml);
     Node configNode = XmlHandler.getSubNode(document, XML_TAG);
     return new PipelineConfiguration(configNode);
@@ -89,8 +81,7 @@ public class PipelineConfiguration {
   }
 
   /** @param pipelineExecutionConfiguration the pipelineExecutionConfiguration to set */
-  public void setPipelineExecutionConfiguration(
-      PipelineExecutionConfiguration pipelineExecutionConfiguration) {
+  public void setPipelineExecutionConfiguration(PipelineExecutionConfiguration pipelineExecutionConfiguration) {
     this.pipelineExecutionConfiguration = pipelineExecutionConfiguration;
   }
 
@@ -104,11 +95,9 @@ public class PipelineConfiguration {
     this.pipelineMeta = pipelineMeta;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   public SerializableMetadataProvider getMetadataProvider() {
     return metadataProvider;
   }

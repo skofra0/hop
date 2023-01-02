@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -288,57 +288,41 @@ public class WorkflowMetaTest {
   public void testSetInternalEntryCurrentDirectoryWithFilename() {
     WorkflowMeta workflowMetaTest = new WorkflowMeta();
     workflowMetaTest.setFilename("hasFilename");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    variables.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
     workflowMetaTest.setInternalEntryCurrentDirectory(variables);
 
-    assertEquals(
-        "file:///C:/SomeFilenameDirectory",
-        variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("file:///C:/SomeFilenameDirectory", variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   @Test
   public void testSetInternalEntryCurrentDirectoryWithoutFilename() {
     WorkflowMeta workflowMetaTest = new WorkflowMeta();
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    variables.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
     workflowMetaTest.setInternalEntryCurrentDirectory(variables);
 
-    assertEquals(
-        "Original value defined at run execution",
-        variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("Original value defined at run execution", variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   @Test
   public void testUpdateCurrentDirWithFilename() {
     WorkflowMeta workflowMetaTest = new WorkflowMeta();
     workflowMetaTest.setFilename("hasFilename");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    variables.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
     workflowMetaTest.updateCurrentDir(variables);
 
-    assertEquals(
-        "file:///C:/SomeFilenameDirectory",
-        variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("file:///C:/SomeFilenameDirectory", variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   @Test
   public void testUpdateCurrentDirWithoutFilename() {
     WorkflowMeta workflowMetaTest = new WorkflowMeta();
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    variables.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, "file:///C:/SomeFilenameDirectory");
     workflowMetaTest.updateCurrentDir(variables);
 
-    assertEquals(
-        "Original value defined at run execution",
-        variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("Original value defined at run execution", variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 }

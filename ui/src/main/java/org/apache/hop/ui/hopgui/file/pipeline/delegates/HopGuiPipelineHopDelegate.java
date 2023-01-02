@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,28 +72,21 @@ public class HopGuiPipelineHopDelegate {
         //
         pipelineMeta.removePipelineHop(idx);
       } else {
-        hopGui.undoDelegate.addUndoNew(
-            pipelineMeta,
-            new PipelineHopMeta[] {pipelineHopMeta},
-            new int[] {pipelineMeta.indexOfPipelineHop(pipelineHopMeta)});
+        hopGui.undoDelegate.addUndoNew(pipelineMeta, new PipelineHopMeta[] {pipelineHopMeta}, new int[] {pipelineMeta.indexOfPipelineHop(pipelineHopMeta)});
       }
 
       pipelineGraph.redraw();
     }
   }
 
-  /**
-   * @param pipelineMeta pipeline's meta
+  /** @param pipelineMeta pipeline's meta
    * @param newHop hop to be checked
-   * @return true when the hop was added, false if there was an error
-   */
+   * @return true when the hop was added, false if there was an error */
   public boolean checkIfHopAlreadyExists(PipelineMeta pipelineMeta, PipelineHopMeta newHop) {
     boolean ok = true;
     if (pipelineMeta.findPipelineHop(newHop.getFromTransform(), newHop.getToTransform()) != null) {
       MessageBox mb = new MessageBox(hopGui.getShell(), SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "HopGui.Dialog.HopExists.Message")); // "This hop already exists!"
+      mb.setMessage(BaseMessages.getString(PKG, "HopGui.Dialog.HopExists.Message")); // "This hop already exists!"
       mb.setText(BaseMessages.getString(PKG, "HopGui.Dialog.HopExists.Title")); // Error!
       mb.open();
       ok = false;
@@ -102,11 +95,9 @@ public class HopGuiPipelineHopDelegate {
     return ok;
   }
 
-  /**
-   * @param pipelineMeta pipeline's meta
+  /** @param pipelineMeta pipeline's meta
    * @param newHop hop to be checked
-   * @return true when the hop was added, false if there was an error
-   */
+   * @return true when the hop was added, false if there was an error */
   public boolean performNewPipelineHopChecks(PipelineMeta pipelineMeta, PipelineHopMeta newHop) {
     boolean ok = true;
 
@@ -123,16 +114,11 @@ public class HopGuiPipelineHopDelegate {
       // StackOverflow there ;-)
       try {
         if (!newHop.getToTransform().getTransform().excludeFromRowLayoutVerification()) {
-          pipelineMeta.checkRowMixingStatically(
-              pipelineGraph.getVariables(), newHop.getToTransform(), null);
+          pipelineMeta.checkRowMixingStatically(pipelineGraph.getVariables(), newHop.getToTransform(), null);
         }
       } catch (HopRowException re) {
         // Show warning about mixing rows with conflicting layouts...
-        new ErrorDialog(
-            hopGui.getShell(),
-            BaseMessages.getString(PKG, "PipelineGraph.Dialog.HopCausesRowMixing.Title"),
-            BaseMessages.getString(PKG, "PipelineGraph.Dialog.HopCausesRowMixing.Message"),
-            re);
+        new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "PipelineGraph.Dialog.HopCausesRowMixing.Title"), BaseMessages.getString(PKG, "PipelineGraph.Dialog.HopCausesRowMixing.Message"), re);
       }
 
       // Verify copy distribution only if the new hop are not for error handling
@@ -163,21 +149,9 @@ public class HopGuiPipelineHopDelegate {
       boolean distributes = transformMeta.getTransform().excludeFromCopyDistributeVerification();
       boolean customDistribution = false;
 
-      if (props.showCopyOrDistributeWarning()
-          && !transformMeta.getTransform().excludeFromCopyDistributeVerification()) {
-        MessageDialogWithToggle md =
-            new MessageDialogWithToggle(
-                hopGui.getShell(),
-                BaseMessages.getString(PKG, "System.Warning"),
-                BaseMessages.getString(
-                    PKG,
-                    "HopGui.Dialog.CopyOrDistribute.Message",
-                    transformMeta.getName(),
-                    Integer.toString(hopCount)),
-                SWT.ICON_WARNING,
-                getRowDistributionLabels(),
-                BaseMessages.getString(PKG, "HopGui.Message.Warning.NotShowWarning"),
-                !props.showCopyOrDistributeWarning());
+      if (props.showCopyOrDistributeWarning() && !transformMeta.getTransform().excludeFromCopyDistributeVerification()) {
+        MessageDialogWithToggle md = new MessageDialogWithToggle(hopGui.getShell(), BaseMessages.getString(PKG, "System.Warning"), BaseMessages.getString(PKG, "HopGui.Dialog.CopyOrDistribute.Message", transformMeta.getName(), Integer.toString(hopCount)), SWT.ICON_WARNING, getRowDistributionLabels(),
+            BaseMessages.getString(PKG, "HopGui.Message.Warning.NotShowWarning"), !props.showCopyOrDistributeWarning());
         int idx = md.open();
         props.setShowCopyOrDistributeWarning(!md.getToggleState());
 
@@ -206,8 +180,7 @@ public class HopGuiPipelineHopDelegate {
     labels.add(BaseMessages.getString(PKG, "HopGui.Dialog.CopyOrDistribute.Distribute"));
     labels.add(BaseMessages.getString(PKG, "HopGui.Dialog.CopyOrDistribute.Copy"));
     if (PluginRegistry.getInstance().getPlugins(RowDistributionPluginType.class).size() > 0) {
-      labels.add(
-          BaseMessages.getString(PKG, "HopGui.Dialog.CopyOrDistribute.CustomRowDistribution"));
+      labels.add(BaseMessages.getString(PKG, "HopGui.Dialog.CopyOrDistribute.CustomRowDistribution"));
     }
     return labels.toArray(new String[labels.size()]);
   }
@@ -215,8 +188,7 @@ public class HopGuiPipelineHopDelegate {
   public void delHop(PipelineMeta pipelineMeta, PipelineHopMeta pipelineHopMeta) {
     int index = pipelineMeta.indexOfPipelineHop(pipelineHopMeta);
 
-    hopGui.undoDelegate.addUndoDelete(
-        pipelineMeta, new Object[] {(PipelineHopMeta) pipelineHopMeta.clone()}, new int[] {index});
+    hopGui.undoDelegate.addUndoDelete(pipelineMeta, new Object[] {(PipelineHopMeta) pipelineHopMeta.clone()}, new int[] {index});
     pipelineMeta.removePipelineHop(index);
 
     TransformMeta fromTransformMeta = pipelineHopMeta.getFromTransform();
@@ -227,10 +199,8 @@ public class HopGuiPipelineHopDelegate {
     TransformMeta beforeTo = (TransformMeta) toTransformMeta.clone();
     int indexTo = pipelineMeta.indexOfTransform(toTransformMeta);
 
-    boolean transformFromNeedAddUndoChange =
-        fromTransformMeta.getTransform().cleanAfterHopFromRemove(pipelineHopMeta.getToTransform());
-    boolean transformToNeedAddUndoChange =
-        toTransformMeta.getTransform().cleanAfterHopToRemove(fromTransformMeta);
+    boolean transformFromNeedAddUndoChange = fromTransformMeta.getTransform().cleanAfterHopFromRemove(pipelineHopMeta.getToTransform());
+    boolean transformToNeedAddUndoChange = toTransformMeta.getTransform().cleanAfterHopToRemove(fromTransformMeta);
 
     // If this is an error handling hop, disable it
     //
@@ -240,8 +210,7 @@ public class HopGuiPipelineHopDelegate {
       // We can only disable error handling if the target of the hop is the same as the target of
       // the error handling.
       //
-      if (transformErrorMeta.getTargetTransform() != null
-          && transformErrorMeta.getTargetTransform().equals(pipelineHopMeta.getToTransform())) {
+      if (transformErrorMeta.getTargetTransform() != null && transformErrorMeta.getTargetTransform().equals(pipelineHopMeta.getToTransform())) {
 
         // Only if the target transform is where the error handling is going to...
         //
@@ -251,19 +220,11 @@ public class HopGuiPipelineHopDelegate {
     }
 
     if (transformFromNeedAddUndoChange) {
-      hopGui.undoDelegate.addUndoChange(
-          pipelineMeta,
-          new Object[] {beforeFrom},
-          new Object[] {fromTransformMeta},
-          new int[] {indexFrom});
+      hopGui.undoDelegate.addUndoChange(pipelineMeta, new Object[] {beforeFrom}, new Object[] {fromTransformMeta}, new int[] {indexFrom});
     }
 
     if (transformToNeedAddUndoChange) {
-      hopGui.undoDelegate.addUndoChange(
-          pipelineMeta,
-          new Object[] {beforeTo},
-          new Object[] {toTransformMeta},
-          new int[] {indexTo});
+      hopGui.undoDelegate.addUndoChange(pipelineMeta, new Object[] {beforeTo}, new Object[] {toTransformMeta}, new int[] {indexTo});
     }
 
     pipelineGraph.redraw();
@@ -274,16 +235,16 @@ public class HopGuiPipelineHopDelegate {
     String name = pipelineHopMeta.toString();
     PipelineHopMeta before = (PipelineHopMeta) pipelineHopMeta.clone();
 
-    PipelineHopDialog hd =
-        new PipelineHopDialog(hopGui.getShell(), SWT.NONE, pipelineHopMeta, pipelineMeta);
+    PipelineHopDialog hd = new PipelineHopDialog(hopGui.getShell(), SWT.NONE, pipelineHopMeta, pipelineMeta);
     if (hd.open() != null) {
       // Backup situation for redo/undo:
       PipelineHopMeta after = (PipelineHopMeta) pipelineHopMeta.clone();
-      /* TODO: Create new Undo/Redo system
-
-           addUndoChange( pipelineMeta, new PipelineHopMeta[] { before }, new PipelineHopMeta[] { after }, new int[] { pipelineMeta
-             .indexOfPipelineHop( pipelineHopMeta ) } );
-      */
+      /*
+       * TODO: Create new Undo/Redo system
+       * 
+       * addUndoChange( pipelineMeta, new PipelineHopMeta[] { before }, new PipelineHopMeta[] { after }, new int[] { pipelineMeta
+       * .indexOfPipelineHop( pipelineHopMeta ) } );
+       */
 
       String newName = pipelineHopMeta.toString();
       if (!name.equalsIgnoreCase(newName)) {

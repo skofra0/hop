@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,13 +44,11 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * The HopEnvironment class contains settings and properties for all of Hop. Initialization of the
+/** The HopEnvironment class contains settings and properties for all of Hop. Initialization of the
  * environment is done by calling the init() method, which reads in properties file(s), registers
  * plugins, etc. Initialization should be performed once at application startup; for example,
  * HopUi's main() method calls HopEnvironment.init() in order to prepare the environment for usage
- * by HopUi.
- */
+ * by HopUi. */
 public class HopEnvironment {
 
   private static final Class<?> PKG = Const.class; // For Translator
@@ -58,34 +56,20 @@ public class HopEnvironment {
   /** Indicates whether the Hop environment has been initialized. */
   private static AtomicReference<SettableFuture<Boolean>> initialized = new AtomicReference<>(null);
 
-  /**
-   * Initializes the Hop environment. This method performs the following operations:
-   *
-   * <p>- Creates a Hop "home" directory if it does not already exist - Reads in the hop.properties
+  /** Initializes the Hop environment. This method performs the following operations:
+   * <p>
+   * - Creates a Hop "home" directory if it does not already exist - Reads in the hop.properties
    * file - Initializes the logging back-end - Sets the console log level to debug - If specified by
    * parameter, configures - Initializes the Lifecycle listeners
    *
-   * @throws HopException Any errors that occur during initialization will throw a HopException.
-   */
+   * @throws HopException Any errors that occur during initialization will throw a HopException. */
   public static void init() throws HopException {
     init(getStandardPluginTypes());
   }
 
   public static List<IPluginType> getStandardPluginTypes() {
-    return Arrays.asList(
-        RowDistributionPluginType.getInstance(),
-        TransformPluginType.getInstance(),
-        PartitionerPluginType.getInstance(),
-        ActionPluginType.getInstance(),
-        HopServerPluginType.getInstance(),
-        CompressionPluginType.getInstance(),
-        AuthenticationProviderPluginType.getInstance(),
-        AuthenticationConsumerPluginType.getInstance(),
-        PipelineEnginePluginType.getInstance(),
-        WorkflowEnginePluginType.getInstance(),
-        ConfigPluginType.getInstance(),
-        MetadataPluginType.getInstance(),
-        ImportPluginType.getInstance());
+    return Arrays.asList(RowDistributionPluginType.getInstance(), TransformPluginType.getInstance(), PartitionerPluginType.getInstance(), ActionPluginType.getInstance(), HopServerPluginType.getInstance(), CompressionPluginType.getInstance(), AuthenticationProviderPluginType.getInstance(),
+        AuthenticationConsumerPluginType.getInstance(), PipelineEnginePluginType.getInstance(), WorkflowEnginePluginType.getInstance(), ConfigPluginType.getInstance(), MetadataPluginType.getInstance(), ImportPluginType.getInstance());
   }
 
   public static void init(List<IPluginType> pluginTypes) throws HopException {
@@ -119,36 +103,30 @@ public class HopEnvironment {
         // or if new variables are added
         //
         HopConfig hopConfig = HopConfig.getInstance();
-        for(DescribedVariable describedVariable : VariableRegistry.getInstance().getDescribedVariables(VariableScope.APPLICATION, VariableScope.ENGINE) ) {          
+        for (DescribedVariable describedVariable : VariableRegistry.getInstance().getDescribedVariables(VariableScope.APPLICATION, VariableScope.ENGINE)) {
           DescribedVariable variable = hopConfig.findDescribedVariable(describedVariable.getName());
-          if ( variable==null ) {
+          if (variable == null) {
             // Add the variable if it does not exist
             hopConfig.setDescribedVariable(new DescribedVariable(describedVariable));
-          }
-          else {
+          } else {
             // Update the variable description
-            variable.setDescription(describedVariable.getDescription());            
+            variable.setDescription(describedVariable.getDescription());
           }
-        }           
-        
+        }
+
         // Set the system configuration variables in System
         // Let's try very hard to not do this anywhere else!
         //
         for (DescribedVariable describedVariable : hopConfig.getDescribedVariables()) {
           if (StringUtils.isNotEmpty(describedVariable.getName())) {
-            System.setProperty(
-                describedVariable.getName(), Const.NVL(describedVariable.getValue(), ""));
+            System.setProperty(describedVariable.getName(), Const.NVL(describedVariable.getValue(), ""));
           }
         }
 
         // Inform the outside world that we're ready with the init of the Hop Environment
         // Others might want to register extra plugins that perhaps were not found automatically
         //
-        ExtensionPointHandler.callExtensionPoint(
-            LogChannel.GENERAL,
-            null,
-            HopExtensionPoint.HopEnvironmentAfterInit.name(),
-            PluginRegistry.getInstance());
+        ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, null, HopExtensionPoint.HopEnvironmentAfterInit.name(), PluginRegistry.getInstance());
 
         ready.set(true);
       } catch (Throwable t) {
@@ -169,31 +147,25 @@ public class HopEnvironment {
     }
   }
 
-  /**
-   * Alert all Lifecycle plugins that the Hop environment is being initialized.
+  /** Alert all Lifecycle plugins that the Hop environment is being initialized.
    *
-   * @throws HopException when a lifecycle listener throws an exception
-   */
+   * @throws HopException when a lifecycle listener throws an exception */
   private static void initLifecycleListeners() throws HopException {
     // Register a shutdown hook to invoke the listener's onExit() methods
-    Runtime.getRuntime()
-        .addShutdownHook(
-            new Thread() {
-              @Override
-              public void run() {
-                shutdown();
-              }
-            });
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        shutdown();
+      }
+    });
   }
 
   // Shutdown the Hop environment programmatically
   public static void shutdown() {}
 
-  /**
-   * Checks if the Hop environment has been initialized.
+  /** Checks if the Hop environment has been initialized.
    *
-   * @return true if initialized, false otherwise
-   */
+   * @return true if initialized, false otherwise */
   public static boolean isInitialized() {
     Future<Boolean> future = initialized.get();
     try {
@@ -203,11 +175,9 @@ public class HopEnvironment {
     }
   }
 
-  /**
-   * Loads the plugin registry.
+  /** Loads the plugin registry.
    *
-   * @throws HopPluginException if any errors are encountered while loading the plugin registry.
-   */
+   * @throws HopPluginException if any errors are encountered while loading the plugin registry. */
   public void loadPluginRegistry() throws HopPluginException {}
 
   /** Sets the executor's user and Server information */

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -251,10 +251,8 @@ public class GuiResource {
 
   private Map<RGB, Color> colorMap;
 
-  /**
-   * GuiResource also contains the clipboard as it has to be allocated only once! I don't want to
-   * put it in a separate singleton just for this one member.
-   */
+  /** GuiResource also contains the clipboard as it has to be allocated only once! I don't want to
+   * put it in a separate singleton just for this one member. */
   private Clipboard clipboard;
 
   protected GuiResource() {
@@ -271,46 +269,40 @@ public class GuiResource {
     clipboard = null;
 
     // Reload images as required by changes in the plugins
-    PluginRegistry.getInstance()
-        .addPluginListener(
-            TransformPluginType.class,
-            new IPluginTypeListener() {
-              @Override
-              public void pluginAdded(Object serviceObject) {
-                loadTransformImages();
-              }
+    PluginRegistry.getInstance().addPluginListener(TransformPluginType.class, new IPluginTypeListener() {
+      @Override
+      public void pluginAdded(Object serviceObject) {
+        loadTransformImages();
+      }
 
-              @Override
-              public void pluginRemoved(Object serviceObject) {
-                loadTransformImages();
-              }
+      @Override
+      public void pluginRemoved(Object serviceObject) {
+        loadTransformImages();
+      }
 
-              @Override
-              public void pluginChanged(Object serviceObject) {}
-            });
+      @Override
+      public void pluginChanged(Object serviceObject) {}
+    });
 
-    PluginRegistry.getInstance()
-        .addPluginListener(
-            ActionPluginType.class,
-            new IPluginTypeListener() {
-              @Override
-              public void pluginAdded(Object serviceObject) {
-                // make sure we load up the images for any new actions that have been registered
-                loadWorkflowActionImages();
-              }
+    PluginRegistry.getInstance().addPluginListener(ActionPluginType.class, new IPluginTypeListener() {
+      @Override
+      public void pluginAdded(Object serviceObject) {
+        // make sure we load up the images for any new actions that have been registered
+        loadWorkflowActionImages();
+      }
 
-              @Override
-              public void pluginRemoved(Object serviceObject) {
-                // rebuild the image map, in effect removing the image(s) for actions that have gone
-                // away
-                loadWorkflowActionImages();
-              }
+      @Override
+      public void pluginRemoved(Object serviceObject) {
+        // rebuild the image map, in effect removing the image(s) for actions that have gone
+        // away
+        loadWorkflowActionImages();
+      }
 
-              @Override
-              public void pluginChanged(Object serviceObject) {
-                // nothing needed here
-              }
-            });
+      @Override
+      public void pluginChanged(Object serviceObject) {
+        // nothing needed here
+      }
+    });
   }
 
   private static final ISingletonProvider PROVIDER;
@@ -335,9 +327,9 @@ public class GuiResource {
     imageMap = new HashMap<>();
     colorMap = new HashMap<>();
 
-    colorBackground = new ManagedColor(display, props.contrastColor(new RGB(240,240,240)));
-    colorGraph = new ManagedColor(display, props.contrastColor(new RGB(255,255,255)));
-    colorTab = new ManagedColor(display, props.contrastColor(new RGB(128,128,128)));
+    colorBackground = new ManagedColor(display, props.contrastColor(new RGB(240, 240, 240)));
+    colorGraph = new ManagedColor(display, props.contrastColor(new RGB(255, 255, 255)));
+    colorTab = new ManagedColor(display, props.contrastColor(new RGB(128, 128, 128)));
     colorSuccessGreen = new ManagedColor(display, props.contrastColor(0, 139, 0));
     colorRed = new ManagedColor(display, props.contrastColor(255, 0, 0));
     colorGreen = new ManagedColor(display, props.contrastColor(0, 255, 0));
@@ -356,8 +348,7 @@ public class GuiResource {
     colorGray = new ManagedColor(display, props.contrastColor(215, 215, 215));
     colorDarkGray = new ManagedColor(display, props.contrastColor(100, 100, 100));
     colorBlack = new ManagedColor(display, props.contrastColor(0, 0, 0));
-    colorLightBlue =
-        new ManagedColor(display, props.contrastColor(135, 206, 250)); // light sky blue
+    colorLightBlue = new ManagedColor(display, props.contrastColor(135, 206, 250)); // light sky blue
 
     colorDirectory = new ManagedColor(display, props.contrastColor(0, 0, 255));
     colorHop = new ManagedColor(display, props.contrastColor(188, 198, 82));
@@ -613,58 +604,33 @@ public class GuiResource {
     fontFixed = new ManagedFont(display, props.getFixedFont());
 
     // Create a medium size version of the graph font
-    FontData mediumFontData =
-        new FontData(
-            props.getGraphFont().getName(),
-            (int) Math.round(props.getGraphFont().getHeight() * 1.2),
-            props.getGraphFont().getStyle());
+    FontData mediumFontData = new FontData(props.getGraphFont().getName(), (int) Math.round(props.getGraphFont().getHeight() * 1.2), props.getGraphFont().getStyle());
     fontMedium = new ManagedFont(display, mediumFontData);
 
     // Create a medium bold size version of the graph font
-    FontData mediumFontBoldData =
-        new FontData(
-            props.getGraphFont().getName(),
-            (int) Math.round(props.getGraphFont().getHeight() * 1.2),
-            props.getGraphFont().getStyle() | SWT.BOLD);
+    FontData mediumFontBoldData = new FontData(props.getGraphFont().getName(), (int) Math.round(props.getGraphFont().getHeight() * 1.2), props.getGraphFont().getStyle() | SWT.BOLD);
     fontMediumBold = new ManagedFont(display, mediumFontBoldData);
 
     // Create a large version of the graph font
-    FontData largeFontData =
-        new FontData(
-            props.getGraphFont().getName(),
-            mediumFontData.getHeight() + 2,
-            props.getGraphFont().getStyle());
+    FontData largeFontData = new FontData(props.getGraphFont().getName(), mediumFontData.getHeight() + 2, props.getGraphFont().getStyle());
     fontLarge = new ManagedFont(display, largeFontData);
 
     // Create a tiny version of the graph font
-    FontData tinyFontData =
-        new FontData(
-            props.getGraphFont().getName(),
-            mediumFontData.getHeight() - 2,
-            props.getGraphFont().getStyle());
+    FontData tinyFontData = new FontData(props.getGraphFont().getName(), mediumFontData.getHeight() - 2, props.getGraphFont().getStyle());
     fontTiny = new ManagedFont(display, tinyFontData);
 
     // Create a small version of the graph font
-    FontData smallFontData =
-        new FontData(
-            props.getGraphFont().getName(),
-            mediumFontData.getHeight() - 1,
-            props.getGraphFont().getStyle());
+    FontData smallFontData = new FontData(props.getGraphFont().getName(), mediumFontData.getHeight() - 1, props.getGraphFont().getStyle());
     fontSmall = new ManagedFont(display, smallFontData);
 
-    FontData boldFontData =
-        new FontData(
-            props.getDefaultFontData().getName(),
-            props.getDefaultFontData().getHeight(),
-            props.getDefaultFontData().getStyle() | SWT.BOLD);
+    FontData boldFontData = new FontData(props.getDefaultFontData().getName(), props.getDefaultFontData().getHeight(), props.getDefaultFontData().getStyle() | SWT.BOLD);
     fontBold = new ManagedFont(display, boldFontData);
   }
 
   // load image from svg
   //
   public Image loadAsResource(Display display, String location, int size) {
-    SwtUniversalImage img =
-        SwtSvgImageUtil.getUniversalImage(display, getClass().getClassLoader(), location);
+    SwtUniversalImage img = SwtSvgImageUtil.getUniversalImage(display, getClass().getClassLoader(), location);
     Image image;
     if (size > 0) {
       int newSize = (int) Math.round(size * zoomFactor);
@@ -681,8 +647,7 @@ public class GuiResource {
     SwtUniversalImage img = SwtSvgImageUtil.getImageAsResource(display, location);
     int newWidth = (int) Math.round(width * zoomFactor);
     int newHeight = (int) Math.round(height * zoomFactor);
-    Image image =
-        new Image(display, img.getAsBitmapForSize(display, newWidth, newHeight), SWT.IMAGE_COPY);
+    Image image = new Image(display, img.getAsBitmapForSize(display, newWidth, newHeight), SWT.IMAGE_COPY);
     img.dispose();
     return image;
   }
@@ -697,8 +662,7 @@ public class GuiResource {
     imageAddSingle = loadAsResource(display, "ui/images/add_single.svg", ConstUi.SMALL_ICON_SIZE);
     imageCalendar = loadAsResource(display, "ui/images/calendar.svg", ConstUi.SMALL_ICON_SIZE);
     imageClosePanel = loadAsResource(display, "ui/images/close-panel.svg", ConstUi.SMALL_ICON_SIZE);
-    imageCollapseAll =
-        loadAsResource(display, "ui/images/collapse-all.svg", ConstUi.SMALL_ICON_SIZE);
+    imageCollapseAll = loadAsResource(display, "ui/images/collapse-all.svg", ConstUi.SMALL_ICON_SIZE);
     imageColor = loadAsResource(display, "ui/images/edit_option.svg", ConstUi.SMALL_ICON_SIZE);
     imageCancel = loadAsResource(display, "ui/images/cancel.svg", ConstUi.SMALL_ICON_SIZE);
     imageCopy = loadAsResource(display, "ui/images/copy.svg", ConstUi.SMALL_ICON_SIZE);
@@ -709,45 +673,34 @@ public class GuiResource {
     imageExpandAll = loadAsResource(display, "ui/images/expand-all.svg", ConstUi.SMALL_ICON_SIZE);
     imageLabel = loadAsResource(display, "ui/images/label.svg", ConstUi.SMALL_ICON_SIZE);
     imageFunction = loadAsResource(display, "ui/images/function.svg", ConstUi.SMALL_ICON_SIZE);
-    imageNavigateBack =
-        loadAsResource(display, "ui/images/navigate-back.svg", ConstUi.SMALL_ICON_SIZE);
-    imageNavigateForward =
-        loadAsResource(display, "ui/images/navigate-forward.svg", ConstUi.SMALL_ICON_SIZE);
+    imageNavigateBack = loadAsResource(display, "ui/images/navigate-back.svg", ConstUi.SMALL_ICON_SIZE);
+    imageNavigateForward = loadAsResource(display, "ui/images/navigate-forward.svg", ConstUi.SMALL_ICON_SIZE);
     imageNavigateUp = loadAsResource(display, "ui/images/navigate-up.svg", ConstUi.SMALL_ICON_SIZE);
     imageHelp = loadAsResource(display, "ui/images/help.svg", ConstUi.SMALL_ICON_SIZE);
     imageHide = loadAsResource(display, "ui/images/hide.svg", ConstUi.SMALL_ICON_SIZE);
-    imageHideResults =
-        loadAsResource(display, "ui/images/hide-results.svg", ConstUi.SMALL_ICON_SIZE);
+    imageHideResults = loadAsResource(display, "ui/images/hide-results.svg", ConstUi.SMALL_ICON_SIZE);
     imageHome = loadAsResource(display, "ui/images/home.svg", ConstUi.SMALL_ICON_SIZE);
-    imageMaximizePanel =
-        loadAsResource(display, "ui/images/maximize-panel.svg", ConstUi.SMALL_ICON_SIZE);
-    imageMinimizePanel =
-        loadAsResource(display, "ui/images/minimize-panel.svg", ConstUi.SMALL_ICON_SIZE);
+    imageMaximizePanel = loadAsResource(display, "ui/images/maximize-panel.svg", ConstUi.SMALL_ICON_SIZE);
+    imageMinimizePanel = loadAsResource(display, "ui/images/minimize-panel.svg", ConstUi.SMALL_ICON_SIZE);
     imageNew = loadAsResource(display, "ui/images/new.svg", ConstUi.SMALL_ICON_SIZE);
     imageNote = loadAsResource(display, "ui/images/note.svg", ConstUi.SMALL_ICON_SIZE);
     imagePrint = loadAsResource(display, "ui/images/print.svg", ConstUi.SMALL_ICON_SIZE);
     imageRefresh = loadAsResource(display, "ui/images/refresh.svg", ConstUi.SMALL_ICON_SIZE);
     imageRegEx = loadAsResource(display, "ui/images/regex.svg", ConstUi.SMALL_ICON_SIZE);
     imageRemoveAll = loadAsResource(display, "ui/images/remove_all.svg", ConstUi.SMALL_ICON_SIZE);
-    imageRemoveSingle =
-        loadAsResource(display, "ui/images/remove_single.svg", ConstUi.SMALL_ICON_SIZE);
-    imageResetOption =
-        loadAsResource(display, "ui/images/reset_option.svg", ConstUi.SMALL_ICON_SIZE);
+    imageRemoveSingle = loadAsResource(display, "ui/images/remove_single.svg", ConstUi.SMALL_ICON_SIZE);
+    imageResetOption = loadAsResource(display, "ui/images/reset_option.svg", ConstUi.SMALL_ICON_SIZE);
     imageSchema = loadAsResource(display, "ui/images/user.svg", ConstUi.SMALL_ICON_SIZE);
     imageSearch = loadAsResource(display, "ui/images/search.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowAll = loadAsResource(display, "ui/images/show-all.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowErrorLines =
-        loadAsResource(display, "ui/images/show-error-lines.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowErrorLines = loadAsResource(display, "ui/images/show-error-lines.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowGrid = loadAsResource(display, "ui/images/show-grid.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowHistory =
-        loadAsResource(display, "ui/images/show-history.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowHistory = loadAsResource(display, "ui/images/show-history.svg", ConstUi.SMALL_ICON_SIZE);
     imageShow = loadAsResource(display, "ui/images/show.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowLog = loadAsResource(display, "ui/images/log.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowPerf = loadAsResource(display, "ui/images/show-perf.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowResults =
-        loadAsResource(display, "ui/images/show-results.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowSelected =
-        loadAsResource(display, "ui/images/show-selected.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowResults = loadAsResource(display, "ui/images/show-results.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowSelected = loadAsResource(display, "ui/images/show-selected.svg", ConstUi.SMALL_ICON_SIZE);
     imageSynonym = loadAsResource(display, "ui/images/view.svg", ConstUi.SMALL_ICON_SIZE);
     imageTable = loadAsResource(display, "ui/images/table.svg", ConstUi.SMALL_ICON_SIZE);
     imageUser = loadAsResource(display, "ui/images/user.svg", ConstUi.SMALL_ICON_SIZE);
@@ -770,13 +723,11 @@ public class GuiResource {
     imageTrue = SwtSvgImageUtil.getImageAsResource(display, "ui/images/true.svg");
     imageTrueDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/true-disabled.svg");
     imageFalse = SwtSvgImageUtil.getImageAsResource(display, "ui/images/false.svg");
-    imageFalseDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/false-disabled.svg");
+    imageFalseDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/false-disabled.svg");
     imageVariable = SwtSvgImageUtil.getImageAsResource(display, "ui/images/variable.svg");
     imageFile = SwtSvgImageUtil.getImageAsResource(display, "ui/images/file.svg");
     imageFolder = SwtSvgImageUtil.getImageAsResource(display, "ui/images/folder.svg");
-    imagePartitionSchema =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/partition_schema.svg");
+    imagePartitionSchema = SwtSvgImageUtil.getImageAsResource(display, "ui/images/partition_schema.svg");
     imageDatabase = SwtSvgImageUtil.getImageAsResource(display, "ui/images/database.svg");
     imageData = SwtSvgImageUtil.getImageAsResource(display, "ui/images/data.svg");
     imageEdit = SwtSvgImageUtil.getImageAsResource(display, "ui/images/edit.svg");
@@ -786,13 +737,11 @@ public class GuiResource {
     imageBol = SwtSvgImageUtil.getImageAsResource(display, "ui/images/bol.svg");
     imageClearText = SwtSvgImageUtil.getImageAsResource(display, "ui/images/clear-text.svg");
     imageCopyRows = SwtSvgImageUtil.getImageAsResource(display, "ui/images/copy-rows.svg");
-    imageCopyRowsDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/copy-rows-disabled.svg");
+    imageCopyRowsDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/copy-rows-disabled.svg");
     imageFailure = SwtSvgImageUtil.getImageAsResource(display, "ui/images/failure.svg");
     imageSuccess = SwtSvgImageUtil.getImageAsResource(display, "ui/images/success.svg");
     imageError = SwtSvgImageUtil.getImageAsResource(display, "ui/images/error.svg");
-    imageErrorDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/error-disabled.svg");
+    imageErrorDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/error-disabled.svg");
     imageInfo = SwtSvgImageUtil.getImageAsResource(display, "ui/images/info.svg");
     imageInfoDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/info-disabled.svg");
     imageWarning = SwtSvgImageUtil.getImageAsResource(display, "ui/images/warning.svg");
@@ -800,35 +749,28 @@ public class GuiResource {
     imageInput = SwtSvgImageUtil.getImageAsResource(display, "ui/images/input.svg");
     imageOutput = SwtSvgImageUtil.getImageAsResource(display, "ui/images/output.svg");
     imageTarget = SwtSvgImageUtil.getImageAsResource(display, "ui/images/target.svg");
-    imageTargetDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/target-disabled.svg");
+    imageTargetDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/target-disabled.svg");
     imageContextMenu = SwtSvgImageUtil.getImageAsResource(display, "ui/images/context_menu.svg");
     imageParallel = SwtSvgImageUtil.getImageAsResource(display, "ui/images/parallel-hop.svg");
-    imageParallelDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/parallel-hop-disabled.svg");
+    imageParallelDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/parallel-hop-disabled.svg");
     imageUnconditional = SwtSvgImageUtil.getImageAsResource(display, "ui/images/unconditional.svg");
-    imageUnconditionalDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/unconditional-disabled.svg");
+    imageUnconditionalDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/unconditional-disabled.svg");
     imageBusy = SwtSvgImageUtil.getImageAsResource(display, "ui/images/busy.svg");
     imageInject = SwtSvgImageUtil.getImageAsResource(display, "ui/images/inject.svg");
     imageBalance = SwtSvgImageUtil.getImageAsResource(display, "ui/images/scales.svg");
     imageCheckpoint = SwtSvgImageUtil.getImageAsResource(display, "ui/images/checkpoint.svg");
     imageArrow = SwtSvgImageUtil.getImageAsResource(display, "ui/images/arrow.svg");
-    imageFolderConnections =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/folder_connection.svg");
+    imageFolderConnections = SwtSvgImageUtil.getImageAsResource(display, "ui/images/folder_connection.svg");
     imageDisabledHop = SwtSvgImageUtil.getImageAsResource(display, "ui/images/DHOP.svg");
 
     // Hop arrow
     //
-    imageArrowDefault =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-default.svg");
+    imageArrowDefault = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-default.svg");
     imageArrowTrue = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-true.svg");
     imageArrowFalse = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-false.svg");
     imageArrowError = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-error.svg");
-    imageArrowDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-disabled.svg");
-    imageArrowCandidate =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-candidate.svg");
+    imageArrowDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-disabled.svg");
+    imageArrowCandidate = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-candidate.svg");
   }
 
   public Image getImageLabel() {
@@ -869,8 +811,7 @@ public class GuiResource {
         ClassLoader classLoader = registry.getClassLoader(plugin);
         image = SwtSvgImageUtil.getUniversalImage(display, classLoader, filename);
       } catch (Throwable t) {
-        log.logError(
-            "Error occurred loading image [" + filename + "] for plugin " + plugin.getIds()[0], t);
+        log.logError("Error occurred loading image [" + filename + "] for plugin " + plugin.getIds()[0], t);
       } finally {
         if (image == null) {
           log.logError("Unable to load image [" + filename + "] for plugin " + plugin.getIds()[0]);
@@ -892,26 +833,12 @@ public class GuiResource {
       Image image = null;
       try {
         ClassLoader classLoader = registry.getClassLoader(plugin);
-        image =
-            getImage(
-                plugin.getImageFile(),
-                classLoader,
-                ConstUi.SMALL_ICON_SIZE,
-                ConstUi.SMALL_ICON_SIZE);
+        image = getImage(plugin.getImageFile(), classLoader, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
       } catch (Throwable t) {
-        log.logError(
-            "Error occurred loading image ["
-                + plugin.getImageFile()
-                + "] for plugin "
-                + plugin.getIds()[0],
-            t);
+        log.logError("Error occurred loading image [" + plugin.getImageFile() + "] for plugin " + plugin.getIds()[0], t);
       } finally {
         if (image == null) {
-          log.logError(
-              "Unable to load image ["
-                  + plugin.getImageFile()
-                  + "] for plugin "
-                  + plugin.getIds()[0]);
+          log.logError("Unable to load image [" + plugin.getImageFile() + "] for plugin " + plugin.getIds()[0]);
           image = this.imageLabel;
         }
       }
@@ -1050,14 +977,12 @@ public class GuiResource {
 
   /** @return Returns the imageServer. */
   public Image getImageServer() {
-    return imageServer.getAsBitmapForSize(
-        display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return imageServer.getAsBitmapForSize(display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   /** @return Returns the database image. */
   public Image getImageDatabase() {
-    return imageDatabase.getAsBitmapForSize(
-        display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return imageDatabase.getAsBitmapForSize(display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   /** @return Returns the data image. */
@@ -1084,8 +1009,7 @@ public class GuiResource {
 
   /** @return Returns the preview image. */
   public Image getImagePreview() {
-    return imagePreview.getAsBitmapForSize(
-        display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return imagePreview.getAsBitmapForSize(display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   /** @return Returns the imageSchema. */
@@ -1124,8 +1048,7 @@ public class GuiResource {
 
   /** @return Returns the imageDisabledHop. */
   public Image getImageDisabledHop() {
-    return imageDisabledHop.getAsBitmapForSize(
-        display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return imageDisabledHop.getAsBitmapForSize(display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   /** @return Returns the imagesTransforms. */
@@ -1138,13 +1061,12 @@ public class GuiResource {
     return imagesActions;
   }
 
-  /**
-   * Return the image of the IValueMeta from plugin
+  /** Return the image of the IValueMeta from plugin
    *
-   * @return image
-   */
+   * @return image */
   public Image getImage(IValueMeta valueMeta) {
-    if (valueMeta == null) return this.imageLabel;
+    if (valueMeta == null)
+      return this.imageLabel;
     return imagesValueMeta.get(String.valueOf(valueMeta.getType()));
   }
 
@@ -1195,10 +1117,8 @@ public class GuiResource {
     return fontBold.getFont();
   }
 
-  private Image getZoomedImaged(
-      SwtUniversalImage universalImage, Device device, int width, int height) {
-    return universalImage.getAsBitmapForSize(
-        device, (int) (zoomFactor * width), (int) (zoomFactor * height));
+  private Image getZoomedImaged(SwtUniversalImage universalImage, Device device, int width, int height) {
+    return universalImage.getAsBitmapForSize(device, (int) (zoomFactor * width), (int) (zoomFactor * height));
   }
 
   /** @return the imageVariable */
@@ -1207,8 +1127,7 @@ public class GuiResource {
   }
 
   public Image getImagePipeline() {
-    return getZoomedImaged(
-        imagePipeline, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imagePipeline, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public Image getImageUser() {
@@ -1216,18 +1135,15 @@ public class GuiResource {
   }
 
   public Image getImageFolderConnections() {
-    return getZoomedImaged(
-        imagePipeline, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imagePipeline, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public Image getImagePartitionSchema() {
-    return getZoomedImaged(
-        imagePartitionSchema, display, ConstUi.MEDIUM_ICON_SIZE, ConstUi.MEDIUM_ICON_SIZE);
+    return getZoomedImaged(imagePartitionSchema, display, ConstUi.MEDIUM_ICON_SIZE, ConstUi.MEDIUM_ICON_SIZE);
   }
 
   public Image getImageWorkflow() {
-    return getZoomedImaged(
-        imageWorkflow, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageWorkflow, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public Image getEditOptionButton() {
@@ -1313,16 +1229,14 @@ public class GuiResource {
       gc.fillGradientRectangle(rect.x, rect.y, 2 * rect.width / 3, rect.height, vertical);
       gc.setForeground(GuiResource.getInstance().getColorHop());
       gc.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-      gc.fillGradientRectangle(
-          rect.x + 2 * rect.width / 3, rect.y, rect.width / 3 + 1, rect.height, vertical);
+      gc.fillGradientRectangle(rect.x + 2 * rect.width / 3, rect.y, rect.width / 3 + 1, rect.height, vertical);
     } else {
       gc.setForeground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
       gc.setBackground(GuiResource.getInstance().getColorHop());
       gc.fillGradientRectangle(rect.x, rect.y, rect.width, 2 * rect.height / 3, vertical);
       gc.setForeground(GuiResource.getInstance().getColorHop());
       gc.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-      gc.fillGradientRectangle(
-          rect.x, rect.y + 2 * rect.height / 3, rect.width, rect.height / 3 + 1, vertical);
+      gc.fillGradientRectangle(rect.x, rect.y + 2 * rect.height / 3, rect.width, rect.height / 3 + 1, vertical);
     }
   }
 
@@ -1414,8 +1328,7 @@ public class GuiResource {
   }
 
   public Image getImageClearText() {
-    return getZoomedImaged(
-        imageClearText, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageClearText, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public Image getImageExpandAll() {
@@ -1431,8 +1344,7 @@ public class GuiResource {
   }
 
   public Image getImageCopyHop() {
-    return getZoomedImaged(
-        imageCopyRows, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageCopyRows, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public SwtUniversalImage getSwtImageCopyRows() {
@@ -1480,8 +1392,7 @@ public class GuiResource {
   }
 
   public Image getImageDeprecated() {
-    return getZoomedImaged(
-        imageDeprecated, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageDeprecated, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public Image getImageNew() {
@@ -1544,28 +1455,24 @@ public class GuiResource {
     return imageLocked;
   }
 
-  /**
-   * Loads an image from a location once. The second time, the image comes from a cache. Because of
+  /** Loads an image from a location once. The second time, the image comes from a cache. Because of
    * this, it's important to never dispose of the image you get from here. (easy!) The images are
    * automatically disposed when the application ends.
    *
    * @param location the location of the image resource to load
-   * @return the loaded image
-   */
+   * @return the loaded image */
   public Image getImage(String location) {
     return getImage(location, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
-  /**
-   * Loads an image from a location once. The second time, the image comes from a cache. Because of
+  /** Loads an image from a location once. The second time, the image comes from a cache. Because of
    * this, it's important to never dispose of the image you get from here. (easy!) The images are
    * automatically disposed when the application ends.
    *
    * @param location the location of the image resource to load
    * @param width The height to resize the image to
    * @param height The width to resize the image to
-   * @return the loaded image
-   */
+   * @return the loaded image */
   public Image getImage(String location, int width, int height) {
     StringBuilder builder = new StringBuilder(location);
     builder.append('|');
@@ -1579,17 +1486,14 @@ public class GuiResource {
       SwtUniversalImage svg = SwtSvgImageUtil.getImage(display, location);
       int realWidth = (int) Math.round(zoomFactor * width);
       int realHeight = (int) Math.round(zoomFactor * height);
-      image =
-          new Image(
-              display, svg.getAsBitmapForSize(display, realWidth, realHeight), SWT.IMAGE_COPY);
+      image = new Image(display, svg.getAsBitmapForSize(display, realWidth, realHeight), SWT.IMAGE_COPY);
       svg.dispose();
       imageMap.put(key, image);
     }
     return image;
   }
 
-  /**
-   * Loads an image from a location once. The second time, the image comes from a cache. Because of
+  /** Loads an image from a location once. The second time, the image comes from a cache. Because of
    * this, it's important to never dispose of the image you get from here. (easy!) The images are
    * automatically disposed when the application ends.
    *
@@ -1597,14 +1501,12 @@ public class GuiResource {
    * @param classLoader the ClassLoader to use to locate resources
    * @param width The height to resize the image to
    * @param height The width to resize the image to
-   * @return the loaded image
-   */
+   * @return the loaded image */
   public Image getImage(String location, ClassLoader classLoader, int width, int height) {
     return getImage(location, classLoader, width, height, false);
   }
 
-  /**
-   * Loads an image from a location once. The second time, the image comes from a cache. Because of
+  /** Loads an image from a location once. The second time, the image comes from a cache. Because of
    * this, it's important to never dispose of the image you get from here. (easy!) The images are
    * automatically disposed when the application ends.
    *
@@ -1613,10 +1515,8 @@ public class GuiResource {
    * @param width The height to resize the image to
    * @param height The width to resize the image to
    * @param disabled in case you want to gray-scaled 'disabled' version of the image
-   * @return the loaded image
-   */
-  public Image getImage(
-      String location, ClassLoader classLoader, int width, int height, boolean disabled) {
+   * @return the loaded image */
+  public Image getImage(String location, ClassLoader classLoader, int width, int height, boolean disabled) {
     // Build image key for a specific size
     StringBuilder builder = new StringBuilder(location);
     builder.append('|').append(width).append('|').append(height).append('|').append(disabled);
@@ -1678,10 +1578,8 @@ public class GuiResource {
     return color;
   }
 
-  /**
-   * @return The image map used to cache images loaded from certain location using getImage(String
-   *     location);
-   */
+  /** @return The image map used to cache images loaded from certain location using getImage(String
+   *         location); */
   public Map<String, Image> getImageMap() {
     return imageMap;
   }
@@ -1730,8 +1628,7 @@ public class GuiResource {
 
   /** @return the imageContextMenu */
   public Image getImageContextMenu() {
-    return getZoomedImaged(
-        imageContextMenu, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageContextMenu, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public SwtUniversalImage getSwtImageContextMenu() {
@@ -1739,8 +1636,7 @@ public class GuiResource {
   }
 
   public Image getImageParallelHop() {
-    return getZoomedImaged(
-        imageParallel, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageParallel, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public SwtUniversalImage getSwtImageParallel() {
@@ -1752,8 +1648,7 @@ public class GuiResource {
   }
 
   public Image getImageUnconditionalHop() {
-    return getZoomedImaged(
-        imageUnconditional, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageUnconditional, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public SwtUniversalImage getSwtImageUnconditional() {
@@ -1789,8 +1684,7 @@ public class GuiResource {
   }
 
   public Image getImageCheckpoint() {
-    return getZoomedImaged(
-        imageCheckpoint, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
+    return getZoomedImaged(imageCheckpoint, display, ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE);
   }
 
   public SwtUniversalImage getSwtImageCheckpoint() {
@@ -1873,58 +1767,46 @@ public class GuiResource {
     return imageArrowCandidate;
   }
 
-  /**
-   * Gets imageToolbarClose
+  /** Gets imageToolbarClose
    *
-   * @return value of imageToolbarClose
-   */
+   * @return value of imageToolbarClose */
   public Image getImageClose() {
     return imageClose;
   }
 
-  /**
-   * Gets imageToolbarPause
+  /** Gets imageToolbarPause
    *
-   * @return value of imageToolbarPause
-   */
+   * @return value of imageToolbarPause */
   public Image getImagePause() {
     return imagePause;
   }
 
-  /**
-   * Gets image run 16x16
+  /** Gets image run 16x16
    *
    * @see {@link GuiResource#getImageStop}, {@link GuiResource#getImagePause}
-   * @return image
-   */
+   * @return image */
   public Image getImageRun() {
     return imageRun;
   }
 
-  /**
-   * Gets image stop 16x16
+  /** Gets image stop 16x16
    *
    * @see {@link GuiResource#getImageRun}, {@link GuiResource#getImagePause}
-   * @return image
-   */
+   * @return image */
   public Image getImageStop() {
     return imageStop;
   }
 
-  /**
-   * Gets imageToolbarView
+  /** Gets imageToolbarView
    *
-   * @return value of imageToolbarView
-   */
+   * @return value of imageToolbarView */
   public Image getImageView() {
     return imageView;
   }
 
-  /**
-   * Gets image search 16x16
+  /** Gets image search 16x16
    *
-   * @return image
-   */
+   * @return image */
   public Image getImageSearch() {
     return imageSearch;
   }

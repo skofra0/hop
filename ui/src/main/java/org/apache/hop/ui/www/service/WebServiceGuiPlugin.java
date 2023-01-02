@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,15 +43,8 @@ import java.util.List;
 @GuiPlugin
 public class WebServiceGuiPlugin {
 
-  @GuiContextAction(
-      id = "pipeline-graph-transform-9000-add-web-serviec",
-      parentId = HopGuiPipelineTransformContext.CONTEXT_ID,
-      type = GuiActionType.Info,
-      name = "Add web service",
-      tooltip = "Use the output of this transform as a web service with Hop Server",
-      image = "ui/images/webservice.svg",
-      category = "Data routing",
-      categoryOrder = "2")
+  @GuiContextAction(id = "pipeline-graph-transform-9000-add-web-serviec", parentId = HopGuiPipelineTransformContext.CONTEXT_ID, type = GuiActionType.Info, name = "Add web service", tooltip = "Use the output of this transform as a web service with Hop Server", image = "ui/images/webservice.svg",
+      category = "Data routing", categoryOrder = "2")
   public void addWebServiceForTransform(HopGuiPipelineTransformContext context) {
     PipelineMeta pipelineMeta = context.getPipelineMeta();
     TransformMeta transformMeta = context.getTransformMeta();
@@ -63,12 +56,7 @@ public class WebServiceGuiPlugin {
       // Ask which field should be used...
       //
       IRowMeta fields = pipelineMeta.getTransformFields(variables, transformMeta);
-      EnterSelectionDialog fieldSelectionDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              fields.getFieldNames(),
-              "Select the output field",
-              "Please select the field to output when the service is called");
+      EnterSelectionDialog fieldSelectionDialog = new EnterSelectionDialog(hopGui.getShell(), fields.getFieldNames(), "Select the output field", "Please select the field to output when the service is called");
       String fieldName = fieldSelectionDialog.open();
       if (fieldName == null) {
         return;
@@ -77,10 +65,8 @@ public class WebServiceGuiPlugin {
       // Present the user with a list of pipeline probes...
       //
       IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
-      IHopMetadataSerializer<WebService> serializer =
-          metadataProvider.getSerializer(WebService.class);
-      MetadataManager<WebService> manager =
-          new MetadataManager<>(hopGui.getVariables(), metadataProvider, WebService.class);
+      IHopMetadataSerializer<WebService> serializer = metadataProvider.getSerializer(WebService.class);
+      MetadataManager<WebService> manager = new MetadataManager<>(hopGui.getVariables(), metadataProvider, WebService.class);
 
       WebService webService = null;
       List<String> serviceNames = serializer.listObjectNames();
@@ -92,27 +78,14 @@ public class WebServiceGuiPlugin {
         if ((answer & SWT.YES) != 0) {
           // Create a new web service...
           //
-          webService =
-              new WebService(
-                  pipelineMeta.getName(),
-                  true,
-                  pipelineMeta.getFilename(),
-                  transformMeta.getName(),
-                  fieldName,
-                  "text/plain",
-                  false);
+          webService = new WebService(pipelineMeta.getName(), true, pipelineMeta.getFilename(), transformMeta.getName(), fieldName, "text/plain", false);
           manager.newMetadata(webService);
           return;
         } else {
           return;
         }
       } else {
-        EnterSelectionDialog dialog =
-            new EnterSelectionDialog(
-                hopGui.getShell(),
-                serviceNames.toArray(new String[0]),
-                "Select a web service",
-                "Select the web service to update");
+        EnterSelectionDialog dialog = new EnterSelectionDialog(hopGui.getShell(), serviceNames.toArray(new String[0]), "Select a web service", "Select the web service to update");
         String pipelineProbeName = dialog.open();
         if (pipelineProbeName != null) {
           webService = serializer.load(pipelineProbeName);
@@ -123,12 +96,9 @@ public class WebServiceGuiPlugin {
 
         // See if it's open in the metadata perspective...
         //
-        MetadataPerspective perspective =
-            (MetadataPerspective)
-                hopGui.getPerspectiveManager().findPerspective(MetadataPerspective.class);
+        MetadataPerspective perspective = (MetadataPerspective) hopGui.getPerspectiveManager().findPerspective(MetadataPerspective.class);
         String key = WebService.class.getAnnotation(HopMetadata.class).key();
-        WebServiceEditor editor =
-            (WebServiceEditor) perspective.findEditor(key, webService.getName());
+        WebServiceEditor editor = (WebServiceEditor) perspective.findEditor(key, webService.getName());
         if (editor != null) {
           // We're going to change the current metadata and flag it as changed...
           //
@@ -171,11 +141,7 @@ public class WebServiceGuiPlugin {
       }
 
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error adding web service for transform '" + transformMeta.getName() + "'",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error adding web service for transform '" + transformMeta.getName() + "'", e);
     }
   }
 }

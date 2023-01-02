@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,10 +45,8 @@ public class DynamicWaitTimesTest extends TestCase {
   }
 
   public void testMultiStreamStatus() {
-    List<IRowSet> rowSetList =
-        new ArrayList<>(
-            Arrays.asList(new BlockingRowSet(1), new BlockingRowSet(2), new BlockingRowSet(7)));
-    status = DynamicWaitTimes.build(rowSetList, () -> activeStreamIndex.get(),20);
+    List<IRowSet> rowSetList = new ArrayList<>(Arrays.asList(new BlockingRowSet(1), new BlockingRowSet(2), new BlockingRowSet(7)));
+    status = DynamicWaitTimes.build(rowSetList, () -> activeStreamIndex.get(), 20);
     for (IRowSet iRowSet : rowSetList) {
       status.adjust(false, iRowSet);
       assertEquals(1, status.get());

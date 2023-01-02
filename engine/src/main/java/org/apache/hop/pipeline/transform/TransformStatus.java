@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -98,10 +98,7 @@ public class TransformStatus {
 
     this.seconds = Math.floor((lapsed * 10) + 0.5) / 10;
     this.speed = lapsed == 0 ? "-" : " " + speedDf.format(speedNumber);
-    this.priority =
-        component.isRunning()
-            ? "   " + component.getInputBufferSize() + "/" + component.getOutputBufferSize()
-            : "-";
+    this.priority = component.isRunning() ? "   " + component.getInputBufferSize() + "/" + component.getOutputBufferSize() : "-";
     this.stopped = component.isStopped();
     this.paused = component.isPaused();
 
@@ -112,47 +109,8 @@ public class TransformStatus {
   }
 
   public String getHTMLTableRow(boolean urlInTransformName) {
-    return "<tr> "
-        + "<th>"
-        + (urlInTransformName ? transformName : Encode.forHtml(transformName))
-        + "</th> "
-        + "<th>"
-        + copy
-        + "</th> "
-        + "<th>"
-        + linesRead
-        + "</th> "
-        + "<th>"
-        + linesWritten
-        + "</th> "
-        + "<th>"
-        + linesInput
-        + "</th> "
-        + "<th>"
-        + linesOutput
-        + "</th> "
-        + "<th>"
-        + linesUpdated
-        + "</th> "
-        + "<th>"
-        + linesRejected
-        + "</th> "
-        + "<th>"
-        + errors
-        + "</th> "
-        + "<th>"
-        + Encode.forHtml(statusDescription)
-        + "</th> "
-        + "<th>"
-        + seconds
-        + "</th> "
-        + "<th>"
-        + Encode.forHtml(speed)
-        + "</th> "
-        + "<th>"
-        + Encode.forHtml(priority)
-        + "</th> "
-        + "</tr>";
+    return "<tr> " + "<th>" + (urlInTransformName ? transformName : Encode.forHtml(transformName)) + "</th> " + "<th>" + copy + "</th> " + "<th>" + linesRead + "</th> " + "<th>" + linesWritten + "</th> " + "<th>" + linesInput + "</th> " + "<th>" + linesOutput + "</th> " + "<th>" + linesUpdated
+        + "</th> " + "<th>" + linesRejected + "</th> " + "<th>" + errors + "</th> " + "<th>" + Encode.forHtml(statusDescription) + "</th> " + "<th>" + seconds + "</th> " + "<th>" + Encode.forHtml(speed) + "</th> " + "<th>" + Encode.forHtml(priority) + "</th> " + "</tr>";
   }
 
   @JsonIgnore
@@ -199,8 +157,7 @@ public class TransformStatus {
       xml.append(XmlHandler.closeTag(XML_TAG));
       return xml.toString();
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to serialize transform '" + transformName + "' status data to XML", e);
+      throw new HopException("Unable to serialize transform '" + transformName + "' status data to XML", e);
     }
   }
 
@@ -249,23 +206,9 @@ public class TransformStatus {
   }
 
   public String[] getPipelineLogFields(String overrideDescription) {
-    String[] fields =
-        new String[] {
-          "", // Row number
-          transformName,
-          Integer.toString(copy),
-          Long.toString(linesRead),
-          Long.toString(linesWritten),
-          Long.toString(linesInput),
-          Long.toString(linesOutput),
-          Long.toString(linesUpdated),
-          Long.toString(linesRejected),
-          Long.toString(errors),
-          overrideDescription,
-          convertSeconds(seconds),
-          speed,
-          priority,
-        };
+    String[] fields = new String[] {"", // Row number
+        transformName, Integer.toString(copy), Long.toString(linesRead), Long.toString(linesWritten), Long.toString(linesInput), Long.toString(linesOutput), Long.toString(linesUpdated), Long.toString(linesRejected), Long.toString(errors), overrideDescription, convertSeconds(seconds), speed,
+        priority,};
 
     return fields;
   }
@@ -299,20 +242,7 @@ public class TransformStatus {
   @JsonIgnore
   public String[] getPeekFields() {
     String[] fields =
-        new String[] {
-          Integer.toString(copy),
-          Long.toString(linesRead),
-          Long.toString(linesWritten),
-          Long.toString(linesInput),
-          Long.toString(linesOutput),
-          Long.toString(linesUpdated),
-          Long.toString(linesRejected),
-          Long.toString(errors),
-          statusDescription,
-          convertSeconds(seconds),
-          speed,
-          priority,
-        };
+        new String[] {Integer.toString(copy), Long.toString(linesRead), Long.toString(linesWritten), Long.toString(linesInput), Long.toString(linesOutput), Long.toString(linesUpdated), Long.toString(linesRejected), Long.toString(errors), statusDescription, convertSeconds(seconds), speed, priority,};
 
     return fields;
   }
@@ -483,11 +413,9 @@ public class TransformStatus {
     this.sampleRows = sampleRows;
   }
 
-  /**
-   * Gets inputBufferSize
+  /** Gets inputBufferSize
    *
-   * @return value of inputBufferSize
-   */
+   * @return value of inputBufferSize */
   public long getInputBufferSize() {
     return inputBufferSize;
   }
@@ -497,11 +425,9 @@ public class TransformStatus {
     this.inputBufferSize = inputBufferSize;
   }
 
-  /**
-   * Gets outputBufferSize
+  /** Gets outputBufferSize
    *
-   * @return value of outputBufferSize
-   */
+   * @return value of outputBufferSize */
   public long getOutputBufferSize() {
     return outputBufferSize;
   }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,14 +30,13 @@ import static org.junit.Assert.assertTrue;
 
 /** Test class for the basic functionality of IRowSet. */
 public class RowSetTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   public IRowMeta createRowMetaInterface() {
     IRowMeta rm = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaInteger("ROWNR"),
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaInteger("ROWNR"),};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rm.addValueMeta(valuesMeta[i]);
@@ -105,13 +104,11 @@ public class RowSetTest {
     // TODO assertTrue(set.isFull());
     assertEquals(3, set.size());
 
-    /*********************************************************************
-     * This was made in more restrict in older version v2.5.0 with a new IRowSet implementation. After older version v2.5.0 you may not try to put
+    /********************************************************************* This was made in more restrict in older version v2.5.0 with a new IRowSet implementation. After older version v2.5.0 you may not
+     * try to put
      * more rows in a rowset then it can hold (this functionality was also never used in Apache Hop anyway).
-     *
      * // Add another row. State: 2 3 4 5 // Note that we can still add rows after the set is full. set.putRow(r5);
-     * assertTrue(!set.isEmpty()); assertTrue(set.isFull()); assertEquals(4, set.size());
-     *********************************************************************/
+     * assertTrue(!set.isEmpty()); assertTrue(set.isFull()); assertEquals(4, set.size()); *********************************************************************/
 
     // Pop off row. State: 3 4
     r = set.getRow();
@@ -151,11 +148,9 @@ public class RowSetTest {
     // TODO assertTrue(!set.isFull());
     assertEquals(0, set.size());
 
-    /*********************************************************************
-     * This was changed v2.5.0 with a new IRowSet // Pop off row. State: try { r = set.getRow();
+    /********************************************************************* This was changed v2.5.0 with a new IRowSet // Pop off row. State: try { r = set.getRow();
      * fail("expected NoSuchElementException"); } catch ( IndexOutOfBoundsException ex ) { } assertTrue(set.isEmpty());
-     * assertTrue(!set.isFull()); assertEquals(0, set.size());
-     **********************************************************************/
+     * assertTrue(!set.isFull()); assertEquals(0, set.size()); **********************************************************************/
   }
 
   /** Names test. Just for completeness. */

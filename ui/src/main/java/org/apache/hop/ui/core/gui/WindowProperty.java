@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -135,17 +135,15 @@ public class WindowProperty {
     height = iHeight == null ? -1 : iHeight.intValue();
   }
 
-  /**
-   * Performs calculations to size and position a dialog If the size passed in is too large for the
+  /** Performs calculations to size and position a dialog If the size passed in is too large for the
    * primary monitor client area, it is shrunk to fit. If the positioning leaves part of the dialog
    * outside the client area, it is centered instead.
    *
    * @param shell The dialog to position and size
    * @param onlyPosition Unused argument. If the window is outside the viewable client are, it must
-   *     be resized to prevent inaccessibility.
+   *        be resized to prevent inaccessibility.
    * @param minWidth
-   * @param minHeight
-   */
+   * @param minHeight */
   public void setShell(Shell shell, boolean onlyPosition, int minWidth, int minHeight) {
     shell.setMaximized(maximized);
     shell.setBounds(new Rectangle(x, y, width, height));
@@ -176,8 +174,7 @@ public class WindowProperty {
     shell.setBounds(shellSize);
 
     Rectangle entireClientArea = shell.getDisplay().getClientArea();
-    Rectangle resizedRect =
-        new Rectangle(shellSize.x, shellSize.y, shellSize.width, shellSize.height);
+    Rectangle resizedRect = new Rectangle(shellSize.x, shellSize.y, shellSize.width, shellSize.height);
     constrainRectangleToContainer(resizedRect, entireClientArea);
 
     // If the persisted size/location doesn't perfectly fit
@@ -186,8 +183,7 @@ public class WindowProperty {
     // Relocate the shell into either the parent monitor or if
     // there is no parent, the primary monitor then center it.
     //
-    if (!resizedRect.equals(shellSize)
-        || isClippedByUnalignedMonitors(resizedRect, shell.getDisplay())) {
+    if (!resizedRect.equals(shellSize) || isClippedByUnalignedMonitors(resizedRect, shell.getDisplay())) {
       Monitor monitor = shell.getDisplay().getPrimaryMonitor();
       if (shell.getParent() != null) {
         monitor = shell.getParent().getMonitor();
@@ -202,10 +198,8 @@ public class WindowProperty {
     }
   }
 
-  /**
-   * @param child
-   * @param container
-   */
+  /** @param child
+   * @param container */
   private void constrainRectangleToContainer(Rectangle child, Rectangle container) {
     Point originalSize = new Point(child.width, child.height);
     Point containerSize = new Point(container.width, container.height);
@@ -219,17 +213,13 @@ public class WindowProperty {
     // Detect if the dialog was positioned outside the container
     // If so, center the child in the container...
     //
-    if (child.x < container.x
-        || child.y < container.y
-        || child.x + child.width > container.x + container.width
-        || child.y + child.height > container.y + container.height) {
+    if (child.x < container.x || child.y < container.y || child.x + child.width > container.x + container.width || child.y + child.height > container.y + container.height) {
       child.x = (container.width - child.width) / 2;
       child.y = (container.height - child.height) / 2;
     }
   }
 
-  /**
-   * This method is needed in the case where the display has multiple monitors, but they do not form
+  /** This method is needed in the case where the display has multiple monitors, but they do not form
    * a uniform rectangle. In this case, it is possible for Geometry.moveInside() to not detect that
    * the window is partially or completely clipped. We check to make sure at least the upper left
    * portion of the rectangle is visible to give the user the ability to reposition the dialog in
@@ -237,8 +227,7 @@ public class WindowProperty {
    *
    * @param constrainee
    * @param display
-   * @return
-   */
+   * @return */
   private boolean isClippedByUnalignedMonitors(Rectangle constrainee, Display display) {
     boolean isClipped;
     Monitor[] monitors = display.getMonitors();
@@ -258,11 +247,9 @@ public class WindowProperty {
     return isClipped;
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   public String getName() {
     return name;
   }
@@ -272,11 +259,9 @@ public class WindowProperty {
     this.name = name;
   }
 
-  /**
-   * Gets maximized
+  /** Gets maximized
    *
-   * @return value of maximized
-   */
+   * @return value of maximized */
   public boolean isMaximized() {
     return maximized;
   }
@@ -286,11 +271,9 @@ public class WindowProperty {
     this.maximized = maximized;
   }
 
-  /**
-   * Gets x
+  /** Gets x
    *
-   * @return value of x
-   */
+   * @return value of x */
   public int getX() {
     return x;
   }
@@ -300,11 +283,9 @@ public class WindowProperty {
     this.x = x;
   }
 
-  /**
-   * Gets y
+  /** Gets y
    *
-   * @return value of y
-   */
+   * @return value of y */
   public int getY() {
     return y;
   }
@@ -314,11 +295,9 @@ public class WindowProperty {
     this.y = y;
   }
 
-  /**
-   * Gets width
+  /** Gets width
    *
-   * @return value of width
-   */
+   * @return value of width */
   public int getWidth() {
     return width;
   }
@@ -328,11 +307,9 @@ public class WindowProperty {
     this.width = width;
   }
 
-  /**
-   * Gets height
+  /** Gets height
    *
-   * @return value of height
-   */
+   * @return value of height */
   public int getHeight() {
     return height;
   }

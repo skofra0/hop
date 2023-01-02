@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,12 +30,10 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * The local audit manager stores its history in the hop home directory (~/.hop) under the history
+/** The local audit manager stores its history in the hop home directory (~/.hop) under the history
  * folder So : $HOME/.hop/history
- *
- * <p>It will be done using a new metadata. - Event groups are mapped to namespaces -
- */
+ * <p>
+ * It will be done using a new metadata. - Event groups are mapped to namespaces - */
 public class LocalAuditManager implements IAuditManager {
 
   private String rootFolder;
@@ -91,8 +89,7 @@ public class LocalAuditManager implements IAuditManager {
   }
 
   @Override
-  public List<AuditEvent> findEvents(String group, String type, boolean unique)
-      throws HopException {
+  public List<AuditEvent> findEvents(String group, String type, boolean unique) throws HopException {
     if (StringUtils.isEmpty(group)) {
       throw new HopException("You need to specify a group to find events");
     }
@@ -148,8 +145,7 @@ public class LocalAuditManager implements IAuditManager {
     try {
       new ObjectMapper().writeValue(new File(filename), auditList);
     } catch (IOException e) {
-      throw new HopException(
-          "It was not possible to write to audit list file '" + filename + "'", e);
+      throw new HopException("It was not possible to write to audit list file '" + filename + "'", e);
     }
   }
 
@@ -200,12 +196,10 @@ public class LocalAuditManager implements IAuditManager {
     return calculateTypePath(group, type) + "-state.json";
   }
 
-  /**
-   * Check the file and folder. Create the parent folder if it doesn't exist.
+  /** Check the file and folder. Create the parent folder if it doesn't exist.
    *
    * @param filename The filename to check
-   * @return True if the file exists, false if it doesn't
-   */
+   * @return True if the file exists, false if it doesn't */
   private boolean checkFileAndFolder(String filename) {
     File file = new File(filename);
     if (!file.exists()) {
@@ -219,14 +213,12 @@ public class LocalAuditManager implements IAuditManager {
     }
   }
 
-  /**
-   * Load the auditing state map for the specified group and type
+  /** Load the auditing state map for the specified group and type
    *
    * @param group
    * @param type
    * @return The map. An empty one if there are any loading problems. They are simply logged and you
-   *     start over.
-   */
+   *         start over. */
   @Override
   public AuditStateMap loadAuditStateMap(String group, String type) {
     String filename = calculateStateFilename(group, type);
@@ -245,8 +237,7 @@ public class LocalAuditManager implements IAuditManager {
   }
 
   @Override
-  public void saveAuditStateMap(String group, String type, AuditStateMap auditStateMap)
-      throws HopException {
+  public void saveAuditStateMap(String group, String type, AuditStateMap auditStateMap) throws HopException {
     String filename = calculateStateFilename(group, type);
     try {
       checkFileAndFolder(filename);
@@ -265,8 +256,7 @@ public class LocalAuditManager implements IAuditManager {
       throw new HopException("To retrieve audit state you need to specify a type");
     }
     if (StringUtils.isEmpty(name)) {
-      throw new HopException(
-          "Please specify the name of the object you which to retrieve the audit state for");
+      throw new HopException("Please specify the name of the object you which to retrieve the audit state for");
     }
 
     AuditStateMap auditStateMap = loadAuditStateMap(group, type);
@@ -307,14 +297,12 @@ public class LocalAuditManager implements IAuditManager {
     return calculateTypePath(group, type) + "-map.json";
   }
 
-  /**
-   * Load the auditing state map for the specified group and type
+  /** Load the auditing state map for the specified group and type
    *
    * @param group
    * @param type
    * @return The map. An empty one if there are any loading problems. They are simply logged and you
-   *     start over.
-   */
+   *         start over. */
   @Override
   public Map<String, String> loadMap(String group, String type) {
     String filename = calculateMapFilename(group, type);

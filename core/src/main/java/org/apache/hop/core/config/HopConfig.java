@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,17 +24,16 @@ import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.DescribedVariable;
 import java.util.*;
 
-/**
- * This class keeps track of storing and retrieving all the configuration options in Hop. This
- * includes all options of the various plugins in the Hop ecosystem.
- */
+/** This class keeps track of storing and retrieving all the configuration options in Hop. This
+ * includes all options of the various plugins in the Hop ecosystem. */
 public class HopConfig extends ConfigFile implements IConfigFile {
 
   private static final String HOP_GUI_PROPERTIES_KEY = "guiProperties";
 
   private String configFilename;
 
-  @JsonIgnore private static HopConfig instance;
+  @JsonIgnore
+  private static HopConfig instance;
 
   private HopConfig() {
     try {
@@ -150,24 +149,22 @@ public class HopConfig extends ConfigFile implements IConfigFile {
     }
   }
 
-  /**
-   * This method returns the value of a Hop named string variable.
+  /** This method returns the value of a Hop named string variable.
    *
    * @param key - variable name
    * @param defaultValue - default value
-   * @return the value associated to the variable
-   */
+   * @return the value associated to the variable */
   public static String readStringVariable(String key, String defaultValue) {
     String value = null;
 
-    ArrayList<DescribedVariable> variables =
-        (ArrayList<DescribedVariable>) getInstance().configMap.get(HOP_VARIABLES_KEY);
+    ArrayList<DescribedVariable> variables = (ArrayList<DescribedVariable>) getInstance().configMap.get(HOP_VARIABLES_KEY);
     if (variables != null) {
       Iterator<DescribedVariable> i = variables.iterator();
 
       while (i.hasNext() && value == null) {
         DescribedVariable v = i.next();
-        if (v.getName().equals(key)) value = v.getValue();
+        if (v.getName().equals(key))
+          value = v.getValue();
       }
     }
 
@@ -186,11 +183,9 @@ public class HopConfig extends ConfigFile implements IConfigFile {
     readGuiProperties().putAll(map);
   }
 
-  /**
-   * Gets configFilename
+  /** Gets configFilename
    *
-   * @return value of configFilename
-   */
+   * @return value of configFilename */
   @Override
   public String getConfigFilename() {
     return configFilename;

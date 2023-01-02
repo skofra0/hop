@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,9 @@
  */
 
 package org.apache.hop.ui.pipeline.transform;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.DatabaseMeta;
@@ -52,22 +55,33 @@ import org.apache.hop.ui.core.widget.TableView;
 import org.apache.hop.ui.core.widget.TextVar;
 import org.apache.hop.ui.util.HelpUtils;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.*;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.widgets.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 /** This class provides functionality common to Transform Dialogs. */
 public class BaseTransformDialog extends Dialog {
   private static final Class<?> PKG = ITransform.class; // For Translator
 
   /** The logging object interface for this dialog. */
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Transform dialog", LoggingObjectType.TRANSFORM_DIALOG, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Transform dialog", LoggingObjectType.TRANSFORM_DIALOG, null);
 
   /** The variable bindings for this dialog. */
   protected IVariables variables;
@@ -150,20 +164,13 @@ public class BaseTransformDialog extends Dialog {
     buttonAlignment = getButtonAlignment();
   }
 
-  /**
-   * Instantiates a new base transform dialog.
+  /** Instantiates a new base transform dialog.
    *
    * @param parent the parent shell
    * @param baseTransformMeta the associated base transform metadata
    * @param pipelineMeta the associated pipeline metadata
-   * @param transformName the transform name
-   */
-  public BaseTransformDialog(
-      Shell parent,
-      IVariables variables,
-      BaseTransformMeta<?, ?> baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+   * @param transformName the transform name */
+  public BaseTransformDialog(Shell parent, IVariables variables, BaseTransformMeta<?, ?> baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, SWT.NONE);
 
     this.log = new LogChannel(baseTransformMeta);
@@ -176,20 +183,13 @@ public class BaseTransformDialog extends Dialog {
     this.props = PropsUi.getInstance();
   }
 
-  /**
-   * Instantiates a new base transform dialog.
+  /** Instantiates a new base transform dialog.
    *
    * @param parent the parent shell
    * @param baseTransformMeta the associated base transform metadata
    * @param pipelineMeta the associated pipeline metadata
-   * @param transformName the transform name
-   */
-  public BaseTransformDialog(
-      Shell parent,
-      IVariables variables,
-      ITransformMeta baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+   * @param transformName the transform name */
+  public BaseTransformDialog(Shell parent, IVariables variables, ITransformMeta baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, SWT.NONE);
 
     this.log = new LogChannel(baseTransformMeta);
@@ -202,26 +202,21 @@ public class BaseTransformDialog extends Dialog {
     this.props = PropsUi.getInstance();
   }
 
-  /**
-   * Instantiates a new base transform dialog.
+  /** Instantiates a new base transform dialog.
    *
    * @param parent the parent shell
    * @param nr the number of rows
    * @param variables
    * @param in the base transform metadata
-   * @param tr the pipeline metadata
-   */
-  public BaseTransformDialog(
-      Shell parent, int nr, IVariables variables, BaseTransformMeta<?, ?> in, PipelineMeta tr) {
+   * @param tr the pipeline metadata */
+  public BaseTransformDialog(Shell parent, int nr, IVariables variables, BaseTransformMeta<?, ?> in, PipelineMeta tr) {
     this(parent, variables, in, tr, null);
   }
 
-  /**
-   * Sets the shell image.
+  /** Sets the shell image.
    *
    * @param shell the shell
-   * @param transformMetaInterface the transform meta interface (because of the legacy code)
-   */
+   * @param transformMetaInterface the transform meta interface (because of the legacy code) */
   public void setShellImage(Shell shell, ITransformMeta transformMetaInterface) {
 
     setShellImage(shell);
@@ -237,22 +232,21 @@ public class BaseTransformDialog extends Dialog {
 
       return;
     }
-    shell.addShellListener(
-        new ShellAdapter() {
+    shell.addShellListener(new ShellAdapter() {
 
-          private boolean deprecation = false;
+      private boolean deprecation = false;
 
-          @Override
-          public void shellActivated(ShellEvent shellEvent) {
-            super.shellActivated(shellEvent);
-            if (!transformMeta.isDeprecated() || deprecation) {
-              return;
-            }
-            String deprecated = BaseMessages.getString(PKG, "System.Deprecated").toLowerCase();
-            shell.setText(shell.getText() + " (" + deprecated + ")");
-            deprecation = true;
-          }
-        });
+      @Override
+      public void shellActivated(ShellEvent shellEvent) {
+        super.shellActivated(shellEvent);
+        if (!transformMeta.isDeprecated() || deprecation) {
+          return;
+        }
+        String deprecated = BaseMessages.getString(PKG, "System.Deprecated").toLowerCase();
+        shell.setText(shell.getText() + " (" + deprecated + ")");
+        deprecation = true;
+      }
+    });
   }
 
   /** Dispose this dialog. */
@@ -261,45 +255,37 @@ public class BaseTransformDialog extends Dialog {
     shell.dispose();
   }
 
-  /**
-   * Set the shell size, based upon the previous time the geometry was saved in the Properties file.
-   */
+  /** Set the shell size, based upon the previous time the geometry was saved in the Properties file. */
   public void setSize() {
     setSize(shell);
   }
 
-  /**
-   * Sets the button positions.
+  /** Sets the button positions.
    *
    * @param buttons the buttons
    * @param margin the margin between buttons
-   * @param lastControl the last control
-   */
+   * @param lastControl the last control */
   protected void setButtonPositions(Button[] buttons, int margin, Control lastControl) {
     BaseTransformDialog.positionBottomButtons(shell, buttons, margin, lastControl);
   }
 
-  /**
-   * Position the specified buttons at the bottom of the parent composite. Also, make the buttons
+  /** Position the specified buttons at the bottom of the parent composite. Also, make the buttons
    * all the same width: the width of the largest button.
-   *
-   * <p>The default alignment for buttons in the system will be used. This is set as an LAF property
+   * <p>
+   * The default alignment for buttons in the system will be used. This is set as an LAF property
    * with the key <code>Button_Position</code> and has the valid values of <code>left, center, right
    * </code> with <code>center</code> being the default.
    *
    * @param composite the composite
    * @param buttons The buttons to position.
    * @param margin The margin between the buttons in pixels
-   * @param lastControl the last control
-   */
-  public static final void positionBottomButtons(
-      Composite composite, Button[] buttons, int margin, Control lastControl) {
+   * @param lastControl the last control */
+  public static final void positionBottomButtons(Composite composite, Button[] buttons, int margin, Control lastControl) {
     // call positionBottomButtons method the system button alignment
     positionBottomButtons(composite, buttons, margin, buttonAlignment, lastControl);
   }
 
-  public static final void positionBottomButtons(
-      Composite composite, Button[] buttons, int margin, int alignment, Control lastControl) {
+  public static final void positionBottomButtons(Composite composite, Button[] buttons, int margin, int alignment, Control lastControl) {
     // Determine the largest button in the array
     Rectangle largest = null;
     for (int i = 0; i < buttons.length; i++) {
@@ -344,27 +330,24 @@ public class BaseTransformDialog extends Dialog {
         // We also know that if a button is hit, the table loses focus
         // In that case, we can apply the content of an open text editor...
         //
-        button.addSelectionListener(
-            new SelectionAdapter() {
+        button.addSelectionListener(new SelectionAdapter() {
 
-              @Override
-              public void widgetSelected(SelectionEvent e) {
-                for (TableView view : tableViews) {
-                  view.applyOSXChanges();
-                }
-              }
-            });
+          @Override
+          public void widgetSelected(SelectionEvent e) {
+            for (TableView view : tableViews) {
+              view.applyOSXChanges();
+            }
+          }
+        });
       }
     }
   }
 
-  /**
-   * Gets the table views.
+  /** Gets the table views.
    *
    * @param parentControl the parent control
    * @param tableViews the table views
-   * @return the table views
-   */
+   * @return the table views */
   private static final void getTableViews(Control parentControl, List<TableView> tableViews) {
     if (parentControl instanceof TableView) {
       tableViews.add((TableView) parentControl);
@@ -385,21 +368,17 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Returns the default alignment for the buttons. This is set in the LAF properties with the key
+  /** Returns the default alignment for the buttons. This is set in the LAF properties with the key
    * <code>Button_Position</code>. The valid values are:
-   *
    * <UL>
-   *   <LI><code>left</code>
-   *   <LI><code>center</code>
-   *   <LI><code>right</code>
+   * <LI><code>left</code>
+   * <LI><code>center</code>
+   * <LI><code>right</code>
    * </UL>
-   *
    * NOTE: if the alignment is not provided or contains an invalid value, <code>center</code> will
    * be used as a default
    *
-   * @return a constant which indicates the button alignment
-   */
+   * @return a constant which indicates the button alignment */
   protected static int getButtonAlignment() {
     String buttonAlign = BasePropertyHandler.getProperty("Button_Position", "center").toLowerCase();
     if ("center".equals(buttonAlign)) {
@@ -411,18 +390,15 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Creats a default FormData object with the top / bottom / and left set (this is done to cut down
+  /** Creats a default FormData object with the top / bottom / and left set (this is done to cut down
    * on repetative code lines.
    *
    * @param button the button to which this form data will be applied
    * @param width the width of the button
    * @param margin the margin between buttons
    * @param lastControl the last control above the buttons
-   * @return the newly created FormData object
-   */
-  private static FormData createDefaultFormData(
-      Button button, int width, int margin, Control lastControl) {
+   * @return the newly created FormData object */
+  private static FormData createDefaultFormData(Button button, int width, int margin, Control lastControl) {
     FormData formData = new FormData();
     if (lastControl != null) {
       formData.top = new FormAttachment(lastControl, margin * 3);
@@ -433,17 +409,14 @@ public class BaseTransformDialog extends Dialog {
     return formData;
   }
 
-  /**
-   * Aligns the buttons as left-aligned on the dialog.
+  /** Aligns the buttons as left-aligned on the dialog.
    *
    * @param buttons the array of buttons to align
    * @param width the standardized width of all the buttons
    * @param margin the margin between buttons
    * @param lastControl (optional) the bottom most control used for aligning the buttons relative to
-   *     the bottom of the controls on the dialog
-   */
-  protected static void leftAlignButtons(
-      Button[] buttons, int width, int margin, Control lastControl) {
+   *        the bottom of the controls on the dialog */
+  protected static void leftAlignButtons(Button[] buttons, int width, int margin, Control lastControl) {
     for (int i = 0; i < buttons.length; ++i) {
       FormData formData = createDefaultFormData(buttons[i], width, margin, lastControl);
 
@@ -460,17 +433,14 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Aligns the buttons as right-aligned on the dialog.
+  /** Aligns the buttons as right-aligned on the dialog.
    *
    * @param buttons the array of buttons to align
    * @param width the standardized width of all the buttons
    * @param margin the margin between buttons
    * @param lastControl (optional) the bottom most control used for aligning the buttons relative to
-   *     the bottom of the controls on the dialog
-   */
-  protected static void rightAlignButtons(
-      Button[] buttons, int width, int margin, Control lastControl) {
+   *        the bottom of the controls on the dialog */
+  protected static void rightAlignButtons(Button[] buttons, int width, int margin, Control lastControl) {
     for (int i = buttons.length - 1; i >= 0; --i) {
       FormData formData = createDefaultFormData(buttons[i], width, margin, lastControl);
 
@@ -487,21 +457,17 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Aligns the buttons as centered on the dialog.
+  /** Aligns the buttons as centered on the dialog.
    *
    * @param buttons the array of buttons to align
    * @param width the standardized width of all the buttons
    * @param margin the margin between buttons
    * @param lastControl (optional) the bottom most control used for aligning the buttons relative to
-   *     the bottom of the controls on the dialog
-   */
-  protected static void centerButtons(
-      Button[] buttons, int width, int margin, Control lastControl) {
+   *        the bottom of the controls on the dialog */
+  protected static void centerButtons(Button[] buttons, int width, int margin, Control lastControl) {
     // Setup the middle button
     int middleButtonIndex = buttons.length / 2;
-    FormData formData =
-        createDefaultFormData(buttons[middleButtonIndex], width, margin, lastControl);
+    FormData formData = createDefaultFormData(buttons[middleButtonIndex], width, margin, lastControl);
 
     // See if we have an even or odd number of buttons...
     int leftOffset = 0;
@@ -531,72 +497,35 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Gets the modify listener tooltip text.
+  /** Gets the modify listener tooltip text.
    *
    * @param variables
    * @param textField the text field
-   * @return the modify listener tooltip text
-   */
-  public static final ModifyListener getModifyListenerTooltipText(
-      IVariables variables, final TextVar textField) {
+   * @return the modify listener tooltip text */
+  public static final ModifyListener getModifyListenerTooltipText(IVariables variables, final TextVar textField) {
     return e ->
-        // maybe replace this with extra arguments
-        textField.setToolTipText(variables.resolve(textField.getText()));
+    // maybe replace this with extra arguments
+    textField.setToolTipText(variables.resolve(textField.getText()));
   }
 
-  /**
-   * Adds the connection line for the given parent and previous control, and returns a meta
+  /** Adds the connection line for the given parent and previous control, and returns a meta
    * selection manager control
    *
    * @param parent the parent composite object
    * @param previous the previous control
    * @param
-   * @return the combo box UI component
-   */
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
+   * @return the combo box UI component */
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
 
-    return addConnectionLine(
-        parent,
-        previous,
-        selected,
-        lsMod,
-        BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Label"),
-        BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
+    return addConnectionLine(parent, previous, selected, lsMod, BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Label"), BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
   }
 
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent,
-      Control previous,
-      DatabaseMeta selected,
-      ModifyListener lsMod,
-      String connectionLabel) {
-    return addConnectionLine(
-        parent,
-        previous,
-        selected,
-        lsMod,
-        connectionLabel,
-        BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod, String connectionLabel) {
+    return addConnectionLine(parent, previous, selected, lsMod, connectionLabel, BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
   }
 
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent,
-      Control previous,
-      DatabaseMeta selected,
-      ModifyListener lsMod,
-      String connectionLabel,
-      String connectionTooltip) {
-    final MetaSelectionLine<DatabaseMeta> wConnection =
-        new MetaSelectionLine<>(
-            variables,
-            metadataProvider,
-            DatabaseMeta.class,
-            parent,
-            SWT.NONE,
-            connectionLabel,
-            connectionTooltip);
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod, String connectionLabel, String connectionTooltip) {
+    final MetaSelectionLine<DatabaseMeta> wConnection = new MetaSelectionLine<>(variables, metadataProvider, DatabaseMeta.class, parent, SWT.NONE, connectionLabel, connectionTooltip);
     wConnection.addToConnectionLine(parent, previous, selected, lsMod);
     return wConnection;
   }
@@ -605,14 +534,12 @@ public class BaseTransformDialog extends Dialog {
     return this.getClass().getName();
   }
 
-  /**
-   * Sets the minimal shell height.
+  /** Sets the minimal shell height.
    *
    * @param shell the shell
    * @param controls the controls to measure
    * @param margin the margin between the components
-   * @param extra the extra padding
-   */
+   * @param extra the extra padding */
   public static void setMinimalShellHeight(Shell shell, Control[] controls, int margin, int extra) {
     int height = 0;
 
@@ -624,11 +551,9 @@ public class BaseTransformDialog extends Dialog {
     shell.setSize(shell.getBounds().width, height);
   }
 
-  /**
-   * Sets the size of this dialog with respect to the given shell.
+  /** Sets the size of this dialog with respect to the given shell.
    *
-   * @param shell the new size
-   */
+   * @param shell the new size */
   public static void setSize(Shell shell) {
     setSize(shell, -1, -1, true);
   }
@@ -660,14 +585,12 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Sets the size of this dialog with respect to the given parameters.
+  /** Sets the size of this dialog with respect to the given parameters.
    *
    * @param shell the shell
    * @param minWidth the minimum width
    * @param minHeight the minimum height
-   * @param packIt true to pack the dialog components, false otherwise
-   */
+   * @param packIt true to pack the dialog components, false otherwise */
   public static void setSize(Shell shell, int minWidth, int minHeight, boolean packIt) {
     PropsUi props = PropsUi.getInstance();
 
@@ -703,55 +626,50 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  /**
-   * Sets the traverse order for the given controls.
+  /** Sets the traverse order for the given controls.
    *
-   * @param controls the new traverse order
-   */
+   * @param controls the new traverse order */
   public static final void setTraverseOrder(final Control[] controls) {
     for (int i = 0; i < controls.length; i++) {
       final int controlNr = i;
       if (i < controls.length - 1) {
-        controls[i].addTraverseListener(
-            te -> {
-              te.doit = false;
-              // set focus on the next control.
-              // What is the next control?
-              int thisOne = controlNr + 1;
-              while (!controls[thisOne].isEnabled()) {
-                thisOne++;
-                if (thisOne >= controls.length) {
-                  thisOne = 0;
-                }
-                if (thisOne == controlNr) {
-                  return; // already tried all others, time to quit.
-                }
-              }
-              controls[thisOne].setFocus();
-            });
+        controls[i].addTraverseListener(te -> {
+          te.doit = false;
+          // set focus on the next control.
+          // What is the next control?
+          int thisOne = controlNr + 1;
+          while (!controls[thisOne].isEnabled()) {
+            thisOne++;
+            if (thisOne >= controls.length) {
+              thisOne = 0;
+            }
+            if (thisOne == controlNr) {
+              return; // already tried all others, time to quit.
+            }
+          }
+          controls[thisOne].setFocus();
+        });
       } else { // Link last item to first.
 
-        controls[i].addTraverseListener(
-            te -> {
-              te.doit = false;
-              // set focus on the next control.
-              // set focus on the next control.
-              // What is the next control : 0
-              int thisOne = 0;
-              while (!controls[thisOne].isEnabled()) {
-                thisOne++;
-                if (thisOne >= controls.length) {
-                  return; // already tried all others, time to quit.
-                }
-              }
-              controls[thisOne].setFocus();
-            });
+        controls[i].addTraverseListener(te -> {
+          te.doit = false;
+          // set focus on the next control.
+          // set focus on the next control.
+          // What is the next control : 0
+          int thisOne = 0;
+          while (!controls[thisOne].isEnabled()) {
+            thisOne++;
+            if (thisOne >= controls.length) {
+              return; // already tried all others, time to quit.
+            }
+          }
+          controls[thisOne].setFocus();
+        });
       }
     }
   }
 
-  /**
-   * Gets unused fields from previous transforms and inserts them as rows into a table view.
+  /** Gets unused fields from previous transforms and inserts them as rows into a table view.
    *
    * @param variables
    * @param pipelineMeta the pipeline metadata
@@ -762,142 +680,66 @@ public class BaseTransformDialog extends Dialog {
    * @param dataTypeColumn the data type column
    * @param lengthColumn the length column
    * @param precisionColumn the precision column
-   * @param listener a listener for tables insert events
-   */
-  public static final void getFieldsFromPrevious(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      TableView tableView,
-      int keyColumn,
-      int[] nameColumn,
-      int[] dataTypeColumn,
-      int lengthColumn,
-      int precisionColumn,
-      ITableItemInsertListener listener) {
+   * @param listener a listener for tables insert events */
+  public static final void getFieldsFromPrevious(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, TableView tableView, int keyColumn, int[] nameColumn, int[] dataTypeColumn, int lengthColumn, int precisionColumn, ITableItemInsertListener listener) {
     try {
       IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
       if (row != null) {
-        getFieldsFromPrevious(
-            row,
-            tableView,
-            keyColumn,
-            nameColumn,
-            dataTypeColumn,
-            lengthColumn,
-            precisionColumn,
-            listener);
+        getFieldsFromPrevious(row, tableView, keyColumn, nameColumn, dataTypeColumn, lengthColumn, precisionColumn, listener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          tableView.getShell(),
-          BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFields.Title"),
-          BaseMessages.getString(
-              PKG, "BaseTransformDialog.FailedToGetFields.Message", transformMeta.getName()),
-          ke);
+      new ErrorDialog(tableView.getShell(), BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFields.Title"), BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFields.Message", transformMeta.getName()), ke);
     }
   }
 
-  /**
-   * Gets unused fields from previous transforms and inserts them as rows into a table view.
+  /** Gets unused fields from previous transforms and inserts them as rows into a table view.
    *
    * @param row the input fields
    * @param tableView the table view to modify
    * @param keyColumn the column in the table view to match with the names of the fields, checks for
-   *     existance if >0
+   *        existance if >0
    * @param nameColumn the column numbers in which the name should end up in
    * @param dataTypeColumn the target column numbers in which the data type should end up in
    * @param lengthColumn the length column where the length should end up in (if >0)
    * @param precisionColumn the length column where the precision should end up in (if >0)
    * @param listener A listener that you can use to do custom modifications to the inserted table
-   *     item, based on a value from the provided row
-   */
-  public static final void getFieldsFromPrevious(
-      IRowMeta row,
-      TableView tableView,
-      int keyColumn,
-      int[] nameColumn,
-      int[] dataTypeColumn,
-      int lengthColumn,
-      int precisionColumn,
-      ITableItemInsertListener listener) {
-    getFieldsFromPrevious(
-        row,
-        tableView,
-        keyColumn,
-        nameColumn,
-        dataTypeColumn,
-        lengthColumn,
-        precisionColumn,
-        true,
-        listener);
+   *        item, based on a value from the provided row */
+  public static final void getFieldsFromPrevious(IRowMeta row, TableView tableView, int keyColumn, int[] nameColumn, int[] dataTypeColumn, int lengthColumn, int precisionColumn, ITableItemInsertListener listener) {
+    getFieldsFromPrevious(row, tableView, keyColumn, nameColumn, dataTypeColumn, lengthColumn, precisionColumn, true, listener);
   }
 
-  /**
-   * Gets unused fields from previous transforms and inserts them as rows into a table view.
+  /** Gets unused fields from previous transforms and inserts them as rows into a table view.
    *
    * @param row the input fields
    * @param tableView the table view to modify
    * @param keyColumn the column in the table view to match with the names of the fields, checks for
-   *     existance if >0
+   *        existance if >0
    * @param nameColumn the column numbers in which the name should end up in
    * @param dataTypeColumn the target column numbers in which the data type should end up in
    * @param lengthColumn the length column where the length should end up in (if >0)
    * @param precisionColumn the length column where the precision should end up in (if >0)
    * @param optimizeWidth
    * @param listener A listener that you can use to do custom modifications to the inserted table
-   *     item, based on a value from the provided row
-   */
-  public static final void getFieldsFromPrevious(
-      IRowMeta row,
-      TableView tableView,
-      int keyColumn,
-      int[] nameColumn,
-      int[] dataTypeColumn,
-      int lengthColumn,
-      int precisionColumn,
-      boolean optimizeWidth,
-      ITableItemInsertListener listener) {
-    getFieldsFromPrevious(
-        row,
-        tableView,
-        keyColumn,
-        nameColumn,
-        dataTypeColumn,
-        lengthColumn,
-        precisionColumn,
-        optimizeWidth,
-        listener,
-        BaseTransformDialog::getFieldsChoiceDialog);
+   *        item, based on a value from the provided row */
+  public static final void getFieldsFromPrevious(IRowMeta row, TableView tableView, int keyColumn, int[] nameColumn, int[] dataTypeColumn, int lengthColumn, int precisionColumn, boolean optimizeWidth, ITableItemInsertListener listener) {
+    getFieldsFromPrevious(row, tableView, keyColumn, nameColumn, dataTypeColumn, lengthColumn, precisionColumn, optimizeWidth, listener, BaseTransformDialog::getFieldsChoiceDialog);
   }
 
-  /**
-   * Gets unused fields from previous transforms and inserts them as rows into a table view.
+  /** Gets unused fields from previous transforms and inserts them as rows into a table view.
    *
    * @param row the input fields
    * @param tableView the table view to modify
    * @param keyColumn the column in the table view to match with the names of the fields, checks for
-   *     existance if >0
+   *        existance if >0
    * @param nameColumn the column numbers in which the name should end up in
    * @param dataTypeColumn the target column numbers in which the data type should end up in
    * @param lengthColumn the length column where the length should end up in (if >0)
    * @param precisionColumn the length column where the precision should end up in (if >0)
    * @param optimizeWidth
    * @param listener A listener that you can use to do custom modifications to the inserted table
-   *     item, based on a value from the provided row
-   * @param getFieldsChoiceDialogProvider the GetFieldsChoice dialog provider
-   */
-  public static final void getFieldsFromPrevious(
-      IRowMeta row,
-      TableView tableView,
-      int keyColumn,
-      int[] nameColumn,
-      int[] dataTypeColumn,
-      int lengthColumn,
-      int precisionColumn,
-      boolean optimizeWidth,
-      ITableItemInsertListener listener,
-      IFieldsChoiceDialogProvider getFieldsChoiceDialogProvider) {
+   *        item, based on a value from the provided row
+   * @param getFieldsChoiceDialogProvider the GetFieldsChoice dialog provider */
+  public static final void getFieldsFromPrevious(IRowMeta row, TableView tableView, int keyColumn, int[] nameColumn, int[] dataTypeColumn, int lengthColumn, int precisionColumn, boolean optimizeWidth, ITableItemInsertListener listener, IFieldsChoiceDialogProvider getFieldsChoiceDialogProvider) {
     if (row == null || row.size() == 0) {
       return; // nothing to do
     }
@@ -920,8 +762,7 @@ public class BaseTransformDialog extends Dialog {
     if (keys.size() > 0) {
       // Ask what we should do with the existing data in the transform.
       //
-      DialogBoxWithButtons getFieldsChoiceDialog =
-          getFieldsChoiceDialogProvider.provide(tableView.getShell(), keys.size(), row.size());
+      DialogBoxWithButtons getFieldsChoiceDialog = getFieldsChoiceDialogProvider.provide(tableView.getShell(), keys.size(), row.size());
 
       int idx = getFieldsChoiceDialog.open();
       choice = idx & 0xFF;
@@ -983,39 +824,20 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  static DialogBoxWithButtons getFieldsChoiceDialog(
-      Shell shell, int existingFields, int newFields) {
-    DialogBoxWithButtons messageDialog =
-        new DialogBoxWithButtons(
-            shell,
-            BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Title"), // "Warning!"
-            BaseMessages.getString(
-                PKG,
-                "BaseTransformDialog.GetFieldsChoice.Message",
-                "" + existingFields,
-                "" + newFields),
-            new String[] {
-              BaseMessages.getString(PKG, "BaseTransformDialog.AddNew"),
-              BaseMessages.getString(PKG, "BaseTransformDialog.Add"),
-              BaseMessages.getString(PKG, "BaseTransformDialog.ClearAndAdd"),
-              BaseMessages.getString(PKG, "BaseTransformDialog.Cancel"),
-            });
+  static DialogBoxWithButtons getFieldsChoiceDialog(Shell shell, int existingFields, int newFields) {
+    DialogBoxWithButtons messageDialog = new DialogBoxWithButtons(shell, BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Title"), // "Warning!"
+        BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Message", "" + existingFields, "" + newFields),
+        new String[] {BaseMessages.getString(PKG, "BaseTransformDialog.AddNew"), BaseMessages.getString(PKG, "BaseTransformDialog.Add"), BaseMessages.getString(PKG, "BaseTransformDialog.ClearAndAdd"), BaseMessages.getString(PKG, "BaseTransformDialog.Cancel"),});
     return messageDialog;
   }
 
-  /**
-   * Gets fields from previous transforms and populate a ComboVar.
+  /** Gets fields from previous transforms and populate a ComboVar.
    *
    * @param variables
    * @param comboVar the Combo Box (with Variables) to populate
    * @param pipelineMeta the pipeline metadata
-   * @param transformMeta the transform metadata
-   */
-  public static final void getFieldsFromPrevious(
-      IVariables variables,
-      ComboVar comboVar,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta) {
+   * @param transformMeta the transform metadata */
+  public static final void getFieldsFromPrevious(IVariables variables, ComboVar comboVar, PipelineMeta pipelineMeta, TransformMeta transformMeta) {
     String selectedField;
     int indexField = -1;
     try {
@@ -1037,188 +859,143 @@ public class BaseTransformDialog extends Dialog {
         }
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          comboVar.getShell(),
-          BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogTitle"),
-          BaseMessages.getString(
-              PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogMessage"),
-          ke);
+      new ErrorDialog(comboVar.getShell(), BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogTitle"), BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogMessage"), ke);
     }
   }
 
-  /**
-   * Checks if the log level is basic.
+  /** Checks if the log level is basic.
    *
-   * @return true, if the log level is basic, false otherwise
-   */
+   * @return true, if the log level is basic, false otherwise */
   public boolean isBasic() {
     return log.isBasic();
   }
 
-  /**
-   * Checks if the log level is detailed.
+  /** Checks if the log level is detailed.
    *
-   * @return true, if the log level is detailed, false otherwise
-   */
+   * @return true, if the log level is detailed, false otherwise */
   public boolean isDetailed() {
     return log.isDetailed();
   }
 
-  /**
-   * Checks if the log level is debug.
+  /** Checks if the log level is debug.
    *
-   * @return true, if the log level is debug, false otherwise
-   */
+   * @return true, if the log level is debug, false otherwise */
   public boolean isDebug() {
     return log.isDebug();
   }
 
-  /**
-   * Checks if the log level is row level.
+  /** Checks if the log level is row level.
    *
-   * @return true, if the log level is row level, false otherwise
-   */
+   * @return true, if the log level is row level, false otherwise */
   public boolean isRowLevel() {
     return log.isRowLevel();
   }
 
-  /**
-   * Log the message at a minimal logging level.
+  /** Log the message at a minimal logging level.
    *
-   * @param message the message to log
-   */
+   * @param message the message to log */
   public void logMinimal(String message) {
     log.logMinimal(message);
   }
 
-  /**
-   * Log the message with arguments at a minimal logging level.
+  /** Log the message with arguments at a minimal logging level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logMinimal(String message, Object... arguments) {
     log.logMinimal(message, arguments);
   }
 
-  /**
-   * Log the message at a basic logging level.
+  /** Log the message at a basic logging level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logBasic(String message) {
     log.logBasic(message);
   }
 
-  /**
-   * Log the message with arguments at a basic logging level.
+  /** Log the message with arguments at a basic logging level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logBasic(String message, Object... arguments) {
     log.logBasic(message, arguments);
   }
 
-  /**
-   * Log the message at a detailed logging level.
+  /** Log the message at a detailed logging level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDetailed(String message) {
     log.logDetailed(message);
   }
 
-  /**
-   * Log the message with arguments at a detailed logging level.
+  /** Log the message with arguments at a detailed logging level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDetailed(String message, Object... arguments) {
     log.logDetailed(message, arguments);
   }
 
-  /**
-   * Log the message at a debug logging level.
+  /** Log the message at a debug logging level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDebug(String message) {
     log.logDebug(message);
   }
 
-  /**
-   * Log the message with arguments at a debug logging level.
+  /** Log the message with arguments at a debug logging level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDebug(String message, Object... arguments) {
     log.logDebug(message, arguments);
   }
 
-  /**
-   * Log the message at a rowlevel logging level.
+  /** Log the message at a rowlevel logging level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logRowlevel(String message) {
     log.logRowlevel(message);
   }
 
-  /**
-   * Log the message with arguments at a rowlevel logging level.
+  /** Log the message with arguments at a rowlevel logging level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logRowlevel(String message, Object... arguments) {
     log.logRowlevel(message, arguments);
   }
 
-  /**
-   * Log the message at a error logging level.
+  /** Log the message at a error logging level.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logError(String message) {
     log.logError(message);
   }
 
-  /**
-   * Log the message with the associated Throwable object at a error logging level.
+  /** Log the message with the associated Throwable object at a error logging level.
    *
    * @param message the message
-   * @param e the e
-   */
+   * @param e the e */
   public void logError(String message, Throwable e) {
     log.logError(message, e);
   }
 
-  /**
-   * Log the message with arguments at a error logging level.
+  /** Log the message with arguments at a error logging level.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logError(String message, Object... arguments) {
     log.logError(message, arguments);
   }
 
   private void setShellImage(Shell shell) {
     if (transformMeta != null) {
-      IPlugin plugin =
-          PluginRegistry.getInstance()
-              .getPlugin(TransformPluginType.class, transformMeta.getTransform());
+      IPlugin plugin = PluginRegistry.getInstance().getPlugin(TransformPluginType.class, transformMeta.getTransform());
       HelpUtils.createHelpButton(shell, plugin);
       String id = plugin.getIds()[0];
       if (id != null) {
-        shell.setImage(
-            GuiResource.getInstance()
-                .getImagesTransforms()
-                .get(id)
-                .getAsBitmapForSize(shell.getDisplay(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE));
+        shell.setImage(GuiResource.getInstance().getImagesTransforms().get(id).getAsBitmapForSize(shell.getDisplay(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE));
       }
     }
   }
@@ -1235,11 +1012,9 @@ public class BaseTransformDialog extends Dialog {
     DialogBoxWithButtons provide(Shell shell, int existingFields, int newFields);
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
@@ -1256,8 +1031,7 @@ public class BaseTransformDialog extends Dialog {
         String baseName = HopVfs.getFileObject(variables.resolve(filename)).getName().getBaseName();
         wTransformName.setText(baseName);
       } catch (Exception e) {
-        new ErrorDialog(
-            shell, "Error", "Error extracting name from filename '" + filename + "'", e);
+        new ErrorDialog(shell, "Error", "Error extracting name from filename '" + filename + "'", e);
       }
     }
   }

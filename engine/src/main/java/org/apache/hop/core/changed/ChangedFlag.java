@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,9 +26,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ChangedFlag implements IChanged {
 
-  @JsonIgnore private Set<IHopObserver> obs = Collections.newSetFromMap(new ConcurrentHashMap<>());
+  @JsonIgnore
+  private Set<IHopObserver> obs = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  @JsonIgnore private AtomicBoolean changed = new AtomicBoolean();
+  @JsonIgnore
+  private AtomicBoolean changed = new AtomicBoolean();
 
   public void addObserver(IHopObserver o) {
     if (o == null) {
@@ -67,11 +69,9 @@ public class ChangedFlag implements IChanged {
     changed.set(true);
   }
 
-  /**
-   * Sets whether or not this has changed.
+  /** Sets whether or not this has changed.
    *
-   * @param ch true if you want to mark this as changed, false otherwise
-   */
+   * @param ch true if you want to mark this as changed, false otherwise */
   @Override
   public void setChanged(boolean b) {
     changed.set(b);
@@ -83,11 +83,9 @@ public class ChangedFlag implements IChanged {
     changed.set(false);
   }
 
-  /**
-   * Checks whether or not this has changed.
+  /** Checks whether or not this has changed.
    *
-   * @return true if the this has changed, false otherwise
-   */
+   * @return true if the this has changed, false otherwise */
   @Override
   public boolean hasChanged() {
     return changed.get();

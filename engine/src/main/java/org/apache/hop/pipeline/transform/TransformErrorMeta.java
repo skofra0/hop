@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,27 +46,19 @@ public class TransformErrorMeta extends ChangedFlag implements Cloneable {
   /** Is the error handling enabled? */
   private boolean enabled;
 
-  /**
-   * the name of the field value to contain the number of errors (null or empty means it's not
-   * needed)
-   */
+  /** the name of the field value to contain the number of errors (null or empty means it's not
+   * needed) */
   private String nrErrorsValuename;
 
-  /**
-   * the name of the field value to contain the error description(s) (null or empty means it's not
-   * needed)
-   */
+  /** the name of the field value to contain the error description(s) (null or empty means it's not
+   * needed) */
   private String errorDescriptionsValuename;
 
-  /**
-   * the name of the field value to contain the fields for which the error(s) occured (null or empty
-   * means it's not needed)
-   */
+  /** the name of the field value to contain the fields for which the error(s) occured (null or empty
+   * means it's not needed) */
   private String errorFieldsValuename;
 
-  /**
-   * the name of the field value to contain the error code(s) (null or empty means it's not needed)
-   */
+  /** the name of the field value to contain the error code(s) (null or empty means it's not needed) */
   private String errorCodesValuename;
 
   /** The maximum number of errors allowed before we stop processing with a hard error */
@@ -78,49 +70,37 @@ public class TransformErrorMeta extends ChangedFlag implements Cloneable {
   /** The minimum number of rows to read before the percentage evaluation takes place */
   private String minPercentRows = "";
 
-  /**
-   * Create a new transform error handling metadata object
+  /** Create a new transform error handling metadata object
    *
-   * @param sourceTransform The source transform that can send the error rows
-   */
+   * @param sourceTransform The source transform that can send the error rows */
   public TransformErrorMeta(TransformMeta sourceTransform) {
     this.sourceTransform = sourceTransform;
     this.enabled = false;
   }
 
-  /**
-   * Create a new transform error handling metadata object
+  /** Create a new transform error handling metadata object
    *
    * @param sourceTransform The source transform that can send the error rows
-   * @param targetTransform The target transform to send the error rows to
-   */
+   * @param targetTransform The target transform to send the error rows to */
   public TransformErrorMeta(TransformMeta sourceTransform, TransformMeta targetTransform) {
     this.sourceTransform = sourceTransform;
     this.targetTransform = targetTransform;
     this.enabled = false;
   }
 
-  /**
-   * Create a new transform error handling metadata object
+  /** Create a new transform error handling metadata object
    *
    * @param sourceTransform The source transform that can send the error rows
    * @param targetTransform The target transform to send the error rows to
    * @param nrErrorsValuename the name of the field value to contain the number of errors (null or
-   *     empty means it's not needed)
+   *        empty means it's not needed)
    * @param errorDescriptionsValuename the name of the field value to contain the error
-   *     description(s) (null or empty means it's not needed)
+   *        description(s) (null or empty means it's not needed)
    * @param errorFieldsValuename the name of the field value to contain the fields for which the
-   *     error(s) occured (null or empty means it's not needed)
+   *        error(s) occured (null or empty means it's not needed)
    * @param errorCodesValuename the name of the field value to contain the error code(s) (null or
-   *     empty means it's not needed)
-   */
-  public TransformErrorMeta(
-      TransformMeta sourceTransform,
-      TransformMeta targetTransform,
-      String nrErrorsValuename,
-      String errorDescriptionsValuename,
-      String errorFieldsValuename,
-      String errorCodesValuename) {
+   *        empty means it's not needed) */
+  public TransformErrorMeta(TransformMeta sourceTransform, TransformMeta targetTransform, String nrErrorsValuename, String errorDescriptionsValuename, String errorFieldsValuename, String errorCodesValuename) {
     this.sourceTransform = sourceTransform;
     this.targetTransform = targetTransform;
     this.enabled = false;
@@ -142,42 +122,25 @@ public class TransformErrorMeta extends ChangedFlag implements Cloneable {
   public String getXml() {
     StringBuilder xml = new StringBuilder(300);
 
-    xml.append("      ")
-        .append(XmlHandler.openTag(TransformErrorMeta.XML_ERROR_TAG))
-        .append(Const.CR);
-    xml.append("        ")
-        .append(
-            XmlHandler.addTagValue(
-                TransformErrorMeta.XML_SOURCE_TRANSFORM_TAG,
-                sourceTransform != null ? sourceTransform.getName() : ""));
-    xml.append("        ")
-        .append(
-            XmlHandler.addTagValue(
-                TransformErrorMeta.XML_TARGET_TRANSFORM_TAG,
-                targetTransform != null ? targetTransform.getName() : ""));
+    xml.append("      ").append(XmlHandler.openTag(TransformErrorMeta.XML_ERROR_TAG)).append(Const.CR);
+    xml.append("        ").append(XmlHandler.addTagValue(TransformErrorMeta.XML_SOURCE_TRANSFORM_TAG, sourceTransform != null ? sourceTransform.getName() : ""));
+    xml.append("        ").append(XmlHandler.addTagValue(TransformErrorMeta.XML_TARGET_TRANSFORM_TAG, targetTransform != null ? targetTransform.getName() : ""));
     xml.append("        ").append(XmlHandler.addTagValue("is_enabled", enabled));
     xml.append("        ").append(XmlHandler.addTagValue("nr_valuename", nrErrorsValuename));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("descriptions_valuename", errorDescriptionsValuename));
+    xml.append("        ").append(XmlHandler.addTagValue("descriptions_valuename", errorDescriptionsValuename));
     xml.append("        ").append(XmlHandler.addTagValue("fields_valuename", errorFieldsValuename));
     xml.append("        ").append(XmlHandler.addTagValue("codes_valuename", errorCodesValuename));
     xml.append("        ").append(XmlHandler.addTagValue("max_errors", maxErrors));
     xml.append("        ").append(XmlHandler.addTagValue("max_pct_errors", maxPercentErrors));
     xml.append("        ").append(XmlHandler.addTagValue("min_pct_rows", minPercentRows));
-    xml.append("      ")
-        .append(XmlHandler.closeTag(TransformErrorMeta.XML_ERROR_TAG))
-        .append(Const.CR);
+    xml.append("      ").append(XmlHandler.closeTag(TransformErrorMeta.XML_ERROR_TAG)).append(Const.CR);
 
     return xml.toString();
   }
 
   public TransformErrorMeta(Node node, List<TransformMeta> transforms) {
-    sourceTransform =
-        TransformMeta.findTransform(
-            transforms, XmlHandler.getTagValue(node, TransformErrorMeta.XML_SOURCE_TRANSFORM_TAG));
-    targetTransform =
-        TransformMeta.findTransform(
-            transforms, XmlHandler.getTagValue(node, TransformErrorMeta.XML_TARGET_TRANSFORM_TAG));
+    sourceTransform = TransformMeta.findTransform(transforms, XmlHandler.getTagValue(node, TransformErrorMeta.XML_SOURCE_TRANSFORM_TAG));
+    targetTransform = TransformMeta.findTransform(transforms, XmlHandler.getTagValue(node, TransformErrorMeta.XML_TARGET_TRANSFORM_TAG));
     enabled = "Y".equals(XmlHandler.getTagValue(node, "is_enabled"));
     nrErrorsValuename = XmlHandler.getTagValue(node, "nr_valuename");
     errorDescriptionsValuename = XmlHandler.getTagValue(node, "descriptions_valuename");
@@ -286,14 +249,7 @@ public class TransformErrorMeta extends ChangedFlag implements Cloneable {
     return row;
   }
 
-  public void addErrorRowData(
-      IVariables variables,
-      Object[] row,
-      int startIndex,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes) {
+  public void addErrorRowData(IVariables variables, Object[] row, int startIndex, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) {
     int index = startIndex;
 
     String nrErr = variables.resolve(getNrErrorsValuename());

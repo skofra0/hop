@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -111,29 +111,14 @@ public class ValueMetaInternetAddressTest {
   public void testGetBigNumber_Success() throws UnknownHostException, HopValueException {
     ValueMetaInternetAddress vm = new ValueMetaInternetAddress();
     String[] addresses = {
-      // Some IPv6 addresses
-      "1080:0:0:0:8:800:200C:417A",
-      "1080::8:800:200C:417A",
-      "::1",
-      "0:0:0:0:0:0:0:1",
-      "::",
-      "0:0:0:0:0:0:0:0",
-      "::d",
-      // Some IPv4-mapped IPv6 addresses
-      "::ffff:0:0",
-      "::ffff:d",
-      "::ffff:127.0.0.1",
-      // Some IPv4-compatible IPv6 addresses
-      "::0.0.0.0",
-      "::255.255.0.10",
-      // Some IPv4 addresses
-      "192.168.10.0",
-      "0.0.0.1",
-      "0.0.0.0",
-      "127.0.0.1",
-      "255.255.0.10",
-      "192.0.2.235"
-    };
+        // Some IPv6 addresses
+        "1080:0:0:0:8:800:200C:417A", "1080::8:800:200C:417A", "::1", "0:0:0:0:0:0:0:1", "::", "0:0:0:0:0:0:0:0", "::d",
+        // Some IPv4-mapped IPv6 addresses
+        "::ffff:0:0", "::ffff:d", "::ffff:127.0.0.1",
+        // Some IPv4-compatible IPv6 addresses
+        "::0.0.0.0", "::255.255.0.10",
+        // Some IPv4 addresses
+        "192.168.10.0", "0.0.0.1", "0.0.0.0", "127.0.0.1", "255.255.0.10", "192.0.2.235"};
 
     // No exception should be thrown in any of the following calls
     for (String address : addresses) {

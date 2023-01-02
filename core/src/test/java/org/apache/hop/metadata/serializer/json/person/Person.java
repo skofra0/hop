@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,17 +29,23 @@ import java.util.*;
 @HopMetadata(key = "person", name = "A Person", description = "Description of the Person object")
 public class Person extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String age;
+  @HopMetadataProperty
+  private String age;
 
-  @HopMetadataProperty private Address address;
+  @HopMetadataProperty
+  private Address address;
 
-  @HopMetadataProperty private IInterest mainInterest;
+  @HopMetadataProperty
+  private IInterest mainInterest;
 
-  @HopMetadataProperty private IInterest sideInterest;
+  @HopMetadataProperty
+  private IInterest sideInterest;
 
-  @HopMetadataProperty private List<IInterest> interests;
+  @HopMetadataProperty
+  private List<IInterest> interests;
 
-  @HopMetadataProperty private Map<String, String> attributes;
+  @HopMetadataProperty
+  private Map<String, String> attributes;
 
   @HopMetadataProperty(storeWithName = true)
   private Occupation occupation;
@@ -49,14 +55,7 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     attributes = new HashMap<>();
   }
 
-  public Person(
-      String name,
-      String age,
-      Address address,
-      IInterest mainInterest,
-      List<IInterest> interests,
-      Map<String, String> attributes,
-      Occupation occupation) {
+  public Person(String name, String age, Address address, IInterest mainInterest, List<IInterest> interests, Map<String, String> attributes, Occupation occupation) {
     this.name = name;
     this.age = age;
     this.address = address;
@@ -75,27 +74,18 @@ public class Person extends HopMetadataBase implements IHopMetadata {
       return false;
     }
     Person person = (Person) o;
-    return Objects.equals(name, person.name)
-        && Objects.equals(age, person.age)
-        && Objects.equals(address, person.address)
-        && Objects.equals(mainInterest, person.mainInterest)
-        && Objects.equals(sideInterest, person.sideInterest)
-        && Objects.equals(interests, person.interests)
-        && Objects.equals(attributes, person.attributes)
-        && Objects.equals(occupation, person.occupation);
+    return Objects.equals(name, person.name) && Objects.equals(age, person.age) && Objects.equals(address, person.address) && Objects.equals(mainInterest, person.mainInterest) && Objects.equals(sideInterest, person.sideInterest) && Objects.equals(interests, person.interests)
+        && Objects.equals(attributes, person.attributes) && Objects.equals(occupation, person.occupation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        name, age, address, mainInterest, sideInterest, interests, attributes, occupation);
+    return Objects.hash(name, age, address, mainInterest, sideInterest, interests, attributes, occupation);
   }
 
-  /**
-   * Gets age
+  /** Gets age
    *
-   * @return value of age
-   */
+   * @return value of age */
   public String getAge() {
     return age;
   }
@@ -105,11 +95,9 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     this.age = age;
   }
 
-  /**
-   * Gets address
+  /** Gets address
    *
-   * @return value of address
-   */
+   * @return value of address */
   public Address getAddress() {
     return address;
   }
@@ -119,11 +107,9 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     this.address = address;
   }
 
-  /**
-   * Gets mainInterest
+  /** Gets mainInterest
    *
-   * @return value of mainInterest
-   */
+   * @return value of mainInterest */
   public IInterest getMainInterest() {
     return mainInterest;
   }
@@ -133,11 +119,9 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     this.mainInterest = mainInterest;
   }
 
-  /**
-   * Gets sideInterest
+  /** Gets sideInterest
    *
-   * @return value of sideInterest
-   */
+   * @return value of sideInterest */
   public IInterest getSideInterest() {
     return sideInterest;
   }
@@ -147,11 +131,9 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     this.sideInterest = sideInterest;
   }
 
-  /**
-   * Gets interests
+  /** Gets interests
    *
-   * @return value of interests
-   */
+   * @return value of interests */
   public List<IInterest> getInterests() {
     return interests;
   }
@@ -161,11 +143,9 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     this.interests = interests;
   }
 
-  /**
-   * Gets attributes
+  /** Gets attributes
    *
-   * @return value of attributes
-   */
+   * @return value of attributes */
   public Map<String, String> getAttributes() {
     return attributes;
   }
@@ -175,11 +155,9 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     this.attributes = attributes;
   }
 
-  /**
-   * Gets occupation
+  /** Gets occupation
    *
-   * @return value of occupation
-   */
+   * @return value of occupation */
   public Occupation getOccupation() {
     return occupation;
   }

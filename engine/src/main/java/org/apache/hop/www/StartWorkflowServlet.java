@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,8 +58,7 @@ public class StartWorkflowServlet extends BaseHttpServlet implements IHopServerP
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -84,12 +83,7 @@ public class StartWorkflowServlet extends BaseHttpServlet implements IHopServerP
       out.println("<HTML>");
       out.println("<HEAD>");
       out.println("<TITLE>Start workflow</TITLE>");
-      out.println(
-          "<META http-equiv=\"Refresh\" content=\"2;url="
-              + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-              + "?name="
-              + URLEncoder.encode(workflowName, "UTF-8")
-              + "\">");
+      out.println("<META http-equiv=\"Refresh\" content=\"2;url=" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(workflowName, "UTF-8") + "\">");
       out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
       out.println("</HEAD>");
       out.println("<BODY>");
@@ -111,30 +105,17 @@ public class StartWorkflowServlet extends BaseHttpServlet implements IHopServerP
           // the new workflow in the workflow map
           //
           synchronized (this) {
-            WorkflowConfiguration workflowConfiguration =
-                getWorkflowMap().getConfiguration(workflowName);
-            IHopMetadataProvider metadataProvider =
-                new MultiMetadataProvider(
-                    variables,
-                    getServerConfig().getMetadataProvider(),
-                    workflowConfiguration.getMetadataProvider());
+            WorkflowConfiguration workflowConfiguration = getWorkflowMap().getConfiguration(workflowName);
+            IHopMetadataProvider metadataProvider = new MultiMetadataProvider(variables, getServerConfig().getMetadataProvider(), workflowConfiguration.getMetadataProvider());
 
             // This new workflow execution engine instance needs a new container ID...
             //
             String containerId = UUID.randomUUID().toString();
-            SimpleLoggingObject servletLoggingObject =
-                new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+            SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
             servletLoggingObject.setContainerObjectId(containerId);
 
-            String runConfigurationName =
-                workflowConfiguration.getWorkflowExecutionConfiguration().getRunConfiguration();
-            IWorkflowEngine<WorkflowMeta> newWorkflow =
-                WorkflowEngineFactory.createWorkflowEngine(
-                    variables,
-                    runConfigurationName,
-                    metadataProvider,
-                    workflow.getWorkflowMeta(),
-                    servletLoggingObject);
+            String runConfigurationName = workflowConfiguration.getWorkflowExecutionConfiguration().getRunConfiguration();
+            IWorkflowEngine<WorkflowMeta> newWorkflow = WorkflowEngineFactory.createWorkflowEngine(variables, runConfigurationName, metadataProvider, workflow.getWorkflowMeta(), servletLoggingObject);
 
             newWorkflow.setLogLevel(workflow.getLogLevel());
 
@@ -157,51 +138,27 @@ public class StartWorkflowServlet extends BaseHttpServlet implements IHopServerP
 
         runWorkflow(workflow);
 
-        String message =
-            BaseMessages.getString(PKG, "StartWorkflowServlet.Log.WorkflowStarted", workflowName);
+        String message = BaseMessages.getString(PKG, "StartWorkflowServlet.Log.WorkflowStarted", workflowName);
         if (useXML) {
-          out.println(
-              new WebResult(WebResult.STRING_OK, message, workflow.getContainerId()).getXml());
+          out.println(new WebResult(WebResult.STRING_OK, message, workflow.getContainerId()).getXml());
         } else {
 
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetWorkflowStatusServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(workflowName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "\">"
-                  + BaseMessages.getString(PKG, "WorkflowStatusServlet.BackToWorkflowStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetWorkflowStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(workflowName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "\">" + BaseMessages.getString(PKG, "WorkflowStatusServlet.BackToWorkflowStatusPage") + "</a><p>");
         }
       } else {
-        String message =
-            BaseMessages.getString(
-                PKG, "StartWorkflowServlet.Log.SpecifiedWorkflowNotFound", workflowName);
+        String message = BaseMessages.getString(PKG, "StartWorkflowServlet.Log.SpecifiedWorkflowNotFound", workflowName);
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_ERROR, message));
         } else {
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
       }
     } catch (Exception ex) {
       if (useXML) {
-        out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "StartWorkflowServlet.Error.UnexpectedError",
-                    Const.CR + Const.getStackTracker(ex))));
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "StartWorkflowServlet.Error.UnexpectedError", Const.CR + Const.getStackTracker(ex))));
       } else {
         out.println("<p>");
         out.println("<pre>");

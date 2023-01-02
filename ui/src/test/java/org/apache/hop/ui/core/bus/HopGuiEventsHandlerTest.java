@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,10 +38,10 @@ public class HopGuiEventsHandlerTest {
 
   @Test
   public void testAddRemoveListener() throws Exception {
-    Map<String, Map<String, IHopGuiEventListener>> guiEventListenerMap =
-        events.getGuiEventListenerMap();
+    Map<String, Map<String, IHopGuiEventListener>> guiEventListenerMap = events.getGuiEventListenerMap();
 
-    events.addEventListener("guiId-1", e -> {}, "eventId-1");
+    events.addEventListener("guiId-1", e -> {
+    }, "eventId-1");
 
     Map<String, IHopGuiEventListener> eventListenerMap = guiEventListenerMap.get("guiId-1");
     assertNotNull(eventListenerMap);
@@ -57,12 +57,14 @@ public class HopGuiEventsHandlerTest {
 
   @Test
   public void testAddRemoveListeners() throws Exception {
-    Map<String, Map<String, IHopGuiEventListener>> guiEventListenerMap =
-        events.getGuiEventListenerMap();
+    Map<String, Map<String, IHopGuiEventListener>> guiEventListenerMap = events.getGuiEventListenerMap();
 
-    events.addEventListener("guiId-1", e -> {}, "eventId-1");
-    events.addEventListener("guiId-1", e -> {}, "eventId-2");
-    events.addEventListener("guiId-1", e -> {}, "eventId-3", "eventId-4");
+    events.addEventListener("guiId-1", e -> {
+    }, "eventId-1");
+    events.addEventListener("guiId-1", e -> {
+    }, "eventId-2");
+    events.addEventListener("guiId-1", e -> {
+    }, "eventId-3", "eventId-4");
 
     Map<String, IHopGuiEventListener> eventListenerMap = guiEventListenerMap.get("guiId-1");
     assertNotNull(eventListenerMap);
@@ -79,8 +81,7 @@ public class HopGuiEventsHandlerTest {
   public void testFiringListeners() throws Exception {
     AtomicInteger counter = new AtomicInteger(0);
 
-    events.<AtomicInteger>addEventListener(
-        "guiId-1", e -> e.getSubject().incrementAndGet(), "eventId-1");
+    events.<AtomicInteger>addEventListener("guiId-1", e -> e.getSubject().incrementAndGet(), "eventId-1");
     events.fire(counter, "eventId-1");
 
     assertEquals(1, counter.get());
@@ -90,14 +91,19 @@ public class HopGuiEventsHandlerTest {
   public void testAddEventExceptions() throws Exception {
     // The GUI ID can't be null or empty
     //
-    assertThrows(RuntimeException.class, () -> events.addEventListener(null, e -> {}, "eventId-1"));
-    assertThrows(RuntimeException.class, () -> events.addEventListener("", e -> {}, "eventId-1"));
+    assertThrows(RuntimeException.class, () -> events.addEventListener(null, e -> {
+    }, "eventId-1"));
+    assertThrows(RuntimeException.class, () -> events.addEventListener("", e -> {
+    }, "eventId-1"));
 
     // We need at least 1 non-null event ID
     //
-    assertThrows(RuntimeException.class, () -> events.addEventListener("guiId-1", e -> {}));
-    assertThrows(RuntimeException.class, () -> events.addEventListener("guiId-1", e -> {}, null));
-    assertThrows(RuntimeException.class, () -> events.addEventListener("guiId-1", e -> {}, ""));
+    assertThrows(RuntimeException.class, () -> events.addEventListener("guiId-1", e -> {
+    }));
+    assertThrows(RuntimeException.class, () -> events.addEventListener("guiId-1", e -> {
+    }, null));
+    assertThrows(RuntimeException.class, () -> events.addEventListener("guiId-1", e -> {
+    }, ""));
   }
 
   @Test
@@ -118,11 +124,10 @@ public class HopGuiEventsHandlerTest {
     // We want to refresh something when any of a list of events happens...
     // Multiple places in the code might add a refresh method for different events
     //
-    IHopGuiEventListener<AtomicInteger> listener =
-        event -> {
-          event.getSubject().incrementAndGet();
-          eventIdList.add(event.getId());
-        };
+    IHopGuiEventListener<AtomicInteger> listener = event -> {
+      event.getSubject().incrementAndGet();
+      eventIdList.add(event.getId());
+    };
     events.addEventListener("guiId-1", listener, "eventId-1");
     events.addEventListener("guiId-1", listener, "eventId-2");
     events.addEventListener("guiId-1", listener, "eventId-3");
@@ -152,11 +157,10 @@ public class HopGuiEventsHandlerTest {
     // We want to refresh something when any of a list of events happens...
     // This listener is usually registered once when the GUI is initialized (perspective)
     //
-    IHopGuiEventListener<AtomicInteger> listener =
-        event -> {
-          event.getSubject().incrementAndGet();
-          eventIdList.add(event.getId());
-        };
+    IHopGuiEventListener<AtomicInteger> listener = event -> {
+      event.getSubject().incrementAndGet();
+      eventIdList.add(event.getId());
+    };
     events.addEventListener("guiId-1", listener, "eventId-1", "eventId-2", "eventId-3");
 
     // Fire once

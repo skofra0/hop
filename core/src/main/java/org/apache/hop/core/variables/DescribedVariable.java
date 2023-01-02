@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,11 +22,14 @@ import java.util.Objects;
 
 public class DescribedVariable {
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String value;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   public DescribedVariable() {}
 
@@ -59,11 +62,9 @@ public class DescribedVariable {
     return Objects.hash(name);
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   public String getName() {
     return name;
   }
@@ -73,11 +74,9 @@ public class DescribedVariable {
     this.name = name;
   }
 
-  /**
-   * Gets value
+  /** Gets value
    *
-   * @return value of value
-   */
+   * @return value of value */
   public String getValue() {
     return value;
   }
@@ -87,11 +86,9 @@ public class DescribedVariable {
     this.value = value;
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   public String getDescription() {
     return description;
   }

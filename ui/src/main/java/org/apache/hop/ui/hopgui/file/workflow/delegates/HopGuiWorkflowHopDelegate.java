@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,28 +57,21 @@ public class HopGuiWorkflowHopDelegate {
         //
         workflowMeta.removeWorkflowHop(idx);
       } else {
-        hopGui.undoDelegate.addUndoNew(
-            workflowMeta,
-            new WorkflowHopMeta[] {hopMeta},
-            new int[] {workflowMeta.indexOfWorkflowHop(hopMeta)});
+        hopGui.undoDelegate.addUndoNew(workflowMeta, new WorkflowHopMeta[] {hopMeta}, new int[] {workflowMeta.indexOfWorkflowHop(hopMeta)});
       }
 
       workflowGraph.updateGui();
     }
   }
 
-  /**
-   * @param workflowMeta workflow metadata
+  /** @param workflowMeta workflow metadata
    * @param newHop hop to be checked
-   * @return true when the hop was added, false if there was an error
-   */
+   * @return true when the hop was added, false if there was an error */
   public boolean checkIfHopAlreadyExists(WorkflowMeta workflowMeta, WorkflowHopMeta newHop) {
     boolean ok = true;
     if (workflowMeta.findWorkflowHop(newHop.getFromAction(), newHop.getToAction()) != null) {
       MessageBox mb = new MessageBox(hopGui.getShell(), SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "HopGui.Dialog.HopExists.Message")); // "This hop already exists!"
+      mb.setMessage(BaseMessages.getString(PKG, "HopGui.Dialog.HopExists.Message")); // "This hop already exists!"
       mb.setText(BaseMessages.getString(PKG, "HopGui.Dialog.HopExists.Title")); // Error!
       mb.open();
       ok = false;
@@ -87,11 +80,9 @@ public class HopGuiWorkflowHopDelegate {
     return ok;
   }
 
-  /**
-   * @param workflowMeta workflow meta
+  /** @param workflowMeta workflow meta
    * @param newHop hop to be checked
-   * @return true when the hop was added, false if there was an error
-   */
+   * @return true when the hop was added, false if there was an error */
   public boolean performNewWorkflowHopChecks(WorkflowMeta workflowMeta, WorkflowHopMeta newHop) {
     boolean ok = true;
 
@@ -109,8 +100,7 @@ public class HopGuiWorkflowHopDelegate {
   public void delHop(WorkflowMeta workflowMeta, WorkflowHopMeta hopMeta) {
     int index = workflowMeta.indexOfWorkflowHop(hopMeta);
 
-    hopGui.undoDelegate.addUndoDelete(
-        workflowMeta, new Object[] {hopMeta.clone()}, new int[] {index});
+    hopGui.undoDelegate.addUndoDelete(workflowMeta, new Object[] {hopMeta.clone()}, new int[] {index});
     workflowMeta.removeWorkflowHop(index);
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,7 @@ import java.lang.reflect.Method;
 
 public class HadoopSnappyCompressionInputStream extends CompressionInputStream {
 
-  public HadoopSnappyCompressionInputStream(InputStream in, ICompressionProvider provider)
-      throws IOException {
+  public HadoopSnappyCompressionInputStream(InputStream in, ICompressionProvider provider) throws IOException {
     super(getDelegate(in), provider);
   }
 
@@ -44,35 +43,29 @@ public class HadoopSnappyCompressionInputStream extends CompressionInputStream {
     return null;
   }
 
-  /**
-   * Gets a CompressionInputStream that uses the snappy codec and wraps the supplied base input
+  /** Gets a CompressionInputStream that uses the snappy codec and wraps the supplied base input
    * stream.
    *
    * @param in the base input stream to wrap around
    * @return an InputStream that uses the Snappy codec
-   * @throws Exception if snappy is not available or an error occurs during reflection
-   */
+   * @throws Exception if snappy is not available or an error occurs during reflection */
   public static InputStream getSnappyInputStream(InputStream in) throws Exception {
-    return getSnappyInputStream(
-        HadoopSnappyCompressionProvider.IO_COMPRESSION_CODEC_SNAPPY_DEFAULT_BUFFERSIZE, in);
+    return getSnappyInputStream(HadoopSnappyCompressionProvider.IO_COMPRESSION_CODEC_SNAPPY_DEFAULT_BUFFERSIZE, in);
   }
 
-  /**
-   * Gets an InputStream that uses the snappy codec and wraps the supplied base input stream.
+  /** Gets an InputStream that uses the snappy codec and wraps the supplied base input stream.
    *
    * @param the buffer size for the codec to use (in bytes)
    * @param in the base input stream to wrap around
    * @return an InputStream that uses the Snappy codec
-   * @throws Exception if snappy is not available or an error occurs during reflection
-   */
+   * @throws Exception if snappy is not available or an error occurs during reflection */
   public static InputStream getSnappyInputStream(int bufferSize, InputStream in) throws Exception {
     if (!HadoopSnappyCompressionProvider.isHadoopSnappyAvailable()) {
       throw new Exception("Hadoop-snappy does not seem to be available");
     }
 
     Object snappyShim = HadoopSnappyCompressionProvider.getActiveSnappyShim();
-    Method getSnappyInputStream =
-        snappyShim.getClass().getMethod("getSnappyInputStream", int.class, InputStream.class);
+    Method getSnappyInputStream = snappyShim.getClass().getMethod("getSnappyInputStream", int.class, InputStream.class);
     return (InputStream) getSnappyInputStream.invoke(snappyShim, bufferSize, in);
   }
 }

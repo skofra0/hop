@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,33 +30,25 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 public @interface HopMetadataProperty {
 
-  /**
-   * The optional key to store this metadata property under. By the default the name of the field is
+  /** The optional key to store this metadata property under. By the default the name of the field is
    * taken.
    *
-   * @return
-   */
+   * @return */
   String key() default "";
 
-  /**
-   * @return Set to true if you want this String field to be stored as a password: encoded or
-   *     obfuscated
-   */
+  /** @return Set to true if you want this String field to be stored as a password: encoded or
+   *         obfuscated */
   boolean password() default false;
 
-  /**
-   * @return true if this field should be stored as a name reference because it is a HopMetadata
-   *     class
-   */
+  /** @return true if this field should be stored as a name reference because it is a HopMetadata
+   *         class */
   boolean storeWithName() default false;
 
-  /**
-   * For enums: store and retrieve this value not with the name of the enum but with a "code"
+  /** For enums: store and retrieve this value not with the name of the enum but with a "code"
    * property. Make sure your enum implements {@link IEnumHasCode} and has method getCode() to
    * recognize it.
    *
-   * @return True if you want to store the value of an enum by its code instead its name.
-   */
+   * @return True if you want to store the value of an enum by its code instead its name. */
   boolean storeWithCode() default false;
 
   /** @return The group key. In case this is a list use this key to encapsulate the list/array. */
@@ -68,35 +60,26 @@ public @interface HopMetadataProperty {
   /** @return Prevents the item to be considered in injection. Default value: false */
   boolean isExcludedFromInjection() default false;
 
-  /**
-   * @return The metadata key for this property. Don't specify any key if you want this to be the
-   *     same as key();
-   */
+  /** @return The metadata key for this property. Don't specify any key if you want this to be the
+   *         same as key(); */
   String injectionKey() default "";
 
   /** @return The metadata description for this property. (i18n) */
   String injectionKeyDescription() default "";
 
-  /**
-   * @return The metadata group key to which this property belongs. Don't specify any key if you
-   *     want this to be the same as key();
-   */
+  /** @return The metadata group key to which this property belongs. Don't specify any key if you
+   *         want this to be the same as key(); */
   String injectionGroupKey() default "";
 
   /** @return A description of the metadata group key to which this property belongs. (i18n) */
   String injectionGroupDescription() default "";
 
-  /**
-   * A description of the field. Right now this is used only for metadata injection purposes
+  /** A description of the field. Right now this is used only for metadata injection purposes
    *
-   * @return The description of the property
-   */
+   * @return The description of the property */
   String description() default "";
 
-  /**
-   * @return The class to instantiate to convert metadata properly for this property (dates,
-   *     numbers, ...)
-   */
-  Class<? extends InjectionTypeConverter> injectionConverter() default
-      DefaultInjectionTypeConverter.class;
+  /** @return The class to instantiate to convert metadata properly for this property (dates,
+   *         numbers, ...) */
+  Class<? extends InjectionTypeConverter> injectionConverter() default DefaultInjectionTypeConverter.class;
 }

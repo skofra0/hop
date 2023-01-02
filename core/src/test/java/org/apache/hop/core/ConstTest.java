@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,8 @@ import static org.junit.Assert.*;
 
 /** Test class for the basic functionality of Const. */
 public class ConstTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static String DELIMITER1 = ",";
   private static String DELIMITER2 = "</newpage>";
@@ -444,12 +445,9 @@ public class ConstTest {
 
   private void testSplitStringWithDelimiterAndQuoteEnclosure3(String e, String d) {
     // "Hello, world","I,","am,,",", here"
-    String mask =
-        "%sHello%s world%s" + "%s" + "%sI%s%s" + "%s" + "%sam%s%s%s" + "%s" + "%s%s here%s";
+    String mask = "%sHello%s world%s" + "%s" + "%sI%s%s" + "%s" + "%sam%s%s%s" + "%s" + "%s%s here%s";
 
-    String[] chunks1 = {
-      e + "Hello" + d + " world" + e, e + "I" + d + e, e + "am" + d + d + e, e + d + " here" + e
-    };
+    String[] chunks1 = {e + "Hello" + d + " world" + e, e + "I" + d + e, e + "am" + d + d + e, e + d + " here" + e};
     String stringToSplit = String.format(mask, e, d, e, d, e, d, e, d, e, d, d, e, d, e, d, e);
     String[] result = Const.splitString(stringToSplit, d, e);
     assertSplit(result, chunks1);
@@ -467,8 +465,7 @@ public class ConstTest {
 
   private void testSplitStringWithDelimiterAndQuoteEnclosureRemovesEnclosure3(String e, String d) {
     // "Hello, world","I,","am,,",", here"
-    String mask =
-        "%sHello%s world%s" + "%s" + "%sI%s%s" + "%s" + "%sam%s%s%s" + "%s" + "%s%s here%s";
+    String mask = "%sHello%s world%s" + "%s" + "%sI%s%s" + "%s" + "%sam%s%s%s" + "%s" + "%s%s here%s";
 
     String[] chunks1 = {"Hello" + d + " world", "I" + d, "am" + d + d, d + " here"};
     String stringToSplit = String.format(mask, e, d, e, d, e, d, e, d, e, d, d, e, d, e, d, e);
@@ -501,9 +498,7 @@ public class ConstTest {
   @Test
   public void testSplitStringWithMultipleCharacterDelimiterAndEnclosure() {
     // Check for multiple-character strings
-    String[] result =
-        Const.splitString(
-            "html this is a web page html</newpage>html and so is this html", "</newpage>", "html");
+    String[] result = Const.splitString("html this is a web page html</newpage>html and so is this html", "</newpage>", "html");
     assertNotNull(result);
     assertEquals(2, result.length);
     assertEquals("html this is a web page html", result[0]);
@@ -583,30 +578,12 @@ public class ConstTest {
   @Test
   public void testSplitStringWithEscapeString() {
     String string = "aaa:123.4:c:ddd-dd:eeee\\\\:\\\\:eee:fff";
-    String chunks[] =
-        new String[] {
-          "aaa", "123.4", "c", "ddd-dd", "eeee::eee", "fff",
-        };
+    String chunks[] = new String[] {"aaa", "123.4", "c", "ddd-dd", "eeee::eee", "fff",};
     String parts[] = Const.splitString(string, ":", null, false, "\\\\");
     assertSplit(chunks, parts);
 
     string = "cpe:2.3:a:lemonldap-ng:lemonldap\\\\:\\\\::2.0.3:*:*:*:*:*:*:*";
-    chunks =
-        new String[] {
-          "cpe",
-          "2.3",
-          "a",
-          "lemonldap-ng",
-          "lemonldap::",
-          "2.0.3",
-          "*",
-          "*",
-          "*",
-          "*",
-          "*",
-          "*",
-          "*"
-        };
+    chunks = new String[] {"cpe", "2.3", "a", "lemonldap-ng", "lemonldap::", "2.0.3", "*", "*", "*", "*", "*", "*", "*"};
     parts = Const.splitString(string, ":", null, false, "\\\\");
     assertSplit(chunks, parts);
   }
@@ -657,956 +634,436 @@ public class ConstTest {
   @Test
   public void testRound_BigDecimal() {
     assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.0"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.2"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.5"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("1.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("1.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("1.7"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.0"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.2"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.5"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.5"), 0, Const.ROUND_HALF_CEILING));
 
     assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("2.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("2.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("3.0"), Const.round(new BigDecimal("2.7"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.0"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.2"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.5"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.5"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-1.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-1.7"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.0"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.2"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.5"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-2.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-3.0"), Const.round(new BigDecimal("-2.7"), 0, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.010"),
-        Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.010"),
-        Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.010"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.010"),
-        Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.010"),
-        Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.012"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.010"),
-        Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.015"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.010"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.010"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.017"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.020"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.022"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.020"),
-        Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.025"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.025"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("0.020"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("0.030"),
-        Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("0.030"),
-        Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("0.020"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("0.030"), Const.round(new BigDecimal("0.027"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.010"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.010"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.012"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.012"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.015"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.015"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.015"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.010"),
-        Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.017"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.010"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.017"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.020"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.020"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.022"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.022"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.030"),
-        Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.025"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.025"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.025"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-0.020"),
-        Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-0.030"),
-        Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-0.030"),
-        Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-0.030"),
-        Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-0.030"),
-        Const.round(new BigDecimal("-0.027"), 2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-0.020"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-0.030"), Const.round(new BigDecimal("-0.027"), 2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("100.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("100.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("120.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("120.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("100.0"),
-        Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("150.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("150.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("150.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("100.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("170.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("100.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("170.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("200.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("200.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("300.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("220.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("220.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("300.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("200.0"),
-        Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("250.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("250.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("250.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("200.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("300.0"),
-        Const.round(new BigDecimal("270.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("200.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("300.0"), Const.round(new BigDecimal("270.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-100.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-100.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-120.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-120.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-100.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-150.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-150.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-150.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-100.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-100.0"),
-        Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-170.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-100.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-170.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-200.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-200.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-300.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-220.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-220.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-300.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-250.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-250.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-250.0"), -2, Const.ROUND_HALF_CEILING));
 
-    assertEquals(
-        new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_UP));
-    assertEquals(
-        new BigDecimal("-200.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_DOWN));
-    assertEquals(
-        new BigDecimal("-200.0"),
-        Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_CEILING));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_FLOOR));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_HALF_UP));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_HALF_DOWN));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_HALF_EVEN));
-    assertEquals(
-        new BigDecimal("-300.0"),
-        Const.round(new BigDecimal("-270.0"), -2, Const.ROUND_HALF_CEILING));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_UP));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_DOWN));
+    assertEquals(new BigDecimal("-200.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_CEILING));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_FLOOR));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_HALF_UP));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_HALF_DOWN));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, BigDecimal.ROUND_HALF_EVEN));
+    assertEquals(new BigDecimal("-300.0"), Const.round(new BigDecimal("-270.0"), -2, Const.ROUND_HALF_CEILING));
   }
 
   @Test
@@ -2044,10 +1501,8 @@ public class ConstTest {
     assertEquals(-300.0, Const.round(-270.0, -2, Const.ROUND_HALF_CEILING));
 
     assertEquals(Double.NaN, Const.round(Double.NaN, 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        Double.NEGATIVE_INFINITY, Const.round(Double.NEGATIVE_INFINITY, 0, BigDecimal.ROUND_UP));
-    assertEquals(
-        Double.POSITIVE_INFINITY, Const.round(Double.POSITIVE_INFINITY, 0, BigDecimal.ROUND_UP));
+    assertEquals(Double.NEGATIVE_INFINITY, Const.round(Double.NEGATIVE_INFINITY, 0, BigDecimal.ROUND_UP));
+    assertEquals(Double.POSITIVE_INFINITY, Const.round(Double.POSITIVE_INFINITY, 0, BigDecimal.ROUND_UP));
   }
 
   @Test
@@ -2243,10 +1698,7 @@ public class ConstTest {
         Assert.assertEquals(msg, expected, actual);
       }
     } else if (expected instanceof Number && actual instanceof Number) {
-      Assert.assertEquals(
-          msg + " dataType(" + expected + "," + actual + ")",
-          expected.getClass(),
-          actual.getClass());
+      Assert.assertEquals(msg + " dataType(" + expected + "," + actual + ")", expected.getClass(), actual.getClass());
       Assert.assertEquals(msg, expected, actual);
     } else {
       Assert.assertEquals(msg, expected, actual);
@@ -2290,9 +1742,7 @@ public class ConstTest {
   @Test
   public void testReplace() {
     final String source = "A journey of a thousand miles never begins";
-    assertEquals(
-        "A journey of a thousand miles begins with a single transform",
-        Const.replace(source, "never begins", "begins with a single transform"));
+    assertEquals("A journey of a thousand miles begins with a single transform", Const.replace(source, "never begins", "begins with a single transform"));
     assertEquals(source, Const.replace(source, "evil", "good"));
     assertEquals("short", Const.replace("short", "long pattern", "replacement"));
     assertEquals("", Const.replace("", "anything", "something"));
@@ -2359,16 +1809,10 @@ public class ConstTest {
 
   @Test
   public void testOptionallyQuoteStringByOS() {
-    assertEquals(
-        Const.getQuoteCharByOS() + "Quote me" + Const.getQuoteCharByOS(),
-        Const.optionallyQuoteStringByOS("Quote me"));
-    assertEquals(
-        Const.getQuoteCharByOS() + "Quote=me" + Const.getQuoteCharByOS(),
-        Const.optionallyQuoteStringByOS("Quote=me"));
+    assertEquals(Const.getQuoteCharByOS() + "Quote me" + Const.getQuoteCharByOS(), Const.optionallyQuoteStringByOS("Quote me"));
+    assertEquals(Const.getQuoteCharByOS() + "Quote=me" + Const.getQuoteCharByOS(), Const.optionallyQuoteStringByOS("Quote=me"));
     assertEquals("Quoteme", Const.optionallyQuoteStringByOS("Quoteme"));
-    assertEquals(
-        "Quote" + Const.getQuoteCharByOS() + "me",
-        Const.optionallyQuoteStringByOS("Quote" + Const.getQuoteCharByOS() + "me"));
+    assertEquals("Quote" + Const.getQuoteCharByOS() + "me", Const.optionallyQuoteStringByOS("Quote" + Const.getQuoteCharByOS() + "me"));
   }
 
   @Test
@@ -2399,8 +1843,7 @@ public class ConstTest {
 
   @Test
   public void testGetHostnameReal() {
-    doWithModifiedSystemProperty(
-        "HOP_SYSTEM_HOSTNAME", "MyHost", () -> assertEquals("MyHost", Const.getHostnameReal()));
+    doWithModifiedSystemProperty("HOP_SYSTEM_HOSTNAME", "MyHost", () -> assertEquals("MyHost", Const.getHostnameReal()));
   }
 
   @Test
@@ -2422,27 +1865,19 @@ public class ConstTest {
 
   @Test
   public void testIndexsOfStrings() {
-    Assert.assertArrayEquals(
-        new int[] {2, 1, -1},
-        Const.indexsOfStrings(
-            new String[] {"foo", "bar", "qux"}, new String[] {"baz", "bar", "foo"}));
+    Assert.assertArrayEquals(new int[] {2, 1, -1}, Const.indexsOfStrings(new String[] {"foo", "bar", "qux"}, new String[] {"baz", "bar", "foo"}));
   }
 
   @Test
   public void testIndexsOfFoundStrings() {
-    Assert.assertArrayEquals(
-        new int[] {2, 1},
-        Const.indexesOfFoundStrings(
-            new String[] {"qux", "foo", "bar"}, new String[] {"baz", "bar", "foo"}));
+    Assert.assertArrayEquals(new int[] {2, 1}, Const.indexesOfFoundStrings(new String[] {"qux", "foo", "bar"}, new String[] {"baz", "bar", "foo"}));
   }
 
   @Test
   public void testGetDistinctStrings() {
     assertNull(Const.getDistinctStrings(null));
     assertTrue(Const.getDistinctStrings(new String[] {}).length == 0);
-    Assert.assertArrayEquals(
-        new String[] {"bar", "foo"},
-        Const.getDistinctStrings(new String[] {"foo", "bar", "foo", "bar"}));
+    Assert.assertArrayEquals(new String[] {"bar", "foo"}, Const.getDistinctStrings(new String[] {"foo", "bar", "foo", "bar"}));
   }
 
   @Test
@@ -2455,10 +1890,7 @@ public class ConstTest {
 
   @Test
   public void testGetSimpleStackTrace() {
-    Throwable throwable =
-        new HopException(
-            "Message1",
-            new HopException("Cause1", new RuntimeException("Cause2", new Exception("Cause3"))));
+    Throwable throwable = new HopException("Message1", new HopException("Cause1", new RuntimeException("Cause2", new Exception("Cause3"))));
     String simpleStackTrace = Const.getSimpleStackTrace(throwable);
     assertFalse(simpleStackTrace.contains(".java"));
     assertTrue(simpleStackTrace.contains("Message1"));
@@ -2469,20 +1901,14 @@ public class ConstTest {
 
   @Test
   public void testCreateFilename() {
-    assertEquals(
-        "dir" + Const.FILE_SEPARATOR + "file__1.ext",
-        Const.createFilename("dir" + Const.FILE_SEPARATOR, "File\t~ 1", ".ext"));
-    assertEquals(
-        "dir" + Const.FILE_SEPARATOR + "file__1.ext",
-        Const.createFilename("dir", "File\t~ 1", ".ext"));
+    assertEquals("dir" + Const.FILE_SEPARATOR + "file__1.ext", Const.createFilename("dir" + Const.FILE_SEPARATOR, "File\t~ 1", ".ext"));
+    assertEquals("dir" + Const.FILE_SEPARATOR + "file__1.ext", Const.createFilename("dir", "File\t~ 1", ".ext"));
   }
 
   @Test
   public void testCreateName() {
     assertNull(Const.createName(null));
-    assertEquals(
-        "test - pipeline",
-        Const.createName("pipelines" + Const.FILE_SEPARATOR + "test\t~- pipeline.hpl"));
+    assertEquals("test - pipeline", Const.createName("pipelines" + Const.FILE_SEPARATOR + "test\t~- pipeline.hpl"));
   }
 
   @Test
@@ -2536,9 +1962,7 @@ public class ConstTest {
     assertEquals(expected, Const.safeAppendDirectory("dir", "file"));
     assertEquals(expected, Const.safeAppendDirectory("dir" + Const.FILE_SEPARATOR, "file"));
     assertEquals(expected, Const.safeAppendDirectory("dir", Const.FILE_SEPARATOR + "file"));
-    assertEquals(
-        expected,
-        Const.safeAppendDirectory("dir" + Const.FILE_SEPARATOR, Const.FILE_SEPARATOR + "file"));
+    assertEquals(expected, Const.safeAppendDirectory("dir" + Const.FILE_SEPARATOR, Const.FILE_SEPARATOR + "file"));
   }
 
   @Test
@@ -2596,8 +2020,7 @@ public class ConstTest {
 
   @Test
   public void testEscapeSql() {
-    assertEquals(
-        "SELECT ''Let''s rock!'' FROM dual", Const.escapeSql("SELECT 'Let's rock!' FROM dual"));
+    assertEquals("SELECT ''Let''s rock!'' FROM dual", Const.escapeSql("SELECT 'Let's rock!' FROM dual"));
   }
 
   @Test
@@ -2606,10 +2029,7 @@ public class ConstTest {
     assertEquals("", Const.removeCRLF(""));
     assertEquals("", Const.removeCRLF(null));
     assertEquals("", Const.removeCRLF("\r\n"));
-    assertEquals(
-        "This is a test of the emergency broadcast system",
-        Const.removeCRLF(
-            "This \r\nis \ra \ntest \rof \n\rthe \r\nemergency \rbroadcast \nsystem\r\n"));
+    assertEquals("This is a test of the emergency broadcast system", Const.removeCRLF("This \r\nis \ra \ntest \rof \n\rthe \r\nemergency \rbroadcast \nsystem\r\n"));
   }
 
   @Test
@@ -2619,10 +2039,7 @@ public class ConstTest {
     assertEquals("", Const.removeCR(null));
     assertEquals("", Const.removeCR("\r"));
     assertEquals("\n\n", Const.removeCR("\n\r\n"));
-    assertEquals(
-        "This \nis a \ntest of \nthe \nemergency broadcast \nsystem\n",
-        Const.removeCR(
-            "This \r\nis \ra \ntest \rof \n\rthe \r\nemergency \rbroadcast \nsystem\r\n"));
+    assertEquals("This \nis a \ntest of \nthe \nemergency broadcast \nsystem\n", Const.removeCR("This \r\nis \ra \ntest \rof \n\rthe \r\nemergency \rbroadcast \nsystem\r\n"));
   }
 
   @Test
@@ -2632,10 +2049,7 @@ public class ConstTest {
     assertEquals("", Const.removeLF(null));
     assertEquals("", Const.removeLF("\n"));
     assertEquals("\r\r", Const.removeLF("\r\n\r"));
-    assertEquals(
-        "This \ris \ra test \rof \rthe \remergency \rbroadcast system\r",
-        Const.removeLF(
-            "This \r\nis \ra \ntest \rof \n\rthe \r\nemergency \rbroadcast \nsystem\r\n"));
+    assertEquals("This \ris \ra test \rof \rthe \remergency \rbroadcast system\r", Const.removeLF("This \r\nis \ra \ntest \rof \n\rthe \r\nemergency \rbroadcast \nsystem\r\n"));
   }
 
   @Test

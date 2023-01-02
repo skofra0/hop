@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,11 +39,7 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowHopContext> lambdaBuilder;
 
-  public HopGuiWorkflowHopContext(
-      WorkflowMeta workflowMeta,
-      WorkflowHopMeta hopMeta,
-      HopGuiWorkflowGraph workflowGraph,
-      Point click) {
+  public HopGuiWorkflowHopContext(WorkflowMeta workflowMeta, WorkflowHopMeta hopMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     this.workflowMeta = workflowMeta;
     this.hopMeta = hopMeta;
     this.workflowGraph = workflowGraph;
@@ -56,12 +52,10 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
     return CONTEXT_ID;
   }
 
-  /**
-   * Create a list of supported actions on a workflow note. These are picked up from the
+  /** Create a list of supported actions on a workflow note. These are picked up from the
    * annotations, mostly in WorkflowGraph. Plugins can add actions as well.
    *
-   * @return The list of supported actions
-   */
+   * @return The list of supported actions */
   @Override
   public List<GuiAction> getSupportedActions() {
     List<GuiAction> actions = new ArrayList<>();
@@ -78,11 +72,9 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
     return actions;
   }
 
-  /**
-   * Gets workflowMeta
+  /** Gets workflowMeta
    *
-   * @return value of workflowMeta
-   */
+   * @return value of workflowMeta */
   public WorkflowMeta getWorkflowMeta() {
     return workflowMeta;
   }
@@ -92,11 +84,9 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
     this.workflowMeta = workflowMeta;
   }
 
-  /**
-   * Gets hopMeta
+  /** Gets hopMeta
    *
-   * @return value of hopMeta
-   */
+   * @return value of hopMeta */
   public WorkflowHopMeta getHopMeta() {
     return hopMeta;
   }
@@ -106,11 +96,9 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
     this.hopMeta = hopMeta;
   }
 
-  /**
-   * Gets pipelineGraph
+  /** Gets pipelineGraph
    *
-   * @return value of pipelineGraph
-   */
+   * @return value of pipelineGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -120,11 +108,9 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets click
+  /** Gets click
    *
-   * @return value of click
-   */
+   * @return value of click */
   public Point getClick() {
     return click;
   }

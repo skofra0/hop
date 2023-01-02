@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,19 +40,13 @@ public class WorkflowMap {
     configurationMap = new ConcurrentHashMap<>();
   }
 
-  public synchronized void addWorkflow(
-      String workflowName,
-      String serverObjectId,
-      IWorkflowEngine<WorkflowMeta> workflow,
-      WorkflowConfiguration workflowConfiguration) {
+  public synchronized void addWorkflow(String workflowName, String serverObjectId, IWorkflowEngine<WorkflowMeta> workflow, WorkflowConfiguration workflowConfiguration) {
     synchronized (workflowMap) {
       if (StringUtils.isEmpty(workflowName)) {
-        throw new RuntimeException(
-            "API usage error: to add a workflow on a server we always need its name.");
+        throw new RuntimeException("API usage error: to add a workflow on a server we always need its name.");
       }
       if (serverObjectId == null) {
-        throw new RuntimeException(
-            "API usage error: to add a workflow on a server we always need a server object ID to uniquely identify it.");
+        throw new RuntimeException("API usage error: to add a workflow on a server we always need a server object ID to uniquely identify it.");
       }
 
       HopServerObjectEntry entry = new HopServerObjectEntry(workflowName, serverObjectId);
@@ -61,18 +55,14 @@ public class WorkflowMap {
     }
   }
 
-  public synchronized void replaceWorkflow(
-      IWorkflowEngine<WorkflowMeta> oldWorkflow,
-      IWorkflowEngine<WorkflowMeta> workflow,
-      WorkflowConfiguration workflowConfiguration) {
+  public synchronized void replaceWorkflow(IWorkflowEngine<WorkflowMeta> oldWorkflow, IWorkflowEngine<WorkflowMeta> workflow, WorkflowConfiguration workflowConfiguration) {
     synchronized (workflowMap) {
       HopServerObjectEntry entry = getEntry(oldWorkflow);
       if (entry != null) {
         workflowMap.put(entry, workflow);
         configurationMap.put(entry, workflowConfiguration);
       } else {
-        addWorkflow(
-            workflow.getWorkflowName(), workflow.getContainerId(), workflow, workflowConfiguration);
+        addWorkflow(workflow.getWorkflowName(), workflow.getContainerId(), workflow, workflowConfiguration);
       }
     }
   }
@@ -81,12 +71,10 @@ public class WorkflowMap {
     return new HopServerObjectEntry(workflow.getWorkflowName(), workflow.getContainerId());
   }
 
-  /**
-   * Find the first workflow in the list that comes to mind!
+  /** Find the first workflow in the list that comes to mind!
    *
    * @param workflowName
-   * @return the first pipeline with the specified name
-   */
+   * @return the first pipeline with the specified name */
   public synchronized IWorkflowEngine<WorkflowMeta> getWorkflow(String workflowName) {
     synchronized (workflowMap) {
       for (HopServerObjectEntry entry : workflowMap.keySet()) {
@@ -98,10 +86,8 @@ public class WorkflowMap {
     return null;
   }
 
-  /**
-   * @param entry The HopServer workflow object
-   * @return the workflow with the specified entry
-   */
+  /** @param entry The HopServer workflow object
+   * @return the workflow with the specified entry */
   public synchronized IWorkflowEngine<WorkflowMeta> getWorkflow(HopServerObjectEntry entry) {
     synchronized (workflowMap) {
       return workflowMap.get(entry);
@@ -119,10 +105,8 @@ public class WorkflowMap {
     }
   }
 
-  /**
-   * @param entry The HopServer workflow object
-   * @return the workflow configuration with the specified entry
-   */
+  /** @param entry The HopServer workflow object
+   * @return the workflow configuration with the specified entry */
   public synchronized WorkflowConfiguration getConfiguration(HopServerObjectEntry entry) {
     synchronized (configurationMap) {
       return configurationMap.get(entry);
@@ -163,12 +147,10 @@ public class WorkflowMap {
     this.hopServerConfig = hopServerConfig;
   }
 
-  /**
-   * Find a workflow using the container/carte object ID.
+  /** Find a workflow using the container/carte object ID.
    *
    * @param id the container/carte object ID
-   * @return The workflow if it's found, null if the ID couldn't be found in the workflow map.
-   */
+   * @return The workflow if it's found, null if the ID couldn't be found in the workflow map. */
   public synchronized IWorkflowEngine<WorkflowMeta> findWorkflow(String id) {
     synchronized (workflowMap) {
       for (IWorkflowEngine<WorkflowMeta> workflow : workflowMap.values()) {
@@ -180,13 +162,11 @@ public class WorkflowMap {
     return null;
   }
 
-  /**
-   * Find a workflow with an optional ID
+  /** Find a workflow with an optional ID
    *
    * @param workflowName The name of the workflow
    * @param id The ID of the workflow or null if it's not provided
-   * @return The workflow or null if it couldn't be found.
-   */
+   * @return The workflow or null if it couldn't be found. */
   public IWorkflowEngine<WorkflowMeta> findWorkflow(String workflowName, String id) {
     IWorkflowEngine<WorkflowMeta> workflow;
     HopServerObjectEntry entry;

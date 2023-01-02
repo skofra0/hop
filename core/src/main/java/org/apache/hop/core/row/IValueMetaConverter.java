@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,16 +21,12 @@ import org.apache.hop.core.row.value.ValueMetaConversionException;
 import java.text.SimpleDateFormat;
 
 public interface IValueMetaConverter {
-  /**
-   * @param sourceValueMetaType The source ValueMeta Type defined in the IValueMeta
+  /** @param sourceValueMetaType The source ValueMeta Type defined in the IValueMeta
    * @param targetValueMetaType The target ValueMeta Type defined in the IValueMeta
    * @param value the source value to be converted
    * @return An object representing the value converted to targetMetaType. This value is suitable to
-   *     use for
-   */
-  public Object convertFromSourceToTargetDataType(
-      int sourceValueMetaType, int targetValueMetaType, Object value)
-      throws ValueMetaConversionException;
+   *         use for */
+  public Object convertFromSourceToTargetDataType(int sourceValueMetaType, int targetValueMetaType, Object value) throws ValueMetaConversionException;
 
   public void setDatePattern(SimpleDateFormat datePattern);
 }

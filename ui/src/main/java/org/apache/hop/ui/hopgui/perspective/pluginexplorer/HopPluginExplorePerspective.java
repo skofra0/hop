@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,11 +53,7 @@ import org.eclipse.swt.widgets.*;
 import java.util.List;
 import java.util.*;
 
-@HopPerspectivePlugin(
-    id = "500-HopPluginExplorerPerspective",
-    name = "i18n::PluginExplorerPerspective.Name",
-    description = "i18n::PluginExplorerPerspective.Description",
-    image = "ui/images/plugin.svg")
+@HopPerspectivePlugin(id = "500-HopPluginExplorerPerspective", name = "i18n::PluginExplorerPerspective.Name", description = "i18n::PluginExplorerPerspective.Description", image = "ui/images/plugin.svg")
 @GuiPlugin(description = "i18n::PluginExplorerPerspective.GuiPlugin.Description")
 public class HopPluginExplorePerspective implements IHopPerspective {
   public static final Class<?> PKG = HopPluginExplorePerspective.class; // i18n
@@ -142,14 +138,13 @@ public class HopPluginExplorePerspective implements IHopPerspective {
     fdlSubject.left = new FormAttachment(label, props.getMargin());
     fdlSubject.top = new FormAttachment(label, 0, SWT.CENTER);
     wPluginType.setLayoutData(fdlSubject);
-    wPluginType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            selectedPluginType = wPluginType.getText();
-            refresh();
-          }
-        });
+    wPluginType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        selectedPluginType = wPluginType.getText();
+        refresh();
+      }
+    });
     props.setLook(wPluginType, Props.WIDGET_STYLE_TOOLBAR);
 
     IRowMeta rowMeta = metaMap.get(selectedPluginType);
@@ -161,15 +156,7 @@ public class HopPluginExplorePerspective implements IHopPerspective {
       colinf[i].setValueMeta(v);
     }
 
-    wPluginView =
-        new TableView(
-            new Variables(),
-            composite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            0,
-            null,
-            props);
+    wPluginView = new TableView(new Variables(), composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, 0, null, props);
     wPluginView.setShowingBlueNullValues(true);
 
     FormData fdFields = new FormData();
@@ -208,11 +195,7 @@ public class HopPluginExplorePerspective implements IHopPerspective {
         selectedPluginType = pluginsType[0];
       }
     } catch (HopPluginException e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "PluginExplorerPerspective.Error.CollectPlugin.Header"),
-          BaseMessages.getString(PKG, "PluginExplorerPerspective.Error.CollectPlugin.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "PluginExplorerPerspective.Error.CollectPlugin.Header"), BaseMessages.getString(PKG, "PluginExplorerPerspective.Error.CollectPlugin.Message"), e);
     }
   }
 

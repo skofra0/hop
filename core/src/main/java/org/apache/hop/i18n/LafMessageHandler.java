@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,13 +51,11 @@ public class LafMessageHandler extends GlobalMessages {
     offset = -1;
   }
 
-  /**
-   * replace the application packagename target with ours for proper resolution e.g. replace
+  /** replace the application packagename target with ours for proper resolution e.g. replace
    * org.apache.hop.* with pointers to new package structure
    *
    * @param packageName
-   * @return
-   */
+   * @return */
   private String replacePackage(String packageName) {
     // we haven't yet discovered the offset for the trim
     if (offset < 0) {
@@ -73,8 +71,7 @@ public class LafMessageHandler extends GlobalMessages {
   }
 
   @Override
-  protected String calculateString(
-      String packageName, String key, Object[] parameters, Class<?> resourceClass) {
+  protected String calculateString(String packageName, String key, Object[] parameters, Class<?> resourceClass) {
     if (replaceWith != null) {
       final String[] pkgNames = new String[] {replacePackage(packageName), replaceSysBundle};
       final String string = super.calculateString(pkgNames, key, parameters, resourceClass);
@@ -84,7 +81,6 @@ public class LafMessageHandler extends GlobalMessages {
     }
 
     final String[] pkgNames = new String[] {packageName, SYSTEM_BUNDLE_PACKAGE};
-    return GlobalMessageUtil.calculateString(
-        pkgNames, key, parameters, resourceClass, BUNDLE_NAME, false);
+    return GlobalMessageUtil.calculateString(pkgNames, key, parameters, resourceClass, BUNDLE_NAME, false);
   }
 }

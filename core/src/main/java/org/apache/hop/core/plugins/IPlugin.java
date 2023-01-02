@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,18 +22,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * This interface describes the plugin itself, the IDs it listens too, what libraries (jar files) it
- * uses, the names, the i18n detailes, etc.
- */
+/** This interface describes the plugin itself, the IDs it listens too, what libraries (jar files) it
+ * uses, the names, the i18n detailes, etc. */
 public interface IPlugin {
 
-  /**
-   * @return All the possible IDs that this plugin corresponds with.<br>
-   *     Multiple IDs are typically used when you migrate 2 different plugins into a single one with
-   *     the same functionality.<br>
-   *     It can also happen if you deprecate an older plugin and you want to have a new one provide
-   *     compatibility for it.<br>
+  /** @return All the possible IDs that this plugin corresponds with.<br>
+   *         Multiple IDs are typically used when you migrate 2 different plugins into a single one with
+   *         the same functionality.<br>
+   *         It can also happen if you deprecate an older plugin and you want to have a new one provide
+   *         compatibility for it.<br>
    */
   String[] getIds();
 
@@ -70,17 +67,13 @@ public interface IPlugin {
   /** @return All the possible class names that can be loaded with this plugin, split up by type. */
   Map<Class<?>, String> getClassMap();
 
-  /**
-   * @param id the plugin id to match
-   * @return true if one of the ids matches the given argument. Return false if it doesn't.
-   */
+  /** @param id the plugin id to match
+   * @return true if one of the ids matches the given argument. Return false if it doesn't. */
   boolean matches(String id);
 
-  /**
-   * @return An optional location to a help file that the plugin can refer to in case there is a
-   *     loading problem. This usually happens if a jar file is not installed correctly (class not
-   *     found exceptions) etc.
-   */
+  /** @return An optional location to a help file that the plugin can refer to in case there is a
+   *         loading problem. This usually happens if a jar file is not installed correctly (class not
+   *         found exceptions) etc. */
   String getErrorHelpFile();
 
   /** @param errorHelpFile the errorHelpFile to set */
@@ -112,20 +105,16 @@ public interface IPlugin {
   /** @param forumUrl the forum URL to set */
   void setForumUrl(String forumUrl);
 
-  /**
-   * @return The group to which this class loader belongs. Returns null if the plugin does not
-   *     belong to a group (the default)
-   */
+  /** @return The group to which this class loader belongs. Returns null if the plugin does not
+   *         belong to a group (the default) */
   String getClassLoaderGroup();
 
   void setSuggestion(String suggestion);
 
   String getSuggestion();
 
-  /**
-   * @param group The group to which this class loader belongs. Set to null if the plugin does not
-   *     belong to a group (the default)
-   */
+  /** @param group The group to which this class loader belongs. Set to null if the plugin does not
+   *        belong to a group (the default) */
   void setClassLoaderGroup(String group);
 
   /** @param fragment A plugin interface to merge with */
@@ -142,10 +131,8 @@ public interface IPlugin {
     }
   }
 
-  /**
-   * A flag to indicate that the plugin needs libraries outside of the plugin folder
+  /** A flag to indicate that the plugin needs libraries outside of the plugin folder
    *
-   * @return true if there are extra libraries that need to be included outside the plugin folder
-   */
+   * @return true if there are extra libraries that need to be included outside the plugin folder */
   boolean isUsingLibrariesOutsidePluginFolder();
 }

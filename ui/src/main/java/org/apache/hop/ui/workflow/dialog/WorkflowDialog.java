@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -116,8 +116,7 @@ public class WorkflowDialog extends Dialog {
   public WorkflowMeta open() {
     Shell parent = getParent();
 
-    shell =
-        new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN | SWT.APPLICATION_MODAL);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN | SWT.APPLICATION_MODAL);
     props.setLook(shell);
     shell.setImage(GuiResource.getInstance().getImageWorkflow());
 
@@ -150,20 +149,14 @@ public class WorkflowDialog extends Dialog {
 
     // See if there are any other tabs to be added...
     extraTabs = new ArrayList<>();
-    java.util.List<IPlugin> jobDialogPlugins =
-        PluginRegistry.getInstance().getPlugins(WorkflowDialogPluginType.class);
+    java.util.List<IPlugin> jobDialogPlugins = PluginRegistry.getInstance().getPlugins(WorkflowDialogPluginType.class);
     for (IPlugin jobDialogPlugin : jobDialogPlugins) {
       try {
-        IWorkflowDialogPlugin extraTab =
-            (IWorkflowDialogPlugin) PluginRegistry.getInstance().loadClass(jobDialogPlugin);
+        IWorkflowDialogPlugin extraTab = (IWorkflowDialogPlugin) PluginRegistry.getInstance().loadClass(jobDialogPlugin);
         extraTab.addTab(workflowMeta, parent, wTabFolder);
         extraTabs.add(extraTab);
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            "Error",
-            "Error loading workflow dialog plugin with id " + jobDialogPlugin.getIds()[0],
-            e);
+        new ErrorDialog(shell, "Error", "Error loading workflow dialog plugin with id " + jobDialogPlugin.getIds()[0], e);
       }
     }
 
@@ -174,8 +167,7 @@ public class WorkflowDialog extends Dialog {
     fdTabFolder.bottom = new FormAttachment(wOk, -2 * margin);
     wTabFolder.setLayoutData(fdTabFolder);
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, props.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, props.getMargin(), null);
 
     wTabFolder.setSelection(0);
     getData();
@@ -239,8 +231,7 @@ public class WorkflowDialog extends Dialog {
     // Synchronize name with filename?
     //
     Label wlNameFilenameSync = new Label(wWorkflowComp, SWT.RIGHT);
-    wlNameFilenameSync.setText(
-        BaseMessages.getString(PKG, "WorkflowDialog.NameFilenameSync.Label"));
+    wlNameFilenameSync.setText(BaseMessages.getString(PKG, "WorkflowDialog.NameFilenameSync.Label"));
     props.setLook(wlNameFilenameSync);
     FormData fdlNameFilenameSync = new FormData();
     fdlNameFilenameSync.left = new FormAttachment(0, 0);
@@ -298,8 +289,7 @@ public class WorkflowDialog extends Dialog {
     // Pipeline Extended description
     // Extended description
     Label wlExtendedDescription = new Label(wWorkflowComp, SWT.RIGHT);
-    wlExtendedDescription.setText(
-        BaseMessages.getString(PKG, "WorkflowDialog.Extendeddescription.Label"));
+    wlExtendedDescription.setText(BaseMessages.getString(PKG, "WorkflowDialog.Extendeddescription.Label"));
     props.setLook(wlExtendedDescription);
     FormData fdlExtendedDescription = new FormData();
     fdlExtendedDescription.left = new FormAttachment(0, 0);
@@ -307,8 +297,7 @@ public class WorkflowDialog extends Dialog {
     fdlExtendedDescription.right = new FormAttachment(middle, -margin);
     wlExtendedDescription.setLayoutData(fdlExtendedDescription);
 
-    wExtendedDescription =
-        new Text(wWorkflowComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wExtendedDescription = new Text(wWorkflowComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     props.setLook(wExtendedDescription, Props.WIDGET_STYLE_FIXED);
     wExtendedDescription.addModifyListener(lsMod);
     FormData fdExtendedDescription = new FormData();
@@ -330,8 +319,7 @@ public class WorkflowDialog extends Dialog {
     wlWorkflowStatus.setLayoutData(fdlWorkflowStatus);
     wWorkflowStatus = new Combo(wWorkflowComp, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
     wWorkflowStatus.add(BaseMessages.getString(PKG, "WorkflowDialog.Draft_WorkflowStatus.Label"));
-    wWorkflowStatus.add(
-        BaseMessages.getString(PKG, "WorkflowDialog.Production_WorkflowStatus.Label"));
+    wWorkflowStatus.add(BaseMessages.getString(PKG, "WorkflowDialog.Production_WorkflowStatus.Label"));
     wWorkflowStatus.add("");
     wWorkflowStatus.select(-1); // +1: starts at -1
 
@@ -455,8 +443,7 @@ public class WorkflowDialog extends Dialog {
     String filename = wFilename.getText();
     boolean sync = wNameFilenameSync.getSelection();
 
-    String actualName =
-        WorkflowMeta.extractNameFromFilename(sync, name, filename, WorkflowMeta.WORKFLOW_EXTENSION);
+    String actualName = WorkflowMeta.extractNameFromFilename(sync, name, filename, WorkflowMeta.WORKFLOW_EXTENSION);
     wWorkflowName.setEnabled(!sync);
     wWorkflowName.setEditable(!sync);
 
@@ -490,31 +477,11 @@ public class WorkflowDialog extends Dialog {
     final int FieldsRows = workflowMeta.listParameters().length;
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "WorkflowDialog.ColumnInfo.Parameter.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "WorkflowDialog.ColumnInfo.Default.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "WorkflowDialog.ColumnInfo.Description.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "WorkflowDialog.ColumnInfo.Parameter.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "WorkflowDialog.ColumnInfo.Default.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "WorkflowDialog.ColumnInfo.Description.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    wParamFields =
-        new TableView(
-            variables,
-            wParamComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wParamFields = new TableView(variables, wParamComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -699,22 +666,21 @@ public class WorkflowDialog extends Dialog {
 
       return;
     }
-    shell.addShellListener(
-        new ShellAdapter() {
+    shell.addShellListener(new ShellAdapter() {
 
-          private boolean deprecation = false;
+      private boolean deprecation = false;
 
-          @Override
-          public void shellActivated(ShellEvent shellEvent) {
-            super.shellActivated(shellEvent);
-            if (deprecation) {
-              return;
-            }
-            String deprecated = BaseMessages.getString(PKG, "System.Deprecated").toLowerCase();
-            shell.setText(shell.getText() + " (" + deprecated + ")");
-            deprecation = true;
-          }
-        });
+      @Override
+      public void shellActivated(ShellEvent shellEvent) {
+        super.shellActivated(shellEvent);
+        if (deprecation) {
+          return;
+        }
+        String deprecated = BaseMessages.getString(PKG, "System.Deprecated").toLowerCase();
+        shell.setText(shell.getText() + " (" + deprecated + ")");
+        deprecation = true;
+      }
+    });
   }
 
   public static IPlugin getPlugin(IAction action) {
@@ -724,10 +690,7 @@ public class WorkflowDialog extends Dialog {
   public static Image getImage(Shell shell, IPlugin plugin) {
     String id = plugin.getIds()[0];
     if (id != null) {
-      return GuiResource.getInstance()
-          .getImagesActions()
-          .get(id)
-          .getAsBitmapForSize(shell.getDisplay(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
+      return GuiResource.getInstance().getImagesActions().get(id).getAsBitmapForSize(shell.getDisplay(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
     }
     return null;
   }

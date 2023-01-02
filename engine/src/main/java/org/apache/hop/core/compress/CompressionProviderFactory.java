@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,8 +63,7 @@ public class CompressionProviderFactory implements ICompressionProviderFactory {
     if (providers != null) {
       for (IPlugin plugin : providers) {
         try {
-          providerClasses.add(
-              PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class));
+          providerClasses.add(PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class));
         } catch (Exception e) {
           // Do nothing here, if we can't load the provider, don't add it to the list
         }
@@ -81,8 +80,7 @@ public class CompressionProviderFactory implements ICompressionProviderFactory {
     if (providers != null) {
       for (IPlugin plugin : providers) {
         try {
-          ICompressionProvider provider =
-              PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
+          ICompressionProvider provider = PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
           if (provider != null) {
             providerNames.add(provider.getName());
           }
@@ -104,8 +102,7 @@ public class CompressionProviderFactory implements ICompressionProviderFactory {
     if (providers != null) {
       for (IPlugin plugin : providers) {
         try {
-          ICompressionProvider provider =
-              PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
+          ICompressionProvider provider = PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
           if (provider != null && name.equals(provider.getName())) {
             foundProvider = provider;
           }

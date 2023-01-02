@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,8 +56,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
   public static final String SEND_RESULT = "sendResult";
 
-  private static final byte[] XML_HEADER =
-      XmlHandler.getXmlHeader(Const.XML_ENCODING).getBytes(Charset.forName(Const.XML_ENCODING));
+  private static final byte[] XML_HEADER = XmlHandler.getXmlHeader(Const.XML_ENCODING).getBytes(Charset.forName(Const.XML_ENCODING));
 
   public GetPipelineStatusServlet() {}
 
@@ -66,8 +65,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
@@ -79,12 +77,8 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
     String pipelineName = request.getParameter("name");
     String id = request.getParameter("id");
-    String root =
-        request.getRequestURI() == null
-            ? "/hop"
-            : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
-    String prefix =
-        isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
+    String root = request.getRequestURI() == null ? "/hop" : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
+    String prefix = isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
     boolean useXml = "Y".equalsIgnoreCase(request.getParameter("xml"));
     boolean useJson = "Y".equalsIgnoreCase(request.getParameter("json"));
     int startLineNr = Const.toInt(request.getParameter("from"), 0);
@@ -132,9 +126,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
           String logText = getLogText(pipeline, startLineNr, lastLineNr);
 
-          HopServerPipelineStatus pipelineStatus =
-              new HopServerPipelineStatus(
-                  pipelineName, entry.getId(), pipeline.getStatusDescription());
+          HopServerPipelineStatus pipelineStatus = new HopServerPipelineStatus(pipelineName, entry.getId(), pipeline.getStatusDescription());
           pipelineStatus.setFirstLoggingLineNr(startLineNr);
           pipelineStatus.setLastLoggingLineNr(lastLineNr);
           pipelineStatus.setLogDate(new Date());
@@ -142,8 +134,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
           pipelineStatus.setExecutionEndDate(pipeline.getExecutionEndDate());
 
           for (IEngineComponent component : pipeline.getComponents()) {
-            if ((component.isRunning())
-                || (component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY)) {
+            if ((component.isRunning()) || (component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY)) {
               TransformStatus transformStatus = new TransformStatus(component);
               pipelineStatus.getTransformStatusList().add(transformStatus);
             }
@@ -179,8 +170,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
             // JSON
             //
             ObjectMapper mapper = new ObjectMapper();
-            String jsonString =
-                mapper.writerWithDefaultPrettyPrinter().writeValueAsString(pipelineStatus);
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(pipelineStatus);
             byte[] data = jsonString.getBytes(Charset.forName(Const.XML_ENCODING));
             response.setContentLength(data.length);
             out.write(data);
@@ -200,163 +190,82 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
         out.println("<HTML>");
         out.println("<HEAD>");
-        out.println(
-            "<TITLE>"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.HopPipelineStatus")
-                + "</TITLE>");
+        out.println("<TITLE>" + BaseMessages.getString(PKG, "PipelineStatusServlet.HopPipelineStatus") + "</TITLE>");
         if (EnvUtil.getSystemProperty(Const.HOP_SERVER_REFRESH_STATUS, "N").equalsIgnoreCase("Y")) {
-          out.println(
-              "<META http-equiv=\"Refresh\" content=\"10;url="
-                  + convertContextPath(CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "\">");
+          out.println("<META http-equiv=\"Refresh\" content=\"10;url=" + convertContextPath(CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "\">");
         }
         out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
 
         if (isJettyMode()) {
-          out.println(
-              "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
+          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
         }
 
         out.println("</HEAD>");
         out.println("<BODY style=\"overflow: auto;\">");
         out.println("<div class=\"row\" id=\"pucHeader\">");
-        out.println(
-            "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 10px;\">"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "PipelineStatusServlet.TopPipelineStatus", pipelineName))
-                + "</div>");
+        out.println("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 10px;\">" + Encode.forHtml(BaseMessages.getString(PKG, "PipelineStatusServlet.TopPipelineStatus", pipelineName)) + "</div>");
         out.println("</div>");
 
         try {
           out.println("<div class=\"row\" style=\"padding: 0px 0px 0px 30px\">");
           out.println("<div class=\"row\" style=\"padding-top: 30px;\">");
           out.print("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">");
-          out.print(
-              "<img src=\""
-                  + prefix
-                  + "/images/back.svg\" style=\"margin-right: 5px; width: 16px; height: 16px; vertical-align: middle;\">");
-          out.print(
-              BaseMessages.getString(PKG, "HopServerStatusServlet.BackToHopServerStatus") + "</a>");
+          out.print("<img src=\"" + prefix + "/images/back.svg\" style=\"margin-right: 5px; width: 16px; height: 16px; vertical-align: middle;\">");
+          out.print(BaseMessages.getString(PKG, "HopServerStatusServlet.BackToHopServerStatus") + "</a>");
           out.println("</div>");
           out.println("<div class=\"row\" style=\"padding: 30px 0px 75px 0px; display: table;\">");
           out.println("<div style=\"display: table-row;\">");
-          out.println(
-              "<div style=\"padding: 0px 30px 0px 0px; width: 60px; display: table-cell; vertical-align: top;\">");
-          out.println(
-              "<img src=\""
-                  + prefix
-                  + "/images/pipeline.svg\" style=\"width: 60px; height: 60px;\"></img>");
+          out.println("<div style=\"padding: 0px 30px 0px 0px; width: 60px; display: table-cell; vertical-align: top;\">");
+          out.println("<img src=\"" + prefix + "/images/pipeline.svg\" style=\"width: 60px; height: 60px;\"></img>");
           out.println("</div>");
           out.println("<div style=\"vertical-align: top; display: table-cell;\">");
-          out.println(
-              "<table style=\"border-collapse: collapse;\" border=\"" + tableBorder + "\">");
-          out.print(
-              "<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-top: none; border-color: #E3E3E3; font-size: 12; text-align: left;\"> <th style=\"font-weight: normal; "
-                  + "padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.ServerObjectId")
-                  + "</th> <th style=\"font-weight: normal; padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.PipelineStatus")
-                  + "</th> <th style=\"font-weight: normal; padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.StartDate")
-                  + "</th> </tr>");
-          out.print(
-              "<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-bottom: none; font-size: 12; text-align: left;\">");
-          out.print(
-              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableFirstColumn\">"
-                  + Encode.forHtml(id)
-                  + "</td>");
-          out.print(
-              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell\" id=\"statusColor\" style=\"font-weight: bold;\">"
-                  + Encode.forHtml(pipeline.getStatusDescription())
-                  + "</td>");
+          out.println("<table style=\"border-collapse: collapse;\" border=\"" + tableBorder + "\">");
+          out.print("<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-top: none; border-color: #E3E3E3; font-size: 12; text-align: left;\"> <th style=\"font-weight: normal; " + "padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
+              + BaseMessages.getString(PKG, "PipelineStatusServlet.ServerObjectId") + "</th> <th style=\"font-weight: normal; padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.PipelineStatus")
+              + "</th> <th style=\"font-weight: normal; padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.StartDate") + "</th> </tr>");
+          out.print("<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-bottom: none; font-size: 12; text-align: left;\">");
+          out.print("<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableFirstColumn\">" + Encode.forHtml(id) + "</td>");
+          out.print("<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell\" id=\"statusColor\" style=\"font-weight: bold;\">" + Encode.forHtml(pipeline.getStatusDescription()) + "</td>");
           String dateStr = XmlHandler.date2string(pipeline.getExecutionStartDate());
-          out.print(
-              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableLastColumn\">"
-                  + dateStr.substring(0, dateStr.indexOf(' '))
-                  + "</td>");
+          out.print("<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableLastColumn\">" + dateStr.substring(0, dateStr.indexOf(' ')) + "</td>");
           out.print("</tr>");
           out.print("</table>");
           out.print("</div>");
 
           // Download as XML section...
           //
-          out.println(
-              "<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
+          out.println("<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
 
           // XML Download icon
           //
-          out.print(
-              "<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
-          out.print(
-              "<a target=\"_blank\" href=\""
-                  + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "&xml=y\">"
-                  + "<img src=\""
-                  + prefix
-                  + "/images/download.svg\" style=\"display: block; margin: auto; width: 22px; height: 22px;\"></a>");
+          out.print("<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
+          out.print("<a target=\"_blank\" href=\"" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "&xml=y\">" + "<img src=\"" + prefix
+              + "/images/download.svg\" style=\"display: block; margin: auto; width: 22px; height: 22px;\"></a>");
           out.print("</div>"); // End of XML icon
 
           // Start of Show as XML text
           //
           out.println("<div style=\"text-align: center; padding-top: 12px; font-size: 12px;\">");
-          out.print(
-              "<a target=\"_blank\" href=\""
-                  + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "&xml=y\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.ShowAsXml")
-                  + "</a>");
+          out.print("<a target=\"_blank\" href=\"" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "&xml=y\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.ShowAsXml") + "</a>");
           out.print("</div>"); // End of Show as XML text
 
           out.print("</div>"); // End of Show as XML block
 
           // Start of Download as JSON block...
           //
-          out.println(
-              "<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
+          out.println("<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
 
           // Start of JSON Download icon
           //
-          out.print(
-              "<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
-          out.print(
-              "<a target=\"_blank\" href=\""
-                  + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "&json=y\">"
-                  + "<img src=\""
-                  + prefix
-                  + "/images/download.svg\" style=\"display: block; margin: auto; width: 22px; height: 22px;\"></a>");
+          out.print("<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
+          out.print("<a target=\"_blank\" href=\"" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "&json=y\">" + "<img src=\"" + prefix
+              + "/images/download.svg\" style=\"display: block; margin: auto; width: 22px; height: 22px;\"></a>");
           out.print("</div>"); // End of JSON download icon
 
           // Start of View as JSON text
           //
           out.println("<div style=\"text-align: center; padding-top: 12px; font-size: 12px;\">");
-          out.print(
-              "<a target=\"_blank\" href=\""
-                  + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "&json=y\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.ShowAsJson")
-                  + "</a>");
+          out.print("<a target=\"_blank\" href=\"" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "&json=y\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.ShowAsJson") + "</a>");
           out.print("</div>"); // End of View as JSON text
 
           out.print("</div>"); // End of View as JSON block
@@ -366,137 +275,35 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
           out.print("</div>");
 
           out.print("<div class=\"row\" style=\"padding: 0px 0px 75px 0px;\">");
-          out.print(
-              "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Transform detail</div>");
+          out.print("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Transform detail</div>");
           out.println("<table class=\"hop-table\" border=\"" + tableBorder + "\">");
-          out.print(
-              "<tr class=\"cellTableRow\"> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.TransformName")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.CopyNr")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Read")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Written")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Input")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Output")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Updated")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Rejected")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Errors")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Active")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Time")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.Speed")
-                  + "</th> <th class=\"cellTableHeader\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.prinout")
-                  + "</th> </tr>");
+          out.print("<tr class=\"cellTableRow\"> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.TransformName") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.CopyNr") + "</th> <th class=\"cellTableHeader\">"
+              + BaseMessages.getString(PKG, "PipelineStatusServlet.Read") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Written") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Input")
+              + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Output") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Updated") + "</th> <th class=\"cellTableHeader\">"
+              + BaseMessages.getString(PKG, "PipelineStatusServlet.Rejected") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Errors") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Active")
+              + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Time") + "</th> <th class=\"cellTableHeader\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.Speed") + "</th> <th class=\"cellTableHeader\">"
+              + BaseMessages.getString(PKG, "PipelineStatusServlet.prinout") + "</th> </tr>");
 
           boolean evenRow = true;
           for (IEngineComponent component : pipeline.getComponents()) {
-            if ((component.isRunning())
-                || component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY) {
+            if ((component.isRunning()) || component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY) {
               TransformStatus transformStatus = new TransformStatus(component);
               boolean snif = false;
               String htmlString = "";
               if (component.isRunning() && !component.isStopped() && !component.isPaused()) {
                 snif = true;
-                String sniffLink =
-                    " <a href=\""
-                        + convertContextPath(SniffTransformServlet.CONTEXT_PATH)
-                        + "?pipeline="
-                        + URLEncoder.encode(pipelineName, "UTF-8")
-                        + "&id="
-                        + URLEncoder.encode(id, "UTF-8")
-                        + "&lines=50"
-                        + "&copynr="
-                        + component.getCopyNr()
-                        + "&type="
-                        + SniffTransformServlet.TYPE_OUTPUT
-                        + "&transform="
-                        + URLEncoder.encode(component.getName(), "UTF-8")
-                        + "\">"
-                        + Encode.forHtml(transformStatus.getTransformName())
-                        + "</a>";
+                String sniffLink = " <a href=\"" + convertContextPath(SniffTransformServlet.CONTEXT_PATH) + "?pipeline=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "&lines=50" + "&copynr=" + component.getCopyNr() + "&type="
+                    + SniffTransformServlet.TYPE_OUTPUT + "&transform=" + URLEncoder.encode(component.getName(), "UTF-8") + "\">" + Encode.forHtml(transformStatus.getTransformName()) + "</a>";
                 transformStatus.setTransformName(sniffLink);
               }
 
               String rowClass = evenRow ? "cellTableEvenRow" : "cellTableOddRow";
               String cellClass = evenRow ? "cellTableEvenRowCell" : "cellTableOddRowCell";
-              htmlString =
-                  "<tr class=\""
-                      + rowClass
-                      + "\"><td class=\"cellTableCell cellTableFirstColumn "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getTransformName()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getCopy()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getLinesRead()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getLinesWritten()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getLinesInput()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getLinesOutput()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getLinesUpdated()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getLinesRejected()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getErrors()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getStatusDescription()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getSeconds()
-                      + "</td>"
-                      + "<td class=\"cellTableCell "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getSpeed()
-                      + "</td>"
-                      + "<td class=\"cellTableCell cellTableLastColumn "
-                      + cellClass
-                      + "\">"
-                      + transformStatus.getPriority()
-                      + "</td></tr>";
+              htmlString = "<tr class=\"" + rowClass + "\"><td class=\"cellTableCell cellTableFirstColumn " + cellClass + "\">" + transformStatus.getTransformName() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getCopy() + "</td>" + "<td class=\"cellTableCell "
+                  + cellClass + "\">" + transformStatus.getLinesRead() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getLinesWritten() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getLinesInput() + "</td>"
+                  + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getLinesOutput() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getLinesUpdated() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getLinesRejected()
+                  + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getErrors() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getStatusDescription() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">"
+                  + transformStatus.getSeconds() + "</td>" + "<td class=\"cellTableCell " + cellClass + "\">" + transformStatus.getSpeed() + "</td>" + "<td class=\"cellTableCell cellTableLastColumn " + cellClass + "\">" + transformStatus.getPriority() + "</td></tr>";
               evenRow = !evenRow;
               out.print(htmlString);
             }
@@ -505,37 +312,19 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
           out.println("</div>");
 
           out.print("<div class=\"row\" style=\"padding: 0px 0px 75px 0px;\">");
-          out.print(
-              "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Canvas preview</div>");
+          out.print("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Canvas preview</div>");
           // Get the pipeline image
           Point max = pipeline.getPipelineMeta().getMaximum();
           max.x = (int) (max.x * GetPipelineImageServlet.ZOOM_FACTOR) + 100;
           max.y = (int) (max.y * GetPipelineImageServlet.ZOOM_FACTOR) + 50;
           out.print(
-              "<iframe height=\""
-                  + (max.y + 100)
-                  + "px\" width=\""
-                  + (max.x + 100)
-                  + "px\" "
-                  + "src=\""
-                  + convertContextPath(GetPipelineImageServlet.CONTEXT_PATH)
-                  + "?name="
-                  + URLEncoder.encode(pipelineName, "UTF-8")
-                  + "&id="
-                  + URLEncoder.encode(id, "UTF-8")
-                  + "\" frameborder=\"0\"></iframe>");
-          ;
+              "<iframe height=\"" + (max.y + 100) + "px\" width=\"" + (max.x + 100) + "px\" " + "src=\"" + convertContextPath(GetPipelineImageServlet.CONTEXT_PATH) + "?name=" + URLEncoder.encode(pipelineName, "UTF-8") + "&id=" + URLEncoder.encode(id, "UTF-8") + "\" frameborder=\"0\"></iframe>");;
           out.print("</div>");
 
           // Put the logging below that.
           out.print("<div class=\"row\" style=\"padding: 0px 0px 30px 0px;\">");
-          out.print(
-              "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Pipeline log</div>");
-          out.println(
-              "<textarea id=\"pipelinelog\" cols=\"120\" rows=\"20\" "
-                  + "wrap=\"off\" name=\"Pipeline log\" readonly=\"readonly\" style=\"height: auto; width: 100%;\">"
-                  + Encode.forHtml(getLogText(pipeline, startLineNr, lastLineNr))
-                  + "</textarea>");
+          out.print("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Pipeline log</div>");
+          out.println("<textarea id=\"pipelinelog\" cols=\"120\" rows=\"20\" " + "wrap=\"off\" name=\"Pipeline log\" readonly=\"readonly\" style=\"height: auto; width: 100%;\">" + Encode.forHtml(getLogText(pipeline, startLineNr, lastLineNr)) + "</textarea>");
           out.print("</div>");
 
           out.println("<script type=\"text/javascript\">");
@@ -564,24 +353,10 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
     } else {
       PrintWriter out = response.getWriter();
       if (useXml) {
-        out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
       } else {
-        out.println(
-            "<H1>"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "PipelineStatusServlet.Log.CoundNotFindPipeline", pipelineName))
-                + "</H1>");
-        out.println(
-            "<a href=\""
-                + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                + "\">"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                + "</a><p>");
+        out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindPipeline", pipelineName)) + "</H1>");
+        out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
       }
     }
   }
@@ -600,12 +375,9 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
     return CONTEXT_PATH;
   }
 
-  private String getLogText(IPipelineEngine pipeline, int startLineNr, int lastLineNr)
-      throws HopException {
+  private String getLogText(IPipelineEngine pipeline, int startLineNr, int lastLineNr) throws HopException {
     try {
-      return HopLogStore.getAppender()
-          .getBuffer(pipeline.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr)
-          .toString();
+      return HopLogStore.getAppender().getBuffer(pipeline.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr).toString();
     } catch (OutOfMemoryError error) {
       throw new HopException("Log string is too long", error);
     }

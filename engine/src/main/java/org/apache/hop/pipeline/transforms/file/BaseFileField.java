@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -75,33 +75,9 @@ public class BaseFileField implements Cloneable, ITextFileInputField {
 
   private String[] samples;
 
-  private static final String[] dateFormats =
-      new String[] {
-        "yyyy/MM/dd HH:mm:ss.SSS",
-        "yyyy/MM/dd HH:mm:ss",
-        "dd/MM/yyyy",
-        "dd-MM-yyyy",
-        "yyyy/MM/dd",
-        "yyyy-MM-dd",
-        "yyyyMMdd",
-        "ddMMyyyy",
-        "d-M-yyyy",
-        "d/M/yyyy",
-        "d-M-yy",
-        "d/M/yy",
-      };
+  private static final String[] dateFormats = new String[] {"yyyy/MM/dd HH:mm:ss.SSS", "yyyy/MM/dd HH:mm:ss", "dd/MM/yyyy", "dd-MM-yyyy", "yyyy/MM/dd", "yyyy-MM-dd", "yyyyMMdd", "ddMMyyyy", "d-M-yyyy", "d/M/yyyy", "d-M-yy", "d/M/yy",};
 
-  private static final String[] numberFormats =
-      new String[] {
-        "",
-        "#",
-        Const.DEFAULT_NUMBER_FORMAT,
-        "0.00",
-        "0000000000000",
-        "###,###,###.#######",
-        "###############.###############",
-        "#####.###############%",
-      };
+  private static final String[] numberFormats = new String[] {"", "#", Const.DEFAULT_NUMBER_FORMAT, "0.00", "0000000000000", "###,###,###.#######", "###############.###############", "#####.###############%",};
 
   public BaseFileField(String fieldname, int position, int length) {
     this.name = fieldname;
@@ -439,12 +415,7 @@ public class BaseFileField implements Cloneable, ITextFileInputField {
       } else {
         for (int x = 0; x < field.length() && isnumber; x++) {
           char ch = field.charAt(x);
-          if (!Character.isDigit(ch)
-              && ch != '.'
-              && ch != ','
-              && (ch != '-' || x > 0)
-              && ch != 'E'
-              && ch != 'e' // exponential
+          if (!Character.isDigit(ch) && ch != '.' && ch != ',' && (ch != '-' || x > 0) && ch != 'E' && ch != 'e' // exponential
           ) {
             isnumber = false;
             numfmtCnt = 0;

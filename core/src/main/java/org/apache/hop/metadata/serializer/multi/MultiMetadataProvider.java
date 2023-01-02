@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,25 +29,18 @@ import org.apache.hop.metadata.serializer.BaseMetadataProvider;
 
 import java.util.*;
 
-/**
- * This metadata provider delegates for a standard provider but also reads information from others
- */
+/** This metadata provider delegates for a standard provider but also reads information from others */
 public class MultiMetadataProvider implements IHopMetadataProvider {
   private ITwoWayPasswordEncoder twoWayPasswordEncoder;
   private IVariables variables;
   private List<IHopMetadataProvider> providers;
   private String description;
 
-  /**
-   * @param twoWayPasswordEncoder The password encoder to use
+  /** @param twoWayPasswordEncoder The password encoder to use
    * @param providers The list of providers to use. If no source is specified when serializing the
-   *     first is addressed.
-   * @param variables The variables to resolve variable expressions with.
-   */
-  public MultiMetadataProvider(
-      ITwoWayPasswordEncoder twoWayPasswordEncoder,
-      List<IHopMetadataProvider> providers,
-      IVariables variables) {
+   *        first is addressed.
+   * @param variables The variables to resolve variable expressions with. */
+  public MultiMetadataProvider(ITwoWayPasswordEncoder twoWayPasswordEncoder, List<IHopMetadataProvider> providers, IVariables variables) {
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
     this.providers = providers;
     this.variables = variables;
@@ -82,8 +75,7 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
   }
 
   @Override
-  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass)
-      throws HopException {
+  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass) throws HopException {
     if (managedClass == null) {
       throw new HopException("You need to specify the class to serialize");
     }
@@ -92,11 +84,7 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
     //
     HopMetadata hopMetadata = managedClass.getAnnotation(HopMetadata.class);
     if (hopMetadata == null) {
-      throw new HopException(
-          "To serialize class "
-              + managedClass.getClass().getName()
-              + " it needs to have annotation "
-              + HopMetadata.class.getName());
+      throw new HopException("To serialize class " + managedClass.getClass().getName() + " it needs to have annotation " + HopMetadata.class.getName());
     }
 
     // Return the serializer for all providers
@@ -127,12 +115,10 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
     }
   }
 
-  /**
-   * Find the provider with the given description
+  /** Find the provider with the given description
    *
    * @param providerDescription The description of the provider to look for
-   * @return The provider with the given description or null if nothing could be found
-   */
+   * @return The provider with the given description or null if nothing could be found */
   public IHopMetadataProvider findProvider(String providerDescription) {
     ListIterator<IHopMetadataProvider> listIterator = providers.listIterator(providers.size());
     while (listIterator.hasPrevious()) {
@@ -144,11 +130,9 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
     return null;
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   @Override
   public String getDescription() {
     return description;
@@ -169,11 +153,9 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
   }
 
-  /**
-   * Gets providers
+  /** Gets providers
    *
-   * @return value of providers
-   */
+   * @return value of providers */
   public List<IHopMetadataProvider> getProviders() {
     return providers;
   }
@@ -184,11 +166,9 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
     calculateDescription();
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }

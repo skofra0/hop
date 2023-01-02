@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,13 +29,11 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * This class is intended to facilitate any needed conversions of a IValueMeta field from one type
+/** This class is intended to facilitate any needed conversions of a IValueMeta field from one type
  * to another. It was initially implemented for Orc storage in the hadoop shims project. This class
  * is added here because the converstions are not dependendant on orc in any way.
- *
- * <p>Created by tkafalas on 12/8/2017.
- */
+ * <p>
+ * Created by tkafalas on 12/8/2017. */
 public class ValueMetaConverter implements Serializable, IValueMetaConverter {
   private static final String DEFAULT_DATE_FORMAT = ValueMetaBase.DEFAULT_DATE_FORMAT_MASK;
   private SimpleDateFormat datePattern = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
@@ -61,9 +59,7 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
   }
 
   @Override
-  public Object convertFromSourceToTargetDataType(
-      int sourceValueMetaType, int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  public Object convertFromSourceToTargetDataType(int sourceValueMetaType, int targetValueMetaType, Object value) throws ValueMetaConversionException {
     if (value == null) {
       return null;
     }
@@ -95,19 +91,13 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromStringMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromStringMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
     if (value == null) {
       return null;
     }
 
     if (!(value instanceof String)) {
-      handleConversionError(
-          "Error.  Expecting value of type string.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type string.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
     String stringValue = (String) value;
 
@@ -150,8 +140,7 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromDateMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromDateMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
@@ -159,12 +148,7 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
 
     // value is expected to be of type Date
     if (!(value instanceof Date)) {
-      handleConversionError(
-          "Error.  Expecting value of type Date.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type Date.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -187,19 +171,13 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromNumberMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromNumberMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
     }
     if (!(value instanceof Double)) {
-      handleConversionError(
-          "Error.  Expecting value of type Double.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type Double.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -227,20 +205,14 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromBooleanMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromBooleanMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
     }
 
     if (!(value instanceof Boolean)) {
-      handleConversionError(
-          "Error.  Expecting value of type Boolean.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type Boolean.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -259,20 +231,14 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromIntegerMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromIntegerMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return value;
     }
 
     if (!(value instanceof Long)) {
-      handleConversionError(
-          "Error.  Expecting value of type Long.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type Long.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -304,8 +270,7 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return value;
   }
 
-  protected Object convertFromBigNumberMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromBigNumberMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
@@ -313,12 +278,7 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
 
     // value is expected to be of type BigDecimal
     if (!(value instanceof BigDecimal)) {
-      handleConversionError(
-          "Error.  Expecting value of type BigNumber(BigDecimal).    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type BigNumber(BigDecimal).    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -345,20 +305,14 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return value;
   }
 
-  protected Object convertFromTimestampMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromTimestampMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
     }
 
     if (!(value instanceof Timestamp)) {
-      handleConversionError(
-          "Error.  Expecting value of type Timestamp.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type Timestamp.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     Date dateValue;
@@ -383,20 +337,14 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return value;
   }
 
-  protected Object convertFromInetMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromInetMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
     }
 
     if (!(value instanceof InetAddress)) {
-      handleConversionError(
-          "Error.  Expecting value of type InetAddress.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type InetAddress.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     InetAddress origInetAddress = (InetAddress) value;
@@ -420,20 +368,14 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromBinaryMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromBinaryMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
     }
 
     if (!(value instanceof ByteBuffer) && !(value instanceof byte[])) {
-      handleConversionError(
-          "Error.  Expecting value of type ByteBuffer.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type ByteBuffer.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -452,20 +394,14 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  protected Object convertFromSerializableMeta(int targetValueMetaType, Object value)
-      throws ValueMetaConversionException {
+  protected Object convertFromSerializableMeta(int targetValueMetaType, Object value) throws ValueMetaConversionException {
 
     if (value == null) {
       return null;
     }
 
     if (!(value instanceof Serializable)) {
-      handleConversionError(
-          "Error.  Expecting value of type Serializable.    actual value type = '"
-              + value.getClass()
-              + "'.    value = '"
-              + value
-              + "'.");
+      handleConversionError("Error.  Expecting value of type Serializable.    actual value type = '" + value.getClass() + "'.    value = '" + value + "'.");
     }
 
     try {
@@ -481,47 +417,22 @@ public class ValueMetaConverter implements Serializable, IValueMetaConverter {
     return null;
   }
 
-  private void throwBadConversionCombination(
-      int sourceValueMetaType, int targetValueMetaType, Object sourceValue)
-      throws ValueMetaConversionException {
+  private void throwBadConversionCombination(int sourceValueMetaType, int targetValueMetaType, Object sourceValue) throws ValueMetaConversionException {
 
-    handleConversionError(
-        "Error.  Can not convert from "
-            + IValueMeta.getTypeDescription(sourceValueMetaType)
-            + " to "
-            + IValueMeta.getTypeDescription(targetValueMetaType)
-            + ".  Actual value type = '"
-            + sourceValue.getClass()
-            + "'.    value = '"
-            + sourceValue
-            + "'.");
+    handleConversionError("Error.  Can not convert from " + IValueMeta.getTypeDescription(sourceValueMetaType) + " to " + IValueMeta.getTypeDescription(targetValueMetaType) + ".  Actual value type = '" + sourceValue.getClass() + "'.    value = '" + sourceValue + "'.");
   }
 
-  private void throwErroredConversion(
-      int sourceValueMetaType, int targetValueMetaType, Object sourceValue, Exception e)
-      throws ValueMetaConversionException {
-    handleConversionError(
-        "Error trying to convert from "
-            + IValueMeta.getTypeDescription(sourceValueMetaType)
-            + " to "
-            + IValueMeta.getTypeDescription(targetValueMetaType)
-            + ".  value = '"
-            + sourceValue
-            + "'.  Error:  "
-            + e.getClass()
-            + ":  "
-            + e.getMessage(),
-        e);
+  private void throwErroredConversion(int sourceValueMetaType, int targetValueMetaType, Object sourceValue, Exception e) throws ValueMetaConversionException {
+    handleConversionError("Error trying to convert from " + IValueMeta.getTypeDescription(sourceValueMetaType) + " to " + IValueMeta.getTypeDescription(targetValueMetaType) + ".  value = '" + sourceValue + "'.  Error:  " + e.getClass() + ":  " + e.getMessage(), e);
   }
 
   private void handleConversionError(String errorMessage) throws ValueMetaConversionException {
     handleConversionError(errorMessage, null);
   }
 
-  private void handleConversionError(String errorMessage, Exception e)
-      throws ValueMetaConversionException {
+  private void handleConversionError(String errorMessage, Exception e) throws ValueMetaConversionException {
     throw new ValueMetaConversionException(errorMessage, e);
-    //      TODO - log an error message to let the user know there's a problem.  For now, return
+    // TODO - log an error message to let the user know there's a problem. For now, return
     // null
   }
 

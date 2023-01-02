@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,10 +24,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * This singleton will capture all the metrics coming from the various log channels based on the log
- * channel ID.
- */
+/** This singleton will capture all the metrics coming from the various log channels based on the log
+ * channel ID. */
 public class MetricsRegistry {
   private static MetricsRegistry registry = new MetricsRegistry();
 
@@ -74,13 +72,11 @@ public class MetricsRegistry {
     return snapshotMaps;
   }
 
-  /**
-   * Get the snapshot list for the given log channel ID. If no list is available, one is created
+  /** Get the snapshot list for the given log channel ID. If no list is available, one is created
    * (and stored).
    *
    * @param logChannelId The log channel to use.
-   * @return an existing or a new metrics snapshot list.
-   */
+   * @return an existing or a new metrics snapshot list. */
   public Queue<IMetricsSnapshot> getSnapshotList(String logChannelId) {
     Queue<IMetricsSnapshot> list = snapshotLists.get(logChannelId);
     if (list == null) {
@@ -90,13 +86,11 @@ public class MetricsRegistry {
     return list;
   }
 
-  /**
-   * Get the snapshot map for the given log channel ID. If no map is available, one is created (and
+  /** Get the snapshot map for the given log channel ID. If no map is available, one is created (and
    * stored).
    *
    * @param logChannelId The log channel to use.
-   * @return an existing or a new metrics snapshot map.
-   */
+   * @return an existing or a new metrics snapshot map. */
   public Map<String, IMetricsSnapshot> getSnapshotMap(String logChannelId) {
     Map<String, IMetricsSnapshot> map = snapshotMaps.get(logChannelId);
     if (map == null) {

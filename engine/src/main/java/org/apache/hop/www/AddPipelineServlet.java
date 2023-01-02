@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,8 +55,7 @@ public class AddPipelineServlet extends BaseHttpServlet implements IHopServerPlu
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -107,60 +106,39 @@ public class AddPipelineServlet extends BaseHttpServlet implements IHopServerPlu
       }
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
       servletLoggingObject.setLogLevel(pipelineExecutionConfiguration.getLogLevel());
 
-      IHopMetadataProvider metadataProvider =
-          new MultiMetadataProvider(
-              variables,
-              getServerConfig().getMetadataProvider(),
-              pipelineConfiguration.getMetadataProvider());
+      IHopMetadataProvider metadataProvider = new MultiMetadataProvider(variables, getServerConfig().getMetadataProvider(), pipelineConfiguration.getMetadataProvider());
 
       String runConfigurationName = pipelineExecutionConfiguration.getRunConfiguration();
-      final IPipelineEngine<PipelineMeta> pipeline =
-          PipelineEngineFactory.createPipelineEngine(
-              variables, runConfigurationName, metadataProvider, pipelineMeta);
+      final IPipelineEngine<PipelineMeta> pipeline = PipelineEngineFactory.createPipelineEngine(variables, runConfigurationName, metadataProvider, pipelineMeta);
       pipeline.setParent(servletLoggingObject);
 
       if (pipelineExecutionConfiguration.isSetLogfile()) {
         realLogFilename = pipelineExecutionConfiguration.getLogFileName();
         final LogChannelFileWriter logChannelFileWriter;
         try {
-          FileUtil.createParentFolder(
-              AddPipelineServlet.class,
-              realLogFilename,
-              pipelineExecutionConfiguration.isCreateParentFolder(),
-              pipeline.getLogChannel());
-          logChannelFileWriter =
-              new LogChannelFileWriter(
-                  servletLoggingObject.getLogChannelId(),
-                  HopVfs.getFileObject(realLogFilename),
-                  pipelineExecutionConfiguration.isSetAppendLogfile());
+          FileUtil.createParentFolder(AddPipelineServlet.class, realLogFilename, pipelineExecutionConfiguration.isCreateParentFolder(), pipeline.getLogChannel());
+          logChannelFileWriter = new LogChannelFileWriter(servletLoggingObject.getLogChannelId(), HopVfs.getFileObject(realLogFilename), pipelineExecutionConfiguration.isSetAppendLogfile());
           logChannelFileWriter.startLogging();
 
-          pipeline.addExecutionFinishedListener(
-              pipelineEngine -> {
-                if (logChannelFileWriter != null) {
-                  logChannelFileWriter.stopLogging();
-                }
-              });
+          pipeline.addExecutionFinishedListener(pipelineEngine -> {
+            if (logChannelFileWriter != null) {
+              logChannelFileWriter.stopLogging();
+            }
+          });
 
         } catch (HopException e) {
           logError(Const.getStackTracker(e));
         }
       }
 
-      getPipelineMap()
-          .addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
+      getPipelineMap().addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
       pipeline.setContainerId(serverObjectId);
 
-      String message =
-          "Pipeline '"
-              + pipeline.getPipelineMeta().getName()
-              + "' was added to HopServer with id "
-              + serverObjectId;
+      String message = "Pipeline '" + pipeline.getPipelineMeta().getName() + "' was added to HopServer with id " + serverObjectId;
 
       if (useXML) {
         // Return the log channel id as well
@@ -168,14 +146,7 @@ public class AddPipelineServlet extends BaseHttpServlet implements IHopServerPlu
         out.println(new WebResult(WebResult.STRING_OK, message, serverObjectId));
       } else {
         out.println("<H1>" + message + "</H1>");
-        out.println(
-            "<p><a href=\""
-                + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
-                + "?name="
-                + pipeline.getPipelineMeta().getName()
-                + "&id="
-                + serverObjectId
-                + "\">Go to the pipeline status page</a><p>");
+        out.println("<p><a href=\"" + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH) + "?name=" + pipeline.getPipelineMeta().getName() + "&id=" + serverObjectId + "\">Go to the pipeline status page</a><p>");
       }
     } catch (Exception ex) {
       if (useXML) {

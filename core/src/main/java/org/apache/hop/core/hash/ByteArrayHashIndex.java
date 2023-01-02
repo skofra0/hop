@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,11 +31,9 @@ public class ByteArrayHashIndex {
   private int size;
   private int resizeThresHold;
 
-  /**
-   * Create a Byte array hash index to store row
+  /** Create a Byte array hash index to store row
    *
-   * @param rowMeta
-   */
+   * @param rowMeta */
   public ByteArrayHashIndex(IRowMeta keyRowMeta, int size) {
     this.keyRowMeta = keyRowMeta;
 
@@ -217,14 +215,11 @@ public class ByteArrayHashIndex {
     private byte[] value;
     private ByteArrayHashIndexEntry nextEntry;
 
-    /**
-     * @param hashCode
+    /** @param hashCode
      * @param key
      * @param value
-     * @param nextEntry
-     */
-    public ByteArrayHashIndexEntry(
-        int hashCode, byte[] key, byte[] value, ByteArrayHashIndexEntry nextEntry) {
+     * @param nextEntry */
+    public ByteArrayHashIndexEntry(int hashCode, byte[] key, byte[] value, ByteArrayHashIndexEntry nextEntry) {
       this.hashCode = hashCode;
       this.key = key;
       this.value = value;
@@ -235,10 +230,8 @@ public class ByteArrayHashIndex {
       return equalsByteArray(key, cmpKey);
     }
 
-    /**
-     * The row is the same if the value is the same The data types are the same so no error is made
-     * here.
-     */
+    /** The row is the same if the value is the same The data types are the same so no error is made
+     * here. */
     @Override
     public boolean equals(Object obj) {
       ByteArrayHashIndexEntry e = (ByteArrayHashIndexEntry) obj;

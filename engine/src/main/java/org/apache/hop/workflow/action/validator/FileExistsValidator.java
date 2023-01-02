@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,15 +34,10 @@ public class FileExistsValidator extends AbstractFileValidator {
 
   static final String VALIDATOR_NAME = "fileExists";
 
-  private static final String KEY_FAIL_IF_DOES_NOT_EXIST =
-      "org.apache.hop.workflow.actions.createfile.failIfDoesNotExist";
+  private static final String KEY_FAIL_IF_DOES_NOT_EXIST = "org.apache.hop.workflow.actions.createfile.failIfDoesNotExist";
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
 
     String filename = ValidatorUtils.getValueAsString(source, propertyName);
     IVariables variables = getVariableSpace(source, propertyName, remarks, context);
@@ -56,14 +51,8 @@ public class FileExistsValidator extends AbstractFileValidator {
     FileObject fileObject = null;
     try {
       fileObject = HopVfs.getFileObject(realFileName);
-      if (fileObject == null
-          || (fileObject != null && !fileObject.exists() && failIfDoesNotExist)) {
-        ActionValidatorUtils.addFailureRemark(
-            source,
-            propertyName,
-            VALIDATOR_NAME,
-            remarks,
-            ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
+      if (fileObject == null || (fileObject != null && !fileObject.exists() && failIfDoesNotExist)) {
+        ActionValidatorUtils.addFailureRemark(source, propertyName, VALIDATOR_NAME, remarks, ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
         return false;
       }
       try {
@@ -89,11 +78,7 @@ public class FileExistsValidator extends AbstractFileValidator {
     return context;
   }
 
-  protected boolean getFailIfDoesNotExist(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  protected boolean getFailIfDoesNotExist(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
     Object obj = context.get(KEY_FAIL_IF_DOES_NOT_EXIST);
     if (obj instanceof Boolean) {
       return (Boolean) obj;

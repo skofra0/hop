@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,14 +22,10 @@ import org.apache.hop.core.logging.ILogChannel;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.metadata.api.IHasHopMetadataProvider;
 
-/**
- * The class implementing this interface has a bunch of Picocli @Option annotations These options
+/** The class implementing this interface has a bunch of Picocli @Option annotations These options
  * have values. Typically this method recognizes the option, takes the arguments it needs and
- * handles the option.
- */
+ * handles the option. */
 public interface IConfigOptions {
 
-  boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException;
+  boolean handleOption(ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
 }

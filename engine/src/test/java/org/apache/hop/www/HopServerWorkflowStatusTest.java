@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HopServerWorkflowStatusTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -56,20 +57,11 @@ public class HopServerWorkflowStatusTest {
     String status = Pipeline.STRING_FINISHED;
     HopServerWorkflowStatus js = new HopServerWorkflowStatus(workflowName, id, status);
     String resultXML = js.getXml();
-    Node newJobStatus =
-        XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerWorkflowStatus.XML_TAG);
+    Node newJobStatus = XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerWorkflowStatus.XML_TAG);
 
-    assertEquals(
-        "The XML document should match after rebuilding from XML",
-        resultXML,
-        HopServerWorkflowStatus.fromXml(resultXML).getXml());
-    assertEquals(
-        "There should be one \"log_date\" node in the XML",
-        1,
-        XmlHandler.countNodes(newJobStatus, "log_date"));
-    assertTrue(
-        "The \"log_date\" node should have a null value",
-        !Utils.isEmpty(XmlHandler.getTagValue(newJobStatus, "log_date")));
+    assertEquals("The XML document should match after rebuilding from XML", resultXML, HopServerWorkflowStatus.fromXml(resultXML).getXml());
+    assertEquals("There should be one \"log_date\" node in the XML", 1, XmlHandler.countNodes(newJobStatus, "log_date"));
+    assertTrue("The \"log_date\" node should have a null value", !Utils.isEmpty(XmlHandler.getTagValue(newJobStatus, "log_date")));
   }
 
   @Test
@@ -81,43 +73,22 @@ public class HopServerWorkflowStatusTest {
     HopServerWorkflowStatus js = new HopServerWorkflowStatus(workflowName, id, status);
     js.setLogDate(logDate);
     String resultXML = js.getXml();
-    Node newJobStatus =
-        XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerWorkflowStatus.XML_TAG);
+    Node newJobStatus = XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerWorkflowStatus.XML_TAG);
 
-    assertEquals(
-        "The XML document should match after rebuilding from XML",
-        resultXML,
-        HopServerWorkflowStatus.fromXml(resultXML).getXml());
-    assertEquals(
-        "There should be one \"log_date\" node in the XML",
-        1,
-        XmlHandler.countNodes(newJobStatus, "log_date"));
-    assertEquals(
-        "The \"log_date\" node should match the original value",
-        XmlHandler.date2string(logDate),
-        XmlHandler.getTagValue(newJobStatus, "log_date"));
+    assertEquals("The XML document should match after rebuilding from XML", resultXML, HopServerWorkflowStatus.fromXml(resultXML).getXml());
+    assertEquals("There should be one \"log_date\" node in the XML", 1, XmlHandler.countNodes(newJobStatus, "log_date"));
+    assertEquals("The \"log_date\" node should match the original value", XmlHandler.date2string(logDate), XmlHandler.getTagValue(newJobStatus, "log_date"));
   }
 
   @Test
   public void testSerialization() throws HopException {
     // TODO Add Result
-    List<String> attributes =
-        Arrays.asList(
-            "WorkflowName",
-            "Id",
-            "StatusDescription",
-            "ErrorDescription",
-            "LogDate",
-            "LoggingString",
-            "FirstLoggingLineNr",
-            "LastLoggingLineNr");
+    List<String> attributes = Arrays.asList("WorkflowName", "Id", "StatusDescription", "ErrorDescription", "LogDate", "LoggingString", "FirstLoggingLineNr", "LastLoggingLineNr");
 
     Map<String, IFieldLoadSaveValidator<?>> attributeMap = new HashMap<>();
     attributeMap.put("LoggingString", new LoggingStringLoadSaveValidator());
 
-    HopServerWorkflowStatusLoadSaveTester tester =
-        new HopServerWorkflowStatusLoadSaveTester(
-            HopServerWorkflowStatus.class, attributes, attributeMap);
+    HopServerWorkflowStatusLoadSaveTester tester = new HopServerWorkflowStatusLoadSaveTester(HopServerWorkflowStatus.class, attributes, attributeMap);
 
     tester.testSerialization();
   }

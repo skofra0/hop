@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,17 +25,13 @@ public class HopLogLayoutTest {
 
   @Test
   public void testFormat() throws Exception {
-    LogMessage mcg =
-        new LogMessage("Log message for {0}", "Channel 01", new String[] {"Test"}, LogLevel.DEBUG);
+    LogMessage mcg = new LogMessage("Log message for {0}", "Channel 01", new String[] {"Test"}, LogLevel.DEBUG);
 
     HopLoggingEvent event = new HopLoggingEvent(mcg, 0, LogLevel.BASIC);
     HopLogLayout layout = new HopLogLayout();
 
     final String formattedMsg = layout.format(event);
 
-    assertEquals(
-        "The log message must be formatted and not contain placeholders.",
-        "Log message for Test",
-        formattedMsg.substring(formattedMsg.indexOf('-') + 2));
+    assertEquals("The log message must be formatted and not contain placeholders.", "Log message for Test", formattedMsg.substring(formattedMsg.indexOf('-') + 2));
   }
 }

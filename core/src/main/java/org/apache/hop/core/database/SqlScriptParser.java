@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,35 +23,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This class represents a splitter of SQL script into separate statements. It respects the notion
+/** This class represents a splitter of SQL script into separate statements. It respects the notion
  * of a string literal and comments, such that if a separator appears in a string literal or
- * comment, it is treated as part of the string or comment instead of a separator.
- */
+ * comment, it is treated as part of the string or comment instead of a separator. */
 public class SqlScriptParser {
 
   enum MODE {
-    SQL,
-    LINE_COMMENT,
-    BLOCK_COMMENT,
-    STRING
+    SQL, LINE_COMMENT, BLOCK_COMMENT, STRING
   }
 
   private boolean usingBackslashAsEscapeCharForQuotation;
 
-  /**
-   * @param usingBackslashAsEscapeCharForQuotation use backslash as escape char for quotation (\')
-   */
+  /** @param usingBackslashAsEscapeCharForQuotation use backslash as escape char for quotation (\') */
   public SqlScriptParser(boolean usingBackslashAsEscapeCharForQuotation) {
     this.usingBackslashAsEscapeCharForQuotation = usingBackslashAsEscapeCharForQuotation;
   }
 
-  /**
-   * This method splits script into separate statements.
+  /** This method splits script into separate statements.
    *
    * @param script a string representing the SQL script to parse
-   * @return the list of statements
-   */
+   * @return the list of statements */
   public List<String> split(String script) {
     if (script == null) {
       return Collections.emptyList();
@@ -113,9 +104,7 @@ public class SqlScriptParser {
              * Pass the hard-coded backslash through, and skip over the real backslash on the next loop
              */
             i = i + 1;
-          } else if (ch == '\\'
-              && nextCh == currentStringChar
-              && usingBackslashAsEscapeCharForQuotation) {
+          } else if (ch == '\\' && nextCh == currentStringChar && usingBackslashAsEscapeCharForQuotation) {
             /*
              * The user is hard-coding a quote character into the string.
              * Pass the hard-coded quote character through, and skip over the quote on next loop
@@ -146,12 +135,10 @@ public class SqlScriptParser {
     return result;
   }
 
-  /**
-   * This method removes comments from one statement.
+  /** This method removes comments from one statement.
    *
    * @param script a string representing the SQL script to parse
-   * @return script without comments
-   */
+   * @return script without comments */
   public String removeComments(String script) {
     if (script == null) {
       return null;

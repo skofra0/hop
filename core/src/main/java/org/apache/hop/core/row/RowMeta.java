@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,18 +46,14 @@ public class RowMeta implements IRowMeta {
     this(new ArrayList<>(), new RowMetaCache());
   }
 
-  /**
-   * Copy constructor for clone
+  /** Copy constructor for clone
    *
    * @param rowMeta
-   * @throws HopPluginException
-   */
+   * @throws HopPluginException */
   private RowMeta(RowMeta rowMeta, Integer targetType) throws HopPluginException {
     this(new ArrayList<>(rowMeta.valueMetaList.size()), new RowMetaCache(rowMeta.cache));
     for (IValueMeta iValueMeta : rowMeta.valueMetaList) {
-      valueMetaList.add(
-          ValueMetaFactory.cloneValueMeta(
-              iValueMeta, targetType == null ? iValueMeta.getType() : targetType));
+      valueMetaList.add(ValueMetaFactory.cloneValueMeta(iValueMeta, targetType == null ? iValueMeta.getType() : targetType));
     }
     this.needRealClone = rowMeta.needRealClone;
   }
@@ -81,13 +77,11 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * This method copies the row metadata and sets all values to the specified type (usually String)
+  /** This method copies the row metadata and sets all values to the specified type (usually String)
    *
    * @param targetType The target type
    * @return The cloned metadata
-   * @throws if the target type could not be loaded from the plugin registry
-   */
+   * @throws if the target type could not be loaded from the plugin registry */
   @Override
   public IRowMeta cloneToType(int targetType) throws HopValueException {
     lock.readLock().lock();
@@ -179,11 +173,9 @@ public class RowMeta implements IRowMeta {
     return (meta != null) && searchValueMeta(meta.getName()) != null;
   }
 
-  /**
-   * Add a metadata value. If a value with the same name already exists, it gets renamed.
+  /** Add a metadata value. If a value with the same name already exists, it gets renamed.
    *
-   * @param meta The metadata value to add
-   */
+   * @param meta The metadata value to add */
   @Override
   public void addValueMeta(IValueMeta meta) {
     if (meta != null) {
@@ -206,13 +198,11 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Add a metadata value on a certain location in the row. If a value with the same name already
+  /** Add a metadata value on a certain location in the row. If a value with the same name already
    * exists, it gets renamed. Remember to change the data row according to this.
    *
    * @param index The index where the metadata value needs to be put in the row
-   * @param meta The metadata value to add to the row
-   */
+   * @param meta The metadata value to add to the row */
   @Override
   public void addValueMeta(int index, IValueMeta meta) {
     if (meta != null) {
@@ -234,12 +224,10 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Get the value metadata on the specified index.
+  /** Get the value metadata on the specified index.
    *
    * @param index The index to get the value metadata from
-   * @return The value metadata specified by the index.
-   */
+   * @return The value metadata specified by the index. */
   @Override
   public IValueMeta getValueMeta(int index) {
     lock.readLock().lock();
@@ -254,12 +242,10 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Replaces a value meta entry in the row metadata with another one
+  /** Replaces a value meta entry in the row metadata with another one
    *
    * @param index The index in the row to replace at
-   * @param valueMeta the metadata to replace with
-   */
+   * @param valueMeta the metadata to replace with */
   @Override
   public void setValueMeta(int index, IValueMeta valueMeta) {
     if (valueMeta != null) {
@@ -284,14 +270,12 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Get a String value from a row of data. Convert data if this needed.
+  /** Get a String value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The string found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public String getString(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -301,14 +285,12 @@ public class RowMeta implements IRowMeta {
     return meta.getString(dataRow[index]);
   }
 
-  /**
-   * Get an Integer value from a row of data. Convert data if this needed.
+  /** Get an Integer value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The integer found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public Long getInteger(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -318,14 +300,12 @@ public class RowMeta implements IRowMeta {
     return meta.getInteger(dataRow[index]);
   }
 
-  /**
-   * Get a Number value from a row of data. Convert data if this needed.
+  /** Get a Number value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The number found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public Double getNumber(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -335,14 +315,12 @@ public class RowMeta implements IRowMeta {
     return meta.getNumber(dataRow[index]);
   }
 
-  /**
-   * Get a Date value from a row of data. Convert data if this needed.
+  /** Get a Date value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The date found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public Date getDate(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -352,14 +330,12 @@ public class RowMeta implements IRowMeta {
     return meta.getDate(dataRow[index]);
   }
 
-  /**
-   * Get a BigNumber value from a row of data. Convert data if this needed.
+  /** Get a BigNumber value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The bignumber found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public BigDecimal getBigNumber(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -369,14 +345,12 @@ public class RowMeta implements IRowMeta {
     return meta.getBigNumber(dataRow[index]);
   }
 
-  /**
-   * Get a Boolean value from a row of data. Convert data if this needed.
+  /** Get a Boolean value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The boolean found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public Boolean getBoolean(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -386,14 +360,12 @@ public class RowMeta implements IRowMeta {
     return meta.getBoolean(dataRow[index]);
   }
 
-  /**
-   * Get a Binary value from a row of data. Convert data if this needed.
+  /** Get a Binary value from a row of data. Convert data if this needed.
    *
    * @param dataRow the row of data
    * @param index the index
    * @return The binary found on that position in the row
-   * @throws HopValueException in case there was a problem converting the data.
-   */
+   * @throws HopValueException in case there was a problem converting the data. */
   @Override
   public byte[] getBinary(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -403,16 +375,14 @@ public class RowMeta implements IRowMeta {
     return meta.getBinary(dataRow[index]);
   }
 
-  /**
-   * Determines whether a value in a row is null. A value is null when the object is null or when
+  /** Determines whether a value in a row is null. A value is null when the object is null or when
    * it's an empty String
    *
    * @param dataRow The row of data
    * @param index the index to reference
    * @return true if the value on the index is null.
    * @throws HopValueException in case there is a conversion error (only thrown in case of lazy
-   *     conversion)
-   */
+   *         conversion) */
   @Override
   public boolean isNull(Object[] dataRow, int index) throws HopValueException {
     if (dataRow == null) {
@@ -422,19 +392,15 @@ public class RowMeta implements IRowMeta {
     return getValueMeta(index).isNull(dataRow[index]);
   }
 
-  /**
-   * @return a cloned Object[] object.
-   * @throws HopValueException in case something is not quite right with the expected data
-   */
+  /** @return a cloned Object[] object.
+   * @throws HopValueException in case something is not quite right with the expected data */
   @Override
   public Object[] cloneRow(Object[] objects) throws HopValueException {
     return cloneRow(objects, objects.clone());
   }
 
-  /**
-   * @return a cloned Object[] object.
-   * @throws HopValueException in case something is not quite right with the expected data
-   */
+  /** @return a cloned Object[] object.
+   * @throws HopValueException in case something is not quite right with the expected data */
   @Override
   public Object[] cloneRow(Object[] objects, Object[] newObjects) throws HopValueException {
     List<Integer> list = getOrCreateValuesThatNeedRealClone(valueMetaList);
@@ -471,8 +437,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public String getString(Object[] dataRow, String valueName, String defaultValue)
-      throws HopValueException {
+  public String getString(Object[] dataRow, String valueName, String defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -481,8 +446,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public Long getInteger(Object[] dataRow, String valueName, Long defaultValue)
-      throws HopValueException {
+  public Long getInteger(Object[] dataRow, String valueName, Long defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -491,8 +455,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public Date getDate(Object[] dataRow, String valueName, Date defaultValue)
-      throws HopValueException {
+  public Date getDate(Object[] dataRow, String valueName, Date defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -500,12 +463,10 @@ public class RowMeta implements IRowMeta {
     return getDate(dataRow, index);
   }
 
-  /**
-   * Searches the index of a value meta with a given name
+  /** Searches the index of a value meta with a given name
    *
    * @param valueName the name of the value metadata to look for
-   * @return the index or -1 in case we didn't find the value
-   */
+   * @return the index or -1 in case we didn't find the value */
   @Override
   public int indexOfValue(String valueName) {
     if (valueName == null) {
@@ -534,12 +495,10 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Searches for a value with a certain name in the value meta list
+  /** Searches for a value with a certain name in the value meta list
    *
    * @param valueName The value name to search for
-   * @return The value metadata or null if nothing was found
-   */
+   * @return The value metadata or null if nothing was found */
   @Override
   public IValueMeta searchValueMeta(String valueName) {
     lock.readLock().lock();
@@ -561,26 +520,22 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Merge the values of row r to this Row. The values that are not yet in the row are added
+  /** Merge the values of row r to this Row. The values that are not yet in the row are added
    * unchanged. The values that are in the row are renamed to name_2, name_3, etc.
    *
-   * @param r The row to be merged with this row
-   */
+   * @param r The row to be merged with this row */
   @Override
   public void mergeRowMeta(IRowMeta r) {
     mergeRowMeta(r, null);
   }
 
-  /**
-   * Merge the values of row r to this Row. The fields that are not yet in the row are added
+  /** Merge the values of row r to this Row. The fields that are not yet in the row are added
    * unchanged. The fields that are in the row are renamed to name_2, name_3, etc. If the fields are
    * renamed, the provided originTransformName will be assigned as the origin transform for those
    * fields.
    *
    * @param r The row to be merged with this row
-   * @param originTransformName The name to use as the origin transform
-   */
+   * @param originTransformName The name to use as the origin transform */
   @Override
   public void mergeRowMeta(IRowMeta r, String originTransformName) {
     lock.writeLock().lock();
@@ -625,11 +580,9 @@ public class RowMeta implements IRowMeta {
     return copy;
   }
 
-  /**
-   * Get an array of the names of all the Values in the Row.
+  /** Get an array of the names of all the Values in the Row.
    *
-   * @return an array of Strings: the names of all the Values in the Row.
-   */
+   * @return an array of Strings: the names of all the Values in the Row. */
   @Override
   public String[] getFieldNames() {
     lock.readLock().lock();
@@ -647,11 +600,9 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Write ONLY the specified data to the outputStream
+  /** Write ONLY the specified data to the outputStream
    *
-   * @throws HopFileException in case things go awry
-   */
+   * @throws HopFileException in case things go awry */
   @Override
   public void writeData(DataOutputStream outputStream, Object[] data) throws HopFileException {
     lock.readLock().lock();
@@ -677,11 +628,9 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Write ONLY the specified metadata to the outputStream
+  /** Write ONLY the specified metadata to the outputStream
    *
-   * @throws HopFileException in case things go awry
-   */
+   * @throws HopFileException in case things go awry */
   @Override
   public void writeMeta(DataOutputStream outputStream) throws HopFileException {
     lock.readLock().lock();
@@ -711,8 +660,7 @@ public class RowMeta implements IRowMeta {
     } catch (SocketTimeoutException e) {
       throw e;
     } catch (EOFException e) {
-      throw new HopEofException(
-          "End of file while reading the number of metadata values in the row metadata", e);
+      throw new HopEofException("End of file while reading the number of metadata values in the row metadata", e);
     } catch (IOException e) {
       throw new HopFileException("Unable to read nr of metadata values: " + e.toString(), e);
     }
@@ -726,15 +674,13 @@ public class RowMeta implements IRowMeta {
       } catch (EOFException e) {
         throw new HopEofException(e);
       } catch (Exception e) {
-        throw new HopFileException(
-            toString() + " : Unable to read row metadata from input stream", e);
+        throw new HopFileException(toString() + " : Unable to read row metadata from input stream", e);
       }
     }
   }
 
   @Override
-  public Object[] readData(DataInputStream inputStream)
-      throws HopFileException, SocketTimeoutException {
+  public Object[] readData(DataInputStream inputStream) throws HopFileException, SocketTimeoutException {
     lock.readLock().lock();
     try {
       Object[] data = new Object[size()];
@@ -749,8 +695,7 @@ public class RowMeta implements IRowMeta {
         } catch (SocketTimeoutException e) {
           throw e;
         } catch (IOException e) {
-          throw new HopFileException(
-              toString() + " : Unable to read the marker flag data from input stream", e);
+          throw new HopFileException(toString() + " : Unable to read the marker flag data from input stream", e);
         }
       }
       return data;
@@ -777,8 +722,7 @@ public class RowMeta implements IRowMeta {
     try {
       int index = indexOfValue(valueName);
       if (index < 0) {
-        throw new HopValueException(
-            "Unable to find value metadata with name '" + valueName + "', so I can't delete it.");
+        throw new HopValueException("Unable to find value metadata with name '" + valueName + "', so I can't delete it.");
       }
       removeValueMeta(index);
     } finally {
@@ -798,9 +742,7 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * @return a string with a description of all the metadata values of the complete row of metadata
-   */
+  /** @return a string with a description of all the metadata values of the complete row of metadata */
   @Override
   public String toStringMeta() {
     StringBuilder buffer = new StringBuilder();
@@ -821,13 +763,11 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Get the string representation of the data in a row of data
+  /** Get the string representation of the data in a row of data
    *
    * @param row the row of data to convert to string
    * @return the row of data in string form
-   * @throws HopValueException in case of a conversion error
-   */
+   * @throws HopValueException in case of a conversion error */
   @Override
   public String getString(Object[] row) throws HopValueException {
     lock.readLock().lock();
@@ -847,13 +787,11 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Get an array of strings showing the name of the values in the row padded to a maximum length,
+  /** Get an array of strings showing the name of the values in the row padded to a maximum length,
    * followed by the types of the values.
    *
    * @param maxlen The length to which the name will be padded.
-   * @return an array of strings: the names and the types of the fieldnames in the row.
-   */
+   * @return an array of strings: the names and the types of the fieldnames in the row. */
   @Override
   public String[] getFieldNamesAndTypes(int maxlen) {
     lock.readLock().lock();
@@ -872,19 +810,16 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Compare 2 rows with each other using certain values in the rows and also considering the
+  /** Compare 2 rows with each other using certain values in the rows and also considering the
    * specified ascending clauses of the value metadata.
    *
    * @param rowData1 The first row of data
    * @param rowData2 The second row of data
    * @param fieldnrs the fields to compare on (in that order)
    * @return 0 if the rows are considered equal, -1 is data1 is smaller, 1 if data2 is smaller.
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
-  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs)
-      throws HopValueException {
+  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs) throws HopValueException {
     lock.readLock().lock();
     try {
       for (int fieldnr : fieldnrs) {
@@ -902,19 +837,16 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Compare 2 rows with each other for equality using certain values in the rows and also
+  /** Compare 2 rows with each other for equality using certain values in the rows and also
    * considering the case sensitivity flag.
    *
    * @param rowData1 The first row of data
    * @param rowData2 The second row of data
    * @param fieldnrs the fields to compare on (in that order)
    * @return true if the rows are considered equal, false if they are not.
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
-  public boolean equals(Object[] rowData1, Object[] rowData2, int[] fieldnrs)
-      throws HopValueException {
+  public boolean equals(Object[] rowData1, Object[] rowData2, int[] fieldnrs) throws HopValueException {
     lock.readLock().lock();
     try {
       for (int fieldnr : fieldnrs) {
@@ -932,8 +864,7 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Compare 2 rows with each other using certain values in the rows and also considering the
+  /** Compare 2 rows with each other using certain values in the rows and also considering the
    * specified ascending clauses of the value metadata.
    *
    * @param rowData1 The first row of data
@@ -941,11 +872,9 @@ public class RowMeta implements IRowMeta {
    * @param fieldnrs1 The indexes of the values to compare in the first row
    * @param fieldnrs2 The indexes of the values to compare with in the second row
    * @return 0 if the rows are considered equal, -1 is data1 is smaller, 1 if data2 is smaller.
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
-  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2)
-      throws HopValueException {
+  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2) throws HopValueException {
     int len = (fieldnrs1.length < fieldnrs2.length) ? fieldnrs1.length : fieldnrs2.length;
     lock.readLock().lock();
     try {
@@ -964,8 +893,7 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Compare 2 rows with each other using certain values in the rows and also considering the
+  /** Compare 2 rows with each other using certain values in the rows and also considering the
    * specified ascending clauses of the value metadata.
    *
    * @param rowData1 The first row of data
@@ -974,12 +902,9 @@ public class RowMeta implements IRowMeta {
    * @param fieldnrs1 The indexes of the values to compare in the first row
    * @param fieldnrs2 The indexes of the values to compare with in the second row
    * @return 0 if the rows are considered equal, -1 is data1 is smaller, 1 if data2 is smaller.
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
-  public int compare(
-      Object[] rowData1, IRowMeta rowMeta2, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2)
-      throws HopValueException {
+  public int compare(Object[] rowData1, IRowMeta rowMeta2, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2) throws HopValueException {
     int len = (fieldnrs1.length < fieldnrs2.length) ? fieldnrs1.length : fieldnrs2.length;
     lock.readLock().lock();
     try {
@@ -999,15 +924,13 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Compare 2 rows with each other using all values in the rows and also considering the specified
+  /** Compare 2 rows with each other using all values in the rows and also considering the specified
    * ascending clauses of the value metadata.
    *
    * @param rowData1 The first row of data
    * @param rowData2 The second row of data
    * @return 0 if the rows are considered equal, -1 is data1 is smaller, 1 if data2 is smaller.
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
   public int compare(Object[] rowData1, Object[] rowData2) throws HopValueException {
     lock.readLock().lock();
@@ -1027,8 +950,7 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Calculates a simple hashCode of all the native data objects in the supplied row. This method
+  /** Calculates a simple hashCode of all the native data objects in the supplied row. This method
    * will return a better distribution of values for rows of numbers or rows with the same values in
    * different positions. NOTE: This method performs against the native values, not the values
    * returned by ValueMeta. This means that if you have two rows with different primitive values
@@ -1038,23 +960,20 @@ public class RowMeta implements IRowMeta {
    *
    * @param rowData The data to calculate a hashCode with
    * @return the calculated hashCode
-   * @throws HopValueException in case there is a data conversion error
-   */
+   * @throws HopValueException in case there is a data conversion error */
   @Override
   public int hashCode(Object[] rowData) throws HopValueException {
     return Arrays.deepHashCode(rowData);
   }
 
-  /**
-   * Calculates a hashcode of the converted value of all objects in the supplied row. This method
+  /** Calculates a hashcode of the converted value of all objects in the supplied row. This method
    * returns distinct values for nulls of different data types and will return the same hashCode for
    * different native values that have a ValueMeta converting them into the same value (e.g.
    * ['2008-01-01:12:30'] and ['2008-01-01:00:00'] as Date yyyy-MM-dd)
    *
    * @param rowData The data to calculate a hashCode with
    * @return the calculated hashCode
-   * @throws HopValueException in case there is a data conversion error
-   */
+   * @throws HopValueException in case there is a data conversion error */
   @Override
   public int convertedValuesHashCode(Object[] rowData) throws HopValueException {
     if (rowData == null) {
@@ -1073,13 +992,11 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Serialize a row of data to byte[]
+  /** Serialize a row of data to byte[]
    *
    * @param metadata the metadata to use
    * @param row the row of data
-   * @return a serialized form of the data as a byte array
-   */
+   * @return a serialized form of the data as a byte array */
   public static byte[] extractData(IRowMeta metadata, Object[] row) {
     try {
       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -1093,13 +1010,11 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * Create a row of data bases on a serialized format (byte[])
+  /** Create a row of data bases on a serialized format (byte[])
    *
    * @param data the serialized data
    * @param metadata the metadata to use
-   * @return a new row of data
-   */
+   * @return a new row of data */
   public static Object[] getRow(IRowMeta metadata, byte[] data) {
     try {
       ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
@@ -1110,10 +1025,8 @@ public class RowMeta implements IRowMeta {
     }
   }
 
-  /**
-   * @return an XML representation of the row metadata
-   * @throws IOException Thrown in case there is an (Base64/GZip) encoding problem
-   */
+  /** @return an XML representation of the row metadata
+   * @throws IOException Thrown in case there is an (Base64/GZip) encoding problem */
   @Override
   public String getMetaXml() throws IOException {
     StringBuilder xml = new StringBuilder();
@@ -1134,35 +1047,25 @@ public class RowMeta implements IRowMeta {
     return xml.toString();
   }
 
-  /**
-   * Create a new row metadata object from XML
+  /** Create a new row metadata object from XML
    *
    * @param node the XML node to deserialize from
-   * @throws IOException Thrown in case there is an (Base64/GZip) decoding problem
-   */
+   * @throws IOException Thrown in case there is an (Base64/GZip) decoding problem */
   public RowMeta(Node node) throws HopException {
     this();
 
     int nrValues = XmlHandler.countNodes(node, ValueMetaBase.XML_META_TAG);
     for (int i = 0; i < nrValues; i++) {
-      IValueMeta valueMetaSource =
-          new ValueMetaBase(XmlHandler.getSubNodeByNr(node, ValueMetaBase.XML_META_TAG, i));
-      IValueMeta valueMeta =
-          ValueMetaFactory.createValueMeta(
-              valueMetaSource.getName(),
-              valueMetaSource.getType(),
-              valueMetaSource.getLength(),
-              valueMetaSource.getPrecision());
+      IValueMeta valueMetaSource = new ValueMetaBase(XmlHandler.getSubNodeByNr(node, ValueMetaBase.XML_META_TAG, i));
+      IValueMeta valueMeta = ValueMetaFactory.createValueMeta(valueMetaSource.getName(), valueMetaSource.getType(), valueMetaSource.getLength(), valueMetaSource.getPrecision());
       ValueMetaFactory.cloneInfo(valueMetaSource, valueMeta);
       addValueMeta(valueMeta);
     }
   }
 
-  /**
-   * @param rowData the row of data to serialize as XML
+  /** @param rowData the row of data to serialize as XML
    * @return an XML representation of the row data
-   * @throws IOException Thrown in case there is an (Base64/GZip) encoding problem
-   */
+   * @throws IOException Thrown in case there is an (Base64/GZip) encoding problem */
   @Override
   public String getDataXml(Object[] rowData) throws IOException {
     StringBuilder xml = new StringBuilder();
@@ -1183,13 +1086,11 @@ public class RowMeta implements IRowMeta {
     return xml.toString();
   }
 
-  /**
-   * Convert an XML node into binary data using the row metadata supplied.
+  /** Convert an XML node into binary data using the row metadata supplied.
    *
    * @param node The data row node
    * @return a row of data, converted from XML
-   * @throws IOException Thrown in case there is an (Base64/GZip) decoding problem
-   */
+   * @throws IOException Thrown in case there is an (Base64/GZip) decoding problem */
   @Override
   public Object[] getRow(Node node) throws HopException {
     lock.readLock().lock();
@@ -1208,17 +1109,16 @@ public class RowMeta implements IRowMeta {
 
   @VisibleForTesting
   static class RowMetaCache {
-    @VisibleForTesting final Map<String, Integer> mapping;
+    @VisibleForTesting
+    final Map<String, Integer> mapping;
 
     RowMetaCache() {
       this(new ConcurrentHashMap<>());
     }
 
-    /**
-     * Copy constructor for clone
+    /** Copy constructor for clone
      *
-     * @param rowMetaCache
-     */
+     * @param rowMetaCache */
     RowMetaCache(RowMetaCache rowMetaCache) {
       this(new ConcurrentHashMap<>(rowMetaCache.mapping));
     }

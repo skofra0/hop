@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,10 +32,7 @@ public class ExplorerPerspectiveConfigSingleton {
   private ExplorerPerspectiveConfigSingleton() {
     // Load from the HopConfig store
     //
-    Object configObject =
-        HopConfig.getInstance()
-            .getConfigMap()
-            .get(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY);
+    Object configObject = HopConfig.getInstance().getConfigMap().get(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY);
     if (configObject == null) {
       explorerPerspectiveConfig = new ExplorerPerspectiveConfig();
     } else {
@@ -45,22 +42,13 @@ public class ExplorerPerspectiveConfigSingleton {
       //
       try {
         ObjectMapper mapper = new ObjectMapper();
-        explorerPerspectiveConfig =
-            mapper.readValue(new Gson().toJson(configObject), ExplorerPerspectiveConfig.class);
+        explorerPerspectiveConfig = mapper.readValue(new Gson().toJson(configObject), ExplorerPerspectiveConfig.class);
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error reading explorer perspective configuration, please check property '"
-                + ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY
-                + "' in the Hop config json file",
-            e);
+        LogChannel.GENERAL.logError("Error reading explorer perspective configuration, please check property '" + ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY + "' in the Hop config json file", e);
         explorerPerspectiveConfig = new ExplorerPerspectiveConfig();
       }
     }
-    HopConfig.getInstance()
-        .getConfigMap()
-        .put(
-            ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY,
-            explorerPerspectiveConfig);
+    HopConfig.getInstance().getConfigMap().put(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY, explorerPerspectiveConfig);
   }
 
   public static ExplorerPerspectiveConfigSingleton getInstance() {
@@ -75,10 +63,7 @@ public class ExplorerPerspectiveConfigSingleton {
   }
 
   public static void saveConfig() throws HopException {
-    HopConfig.getInstance()
-        .saveOption(
-            ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY,
-            configSingleton.explorerPerspectiveConfig);
+    HopConfig.getInstance().saveOption(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY, configSingleton.explorerPerspectiveConfig);
     HopConfig.getInstance().saveToFile();
   }
 }

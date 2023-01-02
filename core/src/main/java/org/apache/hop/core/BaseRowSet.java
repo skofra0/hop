@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,32 +48,20 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
     lock = new ReentrantReadWriteLock();
   }
 
-  /**
-   * Compares using the target transforms and copy, not the source. That way, re-partitioning is
-   * always done in the same way.
-   */
+  /** Compares using the target transforms and copy, not the source. That way, re-partitioning is
+   * always done in the same way. */
   @Override
   public int compareTo(IRowSet rowSet) {
     lock.readLock().lock();
     String target;
 
     try {
-      target =
-          remoteHopServerName
-              + "."
-              + destinationTransformName
-              + "."
-              + destinationTransformCopy.intValue();
+      target = remoteHopServerName + "." + destinationTransformName + "." + destinationTransformCopy.intValue();
     } finally {
       lock.readLock().unlock();
     }
 
-    String comp =
-        rowSet.getRemoteHopServerName()
-            + "."
-            + rowSet.getDestinationTransformName()
-            + "."
-            + rowSet.getDestinationTransformCopy();
+    String comp = rowSet.getRemoteHopServerName() + "." + rowSet.getDestinationTransformName() + "." + rowSet.getDestinationTransformCopy();
 
     return target.compareTo(comp);
   }
@@ -229,14 +217,7 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
 
     lock.readLock().lock();
     try {
-      str =
-          new StringBuilder(Const.NVL(originTransformName, "?"))
-              .append(".")
-              .append(originTransformCopy)
-              .append(" - ")
-              .append(Const.NVL(destinationTransformName, "?"))
-              .append(".")
-              .append(destinationTransformCopy);
+      str = new StringBuilder(Const.NVL(originTransformName, "?")).append(".").append(originTransformCopy).append(" - ").append(Const.NVL(destinationTransformName, "?")).append(".").append(destinationTransformCopy);
 
       if (!Utils.isEmpty(remoteHopServerName)) {
         str.append(" (").append(remoteHopServerName).append(")");
@@ -288,11 +269,9 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
     this.remoteHopServerName = remoteHopServerName;
   }
 
-  /**
-   * By default we don't report blocking, only for monitored pipelines.
+  /** By default we don't report blocking, only for monitored pipelines.
    *
-   * @return true if this row set is blocking on reading or writing.
-   */
+   * @return true if this row set is blocking on reading or writing. */
   @Override
   public boolean isBlocking() {
     return false;

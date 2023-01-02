@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,14 +50,8 @@ public abstract class LoadSaveBase<T> {
   protected final IInitializer<T> initializer;
   protected IHopMetadataProvider metadataProvider;
 
-  public LoadSaveBase(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap,
-      IInitializer<T> initializer) throws HopException {
+  public LoadSaveBase(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap, IInitializer<T> initializer)
+      throws HopException {
     this.clazz = clazz;
     this.attributes = new ArrayList(attributes);
 
@@ -68,43 +62,20 @@ public abstract class LoadSaveBase<T> {
     this.manipulator = new JavaBeanManipulator<>(clazz, this.attributes, getterMap, setterMap);
     this.initializer = initializer;
 
-    Map<IGetter<?>, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorMethodMap =
-        new HashMap<>(fieldLoadSaveValidatorAttributeMap.size());
-    for (Map.Entry<String, IFieldLoadSaveValidator<?>> entry :
-        fieldLoadSaveValidatorAttributeMap.entrySet()) {
+    Map<IGetter<?>, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorMethodMap = new HashMap<>(fieldLoadSaveValidatorAttributeMap.size());
+    for (Map.Entry<String, IFieldLoadSaveValidator<?>> entry : fieldLoadSaveValidatorAttributeMap.entrySet()) {
       fieldLoadSaveValidatorMethodMap.put(manipulator.getGetter(entry.getKey()), entry.getValue());
     }
-    this.fieldLoadSaveValidatorFactory =
-        new DefaultFieldLoadSaveValidatorFactory(
-            fieldLoadSaveValidatorMethodMap, fieldLoadSaveValidatorTypeMap);
+    this.fieldLoadSaveValidatorFactory = new DefaultFieldLoadSaveValidatorFactory(fieldLoadSaveValidatorMethodMap, fieldLoadSaveValidatorTypeMap);
     metadataProvider = new MemoryMetadataProvider();
   }
 
-  public LoadSaveBase(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) throws HopException {
-    this(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        fieldLoadSaveValidatorAttributeMap,
-        fieldLoadSaveValidatorTypeMap,
-        null);
+  public LoadSaveBase(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) throws HopException {
+    this(clazz, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, fieldLoadSaveValidatorTypeMap, null);
   }
 
   public LoadSaveBase(Class<T> clazz, List<String> attributes) throws HopException {
-    this(
-        clazz,
-        attributes,
-        new HashMap<>(),
-        new HashMap<>(),
-        new HashMap<>(),
-        new HashMap<>());
+    this(clazz, attributes, new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>());
   }
 
   private void addHopMetadataPropertyCommonAttributes() throws HopException {
@@ -117,14 +88,14 @@ public abstract class LoadSaveBase<T> {
           continue;
         }
         HopMetadataProperty annotation = field.getAnnotation(HopMetadataProperty.class);
-        if (annotation!=null) {
+        if (annotation != null) {
           String attribute = field.getName();
           if (!attributes.contains(attribute)) {
             attributes.add(attribute);
           }
         }
       }
-    } catch(Exception e) {
+    } catch (Exception e) {
       throw new HopException("Error adding common attributes from Hop metadata properties", e);
     }
   }
@@ -145,8 +116,7 @@ public abstract class LoadSaveBase<T> {
   }
 
   @SuppressWarnings({"unchecked"})
-  protected Map<String, IFieldLoadSaveValidator<?>> createValidatorMapAndInvokeSetters(
-      List<String> attributes, T metaToSave) {
+  protected Map<String, IFieldLoadSaveValidator<?>> createValidatorMapAndInvokeSetters(List<String> attributes, T metaToSave) {
     Map<String, IFieldLoadSaveValidator<?>> validatorMap = new HashMap<>();
     metadataProvider = new MemoryMetadataProvider();
     for (String attribute : attributes) {
@@ -171,11 +141,7 @@ public abstract class LoadSaveBase<T> {
     return validatorMap;
   }
 
-  protected void validateLoadedMeta(
-      List<String> attributes,
-      Map<String, IFieldLoadSaveValidator<?>> validatorMap,
-      T metaSaved,
-      T metaLoaded) {
+  protected void validateLoadedMeta(List<String> attributes, Map<String, IFieldLoadSaveValidator<?>> validatorMap, T metaSaved, T metaLoaded) {
     for (String attribute : attributes) {
       try {
         IGetter<?> getterMethod = manipulator.getGetter(attribute);
@@ -188,9 +154,7 @@ public abstract class LoadSaveBase<T> {
           if ("validateTestObject".equals(method.getName())) {
             Class<?>[] types = method.getParameterTypes();
             if (types.length == 2) {
-              if (types[1] == Object.class
-                  && (originalValue == null
-                      || types[0].isAssignableFrom(originalValue.getClass()))) {
+              if (types[1] == Object.class && (originalValue == null || types[0].isAssignableFrom(originalValue.getClass()))) {
                 validatorMethod = method;
                 break;
               }
@@ -198,18 +162,10 @@ public abstract class LoadSaveBase<T> {
           }
         }
         if (validatorMethod == null) {
-          throw new RuntimeException(
-              "Couldn't find proper validateTestObject method on "
-                  + validator.getClass().getCanonicalName());
+          throw new RuntimeException("Couldn't find proper validateTestObject method on " + validator.getClass().getCanonicalName());
         }
         if (!((Boolean) validatorMethod.invoke(validator, originalValue, value))) {
-          throw new HopException(
-              "Attribute "
-                  + attribute
-                  + " started with value "
-                  + originalValue
-                  + " ended with value "
-                  + value);
+          throw new HopException("Attribute " + attribute + " started with value " + originalValue + " ended with value " + value);
         }
       } catch (Exception e) {
         throw new RuntimeException("Error validating attribute: " + attribute, e);

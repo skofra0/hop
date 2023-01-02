@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,13 +42,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
   }
 
   public WorkflowHopMeta(WorkflowHopMeta hop) {
-    super(
-        hop.isSplit(),
-        hop.getFromAction(),
-        hop.getToAction(),
-        hop.isEnabled(),
-        hop.hasChanged(),
-        hop.isErrorHop());
+    super(hop.isSplit(), hop.getFromAction(), hop.getToAction(), hop.isEnabled(), hop.hasChanged(), hop.isErrorHop());
     evaluation = hop.evaluation;
     unconditional = hop.unconditional;
   }
@@ -68,8 +62,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
 
   public WorkflowHopMeta(Node hopNode, List<ActionMeta> actions) throws HopXmlException {
     try {
-      this.from =
-          searchAction(actions, XmlHandler.getTagValue(hopNode, WorkflowHopMeta.XML_FROM_TAG));
+      this.from = searchAction(actions, XmlHandler.getTagValue(hopNode, WorkflowHopMeta.XML_FROM_TAG));
       this.to = searchAction(actions, XmlHandler.getTagValue(hopNode, WorkflowHopMeta.XML_TO_TAG));
       String en = XmlHandler.getTagValue(hopNode, "enabled");
 
@@ -79,8 +72,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
         enabled = en.equalsIgnoreCase("Y");
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfo"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfo"), e);
     }
   }
 
@@ -130,8 +122,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
       }
       unconditional = "Y".equalsIgnoreCase(sUnconditional);
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfoXML"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfoXML"), e);
     }
   }
 

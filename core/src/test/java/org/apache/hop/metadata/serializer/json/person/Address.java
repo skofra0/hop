@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,14 @@ import java.util.Objects;
 
 public class Address {
 
-  @HopMetadataProperty private String street;
+  @HopMetadataProperty
+  private String street;
 
-  @HopMetadataProperty private String number;
+  @HopMetadataProperty
+  private String number;
 
-  @HopMetadataProperty private City city;
+  @HopMetadataProperty
+  private City city;
 
   public Address() {}
 
@@ -46,9 +49,7 @@ public class Address {
       return false;
     }
     Address address = (Address) o;
-    return Objects.equals(street, address.street)
-        && Objects.equals(number, address.number)
-        && Objects.equals(city, address.city);
+    return Objects.equals(street, address.street) && Objects.equals(number, address.number) && Objects.equals(city, address.city);
   }
 
   @Override
@@ -56,11 +57,9 @@ public class Address {
     return Objects.hash(street, number, city);
   }
 
-  /**
-   * Gets street
+  /** Gets street
    *
-   * @return value of street
-   */
+   * @return value of street */
   public String getStreet() {
     return street;
   }
@@ -70,11 +69,9 @@ public class Address {
     this.street = street;
   }
 
-  /**
-   * Gets number
+  /** Gets number
    *
-   * @return value of number
-   */
+   * @return value of number */
   public String getNumber() {
     return number;
   }
@@ -84,11 +81,9 @@ public class Address {
     this.number = number;
   }
 
-  /**
-   * Gets city
+  /** Gets city
    *
-   * @return value of city
-   */
+   * @return value of city */
   public City getCity() {
     return city;
   }

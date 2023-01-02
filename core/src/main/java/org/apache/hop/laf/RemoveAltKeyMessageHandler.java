@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,8 +51,7 @@ class RemoveAltKeyMessageHandler implements IMessageHandler {
   }
 
   @Override
-  public String getString(
-      String packageName, String key, Class<?> resourceClass, String... parameters) {
+  public String getString(String packageName, String key, Class<?> resourceClass, String... parameters) {
     return trimAltKey(defMessageHandler.getString(packageName, key, resourceClass, parameters));
   }
 
@@ -60,8 +59,8 @@ class RemoveAltKeyMessageHandler implements IMessageHandler {
     Matcher matcher = altKeyPattern.matcher(value);
     if (matcher.find()) {
       value = value.substring(0, matcher.start());
-      if (matcher.group(1) != null){
-          value += matcher.group(1);
+      if (matcher.group(1) != null) {
+        value += matcher.group(1);
       }
     }
     return value;

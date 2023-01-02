@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,31 +23,25 @@ import org.apache.hop.metadata.api.HopMetadataBase;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 import org.apache.hop.metadata.api.IHopMetadata;
 
-@HopMetadata(
-    key = "web-service",
-    name = "Web Service",
-    description = "Allows you to run a pipeline to generate output for a servlet on Hop Server",
-    image = "ui/images/webservice.svg",
-    documentationUrl = "/metadata-types/web-service.html")
+@HopMetadata(key = "web-service", name = "Web Service", description = "Allows you to run a pipeline to generate output for a servlet on Hop Server", image = "ui/images/webservice.svg", documentationUrl = "/metadata-types/web-service.html")
 public class WebService extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private boolean enabled;
-  @HopMetadataProperty private String filename;
-  @HopMetadataProperty private String transformName;
-  @HopMetadataProperty private String fieldName;
-  @HopMetadataProperty private String contentType;
-  @HopMetadataProperty private boolean listingStatus;
+  @HopMetadataProperty
+  private boolean enabled;
+  @HopMetadataProperty
+  private String filename;
+  @HopMetadataProperty
+  private String transformName;
+  @HopMetadataProperty
+  private String fieldName;
+  @HopMetadataProperty
+  private String contentType;
+  @HopMetadataProperty
+  private boolean listingStatus;
 
   public WebService() {}
 
-  public WebService(
-      String name,
-      boolean enabled,
-      String filename,
-      String transformName,
-      String fieldName,
-      String contentType,
-      boolean listingStatus) {
+  public WebService(String name, boolean enabled, String filename, String transformName, String fieldName, String contentType, boolean listingStatus) {
     super(name);
     this.enabled = enabled;
     this.filename = filename;
@@ -57,11 +51,9 @@ public class WebService extends HopMetadataBase implements IHopMetadata {
     this.listingStatus = listingStatus;
   }
 
-  /**
-   * Gets enabled
+  /** Gets enabled
    *
-   * @return value of enabled
-   */
+   * @return value of enabled */
   public boolean isEnabled() {
     return enabled;
   }
@@ -71,11 +63,9 @@ public class WebService extends HopMetadataBase implements IHopMetadata {
     this.enabled = enabled;
   }
 
-  /**
-   * Gets filename
+  /** Gets filename
    *
-   * @return value of filename
-   */
+   * @return value of filename */
   public String getFilename() {
     return filename;
   }
@@ -85,11 +75,9 @@ public class WebService extends HopMetadataBase implements IHopMetadata {
     this.filename = filename;
   }
 
-  /**
-   * Gets transformName
+  /** Gets transformName
    *
-   * @return value of transformName
-   */
+   * @return value of transformName */
   public String getTransformName() {
     return transformName;
   }
@@ -99,11 +87,9 @@ public class WebService extends HopMetadataBase implements IHopMetadata {
     this.transformName = transformName;
   }
 
-  /**
-   * Gets fieldName
+  /** Gets fieldName
    *
-   * @return value of fieldName
-   */
+   * @return value of fieldName */
   public String getFieldName() {
     return fieldName;
   }
@@ -113,11 +99,9 @@ public class WebService extends HopMetadataBase implements IHopMetadata {
     this.fieldName = fieldName;
   }
 
-  /**
-   * Gets contentType
+  /** Gets contentType
    *
-   * @return value of contentType
-   */
+   * @return value of contentType */
   public String getContentType() {
     return contentType;
   }
@@ -127,11 +111,9 @@ public class WebService extends HopMetadataBase implements IHopMetadata {
     this.contentType = contentType;
   }
 
-  /**
-   * Gets listingStatus
+  /** Gets listingStatus
    *
-   * @return value of listingStatus
-   */
+   * @return value of listingStatus */
   public boolean isListingStatus() {
     return listingStatus;
   }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,22 +26,21 @@ import static org.junit.Assert.*;
 
 public class VariableRegistryTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
-  
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+
   @Test
   public void testInit() throws Exception {
 
     VariableRegistry.init();
-    
+
     VariableRegistry registry = VariableRegistry.getInstance();
-    DescribedVariable describedVariable =  registry.findDescribedVariable(Const.HOP_PASSWORD_ENCODER_PLUGIN);
+    DescribedVariable describedVariable = registry.findDescribedVariable(Const.HOP_PASSWORD_ENCODER_PLUGIN);
     assertNotNull(describedVariable);
 
     boolean actual = Boolean.valueOf(describedVariable.getValue());
     assertEquals(false, actual);
 
-    assertEquals(
-        "Specifies the password encoder plugin to use by ID (Hop is the default).",
-        describedVariable.getDescription());
+    assertEquals("Specifies the password encoder plugin to use by ID (Hop is the default).", describedVariable.getDescription());
   }
 }

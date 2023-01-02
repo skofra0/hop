@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,18 +38,11 @@ public class DisplayInvocationHandler<T> implements InvocationHandler {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> T forObject(
-      Class<T> iface, T delegate, Display display, ILogChannel log, boolean asyncForVoid) {
-    return (T)
-        Proxy.newProxyInstance(
-            delegate.getClass().getClassLoader(),
-            (Class<?>[])
-                ClassUtils.getAllInterfaces(delegate.getClass()).toArray(new Class<?>[] {}),
-            new DisplayInvocationHandler<>(display, delegate, log, asyncForVoid));
+  public static <T> T forObject(Class<T> iface, T delegate, Display display, ILogChannel log, boolean asyncForVoid) {
+    return (T) Proxy.newProxyInstance(delegate.getClass().getClassLoader(), (Class<?>[]) ClassUtils.getAllInterfaces(delegate.getClass()).toArray(new Class<?>[] {}), new DisplayInvocationHandler<>(display, delegate, log, asyncForVoid));
   }
 
-  public DisplayInvocationHandler(
-      Display display, T delegate, ILogChannel log, boolean asyncForVoid) {
+  public DisplayInvocationHandler(Display display, T delegate, ILogChannel log, boolean asyncForVoid) {
     this.display = display;
     this.delegate = delegate;
     this.log = log;
@@ -66,30 +59,28 @@ public class DisplayInvocationHandler<T> implements InvocationHandler {
       }
     }
     if (asyncForVoid && method.getReturnType().equals(Void.TYPE)) {
-      display.asyncExec(
-          () -> {
-            try {
-              method.invoke(delegate, args);
-            } catch (Throwable e) {
-              if (e instanceof InvocationTargetException) {
-                e = e.getCause();
-              }
-              log.logError(e.getMessage(), e);
-            }
-          });
+      display.asyncExec(() -> {
+        try {
+          method.invoke(delegate, args);
+        } catch (Throwable e) {
+          if (e instanceof InvocationTargetException) {
+            e = e.getCause();
+          }
+          log.logError(e.getMessage(), e);
+        }
+      });
       return null;
     }
     final ResultHolder resultHolder = new ResultHolder();
-    display.syncExec(
-        () -> {
-          try {
-            resultHolder.result = method.invoke(delegate, args);
-          } catch (InvocationTargetException e) {
-            resultHolder.throwable = e.getCause();
-          } catch (Exception e) {
-            resultHolder.throwable = e;
-          }
-        });
+    display.syncExec(() -> {
+      try {
+        resultHolder.result = method.invoke(delegate, args);
+      } catch (InvocationTargetException e) {
+        resultHolder.throwable = e.getCause();
+      } catch (Exception e) {
+        resultHolder.throwable = e;
+      }
+    });
     if (resultHolder.result != null) {
       return resultHolder.result;
     } else {

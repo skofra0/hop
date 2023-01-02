@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 
 package org.apache.hop.core.row.value;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.junit.rules.RestoreHopEnvironment;
@@ -40,7 +40,8 @@ public class ValueMetaStringTest {
 
   private ConfigurableMeta meta;
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Before
   public void setUp() {
@@ -120,7 +121,7 @@ public class ValueMetaStringTest {
     // assertEquals( null, meta.getNativeDataType( "" ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("1"));
-    // assertEquals( null, meta.getNativeDataType( "    " ) ); //TODO: is it correct?
+    // assertEquals( null, meta.getNativeDataType( " " ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("    ")); // TODO: is it correct?
     assertEquals("1  ", meta.getNativeDataType("  1  "));
 
@@ -128,7 +129,7 @@ public class ValueMetaStringTest {
     // assertEquals( null, meta.getNativeDataType( "" ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("1"));
-    // assertEquals( null, meta.getNativeDataType( "    " ) ); //TODO: is it correct?
+    // assertEquals( null, meta.getNativeDataType( " " ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("    ")); // TODO: is it correct?
     assertEquals("  1", meta.getNativeDataType("  1  "));
 
@@ -136,7 +137,7 @@ public class ValueMetaStringTest {
     // assertEquals( null, meta.getNativeDataType( "" ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("1"));
-    // assertEquals( null, meta.getNativeDataType( "    " ) ); //TODO: is it correct?
+    // assertEquals( null, meta.getNativeDataType( " " ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("    ")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("  1  "));
   }
@@ -184,7 +185,7 @@ public class ValueMetaStringTest {
     assertEquals(false, meta.isNull(meta.getString("  1  ")));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_LEFT);
-    // assertEquals( true, meta.isNull( "    " ) ); //TODO: is it correct?
+    // assertEquals( true, meta.isNull( " " ) ); //TODO: is it correct?
     assertEquals(false, meta.isNull("    ")); // TODO: is it correct?
     assertEquals(true, meta.isNull(meta.getString("    ")));
 
@@ -192,7 +193,7 @@ public class ValueMetaStringTest {
     assertEquals(false, meta.isNull(meta.getString("  1  ")));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_RIGHT);
-    // assertEquals( true, meta.isNull( "    " ) ); //TODO: is it correct?
+    // assertEquals( true, meta.isNull( " " ) ); //TODO: is it correct?
     assertEquals(false, meta.isNull("    ")); // TODO: is it correct?
     assertEquals(true, meta.isNull(meta.getString("    ")));
 
@@ -200,7 +201,7 @@ public class ValueMetaStringTest {
     assertEquals(false, meta.isNull(meta.getString("  1  ")));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_BOTH);
-    // assertEquals( true, meta.isNull( "    " ) ); //TODO: is it correct?
+    // assertEquals( true, meta.isNull( " " ) ); //TODO: is it correct?
     assertEquals(false, meta.isNull("    ")); // TODO: is it correct?
     assertEquals(true, meta.isNull(meta.getString("    ")));
 
@@ -245,17 +246,17 @@ public class ValueMetaStringTest {
     assertEquals("  1  ", meta.getString("  1  "));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_LEFT);
-    // assertEquals( null, meta.getString( "    " ) ); // TODO: is it correct?
+    // assertEquals( null, meta.getString( " " ) ); // TODO: is it correct?
     assertEquals("", meta.getString("    ")); // TODO: is it correct?
     assertEquals("1  ", meta.getString("  1  "));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_RIGHT);
-    // assertEquals( null, meta.getString( "    " ) ); // TODO: is it correct?
+    // assertEquals( null, meta.getString( " " ) ); // TODO: is it correct?
     assertEquals("", meta.getString("    ")); // TODO: is it correct?
     assertEquals("  1", meta.getString("  1  "));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_BOTH);
-    // assertEquals( null, meta.getString( "    " ) ); // TODO: is it correct?
+    // assertEquals( null, meta.getString( " " ) ); // TODO: is it correct?
     assertEquals("", meta.getString("    ")); // TODO: is it correct?
     assertEquals("1", meta.getString("  1  "));
   }
@@ -946,11 +947,11 @@ public class ValueMetaStringTest {
   private static void assertSignum(String msg, int expected, int actual) {
     if (expected < 0) {
       if (actual >= 0) {
-        Assert.failNotEquals(msg, "(<0)", actual);
+        Assert.assertNotEquals(msg, "(<0)", actual);
       }
     } else if (expected > 0) {
       if (actual <= 0) {
-        Assert.failNotEquals(msg, "(>0)", actual);
+        Assert.assertNotEquals(msg, "(>0)", actual);
       }
     } else {
       assertEquals(msg, expected, actual);

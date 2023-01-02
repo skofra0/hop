@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,18 +19,18 @@ package org.apache.hop.core.variables;
 
 import java.lang.annotation.*;
 
-/**
- * Static final field annotated with "Variable" are automatically
- * recognized and registered as a described variable.
- */
+/** Static final field annotated with "Variable" are automatically
+ * recognized and registered as a described variable. */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Variable {
   /** The default value */
   String value() default "";
+
   /** The description of the variable, can be translated i18n::key */
   String description() default "";
+
   /** The scope of variable defines how a specific variable is accessible and propagated */
   VariableScope scope() default VariableScope.ENGINE;
 }

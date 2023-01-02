@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,17 +48,15 @@ public abstract class HopFileTypeBase implements IHopFileType {
   public boolean isHandledBy(String filename, boolean checkContent) throws HopException {
     try {
       if (checkContent) {
-        throw new HopException(
-            "Generic file content validation is not possible at this time for file '"
-                + filename
-                + "'");
+        throw new HopException("Generic file content validation is not possible at this time for file '" + filename + "'");
       } else {
         FileObject fileObject = HopVfs.getFileObject(filename);
         FileName fileName = fileObject.getName();
         String fileExtension = fileName.getExtension().toLowerCase();
 
         // No extension
-        if (Utils.isEmpty(fileExtension)) return false;
+        if (Utils.isEmpty(fileExtension))
+          return false;
 
         // Verify the extension
         //
@@ -71,8 +69,7 @@ public abstract class HopFileTypeBase implements IHopFileType {
         return false;
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to verify file handling of file '" + filename + "' by extension", e);
+      throw new HopException("Unable to verify file handling of file '" + filename + "' by extension", e);
     }
   }
 

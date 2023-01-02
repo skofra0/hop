@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,8 +53,7 @@ public class PipelineHopDialog extends Dialog {
 
   private boolean changed;
 
-  public PipelineHopDialog(
-      Shell parent, int style, PipelineHopMeta pipelineHopMeta, PipelineMeta tr) {
+  public PipelineHopDialog(Shell parent, int style, PipelineHopMeta pipelineHopMeta, PipelineMeta tr) {
     super(parent, style);
     this.props = PropsUi.getInstance();
     input = pipelineHopMeta;
@@ -147,14 +146,13 @@ public class PipelineHopDialog extends Dialog {
     fdEnabled.left = new FormAttachment(middle, 0);
     fdEnabled.top = new FormAttachment(wlTo, margin * 5);
     wEnabled.setLayoutData(fdEnabled);
-    wEnabled.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setEnabled(!input.isEnabled());
-            input.setChanged();
-          }
-        });
+    wEnabled.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setEnabled(!input.isEnabled());
+        input.setChanged();
+      }
+    });
 
     Button wFlip = new Button(shell, SWT.PUSH);
     wFlip.setText(BaseMessages.getString(PKG, "PipelineHopDialog.FromTo.Button"));
@@ -237,20 +235,13 @@ public class PipelineHopDialog extends Dialog {
 
     if (input.getFromTransform() == null || input.getToTransform() == null) {
       MessageBox mb = new MessageBox(shell, SWT.YES | SWT.ICON_WARNING);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG,
-              "PipelineHopDialog.TransformDoesNotExist.DialogMessage",
-              input.getFromTransform() == null ? wFrom.getText() : wTo.getText()));
-      mb.setText(
-          BaseMessages.getString(PKG, "PipelineHopDialog.TransformDoesNotExist.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "PipelineHopDialog.TransformDoesNotExist.DialogMessage", input.getFromTransform() == null ? wFrom.getText() : wTo.getText()));
+      mb.setText(BaseMessages.getString(PKG, "PipelineHopDialog.TransformDoesNotExist.DialogTitle"));
       mb.open();
     } else if (input.getFromTransform().equals(input.getToTransform())) {
       MessageBox mb = new MessageBox(shell, SWT.YES | SWT.ICON_WARNING);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogTitle"));
       mb.open();
     } else if (pipelineMeta.hasLoop(input.getToTransform())) {
       input.setFromTransform(fromBackup);

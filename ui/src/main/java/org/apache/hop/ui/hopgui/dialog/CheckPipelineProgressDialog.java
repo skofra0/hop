@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,29 +47,12 @@ public class CheckPipelineProgressDialog {
   private IHopMetadataProvider metadataProvider;
 
   /** Creates a new dialog that will handle the wait while checking a pipeline... */
-  public CheckPipelineProgressDialog(
-      Shell shell,
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      List<ICheckResult> remarks,
-      boolean onlySelected) {
-    this(
-        shell,
-        pipelineMeta,
-        remarks,
-        onlySelected,
-        variables,
-        HopGui.getInstance().getMetadataProvider());
+  public CheckPipelineProgressDialog(Shell shell, IVariables variables, PipelineMeta pipelineMeta, List<ICheckResult> remarks, boolean onlySelected) {
+    this(shell, pipelineMeta, remarks, onlySelected, variables, HopGui.getInstance().getMetadataProvider());
   }
 
   /** Creates a new dialog that will handle the wait while checking a pipeline... */
-  public CheckPipelineProgressDialog(
-      Shell shell,
-      PipelineMeta pipelineMeta,
-      List<ICheckResult> remarks,
-      boolean onlySelected,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public CheckPipelineProgressDialog(Shell shell, PipelineMeta pipelineMeta, List<ICheckResult> remarks, boolean onlySelected, IVariables variables, IHopMetadataProvider metadataProvider) {
     this.shell = shell;
     this.pipelineMeta = pipelineMeta;
     this.onlySelected = onlySelected;
@@ -81,69 +64,44 @@ public class CheckPipelineProgressDialog {
   public void open() {
     final ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
 
-    IRunnableWithProgress op =
-        monitor -> {
-          try {
-            pipelineMeta.checkTransforms(
-                remarks,
-                onlySelected,
-                new ProgressMonitorAdapter(monitor),
-                variables,
-                metadataProvider);
-            monitor.done();
-          } catch (Exception e) {
-            throw new InvocationTargetException(
-                e,
-                BaseMessages.getString(
-                    PKG,
-                    "AnalyseImpactProgressDialog.RuntimeError.ErrorCheckingPipeline.Exception",
-                    e.toString()));
-          }
-        };
+    IRunnableWithProgress op = monitor -> {
+      try {
+        pipelineMeta.checkTransforms(remarks, onlySelected, new ProgressMonitorAdapter(monitor), variables, metadataProvider);
+        monitor.done();
+      } catch (Exception e) {
+        throw new InvocationTargetException(e, BaseMessages.getString(PKG, "AnalyseImpactProgressDialog.RuntimeError.ErrorCheckingPipeline.Exception", e.toString()));
+      }
+    };
 
     try {
       // Run something in the background to cancel active database queries, force this if needed!
-      Runnable run =
-          () -> {
-            IProgressMonitor monitor = pmd.getProgressMonitor();
-            while (pmd.getShell() == null
-                || (!pmd.getShell().isDisposed() && !monitor.isCanceled())) {
-              try {
-                Thread.sleep(250);
-              } catch (InterruptedException e) {
-                // Ignore sleep interruption exception
-              }
-            }
+      Runnable run = () -> {
+        IProgressMonitor monitor = pmd.getProgressMonitor();
+        while (pmd.getShell() == null || (!pmd.getShell().isDisposed() && !monitor.isCanceled())) {
+          try {
+            Thread.sleep(250);
+          } catch (InterruptedException e) {
+            // Ignore sleep interruption exception
+          }
+        }
 
-            if (monitor.isCanceled()) { // Disconnect and see what happens!
+        if (monitor.isCanceled()) { // Disconnect and see what happens!
 
-              try {
-                pipelineMeta.cancelQueries();
-              } catch (Exception e) {
-                // Ignore cancel errors
-              }
-            }
-          };
+          try {
+            pipelineMeta.cancelQueries();
+          } catch (Exception e) {
+            // Ignore cancel errors
+          }
+        }
+      };
       // Dump the cancel looker in the background!
       new Thread(run).start();
 
       pmd.run(true, op);
     } catch (InvocationTargetException e) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(
-              PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Title"),
-          BaseMessages.getString(
-              PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Title"), BaseMessages.getString(PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Message"), e);
     } catch (InterruptedException e) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(
-              PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Title"),
-          BaseMessages.getString(
-              PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Title"), BaseMessages.getString(PKG, "CheckPipelineProgressDialog.Dialog.ErrorCheckingPipeline.Message"), e);
     }
   }
 }

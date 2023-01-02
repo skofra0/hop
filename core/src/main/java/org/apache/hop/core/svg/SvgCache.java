@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,11 +47,9 @@ public class SvgCache {
     fileDocumentMap = new HashMap<>();
   }
 
-  /**
-   * Gets instance
+  /** Gets instance
    *
-   * @return value of instance
-   */
+   * @return value of instance */
   public static SvgCache getInstance() {
     if (instance == null) {
       instance = new SvgCache();
@@ -141,18 +139,10 @@ public class SvgCache {
       }
 
       if (width <= 1 || height <= 1) {
-        throw new HopException(
-            "Couldn't determine width or height of file : " + svgFile.getFilename());
+        throw new HopException("Couldn't determine width or height of file : " + svgFile.getFilename());
       }
 
-      cacheEntry =
-          new SvgCacheEntry(
-              svgFile.getFilename(),
-              svgDocument,
-              Math.round(width),
-              Math.round(height),
-              Math.round(x),
-              Math.round(y));
+      cacheEntry = new SvgCacheEntry(svgFile.getFilename(), svgDocument, Math.round(width), Math.round(height), Math.round(x), Math.round(y));
       getInstance().fileDocumentMap.put(svgFile.getFilename(), cacheEntry);
       return cacheEntry;
     } catch (Exception e) {
@@ -160,10 +150,7 @@ public class SvgCache {
     }
   }
 
-  public static synchronized void addSvg(
-      String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
-    getInstance()
-        .fileDocumentMap
-        .put(filename, new SvgCacheEntry(filename, svgDocument, width, height, x, y));
+  public static synchronized void addSvg(String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
+    getInstance().fileDocumentMap.put(filename, new SvgCacheEntry(filename, svgDocument, width, height, x, y));
   }
 }

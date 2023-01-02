@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,10 +54,8 @@ public class MultiMetadataSerializerTest extends MetadataTestBase {
   }
 
   public void testLoad() throws HopException {
-    IHopMetadataSerializer<MetadataType1> s1 =
-        multiMetadataProvider.getSerializer(MetadataType1.class);
-    IHopMetadataSerializer<MetadataType2> s2 =
-        multiMetadataProvider.getSerializer(MetadataType2.class);
+    IHopMetadataSerializer<MetadataType1> s1 = multiMetadataProvider.getSerializer(MetadataType1.class);
+    IHopMetadataSerializer<MetadataType2> s2 = multiMetadataProvider.getSerializer(MetadataType2.class);
 
     // This objects is loaded from provider 3, not provider 1
     //
@@ -116,10 +114,8 @@ public class MultiMetadataSerializerTest extends MetadataTestBase {
   public void testDelete() {}
 
   public void testListObjectNames() throws HopException {
-    IHopMetadataSerializer<MetadataType1> s1 =
-        multiMetadataProvider.getSerializer(MetadataType1.class);
-    IHopMetadataSerializer<MetadataType2> s2 =
-        multiMetadataProvider.getSerializer(MetadataType2.class);
+    IHopMetadataSerializer<MetadataType1> s1 = multiMetadataProvider.getSerializer(MetadataType1.class);
+    IHopMetadataSerializer<MetadataType2> s2 = multiMetadataProvider.getSerializer(MetadataType2.class);
 
     List<String> names1 = s1.listObjectNames();
     assertEquals(2, names1.size());
@@ -132,10 +128,8 @@ public class MultiMetadataSerializerTest extends MetadataTestBase {
   }
 
   public void testExists() throws HopException {
-    IHopMetadataSerializer<MetadataType1> s1 =
-        multiMetadataProvider.getSerializer(MetadataType1.class);
-    IHopMetadataSerializer<MetadataType2> s2 =
-        multiMetadataProvider.getSerializer(MetadataType2.class);
+    IHopMetadataSerializer<MetadataType1> s1 = multiMetadataProvider.getSerializer(MetadataType1.class);
+    IHopMetadataSerializer<MetadataType2> s2 = multiMetadataProvider.getSerializer(MetadataType2.class);
 
     assertTrue(s1.exists("t1o1"));
     assertTrue(s2.exists("t2o2"));

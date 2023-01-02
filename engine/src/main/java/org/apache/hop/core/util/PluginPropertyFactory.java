@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,12 +21,10 @@ public class PluginPropertyFactory {
 
   private final KeyValueSet properties;
 
-  /**
-   * Constructor.
+  /** Constructor.
    *
    * @param properties properties to set.
-   * @throws IllegalArgumentException if properties is null.
-   */
+   * @throws IllegalArgumentException if properties is null. */
   public PluginPropertyFactory(final KeyValueSet properties) throws IllegalArgumentException {
     Assert.assertNotNull(properties, "Properties cannot be null");
     this.properties = properties;
@@ -37,46 +35,37 @@ public class PluginPropertyFactory {
     return this.properties;
   }
 
-  /**
-   * @param key key to set.
+  /** @param key key to set.
    * @return new string property.
-   * @throws IllegalArgumentException if key is invalid.
-   */
+   * @throws IllegalArgumentException if key is invalid. */
   public StringPluginProperty createString(final String key) throws IllegalArgumentException {
     final StringPluginProperty property = new StringPluginProperty(key);
     this.properties.add(property);
     return property;
   }
 
-  /**
-   * @param key key to set.
+  /** @param key key to set.
    * @return new integer property.
-   * @throws IllegalArgumentException if key is invalid.
-   */
+   * @throws IllegalArgumentException if key is invalid. */
   public IntegerPluginProperty createInteger(final String key) throws IllegalArgumentException {
     final IntegerPluginProperty property = new IntegerPluginProperty(key);
     this.properties.add(property);
     return property;
   }
 
-  /**
-   * @param key key to set.
+  /** @param key key to set.
    * @return new boolean property.
-   * @throws IllegalArgumentException if key is invalid.
-   */
+   * @throws IllegalArgumentException if key is invalid. */
   public BooleanPluginProperty createBoolean(final String key) throws IllegalArgumentException {
     final BooleanPluginProperty property = new BooleanPluginProperty(key);
     this.properties.add(property);
     return property;
   }
 
-  /**
-   * @param key key.
+  /** @param key key.
    * @return new string list.
-   * @throws IllegalArgumentException if key is invalid.
-   */
-  public StringListPluginProperty createStringList(final String key)
-      throws IllegalArgumentException {
+   * @throws IllegalArgumentException if key is invalid. */
+  public StringListPluginProperty createStringList(final String key) throws IllegalArgumentException {
     final StringListPluginProperty property = new StringListPluginProperty(key);
     this.properties.add(property);
     return property;

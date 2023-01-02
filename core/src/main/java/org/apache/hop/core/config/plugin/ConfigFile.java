@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,7 +40,8 @@ public abstract class ConfigFile implements IConfigFile {
   @JsonProperty("config")
   protected Map<String, Object> configMap;
 
-  @JsonIgnore protected IHopConfigSerializer serializer;
+  @JsonIgnore
+  protected IHopConfigSerializer serializer;
 
   public ConfigFile() {
     configMap = new HashMap<>();
@@ -54,16 +55,14 @@ public abstract class ConfigFile implements IConfigFile {
         //
         this.serializer = new ConfigFileSerializer();
       } else {
-        boolean createWhenMissing =
-            "Y".equalsIgnoreCase(System.getProperty(Const.HOP_AUTO_CREATE_CONFIG, "N"));
+        boolean createWhenMissing = "Y".equalsIgnoreCase(System.getProperty(Const.HOP_AUTO_CREATE_CONFIG, "N"));
         if (createWhenMissing) {
           System.out.println("Creating new default Hop configuration file: " + getConfigFilename());
           this.serializer = new ConfigFileSerializer();
         } else {
           // Doesn't serialize anything really, reads an empty map with an empty file
           //
-          System.out.println(
-              "Hop configuration file not found, not serializing: " + getConfigFilename());
+          System.out.println("Hop configuration file not found, not serializing: " + getConfigFilename());
           this.serializer = new ConfigNoFileSerializer();
         }
       }
@@ -102,16 +101,11 @@ public abstract class ConfigFile implements IConfigFile {
       try {
         for (Object dvObject : (List) variablesObject) {
           String dvJson = new Gson().toJson(dvObject);
-          DescribedVariable describedVariable =
-              new ObjectMapper().readValue(dvJson, DescribedVariable.class);
+          DescribedVariable describedVariable = new ObjectMapper().readValue(dvJson, DescribedVariable.class);
           variables.add(describedVariable);
         }
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error parsing described variables from configuration file '"
-                + getConfigFilename()
-                + "'",
-            e);
+        LogChannel.GENERAL.logError("Error parsing described variables from configuration file '" + getConfigFilename() + "'", e);
         variables = new ArrayList<>();
       }
     }
@@ -161,11 +155,9 @@ public abstract class ConfigFile implements IConfigFile {
     configMap.put(HOP_VARIABLES_KEY, describedVariables);
   }
 
-  /**
-   * Gets filename
+  /** Gets filename
    *
-   * @return value of filename
-   */
+   * @return value of filename */
   @Override
   public abstract String getConfigFilename();
 
@@ -173,11 +165,9 @@ public abstract class ConfigFile implements IConfigFile {
   @Override
   public abstract void setConfigFilename(String filename);
 
-  /**
-   * Gets configMap
+  /** Gets configMap
    *
-   * @return value of configMap
-   */
+   * @return value of configMap */
   public Map<String, Object> getConfigMap() {
     return configMap;
   }
@@ -187,11 +177,9 @@ public abstract class ConfigFile implements IConfigFile {
     this.configMap = configMap;
   }
 
-  /**
-   * Gets serializer
+  /** Gets serializer
    *
-   * @return value of serializer
-   */
+   * @return value of serializer */
   public IHopConfigSerializer getSerializer() {
     return serializer;
   }

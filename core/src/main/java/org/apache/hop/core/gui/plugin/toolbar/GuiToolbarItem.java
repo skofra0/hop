@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,11 +59,7 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
 
   public GuiToolbarItem() {}
 
-  public GuiToolbarItem(
-      GuiToolbarElement toolbarElement,
-      String listenerClass,
-      Method method,
-      ClassLoader classLoader) {
+  public GuiToolbarItem(GuiToolbarElement toolbarElement, String listenerClass, Method method, ClassLoader classLoader) {
     this();
 
     this.root = toolbarElement.root();
@@ -78,16 +74,8 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.singleTon = true;
     this.listenerClass = listenerClass;
     this.listenerMethod = method.getName();
-    this.label =
-        getTranslation(
-            toolbarElement.label(),
-            method.getDeclaringClass().getPackage().getName(),
-            method.getDeclaringClass());
-    this.toolTip =
-        getTranslation(
-            toolbarElement.toolTip(),
-            method.getDeclaringClass().getPackage().getName(),
-            method.getDeclaringClass());
+    this.label = getTranslation(toolbarElement.label(), method.getDeclaringClass().getPackage().getName(), method.getDeclaringClass());
+    this.toolTip = getTranslation(toolbarElement.toolTip(), method.getDeclaringClass().getPackage().getName(), method.getDeclaringClass());
     this.classLoader = classLoader;
     this.extraWidth = toolbarElement.extraWidth();
     this.alignRight = toolbarElement.alignRight();
@@ -120,11 +108,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     return id.compareTo(o.id);
   }
 
-  /**
-   * Gets root
+  /** Gets root
    *
-   * @return value of root
-   */
+   * @return value of root */
   public String getRoot() {
     return root;
   }
@@ -134,11 +120,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.root = root;
   }
 
-  /**
-   * Gets id
+  /** Gets id
    *
-   * @return value of id
-   */
+   * @return value of id */
   public String getId() {
     return id;
   }
@@ -148,11 +132,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.id = id;
   }
 
-  /**
-   * Gets label
+  /** Gets label
    *
-   * @return value of label
-   */
+   * @return value of label */
   public String getLabel() {
     return label;
   }
@@ -162,11 +144,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.label = label;
   }
 
-  /**
-   * Gets toolTip
+  /** Gets toolTip
    *
-   * @return value of toolTip
-   */
+   * @return value of toolTip */
   public String getToolTip() {
     return toolTip;
   }
@@ -176,11 +156,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.toolTip = toolTip;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public GuiToolbarElementType getType() {
     return type;
   }
@@ -190,11 +168,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.type = type;
   }
 
-  /**
-   * Gets image
+  /** Gets image
    *
-   * @return value of image
-   */
+   * @return value of image */
   public String getImage() {
     return image;
   }
@@ -204,11 +180,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.image = image;
   }
 
-  /**
-   * Gets disabledImage
+  /** Gets disabledImage
    *
-   * @return value of disabledImage
-   */
+   * @return value of disabledImage */
   public String getDisabledImage() {
     return disabledImage;
   }
@@ -218,11 +192,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.disabledImage = disabledImage;
   }
 
-  /**
-   * Gets password
+  /** Gets password
    *
-   * @return value of password
-   */
+   * @return value of password */
   public boolean isPassword() {
     return password;
   }
@@ -232,11 +204,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.password = password;
   }
 
-  /**
-   * Gets getComboValuesMethod
+  /** Gets getComboValuesMethod
    *
-   * @return value of getComboValuesMethod
-   */
+   * @return value of getComboValuesMethod */
   public String getGetComboValuesMethod() {
     return getComboValuesMethod;
   }
@@ -246,11 +216,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.getComboValuesMethod = getComboValuesMethod;
   }
 
-  /**
-   * Gets ignored
+  /** Gets ignored
    *
-   * @return value of ignored
-   */
+   * @return value of ignored */
   public boolean isIgnored() {
     return ignored;
   }
@@ -260,11 +228,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.ignored = ignored;
   }
 
-  /**
-   * Gets addingSeparator
+  /** Gets addingSeparator
    *
-   * @return value of addingSeparator
-   */
+   * @return value of addingSeparator */
   public boolean isAddingSeparator() {
     return addingSeparator;
   }
@@ -274,11 +240,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.addingSeparator = addingSeparator;
   }
 
-  /**
-   * Gets classLoader
+  /** Gets classLoader
    *
-   * @return value of classLoader
-   */
+   * @return value of classLoader */
   public ClassLoader getClassLoader() {
     return classLoader;
   }
@@ -288,11 +252,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.classLoader = classLoader;
   }
 
-  /**
-   * Gets singleTon
+  /** Gets singleTon
    *
-   * @return value of singleTon
-   */
+   * @return value of singleTon */
   public boolean isSingleTon() {
     return singleTon;
   }
@@ -302,11 +264,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.singleTon = singleTon;
   }
 
-  /**
-   * Gets listenerClass
+  /** Gets listenerClass
    *
-   * @return value of listenerClass
-   */
+   * @return value of listenerClass */
   public String getListenerClass() {
     return listenerClass;
   }
@@ -316,11 +276,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.listenerClass = listenerClass;
   }
 
-  /**
-   * Gets listenerMethod
+  /** Gets listenerMethod
    *
-   * @return value of listenerMethodf
-   */
+   * @return value of listenerMethodf */
   public String getListenerMethod() {
     return listenerMethod;
   }
@@ -330,11 +288,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.listenerMethod = listenerMethod;
   }
 
-  /**
-   * Gets extraWidth
+  /** Gets extraWidth
    *
-   * @return value of extraWidth
-   */
+   * @return value of extraWidth */
   public int getExtraWidth() {
     return extraWidth;
   }
@@ -344,11 +300,9 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.extraWidth = extraWidth;
   }
 
-  /**
-   * Gets alignRight
+  /** Gets alignRight
    *
-   * @return value of alignRight
-   */
+   * @return value of alignRight */
   public boolean isAlignRight() {
     return alignRight;
   }

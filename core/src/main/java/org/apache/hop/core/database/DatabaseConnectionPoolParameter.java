@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,13 +32,10 @@ public class DatabaseConnectionPoolParameter {
 
   public DatabaseConnectionPoolParameter() {}
 
-  /**
-   * @param parameter
+  /** @param parameter
    * @param defaultValue
-   * @param description
-   */
-  public DatabaseConnectionPoolParameter(
-      String parameter, String defaultValue, String description) {
+   * @param description */
+  public DatabaseConnectionPoolParameter(String parameter, String defaultValue, String description) {
     this();
     this.parameter = parameter;
     this.defaultValue = defaultValue;
@@ -83,8 +80,7 @@ public class DatabaseConnectionPoolParameter {
     return names;
   }
 
-  public static final DatabaseConnectionPoolParameter findParameter(
-      String parameterName, DatabaseConnectionPoolParameter[] poolParameters) {
+  public static final DatabaseConnectionPoolParameter findParameter(String parameterName, DatabaseConnectionPoolParameter[] poolParameters) {
     for (int i = 0; i < poolParameters.length; i++) {
       if (poolParameters[i].getParameter().equalsIgnoreCase(parameterName)) {
         return poolParameters[i];
@@ -93,11 +89,7 @@ public class DatabaseConnectionPoolParameter {
     return null;
   }
 
-  public static final List<RowMetaAndData> getRowList(
-      DatabaseConnectionPoolParameter[] poolParameters,
-      String titleParameter,
-      String titleDefaultValue,
-      String titleDescription) {
+  public static final List<RowMetaAndData> getRowList(DatabaseConnectionPoolParameter[] poolParameters, String titleParameter, String titleDefaultValue, String titleDescription) {
     IRowMeta rowMeta = new RowMeta();
 
     rowMeta.addValueMeta(new ValueMetaString(titleParameter));

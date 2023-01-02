@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,10 +52,8 @@ public class RestoreHopEnvironment extends ExternalResource {
   private TimeZone originalTimezone;
   private Path tmpHopHome;
 
-  /**
-   * Creates a {@code RestoreHopEnvironment} rule that restores all system properties and resets any
-   * Hop related environment instances.
-   */
+  /** Creates a {@code RestoreHopEnvironment} rule that restores all system properties and resets any
+   * Hop related environment instances. */
   public RestoreHopEnvironment() {}
 
   void defaultInit() throws Throwable {
@@ -91,7 +89,7 @@ public class RestoreHopEnvironment extends ExternalResource {
     XmlHandlerCache.getInstance().clear();
     ValueMetaFactory.pluginRegistry = PluginRegistry.getInstance();
     // under no circumstance reset the LoggingRegistry
-    //    LoggingRegistry.getInstance().reset();
+    // LoggingRegistry.getInstance().reset();
   }
 
   @Override

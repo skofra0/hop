@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,8 +40,7 @@ import org.eclipse.swt.widgets.*;
 public class ActionStartDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionStart.class; // For Translator
 
-  private static final String NO_SCHEDULING =
-      BaseMessages.getString(PKG, "ActionStart.Type.NoScheduling");
+  private static final String NO_SCHEDULING = BaseMessages.getString(PKG, "ActionStart.Type.NoScheduling");
 
   private static final String INTERVAL = BaseMessages.getString(PKG, "ActionStart.Type.Interval");
 
@@ -65,8 +64,7 @@ public class ActionStartDialog extends ActionDialog implements IActionDialog {
   private CCombo wDayOfWeek;
   private Spinner wDayOfMonth;
 
-  public ActionStartDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionStartDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionStart) action;
   }
@@ -169,20 +167,12 @@ public class ActionStartDialog extends ActionDialog implements IActionDialog {
     wIntervalSeconds = new Spinner(gRepeat, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wIntervalSeconds.setMinimum(0);
     wIntervalSeconds.setMaximum(Integer.MAX_VALUE);
-    placeControl(
-        gRepeat,
-        BaseMessages.getString(PKG, "ActionStart.IntervalSeconds.Label"),
-        wIntervalSeconds,
-        wType);
+    placeControl(gRepeat, BaseMessages.getString(PKG, "ActionStart.IntervalSeconds.Label"), wIntervalSeconds, wType);
 
     wIntervalMinutes = new Spinner(gRepeat, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wIntervalMinutes.setMinimum(0);
     wIntervalMinutes.setMaximum(Integer.MAX_VALUE);
-    placeControl(
-        gRepeat,
-        BaseMessages.getString(PKG, "ActionStart.IntervalMinutes.Label"),
-        wIntervalMinutes,
-        wIntervalSeconds);
+    placeControl(gRepeat, BaseMessages.getString(PKG, "ActionStart.IntervalMinutes.Label"), wIntervalMinutes, wIntervalSeconds);
 
     Composite time = new Composite(gRepeat, SWT.NONE);
     time.setLayout(new FillLayout());
@@ -192,11 +182,7 @@ public class ActionStartDialog extends ActionDialog implements IActionDialog {
     wMinutes = new Spinner(time, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wMinutes.setMinimum(0);
     wMinutes.setMaximum(59);
-    placeControl(
-        gRepeat,
-        BaseMessages.getString(PKG, "ActionStart.TimeOfDay.Label"),
-        time,
-        wIntervalMinutes);
+    placeControl(gRepeat, BaseMessages.getString(PKG, "ActionStart.TimeOfDay.Label"), time, wIntervalMinutes);
 
     wDayOfWeek = new CCombo(gRepeat, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wDayOfWeek.add(BaseMessages.getString(PKG, "ActionStart.DayOfWeek.Sunday"));
@@ -208,17 +194,12 @@ public class ActionStartDialog extends ActionDialog implements IActionDialog {
     wDayOfWeek.add(BaseMessages.getString(PKG, "ActionStart.DayOfWeek.Saturday"));
     wDayOfWeek.setEditable(false);
     wDayOfWeek.setVisibleItemCount(wDayOfWeek.getItemCount());
-    placeControl(
-        gRepeat, BaseMessages.getString(PKG, "ActionStart.DayOfWeek.Label"), wDayOfWeek, time);
+    placeControl(gRepeat, BaseMessages.getString(PKG, "ActionStart.DayOfWeek.Label"), wDayOfWeek, time);
 
     wDayOfMonth = new Spinner(gRepeat, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wDayOfMonth.setMinimum(1);
     wDayOfMonth.setMaximum(31);
-    placeControl(
-        gRepeat,
-        BaseMessages.getString(PKG, "ActionStart.DayOfMonth.Label"),
-        wDayOfMonth,
-        wDayOfWeek);
+    placeControl(gRepeat, BaseMessages.getString(PKG, "ActionStart.DayOfMonth.Label"), wDayOfMonth, wDayOfWeek);
 
     getData();
     enableDisableControls();

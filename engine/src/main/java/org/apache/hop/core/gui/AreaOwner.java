@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,12 +19,10 @@ package org.apache.hop.core.gui;
 
 import java.util.List;
 
-/**
- * When we draw something in HopGui {@link org.apache.hop.pipeline.PipelinePainter} or {@link
+/** When we draw something in HopGui {@link org.apache.hop.pipeline.PipelinePainter} or {@link
  * org.apache.hop.workflow.WorkflowPainter} we keep a list of all the things we draw and the object
  * that's behind it. That should make it a lot easier to track what was drawn, setting tooltips,
- * etc.
- */
+ * etc. */
 public class AreaOwner<Parent, Owner> {
 
   public enum AreaType {
@@ -72,22 +70,12 @@ public class AreaOwner<Parent, Owner> {
   private Owner owner;
   private AreaType areaType;
 
-  /**
-   * @param x
+  /** @param x
    * @param y
    * @param width
    * @param height
-   * @param owner
-   */
-  public AreaOwner(
-      AreaType areaType,
-      int x,
-      int y,
-      int width,
-      int height,
-      Point offset,
-      Parent parent,
-      Owner owner) {
+   * @param owner */
+  public AreaOwner(AreaType areaType, int x, int y, int width, int height, Point offset, Parent parent, Owner owner) {
     super();
     this.areaType = areaType;
     this.area = new Rectangle(x - offset.x, y - offset.y, width, height);
@@ -102,13 +90,11 @@ public class AreaOwner<Parent, Owner> {
     this.owner = o.owner;
   }
 
-  /**
-   * Validate if a certain coordinate is contained in the area
+  /** Validate if a certain coordinate is contained in the area
    *
    * @param x x-coordinate
    * @param y y-coordinate
-   * @return true if the specified coordinate is contained in the area
-   */
+   * @return true if the specified coordinate is contained in the area */
   public boolean contains(int x, int y) {
     return area.contains(x, y);
   }
@@ -121,29 +107,24 @@ public class AreaOwner<Parent, Owner> {
     return area.y + area.height / 2;
   }
 
-  /**
-   * Calculate the distance between the centres of the areas.
+  /** Calculate the distance between the centres of the areas.
    *
    * @param o The other area owner to calcualte the distance to
-   * @return The distance.
-   */
+   * @return The distance. */
   public double distanceTo(AreaOwner o) {
     int distX = getCentreX() - o.getCentreX();
     int distY = getCentreY() - o.getCentreY();
     return Math.sqrt(distX * distX + distY * distY);
   }
 
-  /**
-   * Find the last area owner, the one drawn last, for the given coordinate. In other words, this
+  /** Find the last area owner, the one drawn last, for the given coordinate. In other words, this
    * searches the provided list back-to-front.
    *
    * @param areaOwners The list of area owners
    * @param x The x coordinate
    * @param y The y coordinate
-   * @return The area owner or null if nothing could be found
-   */
-  public static synchronized <Owner, Parent> AreaOwner<Owner, Parent> getVisibleAreaOwner(
-      List<AreaOwner<Owner, Parent>> areaOwners, int x, int y) {
+   * @return The area owner or null if nothing could be found */
+  public static synchronized <Owner, Parent> AreaOwner<Owner, Parent> getVisibleAreaOwner(List<AreaOwner<Owner, Parent>> areaOwners, int x, int y) {
 
     for (int i = areaOwners.size() - 1; i >= 0; i--) {
       AreaOwner<Owner, Parent> areaOwner = areaOwners.get(i);

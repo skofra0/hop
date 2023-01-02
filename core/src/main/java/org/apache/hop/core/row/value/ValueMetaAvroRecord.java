@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,11 +41,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-@ValueMetaPlugin(
-    id = "20",
-    name = "Avro Record",
-    description = "This type wraps around an Avro Record",
-    image = "images/avro.svg")
+@ValueMetaPlugin(id = "20", name = "Avro Record", description = "This type wraps around an Avro Record", image = "images/avro.svg")
 public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
 
   private Schema schema;
@@ -96,9 +92,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
           case STORAGE_TYPE_NORMAL:
             return (GenericRecord) object;
           default:
-            throw new HopValueException(
-                "Only normal storage type is supported for the Avro GenericRecord value : "
-                    + toString());
+            throw new HopValueException("Only normal storage type is supported for the Avro GenericRecord value : " + toString());
         }
       case TYPE_STRING:
         switch (storageType) {
@@ -107,30 +101,22 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
               String jsonString = (String) object;
               return convertStringToGenericRecord(jsonString);
             } catch (Exception e) {
-              throw new HopValueException(
-                  "Error converting a JSON representation of an Avro GenericRecord to a native representation",
-                  e);
+              throw new HopValueException("Error converting a JSON representation of an Avro GenericRecord to a native representation", e);
             }
           default:
-            throw new HopValueException(
-                "Only normal storage type is supported for Avro GenericRecord value : "
-                    + toString());
+            throw new HopValueException("Only normal storage type is supported for Avro GenericRecord value : " + toString());
         }
       default:
-        throw new HopValueException(
-            "Unable to convert data type " + toString() + " to an Avro GenericRecord value");
+        throw new HopValueException("Unable to convert data type " + toString() + " to an Avro GenericRecord value");
     }
   }
 
-  /**
-   * Convert the record to both schema and data in a single JSON block...
+  /** Convert the record to both schema and data in a single JSON block...
    *
    * @param genericRecord The record to convert to JSON
    * @return The JSON representation of a generic Avro record
-   * @throws HopValueException
-   */
-  public static String convertGenericRecordToString(GenericRecord genericRecord)
-      throws HopValueException {
+   * @throws HopValueException */
+  public static String convertGenericRecordToString(GenericRecord genericRecord) throws HopValueException {
     try {
       Schema schema = genericRecord.getSchema();
       String schemaJson = schema.toString();
@@ -139,13 +125,11 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
       String json = "{ \"schema\" : " + schemaJson + ", \"data\" : " + dataJson + " }";
       return json;
     } catch (Exception e) {
-      throw new HopValueException(
-          "Unable to convert an Avro record to a JSON String using the provided schema", e);
+      throw new HopValueException("Unable to convert an Avro record to a JSON String using the provided schema", e);
     }
   }
 
-  public static GenericRecord convertStringToGenericRecord(String jsonString)
-      throws HopValueException {
+  public static GenericRecord convertStringToGenericRecord(String jsonString) throws HopValueException {
     try {
       // Convert schema AND data to JSON...
       //
@@ -163,13 +147,11 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
     }
   }
 
-  /**
-   * Convert Avro Schema value to String...
+  /** Convert Avro Schema value to String...
    *
    * @param object The object to convert to String
    * @return The String representation
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
   public String getString(Object object) throws HopValueException {
     try {
@@ -188,8 +170,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
               string = object == null ? null : (String) index[(Integer) object];
               break;
             default:
-              throw new HopValueException(
-                  toString() + " : Unknown storage type " + storageType + " specified.");
+              throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
           }
           if (string != null) {
             string = trim(string);
@@ -197,26 +178,19 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
           break;
 
         case TYPE_DATE:
-          throw new HopValueException(
-              "You can't convert a Date to an Avro GenericRecord data type for : " + toString());
+          throw new HopValueException("You can't convert a Date to an Avro GenericRecord data type for : " + toString());
 
         case TYPE_NUMBER:
-          throw new HopValueException(
-              "You can't convert a Number to an Avro GenericRecord data type for : " + toString());
+          throw new HopValueException("You can't convert a Number to an Avro GenericRecord data type for : " + toString());
 
         case TYPE_INTEGER:
-          throw new HopValueException(
-              "You can't convert an Integer to an Avro GenericRecord data type for : "
-                  + toString());
+          throw new HopValueException("You can't convert an Integer to an Avro GenericRecord data type for : " + toString());
 
         case TYPE_BIGNUMBER:
-          throw new HopValueException(
-              "You can't convert a BigNumber to an Avro GenericRecord data type for : "
-                  + toString());
+          throw new HopValueException("You can't convert a BigNumber to an Avro GenericRecord data type for : " + toString());
 
         case TYPE_BOOLEAN:
-          throw new HopValueException(
-              "You can't convert a Boolean to an Avro GenericRecord data type for : " + toString());
+          throw new HopValueException("You can't convert a Boolean to an Avro GenericRecord data type for : " + toString());
 
         case TYPE_BINARY:
           switch (storageType) {
@@ -227,14 +201,10 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
               string = convertBinaryStringToString((byte[]) object);
               break;
             case STORAGE_TYPE_INDEXED:
-              string =
-                  object == null
-                      ? null
-                      : convertBinaryStringToString((byte[]) index[(Integer) object]);
+              string = object == null ? null : convertBinaryStringToString((byte[]) index[(Integer) object]);
               break;
             default:
-              throw new HopValueException(
-                  toString() + " : Unknown storage type " + storageType + " specified.");
+              throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
           }
           break;
 
@@ -250,8 +220,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
               string = object == null ? null : index[((Integer) object).intValue()].toString();
               break; // just go for the default toString()
             default:
-              throw new HopValueException(
-                  toString() + " : Unknown storage type " + storageType + " specified.");
+              throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
           }
           break;
 
@@ -261,12 +230,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
               string = object == null ? null : object.toString();
               break;
             default:
-              throw new HopValueException(
-                  toString()
-                      + " : Unsupported storage type "
-                      + getStorageTypeDesc()
-                      + " for "
-                      + toString());
+              throw new HopValueException(toString() + " : Unsupported storage type " + getStorageTypeDesc() + " for " + toString());
           }
           break;
 
@@ -280,15 +244,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
 
       return string;
     } catch (ClassCastException e) {
-      throw new HopValueException(
-          toString()
-              + " : There was a data type error: the data type of "
-              + object.getClass().getName()
-              + " object ["
-              + object
-              + "] does not correspond to value meta ["
-              + toStringMeta()
-              + "]");
+      throw new HopValueException(toString() + " : There was a data type error: the data type of " + object.getClass().getName() + " object [" + object + "] does not correspond to value meta [" + toStringMeta() + "]");
     }
   }
 
@@ -371,9 +327,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
     // Just append the schema JSON as a compressed base64 encoded string...
     //
     if (schema != null) {
-      xml.append(
-          XmlHandler.addTagValue(
-              "schema", HttpUtil.encodeBase64ZippedString(schema.toString(false))));
+      xml.append(XmlHandler.addTagValue("schema", HttpUtil.encodeBase64ZippedString(schema.toString(false))));
     }
     xml.append(XmlHandler.closeTag(XML_META_TAG));
 
@@ -394,8 +348,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
         jValue.put("schema", jSchema);
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error encoding Avro schema as JSON in value metadata of field " + name, e);
+      throw new HopException("Error encoding Avro schema as JSON in value metadata of field " + name, e);
     }
   }
 
@@ -426,8 +379,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
         GenericRecord genericRecord = (GenericRecord) object;
 
         BinaryEncoder binaryEncoder = EncoderFactory.get().directBinaryEncoder(outputStream, null);
-        GenericDatumWriter<GenericRecord> datumWriter =
-            new GenericDatumWriter<>(genericRecord.getSchema());
+        GenericDatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<>(genericRecord.getSchema());
         datumWriter.write(genericRecord, binaryEncoder);
       }
     } catch (IOException e) {
@@ -436,8 +388,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
   }
 
   @Override
-  public Object readData(DataInputStream inputStream)
-      throws HopFileException, SocketTimeoutException {
+  public Object readData(DataInputStream inputStream) throws HopFileException, SocketTimeoutException {
     try {
       // Is the value NULL?
       if (inputStream.readBoolean()) {
@@ -447,8 +398,7 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
       // De-serialize a GenericRow object
       //
       if (schema == null) {
-        throw new HopFileException(
-            "An Avro schema is needed to read a GenericRecord from an input stream");
+        throw new HopFileException("An Avro schema is needed to read a GenericRecord from an input stream");
       }
 
       BinaryDecoder binaryDecoder = DecoderFactory.get().directBinaryDecoder(inputStream, null);
@@ -483,13 +433,11 @@ public class ValueMetaAvroRecord extends ValueMetaBase implements IValueMeta {
     return super.getComments();
   }
 
-  /**
-   * Try to get an Integer from an Avro value
+  /** Try to get an Integer from an Avro value
    *
    * @param object
    * @return
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Override
   public Long getInteger(Object object) throws HopValueException {
 

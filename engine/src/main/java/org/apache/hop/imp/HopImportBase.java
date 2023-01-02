@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -93,13 +93,7 @@ public abstract class HopImportBase implements IHopImport {
     //
     if (metadataProvider == null) {
       this.metadataTargetFolder = outputFolder.getName().getURI() + "/metadata";
-      metadataProvider =
-          new MultiMetadataProvider(
-              Encr.getEncoder(),
-              Arrays.asList(
-                  new JsonMetadataProvider(
-                      Encr.getEncoder(), this.metadataTargetFolder, variables)),
-              variables);
+      metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), Arrays.asList(new JsonMetadataProvider(Encr.getEncoder(), this.metadataTargetFolder, variables)), variables);
     }
     if (monitor != null) {
       monitor.setTaskName("Finding files to import");
@@ -153,12 +147,11 @@ public abstract class HopImportBase implements IHopImport {
       InputStream inputStream = HopVfs.getInputStream(varFile);
       properties.load(inputStream);
 
-      properties.forEach(
-          (k, v) -> {
-            collectedVariables.setVariable((String) k, (String) v);
-            variableCounter++;
-            log.logDetailed("Saved variable " + (String) k + ": " + (String) v);
-          });
+      properties.forEach((k, v) -> {
+        collectedVariables.setVariable((String) k, (String) v);
+        variableCounter++;
+        log.logDetailed("Saved variable " + (String) k + ": " + (String) v);
+      });
     } catch (Exception e) {
       throw new HopException("Error collecting variables from file " + kettlePropertiesFilename, e);
     }
@@ -169,11 +162,7 @@ public abstract class HopImportBase implements IHopImport {
     connectionFileMap.put(filename, databaseMeta.getName());
 
     // only add new connection names to the list
-    if (connectionsList.stream()
-            .filter(dbMeta -> dbMeta.getName().equals(databaseMeta.getName()))
-            .collect(Collectors.toList())
-            .size()
-        == 0) {
+    if (connectionsList.stream().filter(dbMeta -> dbMeta.getName().equals(databaseMeta.getName())).collect(Collectors.toList()).size() == 0) {
       connectionsList.add(databaseMeta);
       connectionCounter++;
     }
@@ -189,8 +178,7 @@ public abstract class HopImportBase implements IHopImport {
     try {
       inputFolder = HopVfs.getFileObject(inputFolderName);
       if (!inputFolder.exists() || !inputFolder.isFolder()) {
-        throw new HopException(
-            "input folder '" + inputFolderName + "' doesn't exist or is not a folder.");
+        throw new HopException("input folder '" + inputFolderName + "' doesn't exist or is not a folder.");
       }
       this.inputFolderName = inputFolder.getName().getURI();
     } catch (Exception e) {
@@ -217,11 +205,9 @@ public abstract class HopImportBase implements IHopImport {
     }
   }
 
-  /**
-   * Gets inputFolderName
+  /** Gets inputFolderName
    *
-   * @return value of inputFolderName
-   */
+   * @return value of inputFolderName */
   @Override
   public String getInputFolderName() {
     return inputFolderName;
@@ -232,11 +218,9 @@ public abstract class HopImportBase implements IHopImport {
     this.inputFolderName = inputFolderName;
   }
 
-  /**
-   * Gets outputFolderName
+  /** Gets outputFolderName
    *
-   * @return value of outputFolderName
-   */
+   * @return value of outputFolderName */
   @Override
   public String getOutputFolderName() {
     return outputFolderName;
@@ -247,11 +231,9 @@ public abstract class HopImportBase implements IHopImport {
     this.outputFolderName = outputFolderName;
   }
 
-  /**
-   * Gets connectionFileList
+  /** Gets connectionFileList
    *
-   * @return value of connectionFileList
-   */
+   * @return value of connectionFileList */
   public TreeMap<String, String> getConnectionFileMap() {
     return connectionFileMap;
   }
@@ -261,11 +243,9 @@ public abstract class HopImportBase implements IHopImport {
     this.connectionFileMap = connectionFileMap;
   }
 
-  /**
-   * Gets connectionsList
+  /** Gets connectionsList
    *
-   * @return value of connectionsList
-   */
+   * @return value of connectionsList */
   public List<DatabaseMeta> getConnectionsList() {
     return connectionsList;
   }
@@ -285,20 +265,16 @@ public abstract class HopImportBase implements IHopImport {
     this.outputFolder = outputFolder;
   }
 
-  /**
-   * Gets log
+  /** Gets log
    *
-   * @return value of log
-   */
+   * @return value of log */
   public ILogChannel getLog() {
     return log;
   }
 
-  /**
-   * Gets migratedFilesMap
+  /** Gets migratedFilesMap
    *
-   * @return value of migratedFilesMap
-   */
+   * @return value of migratedFilesMap */
   public HashMap<String, DOMSource> getMigratedFilesMap() {
     return migratedFilesMap;
   }
@@ -308,11 +284,9 @@ public abstract class HopImportBase implements IHopImport {
     this.migratedFilesMap = migratedFilesMap;
   }
 
-  /**
-   * Gets connectionCounter
+  /** Gets connectionCounter
    *
-   * @return value of connectionCounter
-   */
+   * @return value of connectionCounter */
   public int getConnectionCounter() {
     return connectionCounter;
   }
@@ -322,11 +296,9 @@ public abstract class HopImportBase implements IHopImport {
     this.connectionCounter = connectionCounter;
   }
 
-  /**
-   * Gets variableCounter
+  /** Gets variableCounter
    *
-   * @return value of variableCounter
-   */
+   * @return value of variableCounter */
   public int getVariableCounter() {
     return variableCounter;
   }
@@ -336,11 +308,9 @@ public abstract class HopImportBase implements IHopImport {
     this.variableCounter = variableCounter;
   }
 
-  /**
-   * Gets skippingExistingTargetFiles
+  /** Gets skippingExistingTargetFiles
    *
-   * @return value of skippingExistingTargetFiles
-   */
+   * @return value of skippingExistingTargetFiles */
   @Override
   public boolean isSkippingExistingTargetFiles() {
     return skippingExistingTargetFiles;
@@ -352,11 +322,9 @@ public abstract class HopImportBase implements IHopImport {
     this.skippingExistingTargetFiles = skippingExistingTargetFiles;
   }
 
-  /**
-   * Gets sharedXmlFilename
+  /** Gets sharedXmlFilename
    *
-   * @return value of sharedXmlFilename
-   */
+   * @return value of sharedXmlFilename */
   @Override
   public String getSharedXmlFilename() {
     return sharedXmlFilename;
@@ -368,11 +336,9 @@ public abstract class HopImportBase implements IHopImport {
     this.sharedXmlFilename = sharedXmlFilename;
   }
 
-  /**
-   * Gets kettlePropertiesFilename
+  /** Gets kettlePropertiesFilename
    *
-   * @return value of kettlePropertiesFilename
-   */
+   * @return value of kettlePropertiesFilename */
   @Override
   public String getKettlePropertiesFilename() {
     return kettlePropertiesFilename;
@@ -384,11 +350,9 @@ public abstract class HopImportBase implements IHopImport {
     this.kettlePropertiesFilename = kettlePropertiesFilename;
   }
 
-  /**
-   * Gets jdbcPropertiesFilename
+  /** Gets jdbcPropertiesFilename
    *
-   * @return value of jdbcPropertiesFilename
-   */
+   * @return value of jdbcPropertiesFilename */
   @Override
   public String getJdbcPropertiesFilename() {
     return jdbcPropertiesFilename;
@@ -400,20 +364,16 @@ public abstract class HopImportBase implements IHopImport {
     this.jdbcPropertiesFilename = jdbcPropertiesFilename;
   }
 
-  /**
-   * Gets variables
+  /** Gets variables
    *
-   * @return value of variables
-   */
+   * @return value of variables */
   public IVariables getVariables() {
     return variables;
   }
 
-  /**
-   * Gets metadataProvider
+  /** Gets metadataProvider
    *
-   * @return value of metadataProvider
-   */
+   * @return value of metadataProvider */
   @Override
   public MultiMetadataProvider getMetadataProvider() {
     return metadataProvider;
@@ -425,11 +385,9 @@ public abstract class HopImportBase implements IHopImport {
     this.metadataProvider = metadataProvider;
   }
 
-  /**
-   * Gets targetConfigFilename
+  /** Gets targetConfigFilename
    *
-   * @return value of targetConfigFilename
-   */
+   * @return value of targetConfigFilename */
   @Override
   public String getTargetConfigFilename() {
     return targetConfigFilename;
@@ -457,11 +415,9 @@ public abstract class HopImportBase implements IHopImport {
     this.defaultWorkflowRunConfiguration = defaultWorkflowRunConfiguration;
   }
 
-  /**
-   * Gets collectedVariables
+  /** Gets collectedVariables
    *
-   * @return value of collectedVariables
-   */
+   * @return value of collectedVariables */
   public IVariables getCollectedVariables() {
     return collectedVariables;
   }
@@ -471,11 +427,9 @@ public abstract class HopImportBase implements IHopImport {
     this.collectedVariables = collectedVariables;
   }
 
-  /**
-   * Gets monitor
+  /** Gets monitor
    *
-   * @return value of monitor
-   */
+   * @return value of monitor */
   public IProgressMonitor getMonitor() {
     return monitor;
   }
@@ -485,11 +439,9 @@ public abstract class HopImportBase implements IHopImport {
     this.monitor = monitor;
   }
 
-  /**
-   * Gets metadataTargetFolder
+  /** Gets metadataTargetFolder
    *
-   * @return value of metadataTargetFolder
-   */
+   * @return value of metadataTargetFolder */
   public String getMetadataTargetFolder() {
     return metadataTargetFolder;
   }
@@ -499,11 +451,9 @@ public abstract class HopImportBase implements IHopImport {
     this.metadataTargetFolder = metadataTargetFolder;
   }
 
-  /**
-   * Gets skippingHiddenFilesAndFolders
+  /** Gets skippingHiddenFilesAndFolders
    *
-   * @return value of skippingHiddenFilesAndFolders
-   */
+   * @return value of skippingHiddenFilesAndFolders */
   @Override
   public boolean isSkippingHiddenFilesAndFolders() {
     return skippingHiddenFilesAndFolders;
@@ -515,11 +465,9 @@ public abstract class HopImportBase implements IHopImport {
     this.skippingHiddenFilesAndFolders = skippingHiddenFilesAndFolders;
   }
 
-  /**
-   * Gets skippingFolders
+  /** Gets skippingFolders
    *
-   * @return value of skippingFolders
-   */
+   * @return value of skippingFolders */
   @Override
   public boolean isSkippingFolders() {
     return skippingFolders;
@@ -531,11 +479,9 @@ public abstract class HopImportBase implements IHopImport {
     this.skippingFolders = skippingFolders;
   }
 
-  /**
-   * Generate a report with statistics and advice.
+  /** Generate a report with statistics and advice.
    *
-   * @return The import report
-   */
+   * @return The import report */
   @Override
   public abstract String getImportReport();
 }

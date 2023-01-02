@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,31 +42,26 @@ public class BaseHopServerPluginTest {
   HttpServletRequest req = mock(HttpServletRequest.class);
   HttpServletResponse resp = mock(HttpServletResponse.class);
   ILogChannel log = mock(ILogChannel.class);
-  IHopServerRequestHandler.IWriterResponse writerResponse =
-      mock(IHopServerRequestHandler.IWriterResponse.class);
-  IHopServerRequestHandler.IOutputStreamResponse outputStreamResponse =
-      mock(IHopServerRequestHandler.IOutputStreamResponse.class);
+  IHopServerRequestHandler.IWriterResponse writerResponse = mock(IHopServerRequestHandler.IWriterResponse.class);
+  IHopServerRequestHandler.IOutputStreamResponse outputStreamResponse = mock(IHopServerRequestHandler.IOutputStreamResponse.class);
   PrintWriter printWriter = mock(PrintWriter.class);
   javax.servlet.ServletOutputStream outputStream = mock(javax.servlet.ServletOutputStream.class);
 
-  ArgumentCaptor<IHopServerRequestHandler.IHopServerRequest> carteReqCaptor =
-      ArgumentCaptor.forClass(IHopServerRequestHandler.IHopServerRequest.class);
+  ArgumentCaptor<IHopServerRequestHandler.IHopServerRequest> carteReqCaptor = ArgumentCaptor.forClass(IHopServerRequestHandler.IHopServerRequest.class);
 
   BaseHopServerPlugin baseHopServerPlugin;
 
   @Before
   public void before() {
-    baseHopServerPlugin =
-        spy(
-            new BaseHopServerPlugin() {
-              @Override
-              public void handleRequest(IHopServerRequest request) throws IOException {}
+    baseHopServerPlugin = spy(new BaseHopServerPlugin() {
+      @Override
+      public void handleRequest(IHopServerRequest request) throws IOException {}
 
-              @Override
-              public String getContextPath() {
-                return null;
-              }
-            });
+      @Override
+      public String getContextPath() {
+        return null;
+      }
+    });
     baseHopServerPlugin.log = log;
   }
 

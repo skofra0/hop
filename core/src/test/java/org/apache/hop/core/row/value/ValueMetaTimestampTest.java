@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,8 @@ import static org.mockito.Mockito.mock;
 
 /** User: Dzmitry Stsiapanau Date: 3/20/2014 Time: 11:51 AM */
 public class ValueMetaTimestampTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Test
   public void testSetPreparedStatementValue() throws Exception {
@@ -86,31 +87,17 @@ public class ValueMetaTimestampTest {
   @Test
   public void testConvertStringToTimestamp() throws Exception {
     ValueMetaTimestamp valueMetaTimestamp = new ValueMetaTimestamp();
-    assertEquals(
-        Timestamp.valueOf("2012-04-05 04:03:02.123456"),
-        valueMetaTimestamp.convertStringToTimestamp("2012/4/5 04:03:02.123456"));
-    assertEquals(
-        Timestamp.valueOf("2012-04-05 04:03:02.123"),
-        valueMetaTimestamp.convertStringToTimestamp("2012/4/5 04:03:02.123"));
-    assertEquals(
-        Timestamp.valueOf("2012-04-05 04:03:02.123456789"),
-        valueMetaTimestamp.convertStringToTimestamp("2012/4/5 04:03:02.123456789"));
+    assertEquals(Timestamp.valueOf("2012-04-05 04:03:02.123456"), valueMetaTimestamp.convertStringToTimestamp("2012/4/5 04:03:02.123456"));
+    assertEquals(Timestamp.valueOf("2012-04-05 04:03:02.123"), valueMetaTimestamp.convertStringToTimestamp("2012/4/5 04:03:02.123"));
+    assertEquals(Timestamp.valueOf("2012-04-05 04:03:02.123456789"), valueMetaTimestamp.convertStringToTimestamp("2012/4/5 04:03:02.123456789"));
   }
 
   @Test
   public void testConvertTimestampToString() throws Exception {
     ValueMetaTimestamp valueMetaTimestamp = new ValueMetaTimestamp();
-    assertEquals(
-        "2012/04/05 04:03:02.123456000",
-        valueMetaTimestamp.convertTimestampToString(
-            Timestamp.valueOf("2012-04-05 04:03:02.123456")));
-    assertEquals(
-        "2012/04/05 04:03:02.123000000",
-        valueMetaTimestamp.convertTimestampToString(Timestamp.valueOf("2012-04-05 04:03:02.123")));
-    assertEquals(
-        "2012/04/05 04:03:02.123456789",
-        valueMetaTimestamp.convertTimestampToString(
-            Timestamp.valueOf("2012-04-05 04:03:02.123456789")));
+    assertEquals("2012/04/05 04:03:02.123456000", valueMetaTimestamp.convertTimestampToString(Timestamp.valueOf("2012-04-05 04:03:02.123456")));
+    assertEquals("2012/04/05 04:03:02.123000000", valueMetaTimestamp.convertTimestampToString(Timestamp.valueOf("2012-04-05 04:03:02.123")));
+    assertEquals("2012/04/05 04:03:02.123456789", valueMetaTimestamp.convertTimestampToString(Timestamp.valueOf("2012-04-05 04:03:02.123456789")));
   }
 
   @Test

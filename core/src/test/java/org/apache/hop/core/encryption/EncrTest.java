@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,22 +26,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Test cases for encryption, to make sure that encrypted password remain the same between versions.
- */
+/** Test cases for encryption, to make sure that encrypted password remain the same between versions. */
 public class EncrTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     HopClientEnvironment.init();
   }
 
-  /**
-   * Test password encryption.
+  /** Test password encryption.
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testEncryptPassword() throws HopValueException {
     String encryption;
@@ -56,9 +53,7 @@ public class EncrTest {
     assertTrue("2be98afc86aa7f2e4cb79ce309ed2ef9a".equals(encryption));
 
     encryption = Encr.encryptPassword("Test of different encryptions!!@#$%");
-    assertTrue(
-        "54657374206f6620646966666572656e742067d0fbddb11ad39b8ba50aef31fed1eb9f"
-            .equals(encryption));
+    assertTrue("54657374206f6620646966666572656e742067d0fbddb11ad39b8ba50aef31fed1eb9f".equals(encryption));
 
     encryption = Encr.encryptPassword("  Spaces left");
     assertTrue("2be98afe84af48285a81cbd30d297a9ce".equals(encryption));
@@ -73,11 +68,9 @@ public class EncrTest {
     assertTrue("2be98afc86aa7c3d6f84dfb2689caf68a".equals(encryption));
   }
 
-  /**
-   * Test password decryption.
+  /** Test password decryption.
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testDecryptPassword() throws HopValueException {
     String encryption;
@@ -116,11 +109,9 @@ public class EncrTest {
     assertTrue("1234567890".equals(decryption));
   }
 
-  /**
-   * Test password encryption (variable style).
+  /** Test password encryption (variable style).
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testEncryptPasswordIfNotUsingVariables() throws HopValueException {
     String encryption;
@@ -147,11 +138,9 @@ public class EncrTest {
     assertTrue("Encrypted 2be98afc86aa7f2e4ef02eb359ad6eb9e".equals(encryption));
   }
 
-  /**
-   * Test password decryption (variable style).
+  /** Test password decryption (variable style).
    *
-   * @throws HopValueException
-   */
+   * @throws HopValueException */
   @Test
   public void testDecryptPasswordIfNotUsingVariables() throws HopValueException {
     String encryption;

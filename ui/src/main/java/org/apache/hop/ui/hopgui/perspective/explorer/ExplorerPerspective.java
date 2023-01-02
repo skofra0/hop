@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,26 +74,20 @@ import org.eclipse.swt.widgets.*;
 import java.util.List;
 import java.util.*;
 
-@HopPerspectivePlugin(
-    id = "300-HopExplorerPerspective",
-    name = "i18n::ExplorerPerspective.Name",
-    description = "The Hop Explorer Perspective",
-    image = "ui/images/folder.svg")
+@HopPerspectivePlugin(id = "300-HopExplorerPerspective", name = "i18n::ExplorerPerspective.Name", description = "The Hop Explorer Perspective", image = "ui/images/folder.svg")
 @GuiPlugin(description = "i18n::ExplorerPerspective.GuiPlugin.Description")
 public class ExplorerPerspective implements IHopPerspective {
 
   public static final Class<?> PKG = ExplorerPerspective.class; // i18n
 
-  public static final String GUI_TOOLBAR_CREATED_CALLBACK_ID =
-      "ExplorerPerspective-Toolbar-Created";
+  public static final String GUI_TOOLBAR_CREATED_CALLBACK_ID = "ExplorerPerspective-Toolbar-Created";
 
   private static final String FILE_EXPLORER_TREE = "File explorer tree";
 
   public static final String GUI_PLUGIN_TOOLBAR_PARENT_ID = "ExplorerPerspective-Toolbar";
 
   public static final String TOOLBAR_ITEM_OPEN = "ExplorerPerspective-Toolbar-10000-Open";
-  public static final String TOOLBAR_ITEM_CREATE_FOLDER =
-      "ExplorerPerspective-Toolbar-10050-CreateFolder";
+  public static final String TOOLBAR_ITEM_CREATE_FOLDER = "ExplorerPerspective-Toolbar-10050-CreateFolder";
   public static final String TOOLBAR_ITEM_DELETE = "ExplorerPerspective-Toolbar-10100-Delete";
   public static final String TOOLBAR_ITEM_RENAME = "ExplorerPerspective-Toolbar-10200-Rename";
   public static final String TOOLBAR_ITEM_REFRESH = "ExplorerPerspective-Toolbar-10300-Refresh";
@@ -135,14 +129,7 @@ public class ExplorerPerspective implements IHopPerspective {
     public boolean folder;
     public boolean loaded;
 
-    public TreeItemFolder(
-        TreeItem treeItem,
-        String path,
-        String name,
-        IHopFileType fileType,
-        int depth,
-        boolean folder,
-        boolean loaded) {
+    public TreeItemFolder(TreeItem treeItem, String path, String name, IHopFileType fileType, int depth, boolean folder, boolean loaded) {
       this.treeItem = treeItem;
       this.path = path;
       this.name = name;
@@ -268,34 +255,22 @@ public class ExplorerPerspective implements IHopPerspective {
       String imageFilename = fileType.getFileTypeImage();
       if (imageFilename != null) {
         try {
-          SvgCacheEntry svgCacheEntry =
-              SvgCache.loadSvg(new SvgFile(imageFilename, fileType.getClass().getClassLoader()));
-          SwtUniversalImageSvg imageSvg =
-              new SwtUniversalImageSvg(new SvgImage(svgCacheEntry.getSvgDocument()));
+          SvgCacheEntry svgCacheEntry = SvgCache.loadSvg(new SvgFile(imageFilename, fileType.getClass().getClassLoader()));
+          SwtUniversalImageSvg imageSvg = new SwtUniversalImageSvg(new SvgImage(svgCacheEntry.getSvgDocument()));
           Image image = imageSvg.getAsBitmapForSize(hopGui.getDisplay(), iconSize, iconSize);
           typeImageMap.put(fileType.getName(), image);
         } catch (Exception e) {
-          hopGui
-              .getLog()
-              .logError(
-                  "Error loading image : '"
-                      + imageFilename
-                      + "' for type '"
-                      + fileType.getName()
-                      + "'",
-                  e);
+          hopGui.getLog().logError("Error loading image : '" + imageFilename + "' for type '" + fileType.getName() + "'", e);
         }
       }
     }
     // Properly dispose images when done...
     //
-    parentComposite.addListener(
-        SWT.Dispose,
-        e -> {
-          for (Image image : typeImageMap.values()) {
-            image.dispose();
-          }
-        });
+    parentComposite.addListener(SWT.Dispose, e -> {
+      for (Image image : typeImageMap.values()) {
+        image.dispose();
+      }
+    });
   }
 
   public static class DetermineRootFolderExtension {
@@ -317,26 +292,16 @@ public class ExplorerPerspective implements IHopPerspective {
     rootFolder = hopGui.getVariables().getVariable("user.home");
     rootName = "Home folder";
 
-    DetermineRootFolderExtension ext =
-        new DetermineRootFolderExtension(hopGui, rootFolder, rootName);
+    DetermineRootFolderExtension ext = new DetermineRootFolderExtension(hopGui, rootFolder, rootName);
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(),
-          hopGui.getVariables(),
-          HopGuiExtensionPoint.HopGuiDetermineExplorerRoot.id,
-          ext);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), hopGui.getVariables(), HopGuiExtensionPoint.HopGuiDetermineExplorerRoot.id, ext);
       rootFolder = ext.rootFolder;
       rootName = ext.rootName;
     } catch (Exception e) {
-      new ErrorDialog(
-          getShell(),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.RootFolder.Header"),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.RootFolder.Message"),
-          e);
+      new ErrorDialog(getShell(), BaseMessages.getString(PKG, "ExplorerPerspective.Error.RootFolder.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.Error.RootFolder.Message"), e);
     }
 
-    if (!StringUtils.equals(oldRootFolder, rootFolder)
-        || !StringUtils.equals(oldRootName, rootName)) {
+    if (!StringUtils.equals(oldRootFolder, rootFolder) || !StringUtils.equals(oldRootName, rootName)) {
       // call the root changed listeners...
       //
       for (IExplorerRootChangedListener listener : rootChangedListeners) {
@@ -402,11 +367,9 @@ public class ExplorerPerspective implements IHopPerspective {
     GuiRegistry.getInstance().executeCallbackMethods(GUI_TOOLBAR_CREATED_CALLBACK_ID);
   }
 
-  /**
-   * This is called when a user expands a folder. We only need to lazily load the contents of the
+  /** This is called when a user expands a folder. We only need to lazily load the contents of the
    * folder if it's not loaded already. To keep track of this we have a flag called "loaded" in the
-   * item data.
-   */
+   * item data. */
   private void lazyLoadFolderOnExpand(Event event) {
     // Which folder is being expanded?
     //
@@ -414,12 +377,10 @@ public class ExplorerPerspective implements IHopPerspective {
     TreeItemFolder treeItemFolder = (TreeItemFolder) item.getData();
     if (treeItemFolder != null) {
       if (!treeItemFolder.loaded) {
-        BusyIndicator.showWhile(
-            hopGui.getDisplay(),
-            () -> {
-              refreshFolder(item, treeItemFolder.path, treeItemFolder.depth + 1);
-              treeItemFolder.loaded = true;
-            });
+        BusyIndicator.showWhile(hopGui.getDisplay(), () -> {
+          refreshFolder(item, treeItemFolder.path, treeItemFolder.depth + 1);
+          treeItemFolder.loaded = true;
+        });
       }
     }
   }
@@ -442,19 +403,14 @@ public class ExplorerPerspective implements IHopPerspective {
           item.setExpanded(expanded);
           TreeMemory.getInstance().storeExpanded(FILE_EXPLORER_TREE, item, expanded);
         } else {
-          IHopFileTypeHandler handler =
-              tif.fileType.openFile(hopGui, tif.path, hopGui.getVariables());
+          IHopFileTypeHandler handler = tif.fileType.openFile(hopGui, tif.path, hopGui.getVariables());
           if (handler != null) {
             updateGui();
           }
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.OpenFile.Header"),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.OpenFile.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "ExplorerPerspective.Error.OpenFile.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.Error.OpenFile.Message"), e);
     }
   }
 
@@ -464,13 +420,8 @@ public class ExplorerPerspective implements IHopPerspective {
       if (tif != null && tif.fileType != null) {
 
         MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-        box.setText(
-            BaseMessages.getString(PKG, "ExplorerPerspective.DeleteFile.Confirmation.Header"));
-        box.setMessage(
-            BaseMessages.getString(PKG, "ExplorerPerspective.DeleteFile.Confirmation.Message")
-                + Const.CR
-                + Const.CR
-                + tif.path);
+        box.setText(BaseMessages.getString(PKG, "ExplorerPerspective.DeleteFile.Confirmation.Header"));
+        box.setMessage(BaseMessages.getString(PKG, "ExplorerPerspective.DeleteFile.Confirmation.Message") + Const.CR + Const.CR + tif.path);
         int answer = box.open();
         if ((answer & SWT.YES) != 0) {
           FileObject fileObject = HopVfs.getFileObject(tif.path);
@@ -481,11 +432,7 @@ public class ExplorerPerspective implements IHopPerspective {
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.DeleteFile.Header"),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.DeleteFile.Message"),
-          e);
+      new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "ExplorerPerspective.Error.DeleteFile.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.Error.DeleteFile.Message"), e);
     }
   }
 
@@ -497,37 +444,29 @@ public class ExplorerPerspective implements IHopPerspective {
       Text text = new Text(tree, SWT.BORDER);
       text.setText(item.getText());
       text.addListener(SWT.FocusOut, event -> text.dispose());
-      text.addListener(
-          SWT.KeyUp,
-          event -> {
-            switch (event.keyCode) {
-              case SWT.CR:
-              case SWT.KEYPAD_CR:
-                // If name changed
-                if (!item.getText().equals(text.getText())) {
-                  try {
-                    FileObject fileObject = HopVfs.getFileObject(tif.path);
-                    FileObject newObject =
-                        HopVfs.getFileObject(
-                            HopVfs.getFilename(fileObject.getParent()) + "/" + text.getText());
-                    fileObject.moveTo(newObject);
-                  } catch (Exception e) {
-                    new ErrorDialog(
-                        hopGui.getShell(),
-                        BaseMessages.getString(PKG, "ExplorerPerspective.Error.RenameFile.Header"),
-                        BaseMessages.getString(PKG, "ExplorerPerspective.Error.RenameFile.Message"),
-                        e);
-                  } finally {
-                    text.dispose();
-                    refresh();
-                  }
-                }
-                break;
-              case SWT.ESC:
+      text.addListener(SWT.KeyUp, event -> {
+        switch (event.keyCode) {
+          case SWT.CR:
+          case SWT.KEYPAD_CR:
+            // If name changed
+            if (!item.getText().equals(text.getText())) {
+              try {
+                FileObject fileObject = HopVfs.getFileObject(tif.path);
+                FileObject newObject = HopVfs.getFileObject(HopVfs.getFilename(fileObject.getParent()) + "/" + text.getText());
+                fileObject.moveTo(newObject);
+              } catch (Exception e) {
+                new ErrorDialog(hopGui.getShell(), BaseMessages.getString(PKG, "ExplorerPerspective.Error.RenameFile.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.Error.RenameFile.Message"), e);
+              } finally {
                 text.dispose();
-                break;
+                refresh();
+              }
             }
-          });
+            break;
+          case SWT.ESC:
+            text.dispose();
+            break;
+        }
+      });
 
       text.selectAll();
       text.setFocus();
@@ -539,13 +478,12 @@ public class ExplorerPerspective implements IHopPerspective {
     PropsUi props = PropsUi.getInstance();
 
     tabFolder = new CTabFolder(parent, SWT.MULTI | SWT.BORDER);
-    tabFolder.addCTabFolder2Listener(
-        new CTabFolder2Adapter() {
-          @Override
-          public void close(CTabFolderEvent event) {
-            onTabClose(event);
-          }
-        });
+    tabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+      @Override
+      public void close(CTabFolderEvent event) {
+        onTabClose(event);
+      }
+    });
     tabFolder.addListener(SWT.Selection, this::handleTabSelectionEvent);
     props.setLook(tabFolder, Props.WIDGET_STYLE_TAB);
 
@@ -554,17 +492,15 @@ public class ExplorerPerspective implements IHopPerspective {
     ToolBar toolBar = new ToolBar(tabFolder, SWT.FLAT);
     final ToolItem item = new ToolItem(toolBar, SWT.PUSH);
     item.setImage(GuiResource.getInstance().getImageMinimizePanel());
-    item.addListener(
-        SWT.Selection,
-        e -> {
-          if (sash.getMaximizedControl() == null) {
-            sash.setMaximizedControl(tabFolder);
-            item.setImage(GuiResource.getInstance().getImageMaximizePanel());
-          } else {
-            sash.setMaximizedControl(null);
-            item.setImage(GuiResource.getInstance().getImageMinimizePanel());
-          }
-        });
+    item.addListener(SWT.Selection, e -> {
+      if (sash.getMaximizedControl() == null) {
+        sash.setMaximizedControl(tabFolder);
+        item.setImage(GuiResource.getInstance().getImageMaximizePanel());
+      } else {
+        sash.setMaximizedControl(null);
+        item.setImage(GuiResource.getInstance().getImageMinimizePanel());
+      }
+    });
     tabFolder.setTopRight(toolBar, SWT.RIGHT);
 
     // Support reorder tab item
@@ -572,11 +508,9 @@ public class ExplorerPerspective implements IHopPerspective {
     new TabFolderReorder(tabFolder);
   }
 
-  /**
-   * Also select the corresponding file in the left hand tree...
+  /** Also select the corresponding file in the left hand tree...
    *
-   * @param event The selection event
-   */
+   * @param event The selection event */
   private void handleTabSelectionEvent(Event event) {
     if (event.item instanceof CTabItem) {
       CTabItem tabItem = (CTabItem) event.item;
@@ -608,18 +542,17 @@ public class ExplorerPerspective implements IHopPerspective {
 
     // Set the tab bold if the file has changed and vice-versa
     //
-    explorerFile.addContentChangedListener(
-        new IContentChangedListener() {
-          @Override
-          public void contentChanged(Object parentObject) {
-            tabItem.setFont(GuiResource.getInstance().getFontBold());
-          }
+    explorerFile.addContentChangedListener(new IContentChangedListener() {
+      @Override
+      public void contentChanged(Object parentObject) {
+        tabItem.setFont(GuiResource.getInstance().getFontBold());
+      }
 
-          @Override
-          public void contentSafe(Object parentObject) {
-            tabItem.setFont(tabFolder.getFont());
-          }
-        });
+      @Override
+      public void contentSafe(Object parentObject) {
+        tabItem.setFont(tabFolder.getFont());
+      }
+    });
 
     // Create composite for editor and buttons
     //
@@ -694,11 +627,9 @@ public class ExplorerPerspective implements IHopPerspective {
     return false;
   }
 
-  /**
-   * Which file is selected in the tree. It's not delivering a type or handler
+  /** Which file is selected in the tree. It's not delivering a type or handler
    *
-   * @return The selected explorer file or null if nothing is selected
-   */
+   * @return The selected explorer file or null if nothing is selected */
   public ExplorerFile getSelectedFile() {
     TreeItem[] selection = tree.getSelection();
     if (selection == null || selection.length == 0) {
@@ -720,8 +651,7 @@ public class ExplorerPerspective implements IHopPerspective {
         tabFolder.setSelection(item);
         tabFolder.showItem(item);
 
-        HopGui.getInstance()
-            .handleFileCapabilities(explorerFileType, file.isChanged(), false, false);
+        HopGui.getInstance().handleFileCapabilities(explorerFileType, file.isChanged(), false, false);
       }
     }
   }
@@ -785,11 +715,7 @@ public class ExplorerPerspective implements IHopPerspective {
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_OPEN,
-      toolTip = "i18n::ExplorerPerspective.ToolbarElement.Open.Tooltip",
-      image = "ui/images/arrow-right.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_OPEN, toolTip = "i18n::ExplorerPerspective.ToolbarElement.Open.Tooltip", image = "ui/images/arrow-right.svg")
   public void openFile() {
     TreeItem[] selection = tree.getSelection();
     if (selection == null || selection.length == 0) {
@@ -798,11 +724,7 @@ public class ExplorerPerspective implements IHopPerspective {
     openFile(selection[0]);
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_CREATE_FOLDER,
-      toolTip = "i18n::ExplorerPerspective.ToolbarElement.CreateFolder.Tooltip",
-      image = "ui/images/folder-add.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_CREATE_FOLDER, toolTip = "i18n::ExplorerPerspective.ToolbarElement.CreateFolder.Tooltip", image = "ui/images/folder-add.svg")
   public void createFolder() {
 
     TreeItem[] selection = tree.getSelection();
@@ -814,12 +736,7 @@ public class ExplorerPerspective implements IHopPerspective {
     if (tif == null) {
       return;
     }
-    EnterStringDialog dialog =
-        new EnterStringDialog(
-            getShell(),
-            "",
-            BaseMessages.getString(PKG, "ExplorerPerspective.CreateFolder.Header"),
-            BaseMessages.getString(PKG, "ExplorerPerspective.CreateFolder.Message", tif.path));
+    EnterStringDialog dialog = new EnterStringDialog(getShell(), "", BaseMessages.getString(PKG, "ExplorerPerspective.CreateFolder.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.CreateFolder.Message", tif.path));
     String folder = dialog.open();
     if (folder != null) {
       String newPath = tif.path;
@@ -833,21 +750,12 @@ public class ExplorerPerspective implements IHopPerspective {
 
         refresh();
       } catch (Throwable e) {
-        new ErrorDialog(
-            getShell(),
-            BaseMessages.getString(PKG, "ExplorerPerspective.Error.CreateFolder.Header"),
-            BaseMessages.getString(PKG, "ExplorerPerspective.Error.CreateFolder.Message", newPath),
-            e);
+        new ErrorDialog(getShell(), BaseMessages.getString(PKG, "ExplorerPerspective.Error.CreateFolder.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.Error.CreateFolder.Message", newPath), e);
       }
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_DELETE,
-      toolTip = "i18n::ExplorerPerspective.ToolbarElement.Delete.Tooltip",
-      image = "ui/images/delete.svg",
-      separator = true)
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_DELETE, toolTip = "i18n::ExplorerPerspective.ToolbarElement.Delete.Tooltip", image = "ui/images/delete.svg", separator = true)
   @GuiKeyboardShortcut(key = SWT.DEL)
   @GuiOsxKeyboardShortcut(key = SWT.DEL)
   public void deleteFile() {
@@ -858,12 +766,7 @@ public class ExplorerPerspective implements IHopPerspective {
     deleteFile(selection[0]);
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_RENAME,
-      toolTip = "i18n::ExplorerPerspective.ToolbarElement.Rename.Tooltip",
-      image = "ui/images/rename.svg",
-      separator = false)
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_RENAME, toolTip = "i18n::ExplorerPerspective.ToolbarElement.Rename.Tooltip", image = "ui/images/rename.svg", separator = false)
   @GuiKeyboardShortcut(key = SWT.F2)
   @GuiOsxKeyboardShortcut(key = SWT.F2)
   public void renameFile() {
@@ -878,13 +781,9 @@ public class ExplorerPerspective implements IHopPerspective {
 
   boolean first = true;
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_REFRESH,
-      toolTip = "i18n::ExplorerPerspective.ToolbarElement.Refresh.Tooltip",
-      image = "ui/images/refresh.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_REFRESH, toolTip = "i18n::ExplorerPerspective.ToolbarElement.Refresh.Tooltip", image = "ui/images/refresh.svg")
   @GuiKeyboardShortcut(key = SWT.F5)
-  @GuiOsxKeyboardShortcut(key = SWT.F5)  
+  @GuiOsxKeyboardShortcut(key = SWT.F5)
   public void refresh() {
     try {
       determineRootFolderName(hopGui);
@@ -913,24 +812,13 @@ public class ExplorerPerspective implements IHopPerspective {
 
       TreeMemory.setExpandedFromMemory(tree, FILE_EXPLORER_TREE);
     } catch (Exception e) {
-      new ErrorDialog(
-          getShell(),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.TreeRefresh.Header"),
-          BaseMessages.getString(PKG, "ExplorerPerspective.Error.TreeRefresh.Message"),
-          e);
+      new ErrorDialog(getShell(), BaseMessages.getString(PKG, "ExplorerPerspective.Error.TreeRefresh.Header"), BaseMessages.getString(PKG, "ExplorerPerspective.Error.TreeRefresh.Message"), e);
     }
     updateSelection();
     treeIsFresh = true;
   }
 
-  private void setTreeItemData(
-      TreeItem treeItem,
-      String path,
-      String name,
-      IHopFileType fileType,
-      int depth,
-      boolean folder,
-      boolean loaded) {
+  private void setTreeItemData(TreeItem treeItem, String path, String name, IHopFileType fileType, int depth, boolean folder, boolean loaded) {
     treeItem.setData(new TreeItemFolder(treeItem, path, name, fileType, depth, folder, loaded));
   }
 
@@ -998,21 +886,12 @@ public class ExplorerPerspective implements IHopPerspective {
           if (child.isFolder()) {
             // What is the maximum depth to lazily load?
             //
-            String maxDepthString =
-                ExplorerPerspectiveConfigSingleton.getConfig().getLazyLoadingDepth();
+            String maxDepthString = ExplorerPerspectiveConfigSingleton.getConfig().getLazyLoadingDepth();
             int maxDepth = Const.toInt(hopGui.getVariables().resolve(maxDepthString), 0);
             if (depth + 1 <= maxDepth) {
               // Remember folder data to expand easily
               //
-              childItem.setData(
-                  new TreeItemFolder(
-                      childItem,
-                      child.getName().getURI(),
-                      childName,
-                      fileType,
-                      depth,
-                      folder,
-                      true));
+              childItem.setData(new TreeItemFolder(childItem, child.getName().getURI(), childName, fileType, depth, folder, true));
 
               // We actually load the content up to the desired depth
               //
@@ -1020,15 +899,7 @@ public class ExplorerPerspective implements IHopPerspective {
             } else {
               // Remember folder data to expand easily
               //
-              childItem.setData(
-                  new TreeItemFolder(
-                      childItem,
-                      child.getName().getURI(),
-                      childName,
-                      fileType,
-                      depth,
-                      folder,
-                      false));
+              childItem.setData(new TreeItemFolder(childItem, child.getName().getURI(), childName, fileType, depth, folder, false));
 
               // Create a new item to get the "expand" icon but without the content behind it.
               // The folder just contains an empty item to show the expand icon.
@@ -1048,8 +919,7 @@ public class ExplorerPerspective implements IHopPerspective {
     }
   }
 
-  private void callPaintListeners(
-      Tree tree, TreeItem treeItem, String path, String name, IHopFileType fileType) {
+  private void callPaintListeners(Tree tree, TreeItem treeItem, String path, String name, IHopFileType fileType) {
     for (IExplorerFilePaintListener filePaintListener : filePaintListeners) {
       filePaintListener.filePainted(tree, treeItem, path, name);
     }
@@ -1070,8 +940,7 @@ public class ExplorerPerspective implements IHopPerspective {
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_OPEN, tif != null);
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_DELETE, tif != null);
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_RENAME, tif != null);
-    toolBarWidgets.enableToolbarItem(
-        TOOLBAR_ITEM_CREATE_FOLDER, tif != null && tif.fileType instanceof FolderFileType);
+    toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_CREATE_FOLDER, tif != null && tif.fileType instanceof FolderFileType);
 
     for (IExplorerSelectionListener listener : selectionListeners) {
       listener.fileSelected();
@@ -1163,82 +1032,61 @@ public class ExplorerPerspective implements IHopPerspective {
       return;
     }
     final IHopFileTypeHandler activeHandler = getActiveFileTypeHandler();
-    hopGui
-        .getDisplay()
-        .asyncExec(
-            () ->
-                hopGui.handleFileCapabilities(
-                    activeHandler.getFileType(), activeHandler.hasChanged(), false, false));
+    hopGui.getDisplay().asyncExec(() -> hopGui.handleFileCapabilities(activeHandler.getFileType(), activeHandler.hasChanged(), false, false));
   }
 
-  /**
-   * Gets rootChangedListeners
+  /** Gets rootChangedListeners
    *
-   * @return value of rootChangedListeners
-   */
+   * @return value of rootChangedListeners */
   public List<IExplorerRootChangedListener> getRootChangedListeners() {
     return rootChangedListeners;
   }
 
-  /**
-   * Gets toolBarWidgets
+  /** Gets toolBarWidgets
    *
-   * @return value of toolBarWidgets
-   */
+   * @return value of toolBarWidgets */
   public GuiToolbarWidgets getToolBarWidgets() {
     return toolBarWidgets;
   }
 
-  /**
-   * Gets filePaintListeners
+  /** Gets filePaintListeners
    *
-   * @return value of filePaintListeners
-   */
+   * @return value of filePaintListeners */
   public List<IExplorerFilePaintListener> getFilePaintListeners() {
     return filePaintListeners;
   }
 
-  /**
-   * Gets rootFolder
+  /** Gets rootFolder
    *
-   * @return value of rootFolder
-   */
+   * @return value of rootFolder */
   public String getRootFolder() {
     return rootFolder;
   }
 
-  /**
-   * Gets rootName
+  /** Gets rootName
    *
-   * @return value of rootName
-   */
+   * @return value of rootName */
   public String getRootName() {
     return rootName;
   }
 
-  /**
-   * Gets refreshListeners
+  /** Gets refreshListeners
    *
-   * @return value of refreshListeners
-   */
+   * @return value of refreshListeners */
   public List<IExplorerRefreshListener> getRefreshListeners() {
     return refreshListeners;
   }
 
-  /**
-   * Gets selectionListeners
+  /** Gets selectionListeners
    *
-   * @return value of selectionListeners
-   */
+   * @return value of selectionListeners */
   public List<IExplorerSelectionListener> getSelectionListeners() {
     return selectionListeners;
   }
 
-  /**
-   * Gets tree
+  /** Gets tree
    *
-   * @return value of tree
-   */
+   * @return value of tree */
   public Tree getTree() {
     return tree;
   }

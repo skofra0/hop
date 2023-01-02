@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,14 @@ import java.util.Objects;
 
 public class Music implements IInterest {
 
-  @HopMetadataProperty private InterestType type;
+  @HopMetadataProperty
+  private InterestType type;
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   public Music() {}
 
@@ -46,9 +49,7 @@ public class Music implements IInterest {
       return false;
     }
     Music music = (Music) o;
-    return type == music.type
-        && Objects.equals(name, music.name)
-        && Objects.equals(description, music.description);
+    return type == music.type && Objects.equals(name, music.name) && Objects.equals(description, music.description);
   }
 
   @Override
@@ -56,11 +57,9 @@ public class Music implements IInterest {
     return Objects.hash(type, name, description);
   }
 
-  /**
-   * Gets name
+  /** Gets name
    *
-   * @return value of name
-   */
+   * @return value of name */
   @Override
   public String getName() {
     return name;
@@ -71,11 +70,9 @@ public class Music implements IInterest {
     this.name = name;
   }
 
-  /**
-   * Gets description
+  /** Gets description
    *
-   * @return value of description
-   */
+   * @return value of description */
   @Override
   public String getDescription() {
     return description;
@@ -86,11 +83,9 @@ public class Music implements IInterest {
     this.description = description;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public InterestType getType() {
     return type;
   }

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,19 +28,12 @@ public class Stream implements IStream {
   private StreamIcon streamIcon;
   private String subject;
 
-  /**
-   * @param streamType
+  /** @param streamType
    * @param transformMeta
    * @param description
    * @param streamIcon
-   * @param subject
-   */
-  public Stream(
-      StreamType streamType,
-      TransformMeta transformMeta,
-      String description,
-      StreamIcon streamIcon,
-      String subject) {
+   * @param subject */
+  public Stream(StreamType streamType, TransformMeta transformMeta, String description, StreamIcon streamIcon, String subject) {
     this.streamType = streamType;
     this.transformMeta = transformMeta;
     this.description = description;
@@ -49,25 +42,14 @@ public class Stream implements IStream {
   }
 
   public Stream(IStream stream) {
-    this(
-        stream.getStreamType(),
-        stream.getTransformMeta(),
-        stream.getDescription(),
-        stream.getStreamIcon(),
-        stream.getSubject());
+    this(stream.getStreamType(), stream.getTransformMeta(), stream.getDescription(), stream.getStreamIcon(), stream.getSubject());
   }
 
   public String toString() {
     if (transformMeta == null) {
       return "Stream type " + streamType + Const.CR + description;
     } else {
-      return "Stream type "
-          + streamType
-          + " for transform '"
-          + transformMeta.getName()
-          + "'"
-          + Const.CR
-          + description;
+      return "Stream type " + streamType + " for transform '" + transformMeta.getName() + "'" + Const.CR + description;
     }
   }
 

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,15 @@
  */
 
 package org.apache.hop.pipeline.transform;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.hop.core.ICheckResult;
 import org.apache.hop.core.IHopAttribute;
@@ -27,7 +36,11 @@ import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopTransformException;
 import org.apache.hop.core.exception.HopXmlException;
 import org.apache.hop.core.file.IHasFilename;
-import org.apache.hop.core.logging.*;
+import org.apache.hop.core.logging.ILogChannel;
+import org.apache.hop.core.logging.ILoggingObject;
+import org.apache.hop.core.logging.LogChannel;
+import org.apache.hop.core.logging.LoggingObjectType;
+import org.apache.hop.core.logging.SimpleLoggingObject;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.RowMeta;
 import org.apache.hop.core.variables.IVariables;
@@ -43,28 +56,18 @@ import org.apache.hop.resource.IResourceNaming;
 import org.apache.hop.resource.ResourceDefinition;
 import org.apache.hop.resource.ResourceReference;
 import org.w3c.dom.Node;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-/**
- * This class is responsible for implementing common functionality regarding transform meta, such as
+/** This class is responsible for implementing common functionality regarding transform meta, such as
  * logging. All Hop transforms have an extension of this where private fields have been added with
  * public accessors.
- *
- * <p>For example, the "Text File Output" transform's TextFileOutputMeta class extends
+ * <p>
+ * For example, the "Text File Output" transform's TextFileOutputMeta class extends
  * BaseTransformMeta by adding fields for the output file name, compression, file format, etc...
  * <p>
  */
 public class BaseTransformMeta<Main extends ITransform, Data extends ITransformData> implements ITransformMeta, Cloneable {
-   
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Transform metadata", LoggingObjectType.TRANSFORM_META, null);
+
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Transform metadata", LoggingObjectType.TRANSFORM_META, null);
 
   private boolean changed;
 
@@ -78,8 +81,8 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   public BaseTransformMeta() {
     changed = false;
-  } 
-  
+  }
+
   @Override
   @SuppressWarnings({"unchecked"})
   public ITransform createTransform(TransformMeta transformMeta, ITransformData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
@@ -87,9 +90,10 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
       ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
       Class<Main> mainClass = (Class<Main>) parameterizedType.getActualTypeArguments()[0];
       Class<Data> dataClass = (Class<Data>) parameterizedType.getActualTypeArguments()[1];
-      
+
       // Some tests class use BaseTransformMeta<ITransform,ITransformData>
-      if ( mainClass.isInterface() ) return null;
+      if (mainClass.isInterface())
+        return null;
 
       Constructor<Main> constructor = mainClass.getConstructor(new Class[] {TransformMeta.class, this.getClass(), dataClass, int.class, PipelineMeta.class, Pipeline.class});
       return constructor.newInstance(new Object[] {transformMeta, this, data, copyNr, pipelineMeta, pipeline});
@@ -97,23 +101,24 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
       throw new RuntimeException("Error create instance of transform: " + this.getName(), e);
     }
   }
-  
+
   @Override
   public ITransformData createTransformData() {
     try {
       ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
       @SuppressWarnings({"unchecked"})
       Class<Data> dataClass = (Class<Data>) parameterizedType.getActualTypeArguments()[1];
-    
+
       // Some tests class use BaseTransformMeta<ITransform,ITransformData>
-      if ( dataClass.isInterface() ) return null;
-      
+      if (dataClass.isInterface())
+        return null;
+
       return dataClass.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
       throw new RuntimeException("Error create instance of transform data: " + this.getName(), e);
     }
   }
-  
+
   /*
    * (non-Javadoc)
    *
@@ -132,14 +137,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
       lock.readLock().lock();
       try {
         if (ioMetaVar != null) {
-          ITransformIOMeta transformIOMeta =
-              new TransformIOMeta(
-                  ioMetaVar.isInputAcceptor(),
-                  ioMetaVar.isOutputProducer(),
-                  ioMetaVar.isInputOptional(),
-                  ioMetaVar.isSortedDataRequired(),
-                  ioMetaVar.isInputDynamic(),
-                  ioMetaVar.isOutputDynamic());
+          ITransformIOMeta transformIOMeta = new TransformIOMeta(ioMetaVar.isInputAcceptor(), ioMetaVar.isOutputProducer(), ioMetaVar.isInputOptional(), ioMetaVar.isSortedDataRequired(), ioMetaVar.isInputDynamic(), ioMetaVar.isOutputDynamic());
 
           List<IStream> infoStreams = ioMetaVar.getInfoStreams();
           for (IStream infoStream : infoStreams) {
@@ -150,8 +148,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
           for (IStream targetStream : targetStreams) {
             transformIOMeta.addStream(new Stream(targetStream));
           }
-          lock.readLock()
-              .unlock(); // the setter acquires the write lock which would deadlock unless we
+          lock.readLock().unlock(); // the setter acquires the write lock which would deadlock unless we
           // release
           retval.setTransformIOMeta(transformIOMeta);
           lock.readLock().lock(); // reacquire read lock
@@ -167,11 +164,9 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   public void setDefault() {}
 
-  /**
-   * Sets the changed.
+  /** Sets the changed.
    *
-   * @param ch the new changed
-   */
+   * @param ch the new changed */
   public void setChanged(boolean ch) {
     changed = ch;
   }
@@ -181,75 +176,56 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     changed = true;
   }
 
-  /**
-   * Checks for changed.
+  /** Checks for changed.
    *
-   * @return true, if successful
-   */
+   * @return true, if successful */
   public boolean hasChanged() {
     return changed;
   }
 
-  /**
-   * Gets the table fields.
+  /** Gets the table fields.
    *
    * @return the table fields
-   * @param variables
-   */
+   * @param variables */
   public IRowMeta getTableFields(IVariables variables) {
     return null;
   }
 
-  /**
-   * Produces the XML string that describes this transform's information.
+  /** Produces the XML string that describes this transform's information.
    *
    * @return String containing the XML describing this transform.
-   * @throws HopException in case there is an XML conversion or encoding error
-   */
+   * @throws HopException in case there is an XML conversion or encoding error */
   public String getXml() throws HopException {
     convertIOMetaToTransformNames();
     return XmlMetadataUtil.serializeObjectToXml(this);
   }
 
-  /**
-   * Automatically load metadata from XML using @{@link
+  /** Automatically load metadata from XML using @{@link
    * org.apache.hop.metadata.api.HopMetadataProperty} annotations
    *
    * @param transformNode
    * @param metadataProvider
-   * @throws HopXmlException
-   */
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+   * @throws HopXmlException */
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     XmlMetadataUtil.deSerializeFromXml(transformNode, getClass(), this, metadataProvider);
   }
 
-  /**
-   * Gets the fields.
+  /** Gets the fields.
    *
    * @param inputRowMeta the input row meta that is modified in this method to reflect the output
-   *     row metadata of the transform
+   *        row metadata of the transform
    * @param name Name of the transform to use as input for the origin field in the values
    * @param info Fields used as extra lookup information
    * @param nextTransform the next transform that is targeted
    * @param variables the variables The variable variables to use to replace variables
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
-   * @throws HopTransformException the hop transform exception
-   */
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
-      throws HopTransformException {
+   *        impacting the output fields
+   * @throws HopTransformException the hop transform exception */
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) throws HopTransformException {
     // Default: no values are added to the row in the transform
   }
 
-  /**
-   * Each transform must be able to report on the impact it has on a database, table field, etc.
+  /** Each transform must be able to report on the impact it has on a database, table field, etc.
    *
    * @param variables The variables to use to resolve expressions
    * @param impact The list of impacts @see org.apache.hop.pipelineMeta.DatabaseImpact
@@ -260,22 +236,10 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @param output The output transform names
    * @param info The fields used as information by this transform
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
-   */
-  public void analyseImpact(
-      IVariables variables,
-      List<DatabaseImpact> impact,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      String[] input,
-      String[] output,
-      IRowMeta info,
-      IHopMetadataProvider metadataProvider)
-      throws HopTransformException {}
+   *        impacting the output fields */
+  public void analyseImpact(IVariables variables, List<DatabaseImpact> impact, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, String[] input, String[] output, IRowMeta info, IHopMetadataProvider metadataProvider) throws HopTransformException {}
 
-  /**
-   * Standard method to return an SqlStatement object with Sql statements that the transform needs
+  /** Standard method to return an SqlStatement object with Sql statements that the transform needs
    * in order to work correctly. This can mean "create table", "create index" statements but also
    * "alter table ... add/drop/modify" statements.
    *
@@ -284,17 +248,10 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @param transformMeta TransformMeta object containing the complete transform
    * @param prev Row containing meta-data for the input fields (no data)
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
+   *        impacting the output fields
    * @return The Sql Statements for this transform. If nothing has to be done, the
-   *     SqlStatement.getSql() == null. @see SqlStatement
-   */
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider)
-      throws HopTransformException {
+   *         SqlStatement.getSql() == null. @see SqlStatement */
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) throws HopTransformException {
     // default: this doesn't require any Sql statements to be executed!
     return new SqlStatement(transformMeta.getName(), null, null);
   }
@@ -313,39 +270,33 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     }
   }
 
-  /**
-   * The natural way of data flow in a pipeline is source-to-target. However, this makes mapping to
+  /** The natural way of data flow in a pipeline is source-to-target. However, this makes mapping to
    * target tables difficult to do. To help out here, we supply information to the pipeline
    * meta-data model about which fields are required for a transform. This allows us to automate
    * certain tasks like the mapping to pre-defined tables. The Table Output transform in this case
    * will output the fields in the target table using this method.
-   *
-   * <p>This default implementation returns an empty row meaning that no fields are required for
+   * <p>
+   * This default implementation returns an empty row meaning that no fields are required for
    * this transform to operate.
    *
    * @param variables the variable variables to use to do variable substitution.
    * @return the required fields for this transforms meta data.
-   * @throws HopException in case the required fields can't be determined
-   */
+   * @throws HopException in case the required fields can't be determined */
   public IRowMeta getRequiredFields(IVariables variables) throws HopException {
     return new RowMeta();
   }
 
-  /**
-   * This method returns all the database connections that are used by the transform.
+  /** This method returns all the database connections that are used by the transform.
    *
    * @return an array of database connections meta-data. Return an empty array if no connections are
-   *     used.
-   */
-  @Deprecated(since="2.0")
+   *         used. */
+  @Deprecated(since = "2.0")
   public DatabaseMeta[] getUsedDatabaseConnections() {
     return new DatabaseMeta[] {};
   }
 
-  /**
-   * @return true if this transform supports error "reporting" on rows: the ability to send rows to
-   *     a certain target transform.
-   */
+  /** @return true if this transform supports error "reporting" on rows: the ability to send rows to
+   *         a certain target transform. */
   public boolean supportsErrorHandling() {
     return false;
   }
@@ -360,47 +311,35 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     return false;
   }
 
-  /**
-   * Get a list of all the resource dependencies that the transform is depending on.
+  /** Get a list of all the resource dependencies that the transform is depending on.
    *
-   * @return a list of all the resource dependencies that the transform is depending on
-   */
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+   * @return a list of all the resource dependencies that the transform is depending on */
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     return Arrays.asList(new ResourceReference(transformMeta));
   }
 
-  /**
-   * Export resources.
+  /** Export resources.
    *
    * @param variables the variables
    * @param definitions the definitions
    * @param iResourceNaming the resource naming interface
    * @param metadataProvider The place to load additional information
    * @return the string
-   * @throws HopException the hop exception
-   */
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
-      throws HopException {
+   * @throws HopException the hop exception */
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider) throws HopException {
     return null;
   }
 
-  /**
-   * ￼ * This returns the expected name for the dialog that edits a action. The expected name is in
+  /** ￼ * This returns the expected name for the dialog that edits a action. The expected name is in
    * the org.apache.hop.ui ￼ * tree and has a class name that is the name of the action with
    * 'Dialog' added to the end. ￼ *
-   *
-   * <p>￼ * e.g. if the action is org.apache.hop.workflow.actions.zipfile.JobEntryZipFile the dialog
+   * <p>
+   * ￼ * e.g. if the action is org.apache.hop.workflow.actions.zipfile.JobEntryZipFile the dialog
    * would be ￼ * org.apache.hop.ui.workflow.actions.zipfile.JobEntryZipFileDialog ￼ *
-   *
-   * <p>￼ * If the dialog class for a action does not match this pattern it should override this
+   * <p>
+   * ￼ * If the dialog class for a action does not match this pattern it should override this
    * method and return the ￼ * appropriate class name ￼ * ￼ * @return full class name of the dialog
-   * ￼
-   */
+   * ￼ */
   public String getDialogClassName() {
     String className = getClass().getCanonicalName();
 
@@ -419,20 +358,16 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     return className;
   }
 
-  /**
-   * Gets the parent transform meta.
+  /** Gets the parent transform meta.
    *
-   * @return the parent transform meta
-   */
+   * @return the parent transform meta */
   public TransformMeta getParentTransformMeta() {
     return parentTransformMeta;
   }
 
-  /**
-   * Sets the parent transform meta.
+  /** Sets the parent transform meta.
    *
-   * @param parentTransformMeta the new parent transform meta
-   */
+   * @param parentTransformMeta the new parent transform meta */
   public void setParentTransformMeta(TransformMeta parentTransformMeta) {
     this.parentTransformMeta = parentTransformMeta;
   }
@@ -446,11 +381,9 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   // Late init to prevent us from logging blank transform names, etc.
 
-  /**
-   * Gets the log.
+  /** Gets the log.
    *
-   * @return the log
-   */
+   * @return the log */
   public ILogChannel getLog() {
     if (log == null) {
       log = new LogChannel(this);
@@ -458,207 +391,163 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     return log;
   }
 
-  /**
-   * Checks if is basic.
+  /** Checks if is basic.
    *
-   * @return true, if is basic
-   */
+   * @return true, if is basic */
   public boolean isBasic() {
     return getLog().isBasic();
   }
 
-  /**
-   * Checks if is detailed.
+  /** Checks if is detailed.
    *
-   * @return true, if is detailed
-   */
+   * @return true, if is detailed */
   public boolean isDetailed() {
     return getLog().isDetailed();
   }
 
-  /**
-   * Checks if is debug.
+  /** Checks if is debug.
    *
-   * @return true, if is debug
-   */
+   * @return true, if is debug */
   public boolean isDebug() {
     return getLog().isDebug();
   }
 
-  /**
-   * Checks if is row level.
+  /** Checks if is row level.
    *
-   * @return true, if is row level
-   */
+   * @return true, if is row level */
   public boolean isRowLevel() {
     return getLog().isRowLevel();
   }
 
-  /**
-   * Log minimal.
+  /** Log minimal.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logMinimal(String message) {
     getLog().logMinimal(message);
   }
 
-  /**
-   * Log minimal.
+  /** Log minimal.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logMinimal(String message, Object... arguments) {
     getLog().logMinimal(message, arguments);
   }
 
-  /**
-   * Log basic.
+  /** Log basic.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logBasic(String message) {
     getLog().logBasic(message);
   }
 
-  /**
-   * Log basic.
+  /** Log basic.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logBasic(String message, Object... arguments) {
     getLog().logBasic(message, arguments);
   }
 
-  /**
-   * Log detailed.
+  /** Log detailed.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDetailed(String message) {
     getLog().logDetailed(message);
   }
 
-  /**
-   * Log detailed.
+  /** Log detailed.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDetailed(String message, Object... arguments) {
     getLog().logDetailed(message, arguments);
   }
 
-  /**
-   * Log debug.
+  /** Log debug.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logDebug(String message) {
     getLog().logDebug(message);
   }
 
-  /**
-   * Log debug.
+  /** Log debug.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logDebug(String message, Object... arguments) {
     getLog().logDebug(message, arguments);
   }
 
-  /**
-   * Log rowlevel.
+  /** Log rowlevel.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logRowlevel(String message) {
     getLog().logRowlevel(message);
   }
 
-  /**
-   * Log rowlevel.
+  /** Log rowlevel.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logRowlevel(String message, Object... arguments) {
     getLog().logRowlevel(message, arguments);
   }
 
-  /**
-   * Log error.
+  /** Log error.
    *
-   * @param message the message
-   */
+   * @param message the message */
   public void logError(String message) {
     getLog().logError(message);
   }
 
-  /**
-   * Log error.
+  /** Log error.
    *
    * @param message the message
-   * @param e the e
-   */
+   * @param e the e */
   public void logError(String message, Throwable e) {
     getLog().logError(message, e);
   }
 
-  /**
-   * Log error.
+  /** Log error.
    *
    * @param message the message
-   * @param arguments the arguments
-   */
+   * @param arguments the arguments */
   public void logError(String message, Object... arguments) {
     getLog().logError(message, arguments);
   }
 
-  /**
-   * Gets the log channel id.
+  /** Gets the log channel id.
    *
-   * @return the log channel id
-   */
+   * @return the log channel id */
   public String getLogChannelId() {
     return null;
   }
 
-  /**
-   * Gets the name.
+  /** Gets the name.
    *
-   * @return the name
-   */
+   * @return the name */
   public String getName() {
     return null;
   }
 
-  /**
-   * Gets the object copy.
+  /** Gets the object copy.
    *
-   * @return the object copy
-   */
+   * @return the object copy */
   public String getObjectCopy() {
     return null;
   }
 
-  /**
-   * Gets the object type.
+  /** Gets the object type.
    *
-   * @return the object type
-   */
+   * @return the object type */
   public LoggingObjectType getObjectType() {
     return null;
   }
 
-  /**
-   * Gets the parent.
+  /** Gets the parent.
    *
-   * @return the parent
-   */
+   * @return the parent */
   public ILoggingObject getParent() {
     return null;
   }
@@ -667,10 +556,8 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     return getTransformIOMeta(true); // Default to creating transform IO Meta
   }
 
-  /**
-   * Returns the Input/Output metadata for this transform. By default, each transform produces and
-   * accepts optional input.
-   */
+  /** Returns the Input/Output metadata for this transform. By default, each transform produces and
+   * accepts optional input. */
   public ITransformIOMeta getTransformIOMeta(boolean createIfAbsent) {
     ITransformIOMeta ioMeta = null;
     lock.readLock().lock();
@@ -694,12 +581,10 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     }
   }
 
-  /**
-   * Sets the Input/Output metadata for this transform. By default, each transform produces and
+  /** Sets the Input/Output metadata for this transform. By default, each transform produces and
    * accepts optional input.
    *
-   * @param value the ITransformIOMeta to set for this transform.
-   */
+   * @param value the ITransformIOMeta to set for this transform. */
   public void setTransformIOMeta(ITransformIOMeta value) {
     lock.writeLock().lock();
     try {
@@ -709,21 +594,17 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     }
   }
 
-  /**
-   * @return The list of optional input streams. It allows the user to select from a list of
-   *     possible actions like "New target transform"
-   */
+  /** @return The list of optional input streams. It allows the user to select from a list of
+   *         possible actions like "New target transform" */
   public List<IStream> getOptionalStreams() {
     List<IStream> list = new ArrayList<>();
     return list;
   }
 
-  /**
-   * When an optional stream is selected, this method is called to handled the ETL metadata
+  /** When an optional stream is selected, this method is called to handled the ETL metadata
    * implications of that.
    *
-   * @param stream The optional stream to handle.
-   */
+   * @param stream The optional stream to handle. */
   public void handleStreamSelection(IStream stream) {}
 
   /** Reset transform io meta. */
@@ -736,25 +617,19 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     }
   }
 
-  /**
-   * Change transform names into transform objects to allow them to be name-changed etc.
+  /** Change transform names into transform objects to allow them to be name-changed etc.
    *
-   * @param transforms the transforms to reference
-   */
+   * @param transforms the transforms to reference */
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {}
 
   public void convertIOMetaToTransformNames() {}
 
   /** @return The supported pipeline types that this transform supports. */
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal, PipelineType.SingleThreaded,
-    };
+    return new PipelineType[] {PipelineType.Normal, PipelineType.SingleThreaded,};
   }
 
-  /**
-   * @return The objects referenced in the transform, like a mapping, a pipeline, a workflow, ...
-   */
+  /** @return The objects referenced in the transform, like a mapping, a pipeline, a workflow, ... */
   public String[] getReferencedObjectDescriptions() {
     return null;
   }
@@ -763,46 +638,30 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
     return null;
   }
 
-  /**
-   * @return A description of the active referenced object in a pipeline. Null if nothing special
-   *     needs to be done or if the active metadata isn't different from design.
-   */
+  /** @return A description of the active referenced object in a pipeline. Null if nothing special
+   *         needs to be done or if the active metadata isn't different from design. */
   public String getActiveReferencedObjectDescription() {
     return null;
   }
 
-  /**
-   * @param remarks
+  /** @param remarks
    * @param pipelineMeta
    * @param transformMeta
    * @param prev
    * @param input
    * @param output
    * @param info
-   * @param metadataProvider
-   */
-  public void check(
-      List<ICheckResult> remarks,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      String[] input,
-      String[] output,
-      IRowMeta info,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+   * @param metadataProvider */
+  public void check(List<ICheckResult> remarks, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, String[] input, String[] output, IRowMeta info, IVariables variables, IHopMetadataProvider metadataProvider) {}
 
-  /**
-   * Load the referenced object
+  /** Load the referenced object
    *
    * @param index the referenced object index to load (in case there are multiple references)
    * @param metadataProvider the MetaStore to use
    * @param variables the variable variables to use
    * @return the referenced object once loaded
-   * @throws HopException
-   */
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+   * @throws HopException */
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return null;
   }
 }

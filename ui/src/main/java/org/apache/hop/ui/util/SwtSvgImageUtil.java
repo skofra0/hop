@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,12 +39,10 @@ import org.eclipse.swt.widgets.Display;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * Class for loading images from SVG, PNG, or other bitmap formats.
- *
- * <p>Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
- * name into PNG and try to load. If initial name is PNG, then PNG icon will be loaded.
- */
+/** Class for loading images from SVG, PNG, or other bitmap formats.
+ * <p>
+ * Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
+ * name into PNG and try to load. If initial name is PNG, then PNG icon will be loaded. */
 public class SwtSvgImageUtil {
 
   private static ILogChannel log = new LogChannel("SwtSvgImageUtil");
@@ -64,13 +62,11 @@ public class SwtSvgImageUtil {
     }
   }
 
-  /**
-   * Get the image for when all other fallbacks have failed. This is an image drawn on the canvas, a
+  /** Get the image for when all other fallbacks have failed. This is an image drawn on the canvas, a
    * square with a red X.
    *
    * @param display the device to render the image to
-   * @return the missing image
-   */
+   * @return the missing image */
   public static SwtUniversalImage getMissingImage(Display display) {
     Image img = new Image(display, ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
     // RAP only allows painting on the Canvas widget
@@ -124,8 +120,7 @@ public class SwtSvgImageUtil {
     return result;
   }
 
-  /**
-   * Get an image using the provided classLoader and path. An attempt will be made to load the image
+  /** Get an image using the provided classLoader and path. An attempt will be made to load the image
    * with the classLoader first using SVG (regardless of extension), and falling back to PNG. If the
    * image cannot be loaded with the provided classLoader, the search path will be expanded to
    * include the file system (ui/images).
@@ -135,16 +130,13 @@ public class SwtSvgImageUtil {
    * @param filename the path to the image
    * @param width the width to scale the image to
    * @param height the height to scale the image to
-   * @return an swt Image with width/height dimensions
-   */
-  public static Image getImage(
-      Display display, ClassLoader classLoader, String filename, int width, int height) {
+   * @return an swt Image with width/height dimensions */
+  public static Image getImage(Display display, ClassLoader classLoader, String filename, int width, int height) {
     SwtUniversalImage u = getUniversalImage(display, classLoader, filename);
     return u.getAsBitmapForSize(display, width, height);
   }
 
-  private static SwtUniversalImage getUniversalImageInternal(
-      Display display, ClassLoader classLoader, String filename) {
+  private static SwtUniversalImage getUniversalImageInternal(Display display, ClassLoader classLoader, String filename) {
     SwtUniversalImage result = loadFromClassLoader(classLoader, filename);
     if (result == null) {
       result = loadFromClassLoader(classLoader, "/" + filename);
@@ -159,8 +151,7 @@ public class SwtSvgImageUtil {
   }
 
   /** Load image from several sources. */
-  public static SwtUniversalImage getUniversalImage(
-      Display display, ClassLoader classLoader, String filename) {
+  public static SwtUniversalImage getUniversalImage(Display display, ClassLoader classLoader, String filename) {
     if (StringUtils.isBlank(filename)) {
       return getImageAsResource(display, NO_IMAGE);
     }

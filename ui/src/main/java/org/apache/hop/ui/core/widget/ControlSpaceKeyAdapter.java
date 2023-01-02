@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,25 +52,17 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
 
   private final Control control;
 
-  /**
-   * @param variables IVariables object
-   * @param control a Text or CCombo box object
-   */
+  /** @param variables IVariables object
+   * @param control a Text or CCombo box object */
   public ControlSpaceKeyAdapter(final IVariables variables, final Control control) {
     this(variables, control, null, null);
   }
 
-  /**
-   * @param variables IVariables object
+  /** @param variables IVariables object
    * @param control a Text or CCombo box object
    * @param getCaretPositionInterface
-   * @param insertTextInterface
-   */
-  public ControlSpaceKeyAdapter(
-      IVariables variables,
-      final Control control,
-      final IGetCaretPosition getCaretPositionInterface,
-      final IInsertText insertTextInterface) {
+   * @param insertTextInterface */
+  public ControlSpaceKeyAdapter(IVariables variables, final Control control, final IGetCaretPosition getCaretPositionInterface, final IInsertText insertTextInterface) {
 
     this.variables = variables;
     this.control = control;
@@ -78,27 +70,19 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
     this.insertTextInterface = insertTextInterface;
   }
 
-  /**
-   * in chinese window, Ctrl-SPACE is reversed by system for input chinese character. use
+  /** in chinese window, Ctrl-SPACE is reversed by system for input chinese character. use
    * Ctrl-ALT-SPACE instead.
    *
    * @param e the keyevent
-   * @return true when ctrl-SPACE is pressed
-   */
+   * @return true when ctrl-SPACE is pressed */
   private boolean isHotKey(KeyEvent e) {
     if (System.getProperty("user.language").equals("zh")) {
-      return e.character == ' '
-          && ((e.stateMask & SWT.CONTROL) != 0)
-          && ((e.stateMask & SWT.ALT) != 0);
+      return e.character == ' ' && ((e.stateMask & SWT.CONTROL) != 0) && ((e.stateMask & SWT.ALT) != 0);
     } else if (OsHelper.isMac()) {
       // character is empty when pressing special key in macOs
-      return e.keyCode == 32
-          && ((e.stateMask & SWT.CONTROL) != 0)
-          && ((e.stateMask & SWT.ALT) == 0);
+      return e.keyCode == 32 && ((e.stateMask & SWT.CONTROL) != 0) && ((e.stateMask & SWT.ALT) == 0);
     } else {
-      return e.character == ' '
-          && ((e.stateMask & SWT.CONTROL) != 0)
-          && ((e.stateMask & SWT.ALT) == 0);
+      return e.character == ' ' && ((e.stateMask & SWT.CONTROL) != 0) && ((e.stateMask & SWT.ALT) == 0);
     }
   }
 
@@ -135,72 +119,61 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
       final ToolTip toolTip = new ToolTip(list.getShell(), SWT.BALLOON);
       toolTip.setAutoHide(true);
 
-      list.addSelectionListener(
-          new SelectionAdapter() {
-            // Enter or double-click: picks the variable
-            //
-            @Override
-            public synchronized void widgetDefaultSelected(SelectionEvent e) {
-              applyChanges(shell, list, control, position, insertTextInterface);
-            }
+      list.addSelectionListener(new SelectionAdapter() {
+        // Enter or double-click: picks the variable
+        //
+        @Override
+        public synchronized void widgetDefaultSelected(SelectionEvent e) {
+          applyChanges(shell, list, control, position, insertTextInterface);
+        }
 
-            // Select a variable name: display the value in a tool tip
-            //
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-              if (list.getSelectionCount() <= 0) {
-                return;
-              }
-              String name = list.getSelection()[0];
-              String value = variables.getVariable(name);
-              Rectangle shellBounds = shell.getBounds();
-              String message =
-                  BaseMessages.getString(PKG, "TextVar.VariableValue.Message", name, value);
-              if (name.startsWith(Const.INTERNAL_VARIABLE_PREFIX)) {
-                message += BaseMessages.getString(PKG, "TextVar.InternalVariable.Message");
-              }
-              toolTip.setText(message);
-              toolTip.setVisible(false);
-              toolTip.setLocation(
-                  shell.getLocation().x, shell.getLocation().y + shellBounds.height);
-              toolTip.setVisible(true);
-            }
-          });
+        // Select a variable name: display the value in a tool tip
+        //
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          if (list.getSelectionCount() <= 0) {
+            return;
+          }
+          String name = list.getSelection()[0];
+          String value = variables.getVariable(name);
+          Rectangle shellBounds = shell.getBounds();
+          String message = BaseMessages.getString(PKG, "TextVar.VariableValue.Message", name, value);
+          if (name.startsWith(Const.INTERNAL_VARIABLE_PREFIX)) {
+            message += BaseMessages.getString(PKG, "TextVar.InternalVariable.Message");
+          }
+          toolTip.setText(message);
+          toolTip.setVisible(false);
+          toolTip.setLocation(shell.getLocation().x, shell.getLocation().y + shellBounds.height);
+          toolTip.setVisible(true);
+        }
+      });
 
-      list.addKeyListener(
-          new KeyAdapter() {
+      list.addKeyListener(new KeyAdapter() {
 
-            @Override
-            public synchronized void keyPressed(KeyEvent e) {
-              if (e.keyCode == SWT.CR
-                  && ((e.keyCode & SWT.CONTROL) == 0)
-                  && ((e.keyCode & SWT.SHIFT) == 0)) {
-                applyChanges(shell, list, control, position, insertTextInterface);
-              }
-            }
-          });
+        @Override
+        public synchronized void keyPressed(KeyEvent e) {
+          if (e.keyCode == SWT.CR && ((e.keyCode & SWT.CONTROL) == 0) && ((e.keyCode & SWT.SHIFT) == 0)) {
+            applyChanges(shell, list, control, position, insertTextInterface);
+          }
+        }
+      });
 
-      list.addFocusListener(
-          new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent event) {
-              shell.dispose();
-              if (!control.isDisposed()) {
-                control.setData(Boolean.FALSE);
-              }
-            }
-          });
+      list.addFocusListener(new FocusAdapter() {
+        @Override
+        public void focusLost(FocusEvent event) {
+          shell.dispose();
+          if (!control.isDisposed()) {
+            control.setData(Boolean.FALSE);
+          }
+        }
+      });
 
       shell.open();
     }
   }
 
-  private static void applyChanges(
-      Shell shell, List list, Control control, int position, IInsertText insertTextInterface) {
-    String selection =
-        list.getSelection()[0].contains(Const.getDeprecatedPrefix())
-            ? list.getSelection()[0].replace(Const.getDeprecatedPrefix(), "")
-            : list.getSelection()[0];
+  private static void applyChanges(Shell shell, List list, Control control, int position, IInsertText insertTextInterface) {
+    String selection = list.getSelection()[0].contains(Const.getDeprecatedPrefix()) ? list.getSelection()[0].replace(Const.getDeprecatedPrefix(), "") : list.getSelection()[0];
     String extra = "${" + selection + "}";
     if (insertTextInterface != null) {
       insertTextInterface.insertText(extra, position);
@@ -216,8 +189,7 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
         ((Text) control).insert(extra);
       } else if (control instanceof CCombo) {
         CCombo combo = (CCombo) control;
-        combo.setText(
-            extra); // We can't know the location of the cursor yet. All we can do is overwrite.
+        combo.setText(extra); // We can't know the location of the cursor yet. All we can do is overwrite.
       } else if (control instanceof StyledTextComp) {
         ((StyledTextComp) control).insert(extra);
       }
@@ -255,42 +227,29 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
 
     // The Hop system settings variables
     //
-    Set<String> hopSystemSettings = VariableRegistry.getInstance().getVariableNames(VariableScope.SYSTEM);        
+    Set<String> hopSystemSettings = VariableRegistry.getInstance().getVariableNames(VariableScope.SYSTEM);
 
     Map<String, String> pluginsPrefixesMap = new HashMap<>();
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI,
-          variables,
-          HopExtensionPoint.HopGuiGetControlSpaceSortOrderPrefix.name(),
-          pluginsPrefixesMap);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopExtensionPoint.HopGuiGetControlSpaceSortOrderPrefix.name(), pluginsPrefixesMap);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error calling extension point 'HopGuiGetControlSpaceSortOrderPrefix'", e);
+      LogChannel.UI.logError("Error calling extension point 'HopGuiGetControlSpaceSortOrderPrefix'", e);
     }
 
     Arrays.sort(variableNames);
     return variableNames;
   }
 
-  /**
-   * Get a prefix to steer sorting of variables. Please note that variables can appear in multiple
+  /** Get a prefix to steer sorting of variables. Please note that variables can appear in multiple
    * sets so we check back to front.
    *
    * @param variableName The variable name to prefix
    * @param systemProperties
    * @param hopVariablesSet
    * @param deprecatedSet
-   * @return a prefixed variable name
-   */
-  private static String addPrefix(
-      String variableName,
-      Properties systemProperties,
-      Set<String> hopVariablesSet,
-      Set<String> deprecatedSet,
-      Set<String> hopSystemSettings,
-      Map<String, String> pluginsPrefixesMap) {
+   * @return a prefixed variable name */
+  private static String addPrefix(String variableName, Properties systemProperties, Set<String> hopVariablesSet, Set<String> deprecatedSet, Set<String> hopSystemSettings, Map<String, String> pluginsPrefixesMap) {
     String prefix = "300_";
     String systemValue = systemProperties.getProperty(variableName);
     if (systemValue != null) {

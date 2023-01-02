@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,24 +39,20 @@ public class DeleteMessageBox extends MessageBox {
   // The list of proposed transforms to be deleted
   private List<String> transformList = null;
 
-  /**
-   * Creates a message box to confirm the deletion of the items
+  /** Creates a message box to confirm the deletion of the items
    *
    * @param shell the shell which will be the parent of the new instance
    * @param text the title for the dialog
-   * @param transformList the text list of proposed transforms to be deleted
-   */
+   * @param transformList the text list of proposed transforms to be deleted */
   public DeleteMessageBox(Shell shell, String text, List<String> transformList) {
     super(shell, SWT.YES | SWT.NO | SWT.ICON_WARNING);
     this.text = text;
     this.transformList = transformList;
   }
 
-  /**
-   * Creats the dialog and then performs the display and returns the result
+  /** Creats the dialog and then performs the display and returns the result
    *
-   * @see org.eclipse.swt.widgets.MessageBox
-   */
+   * @see org.eclipse.swt.widgets.MessageBox */
   @Override
   public int open() {
     // Set the title
@@ -69,16 +65,14 @@ public class DeleteMessageBox extends MessageBox {
     return super.open();
   }
 
-  /**
-   * Builds a message from the text and the transformList
+  /** Builds a message from the text and the transformList
    *
-   * @return
-   */
+   * @return */
   protected String buildMessage() {
     StringBuilder sb = new StringBuilder();
     sb.append(text).append(Const.CR);
     if (transformList != null) {
-      for (Iterator<String> it = transformList.iterator(); it.hasNext(); ) {
+      for (Iterator<String> it = transformList.iterator(); it.hasNext();) {
         sb.append("  - ").append(it.next()).append(Const.CR);
       }
     }

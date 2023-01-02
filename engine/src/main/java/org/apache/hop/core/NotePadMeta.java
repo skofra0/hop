@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -87,24 +87,7 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
     this.height = height;
   }
 
-  public NotePadMeta(
-      String n,
-      int xl,
-      int yl,
-      int w,
-      int h,
-      String fontName,
-      int fontSize,
-      boolean fontBold,
-      boolean fontItalic,
-      int fontColorRed,
-      int fontColorGreen,
-      int fontColorBlue,
-      int backGrounColorRed,
-      int backGrounColorGreen,
-      int backGrounColorBlue,
-      int borderColorRed,
-      int borderColorGreen,
+  public NotePadMeta(String n, int xl, int yl, int w, int h, String fontName, int fontSize, boolean fontBold, boolean fontItalic, int fontColorRed, int fontColorGreen, int fontColorBlue, int backGrounColorRed, int backGrounColorGreen, int backGrounColorBlue, int borderColorRed, int borderColorGreen,
       int borderColorBlue) {
     this.note = n;
     this.location = new Point(xl, yl);
@@ -130,25 +113,7 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
   }
 
   public NotePadMeta(NotePadMeta n) {
-    this(
-        n.note,
-        n.location.x,
-        n.location.y,
-        n.width,
-        n.height,
-        n.fontName,
-        n.fontSize,
-        n.fontBold,
-        n.fontItalic,
-        n.fontColorRed,
-        n.fontColorGreen,
-        n.fontColorBlue,
-        n.backgroundColorRed,
-        n.backgroundColorGreen,
-        n.backgroundColorBlue,
-        n.borderColorRed,
-        n.borderColorGreen,
-        n.borderColorBlue);
+    this(n.note, n.location.x, n.location.y, n.width, n.height, n.fontName, n.fontSize, n.fontBold, n.fontItalic, n.fontColorRed, n.fontColorGreen, n.fontColorBlue, n.backgroundColorRed, n.backgroundColorGreen, n.backgroundColorBlue, n.borderColorRed, n.borderColorGreen, n.borderColorBlue);
   }
 
   public NotePadMeta(Node notepadnode) throws HopXmlException {
@@ -169,36 +134,17 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
       this.fontBold = "Y".equalsIgnoreCase(XmlHandler.getTagValue(notepadnode, "fontbold"));
       this.fontItalic = "Y".equalsIgnoreCase(XmlHandler.getTagValue(notepadnode, "fontitalic"));
       // font color
-      this.fontColorRed =
-          Const.toInt(XmlHandler.getTagValue(notepadnode, "fontcolorred"), COLOR_RGB_BLACK_RED);
-      this.fontColorGreen =
-          Const.toInt(XmlHandler.getTagValue(notepadnode, "fontcolorgreen"), COLOR_RGB_BLACK_GREEN);
-      this.fontColorBlue =
-          Const.toInt(XmlHandler.getTagValue(notepadnode, "fontcolorblue"), COLOR_RGB_BLACK_BLUE);
+      this.fontColorRed = Const.toInt(XmlHandler.getTagValue(notepadnode, "fontcolorred"), COLOR_RGB_BLACK_RED);
+      this.fontColorGreen = Const.toInt(XmlHandler.getTagValue(notepadnode, "fontcolorgreen"), COLOR_RGB_BLACK_GREEN);
+      this.fontColorBlue = Const.toInt(XmlHandler.getTagValue(notepadnode, "fontcolorblue"), COLOR_RGB_BLACK_BLUE);
       // background color
-      this.backgroundColorRed =
-          Const.toInt(
-              XmlHandler.getTagValue(notepadnode, "backgroundcolorred"), COLOR_RGB_DEFAULT_BG_RED);
-      this.backgroundColorGreen =
-          Const.toInt(
-              XmlHandler.getTagValue(notepadnode, "backgroundcolorgreen"),
-              COLOR_RGB_DEFAULT_BG_GREEN);
-      this.backgroundColorBlue =
-          Const.toInt(
-              XmlHandler.getTagValue(notepadnode, "backgroundcolorblue"),
-              COLOR_RGB_DEFAULT_BG_BLUE);
+      this.backgroundColorRed = Const.toInt(XmlHandler.getTagValue(notepadnode, "backgroundcolorred"), COLOR_RGB_DEFAULT_BG_RED);
+      this.backgroundColorGreen = Const.toInt(XmlHandler.getTagValue(notepadnode, "backgroundcolorgreen"), COLOR_RGB_DEFAULT_BG_GREEN);
+      this.backgroundColorBlue = Const.toInt(XmlHandler.getTagValue(notepadnode, "backgroundcolorblue"), COLOR_RGB_DEFAULT_BG_BLUE);
       // border color
-      this.borderColorRed =
-          Const.toInt(
-              XmlHandler.getTagValue(notepadnode, "bordercolorred"), COLOR_RGB_DEFAULT_BORDER_RED);
-      this.borderColorGreen =
-          Const.toInt(
-              XmlHandler.getTagValue(notepadnode, "bordercolorgreen"),
-              COLOR_RGB_DEFAULT_BORDER_GREEN);
-      this.borderColorBlue =
-          Const.toInt(
-              XmlHandler.getTagValue(notepadnode, "bordercolorblue"),
-              COLOR_RGB_DEFAULT_BORDER_BLUE);
+      this.borderColorRed = Const.toInt(XmlHandler.getTagValue(notepadnode, "bordercolorred"), COLOR_RGB_DEFAULT_BORDER_RED);
+      this.borderColorGreen = Const.toInt(XmlHandler.getTagValue(notepadnode, "bordercolorgreen"), COLOR_RGB_DEFAULT_BORDER_GREEN);
+      this.borderColorBlue = Const.toInt(XmlHandler.getTagValue(notepadnode, "bordercolorblue"), COLOR_RGB_DEFAULT_BORDER_BLUE);
     } catch (Exception e) {
       throw new HopXmlException("Unable to read Notepad info from XML", e);
     }
@@ -336,8 +282,7 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
     xml.append("      ").append(XmlHandler.addTagValue("fontcolorblue", fontColorBlue));
     // Background color
     xml.append("      ").append(XmlHandler.addTagValue("backgroundcolorred", backgroundColorRed));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("backgroundcolorgreen", backgroundColorGreen));
+    xml.append("      ").append(XmlHandler.addTagValue("backgroundcolorgreen", backgroundColorGreen));
     xml.append("      ").append(XmlHandler.addTagValue("backgroundcolorblue", backgroundColorBlue));
     // border color
     xml.append("      ").append(XmlHandler.addTagValue("bordercolorred", borderColorRed));

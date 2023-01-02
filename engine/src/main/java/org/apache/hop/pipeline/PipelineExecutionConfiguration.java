@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -132,8 +132,7 @@ public class PipelineExecutionConfiguration implements IExecutionConfiguration, 
 
       for (int i = 0; i < vars.length; i++) {
         String varname = vars[i];
-        newVariables.put(
-            varname, Const.NVL(variablesMap.get(varname), sp.getProperty(varname, "")));
+        newVariables.put(varname, Const.NVL(variablesMap.get(varname), sp.getProperty(varname, "")));
       }
       variablesMap.putAll(newVariables);
     }
@@ -165,8 +164,7 @@ public class PipelineExecutionConfiguration implements IExecutionConfiguration, 
       for (int i = 0; i < vars.size(); i++) {
         String varname = vars.get(i);
         if (!varname.startsWith(Const.INTERNAL_VARIABLE_PREFIX)) {
-          newVariables.put(
-              varname, Const.NVL(variablesMap.get(varname), sp.getProperty(varname, "")));
+          newVariables.put(varname, Const.NVL(variablesMap.get(varname), sp.getProperty(varname, "")));
         }
       }
       variablesMap.putAll(newVariables);
@@ -289,11 +287,9 @@ public class PipelineExecutionConfiguration implements IExecutionConfiguration, 
     setLogfile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "log_file"));
     logFileName = XmlHandler.getTagValue(trecNode, "log_filename");
     setAppendLogfile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "log_file_append"));
-    createParentFolder =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "create_parent_folder"));
+    createParentFolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "create_parent_folder"));
     clearingLog = "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "clear_log"));
-    showingSubComponents =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "show_subcomponents"));
+    showingSubComponents = "Y".equalsIgnoreCase(XmlHandler.getTagValue(trecNode, "show_subcomponents"));
     runConfiguration = XmlHandler.getTagValue(trecNode, "run_configuration");
 
     Node resultNode = XmlHandler.getSubNode(trecNode, Result.XML_TAG);

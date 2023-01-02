@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,10 +54,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @GuiPlugin(description = "This is the editor for database connection metadata")
-/**
- * The metadata editor for DatabaseMeta Don't move this class around as it's sync'ed with the
- * DatabaseMeta package to find the dialog.
- */
+/** The metadata editor for DatabaseMeta Don't move this class around as it's sync'ed with the
+ * DatabaseMeta package to find the dialog. */
 public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
   private static final Class<?> PKG = DatabaseMetaEditor.class; // For Translator
 
@@ -92,13 +90,10 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
 
   private Map<Class<? extends IDatabase>, IDatabase> metaMap;
 
-  /**
-   * @param hopGui The hop GUI
+  /** @param hopGui The hop GUI
    * @param manager The metadata
-   * @param databaseMeta The object to edit
-   */
-  public DatabaseMetaEditor(
-      HopGui hopGui, MetadataManager<DatabaseMeta> manager, DatabaseMeta databaseMeta) {
+   * @param databaseMeta The object to edit */
+  public DatabaseMetaEditor(HopGui hopGui, MetadataManager<DatabaseMeta> manager, DatabaseMeta databaseMeta) {
     super(hopGui, manager, databaseMeta);
     props = PropsUi.getInstance();
     metaMap = populateMetaMap();
@@ -191,11 +186,10 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     resetChanged();
 
     // Add listener to detect change after loading data
-    Listener modifyListener =
-        event -> {
-          setChanged();
-          MetadataPerspective.getInstance().updateEditor(this);
-        };
+    Listener modifyListener = event -> {
+      setChanged();
+      MetadataPerspective.getInstance().updateEditor(this);
+    };
     wName.addListener(SWT.Modify, modifyListener);
     wConnectionType.addListener(SWT.Modify, modifyListener);
     wConnectionType.addListener(SWT.Modify, event -> changeConnectionType());
@@ -269,8 +263,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     fdlUsername.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlUsername.right = new FormAttachment(middle, 0);
     wlUsername.setLayoutData(fdlUsername);
-    wUsername =
-        new TextVar(manager.getVariables(), wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wUsername = new TextVar(manager.getVariables(), wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     props.setLook(wUsername);
     FormData fdUsername = new FormData();
     fdUsername.top = new FormAttachment(wlUsername, 0, SWT.CENTER);
@@ -289,8 +282,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     fdlPassword.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlPassword.right = new FormAttachment(middle, 0);
     wlPassword.setLayoutData(fdlPassword);
-    wPassword =
-        new TextVar(manager.getVariables(), wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPassword = new TextVar(manager.getVariables(), wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wPassword.setEchoChar('*');
     props.setLook(wPassword);
     FormData fdPassword = new FormData();
@@ -309,28 +301,21 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     fdDatabaseSpecificComp.right = new FormAttachment(100, 0);
     fdDatabaseSpecificComp.top = new FormAttachment(lastControl, margin);
     wDatabaseSpecificComp.setLayoutData(fdDatabaseSpecificComp);
-    props.setLook(wDatabaseSpecificComp);    
+    props.setLook(wDatabaseSpecificComp);
     lastControl = wDatabaseSpecificComp;
 
     // Now add the database plugin specific widgets
     //
     guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-    guiCompositeWidgets.createCompositeWidgets(
-        getMetadata().getIDatabase(),
-        null,
-        wDatabaseSpecificComp,
-        DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID,
-        null);
+    guiCompositeWidgets.createCompositeWidgets(getMetadata().getIDatabase(), null, wDatabaseSpecificComp, DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, null);
 
     // Add listener to detect change
-    guiCompositeWidgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
 
     addCompositeWidgetsUsernamePassword();
 
@@ -344,8 +329,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     fdlManualUrl.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlManualUrl.right = new FormAttachment(middle, 0);
     wlManualUrl.setLayoutData(fdlManualUrl);
-    wManualUrl =
-        new TextVar(manager.getVariables(), wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wManualUrl = new TextVar(manager.getVariables(), wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     props.setLook(wManualUrl);
     FormData fdManualUrl = new FormData();
     fdManualUrl.top = new FormAttachment(wlManualUrl, 0, SWT.CENTER);
@@ -409,20 +393,13 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     // Re-add the widgets
     //
     guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-    guiCompositeWidgets.createCompositeWidgets(
-        databaseMeta.getIDatabase(),
-        null,
-        wDatabaseSpecificComp,
-        DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID,
-        null);
-    guiCompositeWidgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    guiCompositeWidgets.createCompositeWidgets(databaseMeta.getIDatabase(), null, wDatabaseSpecificComp, DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, null);
+    guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
     addCompositeWidgetsUsernamePassword();
 
     // Put the data back
@@ -437,8 +414,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
   private void addAdvancedTab() {
 
     CTabItem wAdvancedTab = new CTabItem(wTabFolder, SWT.NONE);
-    wAdvancedTab.setText(
-        "   " + BaseMessages.getString(PKG, "DatabaseDialog.AdvancedTab.title") + "   ");
+    wAdvancedTab.setText("   " + BaseMessages.getString(PKG, "DatabaseDialog.AdvancedTab.title") + "   ");
 
     Composite wAdvancedComp = new Composite(wTabFolder, SWT.NONE);
     props.setLook(wAdvancedComp);
@@ -452,8 +428,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlSupportsBoolean = new Label(wAdvancedComp, SWT.RIGHT);
     props.setLook(wlSupportsBoolean);
-    wlSupportsBoolean.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionSupportsBoolean"));
+    wlSupportsBoolean.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionSupportsBoolean"));
     FormData fdlSupportsBoolean = new FormData();
     fdlSupportsBoolean.top = new FormAttachment(0, 0);
     fdlSupportsBoolean.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -472,8 +447,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlSupportsTimestamp = new Label(wAdvancedComp, SWT.RIGHT);
     props.setLook(wlSupportsTimestamp);
-    wlSupportsTimestamp.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionSupportsTimestamp"));
+    wlSupportsTimestamp.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionSupportsTimestamp"));
     FormData fdlSupportsTimestamp = new FormData();
     fdlSupportsTimestamp.top = new FormAttachment(lastControl, margin);
     fdlSupportsTimestamp.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -511,8 +485,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlForceLowercase = new Label(wAdvancedComp, SWT.RIGHT);
     props.setLook(wlForceLowercase);
-    wlForceLowercase.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.AdvancedForceIdentifiersLowerCase"));
+    wlForceLowercase.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.AdvancedForceIdentifiersLowerCase"));
     FormData fdlForceLowercase = new FormData();
     fdlForceLowercase.top = new FormAttachment(lastControl, margin);
     fdlForceLowercase.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -531,8 +504,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlForceUppercase = new Label(wAdvancedComp, SWT.RIGHT);
     props.setLook(wlForceUppercase);
-    wlForceUppercase.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.AdvancedForceIdentifiersUpperCase"));
+    wlForceUppercase.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.AdvancedForceIdentifiersUpperCase"));
     FormData fdlForceUppercase = new FormData();
     fdlForceUppercase.top = new FormAttachment(lastControl, margin);
     fdlForceUppercase.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -551,8 +523,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlPreserveCase = new Label(wAdvancedComp, SWT.RIGHT);
     props.setLook(wlPreserveCase);
-    wlPreserveCase.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionPreserveCase"));
+    wlPreserveCase.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionPreserveCase"));
     FormData fdlPreserveCase = new FormData();
     fdlPreserveCase.top = new FormAttachment(lastControl, margin);
     fdlPreserveCase.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -571,15 +542,13 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlPreferredSchema = new Label(wAdvancedComp, SWT.RIGHT);
     props.setLook(wlPreferredSchema);
-    wlPreferredSchema.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.PreferredSchemaName"));
+    wlPreferredSchema.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.PreferredSchemaName"));
     FormData fdlPreferredSchema = new FormData();
     fdlPreferredSchema.top = new FormAttachment(lastControl, margin);
     fdlPreferredSchema.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlPreferredSchema.right = new FormAttachment(middle, 0);
     wlPreferredSchema.setLayoutData(fdlPreferredSchema);
-    wPreferredSchema =
-        new TextVar(manager.getVariables(), wAdvancedComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPreferredSchema = new TextVar(manager.getVariables(), wAdvancedComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     props.setLook(wPreferredSchema);
     FormData fdPreferredSchema = new FormData();
     fdPreferredSchema.top = new FormAttachment(wlPreferredSchema, 0, SWT.CENTER);
@@ -592,18 +561,13 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     //
     Label wlSqlStatements = new Label(wAdvancedComp, SWT.LEFT);
     props.setLook(wlSqlStatements);
-    wlSqlStatements.setText(
-        BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionSQLStatements"));
+    wlSqlStatements.setText(BaseMessages.getString(PKG, "DatabaseDialog.label.ConnectionSQLStatements"));
     FormData fdlSqlStatements = new FormData();
     fdlSqlStatements.top = new FormAttachment(lastControl, margin);
     fdlSqlStatements.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlSqlStatements.right = new FormAttachment(100, 0);
     wlSqlStatements.setLayoutData(fdlSqlStatements);
-    wSqlStatements =
-        new TextVar(
-            manager.getVariables(),
-            wAdvancedComp,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    wSqlStatements = new TextVar(manager.getVariables(), wAdvancedComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     props.setLook(wSqlStatements);
     FormData fdSqlStatements = new FormData();
     fdSqlStatements.top = new FormAttachment(wlSqlStatements, margin);
@@ -628,8 +592,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     DatabaseMeta databaseMeta = this.getMetadata();
 
     CTabItem wOptionsTab = new CTabItem(wTabFolder, SWT.NONE);
-    wOptionsTab.setText(
-        "   " + BaseMessages.getString(PKG, "DatabaseDialog.OptionsTab.title") + "   ");
+    wOptionsTab.setText("   " + BaseMessages.getString(PKG, "DatabaseDialog.OptionsTab.title") + "   ");
 
     Composite wOptionsComp = new Composite(wTabFolder, SWT.NONE);
     props.setLook(wOptionsComp);
@@ -639,17 +602,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     optionsLayout.marginHeight = Const.FORM_MARGIN * 2;
     wOptionsComp.setLayout(optionsLayout);
 
-    ColumnInfo[] optionsColumns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DatabaseDialog.column.Parameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DatabaseDialog.column.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] optionsColumns = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "DatabaseDialog.column.Parameter"), ColumnInfo.COLUMN_TYPE_TEXT, false), new ColumnInfo(BaseMessages.getString(PKG, "DatabaseDialog.column.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     optionsColumns[0].setUsingVariables(true);
     optionsColumns[1].setUsingVariables(true);
 
@@ -663,15 +616,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     fdlOptions.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlOptions.right = new FormAttachment(100, 0);
     wlOptions.setLayoutData(fdlOptions);
-    wOptions =
-        new TableView(
-            manager.getVariables(),
-            wOptionsComp,
-            SWT.BORDER,
-            optionsColumns,
-            databaseMeta.getExtraOptions().size(),
-            event -> setChanged(),
-            props);
+    wOptions = new TableView(manager.getVariables(), wOptionsComp, SWT.BORDER, optionsColumns, databaseMeta.getExtraOptions().size(), event -> setChanged(), props);
     props.setLook(wOptions);
     FormData fdOptions = new FormData();
     fdOptions.top = new FormAttachment(wlOptions, margin * 2);
@@ -692,14 +637,11 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
   }
 
   private void enableFields() {
-    boolean manualUrl =
-        StringUtils.isNotEmpty(wManualUrl.getText())
-            && StringUtils.isNotBlank(wManualUrl.getText());
+    boolean manualUrl = StringUtils.isNotEmpty(wManualUrl.getText()) && StringUtils.isNotBlank(wManualUrl.getText());
 
     // Also enable/disable the custom native fields
     //
-    guiCompositeWidgets.enableWidgets(
-        getMetadata().getIDatabase(), DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, !manualUrl);
+    guiCompositeWidgets.enableWidgets(getMetadata().getIDatabase(), DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, !manualUrl);
   }
 
   private void test() {
@@ -712,13 +654,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     DatabaseMeta meta = new DatabaseMeta();
     getWidgetsContent(meta);
     try {
-      DatabaseExplorerDialog dialog =
-          new DatabaseExplorerDialog(
-              getShell(),
-              SWT.NONE,
-              manager.getVariables(),
-              meta,
-              manager.getSerializer().loadAll());
+      DatabaseExplorerDialog dialog = new DatabaseExplorerDialog(getShell(), SWT.NONE, manager.getVariables(), meta, manager.getSerializer().loadAll());
       dialog.open();
     } catch (Exception e) {
       new ErrorDialog(getShell(), "Error", "Error exploring database", e);
@@ -747,10 +683,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
     wUsername.setText(Const.NVL(databaseMeta.getUsername(), ""));
     wPassword.setText(Const.NVL(databaseMeta.getPassword(), ""));
 
-    guiCompositeWidgets.setWidgetsContents(
-        databaseMeta.getIDatabase(),
-        wDatabaseSpecificComp,
-        DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    guiCompositeWidgets.setWidgetsContents(databaseMeta.getIDatabase(), wDatabaseSpecificComp, DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID);
 
     wManualUrl.setText(Const.NVL(databaseMeta.getManualUrl(), ""));
     wSupportsBoolean.setSelection(databaseMeta.supportsBooleanDataType());
@@ -787,8 +720,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
 
     // Get the database specific information
     //
-    guiCompositeWidgets.getWidgetsContents(
-        meta.getIDatabase(), DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    guiCompositeWidgets.getWidgetsContents(meta.getIDatabase(), DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID);
 
     meta.setAccessType(DatabaseMeta.TYPE_ACCESS_NATIVE);
     meta.setManualUrl(wManualUrl.getText());
@@ -813,32 +745,20 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
   }
 
   /** Test the database connection */
-  public static final void testConnection(
-      Shell shell, IVariables variables, DatabaseMeta databaseMeta) {
+  public static final void testConnection(Shell shell, IVariables variables, DatabaseMeta databaseMeta) {
     String[] remarks = databaseMeta.checkParameters();
     if (remarks.length == 0) {
       // Get a "test" report from this database
       DatabaseTestResults databaseTestResults = databaseMeta.testConnectionSuccess(variables);
       String message = databaseTestResults.getMessage();
       boolean success = databaseTestResults.isSuccess();
-      String title =
-          success
-              ? BaseMessages.getString(PKG, "DatabaseDialog.DatabaseConnectionTestSuccess.title")
-              : BaseMessages.getString(PKG, "DatabaseDialog.DatabaseConnectionTest.title");
+      String title = success ? BaseMessages.getString(PKG, "DatabaseDialog.DatabaseConnectionTestSuccess.title") : BaseMessages.getString(PKG, "DatabaseDialog.DatabaseConnectionTest.title");
       if (success && message.contains(Const.CR)) {
-        message =
-            message.substring(0, message.indexOf(Const.CR))
-                + Const.CR
-                + message.substring(message.indexOf(Const.CR));
+        message = message.substring(0, message.indexOf(Const.CR)) + Const.CR + message.substring(message.indexOf(Const.CR));
         message = message.substring(0, message.lastIndexOf(Const.CR));
       }
-      ShowMessageDialog msgDialog =
-          new ShowMessageDialog(
-              shell, SWT.ICON_INFORMATION | SWT.OK, title, message, message.length() > 300);
-      msgDialog.setType(
-          success
-              ? Const.SHOW_MESSAGE_DIALOG_DB_TEST_SUCCESS
-              : Const.SHOW_MESSAGE_DIALOG_DB_TEST_DEFAULT);
+      ShowMessageDialog msgDialog = new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, title, message, message.length() > 300);
+      msgDialog.setType(success ? Const.SHOW_MESSAGE_DIALOG_DB_TEST_SUCCESS : Const.SHOW_MESSAGE_DIALOG_DB_TEST_DEFAULT);
       msgDialog.open();
     } else {
       String message = "";
@@ -848,8 +768,7 @@ public class DatabaseMetaEditor extends MetadataEditor<DatabaseMeta> {
 
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
       mb.setText(BaseMessages.getString(PKG, "DatabaseDialog.ErrorParameters2.title"));
-      mb.setMessage(
-          BaseMessages.getString(PKG, "DatabaseDialog.ErrorParameters2.description", message));
+      mb.setMessage(BaseMessages.getString(PKG, "DatabaseDialog.ErrorParameters2.description", message));
       mb.open();
     }
   }

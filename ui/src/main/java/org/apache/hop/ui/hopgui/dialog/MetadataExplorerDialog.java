@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,8 +63,7 @@ public class MetadataExplorerDialog {
   public static final String GUI_PLUGIN_TOOLBAR_PARENT_ID = "MetadataExplorerDialog-Toolbar";
   public static final String TOOLBAR_ITEM_NEW = "MetadataExplorerDialog-Toolbar-10000-New";
   public static final String TOOLBAR_ITEM_EDIT = "MetadataExplorerDialog-Toolbar-10010-Edit";
-  public static final String TOOLBAR_ITEM_DUPLICATE =
-      "MetadataExplorerDialog-Toolbar-10030-Duplicate";
+  public static final String TOOLBAR_ITEM_DUPLICATE = "MetadataExplorerDialog-Toolbar-10030-Duplicate";
   public static final String TOOLBAR_ITEM_DELETE = "MetadataExplorerDialog-Toolbar-10040-Delete";
   public static final String TOOLBAR_ITEM_REFRESH = "MetadataExplorerDialog-Toolbar-10100-Refresh";
 
@@ -118,13 +117,7 @@ public class MetadataExplorerDialog {
 
     Button closeButton = new Button(shell, SWT.PUSH);
     closeButton.setText(BaseMessages.getString(PKG, "System.Button.Close"));
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          closeButton,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {closeButton,}, margin, null);
 
     // Add listeners
     closeButton.addListener(SWT.Selection, e -> close());
@@ -153,10 +146,7 @@ public class MetadataExplorerDialog {
 
     // refresh automatically when the metadata changes
     //
-    HopGui.getInstance()
-        .getEventsHandler()
-        .addEventListener(
-            getClass().getName(), e -> refreshTree(), HopGuiEvents.MetadataChanged.name());
+    HopGui.getInstance().getEventsHandler().addEventListener(getClass().getName(), e -> refreshTree(), HopGuiEvents.MetadataChanged.name());
 
     TreeMemory.addTreeListener(tree, METADATA_EXPLORER_DIALOG_TREE);
 
@@ -172,13 +162,12 @@ public class MetadataExplorerDialog {
     }
 
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            close();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        close();
+      }
+    });
 
     BaseTransformDialog.setSize(shell);
 
@@ -272,8 +261,7 @@ public class MetadataExplorerDialog {
 
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_NEW, StringUtils.isNotEmpty(activeObjectKey));
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_EDIT, StringUtils.isNotEmpty(activeObjectName));
-    toolBarWidgets.enableToolbarItem(
-        TOOLBAR_ITEM_DUPLICATE, StringUtils.isNotEmpty(activeObjectName));
+    toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_DUPLICATE, StringUtils.isNotEmpty(activeObjectName));
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_DELETE, StringUtils.isNotEmpty(activeObjectName));
     toolBarWidgets.enableToolbarItem(TOOLBAR_ITEM_REFRESH, true);
   }
@@ -282,25 +270,15 @@ public class MetadataExplorerDialog {
     try {
       IHopMetadataProvider metadataProvider = HopGui.getInstance().getMetadataProvider();
       Class<IHopMetadata> metadataClass = metadataProvider.getMetadataClassForKey(activeObjectKey);
-      MetadataManager<IHopMetadata> manager =
-          new MetadataManager<>(
-              HopGui.getInstance().getVariables(), metadataProvider, metadataClass);
+      MetadataManager<IHopMetadata> manager = new MetadataManager<>(HopGui.getInstance().getVariables(), metadataProvider, metadataClass);
       return manager;
     } catch (Exception e) {
-      new ErrorDialog(
-          shell,
-          "Error",
-          "Unexpected error getting the metadata class for key '" + activeObjectKey + "'",
-          e);
+      new ErrorDialog(shell, "Error", "Unexpected error getting the metadata class for key '" + activeObjectKey + "'", e);
       return null;
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_NEW,
-      toolTip = "New",
-      image = "ui/images/new.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_NEW, toolTip = "New", image = "ui/images/new.svg")
   public void newMetadata() {
     MetadataManager<IHopMetadata> manager = getActiveMetadataManger();
     if (manager != null && manager.newMetadata() != null) {
@@ -308,11 +286,7 @@ public class MetadataExplorerDialog {
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_EDIT,
-      toolTip = "Edit",
-      image = "ui/images/edit.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_EDIT, toolTip = "Edit", image = "ui/images/edit.svg")
   public void editMetadata() {
     MetadataManager<IHopMetadata> manager = getActiveMetadataManger();
     if (manager != null && manager.editMetadata(activeObjectName)) {
@@ -320,11 +294,7 @@ public class MetadataExplorerDialog {
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_DELETE,
-      toolTip = "Delete",
-      image = "ui/images/delete.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_DELETE, toolTip = "Delete", image = "ui/images/delete.svg")
   public void deleteMetadata() {
     MetadataManager<IHopMetadata> manager = getActiveMetadataManger();
     if (manager != null && manager.deleteMetadata(activeObjectName)) {
@@ -332,11 +302,7 @@ public class MetadataExplorerDialog {
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_DUPLICATE,
-      toolTip = "Create a copy",
-      image = "ui/images/copy.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_DUPLICATE, toolTip = "Create a copy", image = "ui/images/copy.svg")
   public void duplicateMetadata() {
     MetadataManager<IHopMetadata> manager = getActiveMetadataManger();
     if (manager != null && activeObjectName != null) {
@@ -363,11 +329,9 @@ public class MetadataExplorerDialog {
     }
   }
 
-  /**
-   * Gets activeInstance
+  /** Gets activeInstance
    *
-   * @return value of activeInstance
-   */
+   * @return value of activeInstance */
   public static MetadataExplorerDialog getInstance() {
     return activeInstance;
   }
@@ -381,11 +345,7 @@ public class MetadataExplorerDialog {
     HopGui.getInstance().getEventsHandler().removeEventListeners(getClass().getName());
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_REFRESH,
-      toolTip = "Refresh",
-      image = "ui/images/refresh.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_REFRESH, toolTip = "Refresh", image = "ui/images/refresh.svg")
   public void refreshTree() {
     try {
       tree.removeAll();
@@ -397,13 +357,7 @@ public class MetadataExplorerDialog {
       List<Class<IHopMetadata>> metadataClasses = metadataProvider.getMetadataClasses();
       for (Class<IHopMetadata> metadataClass : metadataClasses) {
         HopMetadata hopMetadata = HopMetadataUtil.getHopMetadataAnnotation(metadataClass);
-        Image image =
-            SwtSvgImageUtil.getImage(
-                shell.getDisplay(),
-                metadataClass.getClassLoader(),
-                hopMetadata.image(),
-                ConstUi.ICON_SIZE,
-                ConstUi.ICON_SIZE);
+        Image image = SwtSvgImageUtil.getImage(shell.getDisplay(), metadataClass.getClassLoader(), hopMetadata.image(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
 
         TreeItem elementTypeItem = new TreeItem(tree, SWT.NONE);
         elementTypeItem.setImage(image);
@@ -413,8 +367,7 @@ public class MetadataExplorerDialog {
 
         // level 1: object names
         //
-        IHopMetadataSerializer<IHopMetadata> serializer =
-            metadataProvider.getSerializer(metadataClass);
+        IHopMetadataSerializer<IHopMetadata> serializer = metadataProvider.getSerializer(metadataClass);
         List<String> names = serializer.listObjectNames();
         Collections.sort(names);
 

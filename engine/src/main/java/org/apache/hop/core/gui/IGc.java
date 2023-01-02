@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,39 +25,15 @@ import org.apache.hop.workflow.action.ActionMeta;
 public interface IGc {
 
   enum EColor {
-    BACKGROUND,
-    BLACK,
-    WHITE,
-    RED,
-    YELLOW,
-    HOP_FALSE,
-    GREEN,
-    BLUE,
-    MAGENTA,
-    PURPULE,
-    INDIGO,
-    GRAY,
-    LIGHTGRAY,
-    DARKGRAY,
-    LIGHTBLUE,
-    CRYSTAL,
-    HOP_DEFAULT,
-    HOP_TRUE,
-    DEPRECATED
+    BACKGROUND, BLACK, WHITE, RED, YELLOW, HOP_FALSE, GREEN, BLUE, MAGENTA, PURPULE, INDIGO, GRAY, LIGHTGRAY, DARKGRAY, LIGHTBLUE, CRYSTAL, HOP_DEFAULT, HOP_TRUE, DEPRECATED
   }
 
   enum EFont {
-    NOTE,
-    GRAPH,
-    SMALL,
+    NOTE, GRAPH, SMALL,
   }
 
   enum ELineStyle {
-    SOLID,
-    DASHDOT,
-    DOT,
-    PARALLEL,
-    DASH
+    SOLID, DASHDOT, DOT, PARALLEL, DASH
   }
 
   enum EImage {
@@ -123,15 +99,7 @@ public interface IGc {
 
   void drawImage(EImage image, int x, int y, float magnification, double angle) throws HopException;
 
-  void drawImage(
-      SvgFile svgFile,
-      int x,
-      int y,
-      int desiredWidth,
-      int desiredHeight,
-      float magnification,
-      double angle)
-      throws HopException;
+  void drawImage(SvgFile svgFile, int x, int y, int desiredWidth, int desiredHeight, float magnification, double angle) throws HopException;
 
   void drawLine(int x, int y, int x2, int y2);
 
@@ -173,8 +141,7 @@ public interface IGc {
 
   Point getArea();
 
-  void drawTransformIcon(int x, int y, TransformMeta transformMeta, float magnification)
-      throws HopException;
+  void drawTransformIcon(int x, int y, TransformMeta transformMeta, float magnification) throws HopException;
 
   void drawActionIcon(int x, int y, ActionMeta actionMeta, float magnification) throws HopException;
 }

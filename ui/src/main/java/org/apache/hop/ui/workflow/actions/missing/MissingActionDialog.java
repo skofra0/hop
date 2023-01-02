@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,8 +63,7 @@ public class MissingActionDialog extends ActionDialog implements IActionDialog {
     this.mode = MISSING_ACTIONS;
   }
 
-  public MissingActionDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public MissingActionDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = action;
     this.mode = MISSING_ACTION_ID;
@@ -81,16 +80,11 @@ public class MissingActionDialog extends ActionDialog implements IActionDialog {
           entries.append("- " + action.getName() + " - " + action.getMissingPluginId() + "\n");
         }
       }
-      message =
-          BaseMessages.getString(PKG, "MissingActionDialog.MissingActions", entries.toString());
+      message = BaseMessages.getString(PKG, "MissingActionDialog.MissingActions", entries.toString());
     }
 
     if (mode == MISSING_ACTION_ID) {
-      message =
-          BaseMessages.getString(
-              PKG,
-              "MissingActionDialog.MissingActionId",
-              action.getName() + " - " + ((MissingAction) action).getMissingPluginId());
+      message = BaseMessages.getString(PKG, "MissingActionDialog.MissingActionId", action.getName() + " - " + ((MissingAction) action).getMissingPluginId());
     }
     return message;
   }
@@ -148,13 +142,12 @@ public class MissingActionDialog extends ActionDialog implements IActionDialog {
     fdClose.top = new FormAttachment(separator);
     closeButton.setLayoutData(fdClose);
     closeButton.setText(BaseMessages.getString(PKG, "MissingActionDialog.Close"));
-    closeButton.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            close();
-          }
-        });
+    closeButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        close();
+      }
+    });
 
     FormData fdSearch = new FormData();
     if (this.mode == MISSING_ACTIONS) {
@@ -165,13 +158,12 @@ public class MissingActionDialog extends ActionDialog implements IActionDialog {
       fdOpen.bottom = new FormAttachment(closeButton, 0, SWT.BOTTOM);
       openButton.setLayoutData(fdOpen);
       openButton.setText(BaseMessages.getString(PKG, "MissingActionDialog.OpenFile"));
-      openButton.addSelectionListener(
-          new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-              openFile();
-            }
-          });
+      openButton.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+          openFile();
+        }
+      });
       fdSearch.right = new FormAttachment(openButton, -5);
       fdSearch.bottom = new FormAttachment(openButton, 0, SWT.BOTTOM);
     } else {
@@ -184,13 +176,12 @@ public class MissingActionDialog extends ActionDialog implements IActionDialog {
     searchButton.setText(BaseMessages.getString(PKG, "MissingActionDialog.SearchMarketplace"));
     searchButton.setLayoutData(fdSearch);
     searchButton.setEnabled(false);
-    searchButton.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            searchMarketplace();
-          }
-        });
+    searchButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        searchMarketplace();
+      }
+    });
 
     BaseDialog.defaultShellHandling(shell, c -> openFile(), c -> close());
 

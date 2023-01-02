@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 
 package org.apache.hop.core.logging;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -26,23 +26,18 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.*;
 
-/**
- * Note, this test must be run on separate JAVA instance, to be sure LoggingRegistry was not already
- * initialized when using differed initialization or do initialize immediate in static way.
- */
+/** Note, this test must be run on separate JAVA instance, to be sure LoggingRegistry was not already
+ * initialized when using differed initialization or do initialize immediate in static way. */
 @RunWith(PowerMockRunner.class)
 public class LoggingRegistrySingltonTest {
 
-  /**
-   * Test that LoggingRegistry is concurrent-sage initialized over multiple calls. Creating more
+  /** Test that LoggingRegistry is concurrent-sage initialized over multiple calls. Creating more
    * than 1000 threads can cause significant performance impact.
    *
    * @throws InterruptedException
-   * @throws ExecutionException
-   */
+   * @throws ExecutionException */
   @Test(timeout = 30000)
-  public void testLoggingRegistryConcurrentInitialization()
-      throws InterruptedException, ExecutionException {
+  public void testLoggingRegistryConcurrentInitialization() throws InterruptedException, ExecutionException {
     CountDownLatch start = new CountDownLatch(1);
 
     int count = 10;
@@ -64,8 +59,7 @@ public class LoggingRegistrySingltonTest {
 
   CompletionService<LoggingRegistry> registerHounds(int count, CountDownLatch start) {
     ExecutorService executor = Executors.newFixedThreadPool(count);
-    CompletionService<LoggingRegistry> completionService =
-        new ExecutorCompletionService<>(executor);
+    CompletionService<LoggingRegistry> completionService = new ExecutorCompletionService<>(executor);
     for (int i = 0; i < count; i++) {
       LogRegistryKicker hound = new LogRegistryKicker(start);
       completionService.submit(hound);

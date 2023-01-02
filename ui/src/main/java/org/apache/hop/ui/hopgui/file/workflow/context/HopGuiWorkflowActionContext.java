@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,8 +38,7 @@ import org.apache.hop.workflow.action.IAction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
-    implements IGuiContextHandler {
+public class HopGuiWorkflowActionContext extends BaseGuiContextHandler implements IGuiContextHandler {
 
   public static final Class<?> PKG = HopGuiWorkflowActionContext.class; // i18n
   public static final String CONTEXT_ID = "HopGuiWorkflowActionContext";
@@ -50,11 +49,7 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowActionContext> lambdaBuilder;
 
-  public HopGuiWorkflowActionContext(
-      WorkflowMeta workflowMeta,
-      ActionMeta actionMeta,
-      HopGuiWorkflowGraph workflowGraph,
-      Point click) {
+  public HopGuiWorkflowActionContext(WorkflowMeta workflowMeta, ActionMeta actionMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     super();
     this.workflowMeta = workflowMeta;
     this.actionMeta = actionMeta;
@@ -68,11 +63,9 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     return CONTEXT_ID;
   }
 
-  /**
-   * Create a list of supported actions on a action.
+  /** Create a list of supported actions on a action.
    *
-   * @return The list of supported actions
-   */
+   * @return The list of supported actions */
   @Override
   public List<GuiAction> getSupportedActions() {
     List<GuiAction> actions = new ArrayList<>();
@@ -85,24 +78,8 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
       final String objectDescription = objectDescriptions[i];
       if (action.isReferencedObjectEnabled()[i]) {
         final int index = i;
-        GuiAction openReferencedAction =
-            new GuiAction(
-                "action-open-referenced-" + objectDescription,
-                GuiActionType.Info,
-                BaseMessages.getString(
-                    PKG,
-                    "HopGuiWorkflowTransformContext.OpenReferencedAction.Name",
-                    objectDescription),
-                BaseMessages.getString(
-                    PKG, "HopGuiWorkflowTransformContext.OpenReferencedAction.Tooltip"),
-                "ui/images/open.svg",
-                (shiftAction, controlAction, t) ->
-                    openReferencedObject(
-                        workflowMeta,
-                        workflowGraph.getVariables(),
-                        action,
-                        objectDescription,
-                        index));
+        GuiAction openReferencedAction = new GuiAction("action-open-referenced-" + objectDescription, GuiActionType.Info, BaseMessages.getString(PKG, "HopGuiWorkflowTransformContext.OpenReferencedAction.Name", objectDescription),
+            BaseMessages.getString(PKG, "HopGuiWorkflowTransformContext.OpenReferencedAction.Tooltip"), "ui/images/open.svg", (shiftAction, controlAction, t) -> openReferencedObject(workflowMeta, workflowGraph.getVariables(), action, objectDescription, index));
         openReferencedAction.setCategory("Basic");
         openReferencedAction.setCategoryOrder("1");
         actions.add(openReferencedAction);
@@ -121,16 +98,10 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     return actions;
   }
 
-  public static final void openReferencedObject(
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IAction action,
-      String objectDescription,
-      int index) {
+  public static final void openReferencedObject(WorkflowMeta workflowMeta, IVariables variables, IAction action, String objectDescription, int index) {
     HopGui hopGui = HopGui.getInstance();
     try {
-      IHasFilename hasFilename =
-          action.loadReferencedObject(index, workflowMeta.getMetadataProvider(), variables);
+      IHasFilename hasFilename = action.loadReferencedObject(index, workflowMeta.getMetadataProvider(), variables);
       if (hasFilename != null) {
         String filename = variables.resolve(hasFilename.getFilename());
 
@@ -145,19 +116,13 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error opening referenced object '" + objectDescription + "'",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error opening referenced object '" + objectDescription + "'", e);
     }
   }
 
-  /**
-   * Gets workflowMeta
+  /** Gets workflowMeta
    *
-   * @return value of workflowMeta
-   */
+   * @return value of workflowMeta */
   public WorkflowMeta getWorkflowMeta() {
     return workflowMeta;
   }
@@ -167,11 +132,9 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     this.workflowMeta = workflowMeta;
   }
 
-  /**
-   * Gets actionCopy
+  /** Gets actionCopy
    *
-   * @return value of actionCopy
-   */
+   * @return value of actionCopy */
   public ActionMeta getActionMeta() {
     return actionMeta;
   }
@@ -181,11 +144,9 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     this.actionMeta = actionMeta;
   }
 
-  /**
-   * Gets workflow graph
+  /** Gets workflow graph
    *
-   * @return value of workflowGraph
-   */
+   * @return value of workflowGraph */
   public HopGuiWorkflowGraph getWorkflowGraph() {
     return workflowGraph;
   }
@@ -195,11 +156,9 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     this.workflowGraph = workflowGraph;
   }
 
-  /**
-   * Gets click
+  /** Gets click
    *
-   * @return value of click
-   */
+   * @return value of click */
   public Point getClick() {
     return click;
   }
@@ -209,11 +168,9 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     this.click = click;
   }
 
-  /**
-   * Gets lambdaBuilder
+  /** Gets lambdaBuilder
    *
-   * @return value of lambdaBuilder
-   */
+   * @return value of lambdaBuilder */
   public GuiActionLambdaBuilder<HopGuiWorkflowActionContext> getLambdaBuilder() {
     return lambdaBuilder;
   }

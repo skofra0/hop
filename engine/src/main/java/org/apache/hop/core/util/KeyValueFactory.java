@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,11 +61,9 @@ public class KeyValueFactory<T> {
 
   private final T defaultValue;
 
-  /**
-   * Constructor.
+  /** Constructor.
    *
-   * @param defaultValue default value to set.
-   */
+   * @param defaultValue default value to set. */
   public KeyValueFactory(final T defaultValue) {
     this.defaultValue = defaultValue;
   }
@@ -75,20 +73,16 @@ public class KeyValueFactory<T> {
     return this.defaultValue;
   }
 
-  /**
-   * @param key key to set.
+  /** @param key key to set.
    * @return new key value initialized with default value.
-   * @throws IllegalArgumentException if key is blank.
-   */
+   * @throws IllegalArgumentException if key is blank. */
   public KeyValue<T> create(final String key) throws IllegalArgumentException {
     return new KeyValue<>(key, this.defaultValue);
   }
 
-  /**
-   * @param keys keys to use.
+  /** @param keys keys to use.
    * @return new instances.
-   * @throws IllegalArgumentException if one key is blank.
-   */
+   * @throws IllegalArgumentException if one key is blank. */
   public List<KeyValue<T>> createAll(final String... keys) throws IllegalArgumentException {
     final List<KeyValue<T>> instances = new ArrayList<>();
     for (String key : keys) {
@@ -97,11 +91,9 @@ public class KeyValueFactory<T> {
     return instances;
   }
 
-  /**
-   * {@inheritDoc}
+  /** {@inheritDoc}
    *
-   * @see Object#toString()
-   */
+   * @see Object#toString() */
   @Override
   public String toString() {
     final ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);

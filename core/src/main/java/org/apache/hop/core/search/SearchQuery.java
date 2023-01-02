@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,11 +55,9 @@ public class SearchQuery implements ISearchQuery {
     }
   }
 
-  /**
-   * Gets searchString
+  /** Gets searchString
    *
-   * @return value of searchString
-   */
+   * @return value of searchString */
   @Override
   public String getSearchString() {
     return searchString;
@@ -70,11 +68,9 @@ public class SearchQuery implements ISearchQuery {
     this.searchString = searchString;
   }
 
-  /**
-   * Gets caseSensitive
+  /** Gets caseSensitive
    *
-   * @return value of caseSensitive
-   */
+   * @return value of caseSensitive */
   @Override
   public boolean isCaseSensitive() {
     return caseSensitive;
@@ -85,11 +81,9 @@ public class SearchQuery implements ISearchQuery {
     this.caseSensitive = caseSensitive;
   }
 
-  /**
-   * Gets regEx
+  /** Gets regEx
    *
-   * @return value of regEx
-   */
+   * @return value of regEx */
   @Override
   public boolean isRegEx() {
     return regEx;

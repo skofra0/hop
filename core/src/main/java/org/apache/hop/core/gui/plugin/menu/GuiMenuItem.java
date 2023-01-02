@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,11 +52,7 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
 
   public GuiMenuItem() {}
 
-  public GuiMenuItem(
-      GuiMenuElement guiElement,
-      Method guiPluginMethod,
-      String guiPluginClassName,
-      ClassLoader classLoader) {
+  public GuiMenuItem(GuiMenuElement guiElement, Method guiPluginMethod, String guiPluginClassName, ClassLoader classLoader) {
     this();
 
     this.root = guiElement.root();
@@ -69,16 +65,8 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.listenerMethod = guiPluginMethod.getName();
     this.listenerClassName = guiPluginClassName; // Ask the classloader for the class
     this.singleTon = true; // Always a singleton for now
-    this.label =
-        getTranslation(
-            guiElement.label(),
-            guiPluginMethod.getDeclaringClass().getPackage().getName(),
-            guiPluginMethod.getDeclaringClass());
-    this.toolTip =
-        getTranslation(
-            guiElement.toolTip(),
-            guiPluginMethod.getDeclaringClass().getPackage().getName(),
-            guiPluginMethod.getDeclaringClass());
+    this.label = getTranslation(guiElement.label(), guiPluginMethod.getDeclaringClass().getPackage().getName(), guiPluginMethod.getDeclaringClass());
+    this.toolTip = getTranslation(guiElement.toolTip(), guiPluginMethod.getDeclaringClass().getPackage().getName(), guiPluginMethod.getDeclaringClass());
     this.classLoader = classLoader;
   }
 
@@ -109,11 +97,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     return "GuiMenuItem{" + "id='" + id + '\'' + '}';
   }
 
-  /**
-   * Gets root
+  /** Gets root
    *
-   * @return value of root
-   */
+   * @return value of root */
   public String getRoot() {
     return root;
   }
@@ -123,11 +109,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.root = root;
   }
 
-  /**
-   * Gets id
+  /** Gets id
    *
-   * @return value of id
-   */
+   * @return value of id */
   public String getId() {
     return id;
   }
@@ -137,11 +121,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.id = id;
   }
 
-  /**
-   * Gets parentId
+  /** Gets parentId
    *
-   * @return value of parentId
-   */
+   * @return value of parentId */
   public String getParentId() {
     return parentId;
   }
@@ -151,11 +133,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.parentId = parentId;
   }
 
-  /**
-   * Gets label
+  /** Gets label
    *
-   * @return value of label
-   */
+   * @return value of label */
   public String getLabel() {
     return label;
   }
@@ -165,11 +145,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.label = label;
   }
 
-  /**
-   * Gets toolTip
+  /** Gets toolTip
    *
-   * @return value of toolTip
-   */
+   * @return value of toolTip */
   public String getToolTip() {
     return toolTip;
   }
@@ -179,11 +157,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.toolTip = toolTip;
   }
 
-  /**
-   * Gets type
+  /** Gets type
    *
-   * @return value of type
-   */
+   * @return value of type */
   public GuiMenuElementType getType() {
     return type;
   }
@@ -193,11 +169,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.type = type;
   }
 
-  /**
-   * Gets image
+  /** Gets image
    *
-   * @return value of image
-   */
+   * @return value of image */
   public String getImage() {
     return image;
   }
@@ -207,11 +181,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.image = image;
   }
 
-  /**
-   * Gets disabledImage
+  /** Gets disabledImage
    *
-   * @return value of disabledImage
-   */
+   * @return value of disabledImage */
   public String getDisabledImage() {
     return disabledImage;
   }
@@ -221,11 +193,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.disabledImage = disabledImage;
   }
 
-  /**
-   * Gets ignored
+  /** Gets ignored
    *
-   * @return value of ignored
-   */
+   * @return value of ignored */
   public boolean isIgnored() {
     return ignored;
   }
@@ -235,11 +205,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.ignored = ignored;
   }
 
-  /**
-   * Gets addingSeparator
+  /** Gets addingSeparator
    *
-   * @return value of addingSeparator
-   */
+   * @return value of addingSeparator */
   public boolean isAddingSeparator() {
     return addingSeparator;
   }
@@ -249,11 +217,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.addingSeparator = addingSeparator;
   }
 
-  /**
-   * Gets classLoader
+  /** Gets classLoader
    *
-   * @return value of classLoader
-   */
+   * @return value of classLoader */
   public ClassLoader getClassLoader() {
     return classLoader;
   }
@@ -263,11 +229,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.classLoader = classLoader;
   }
 
-  /**
-   * Gets singleTon
+  /** Gets singleTon
    *
-   * @return value of singleTon
-   */
+   * @return value of singleTon */
   public boolean isSingleTon() {
     return singleTon;
   }
@@ -277,11 +241,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.singleTon = singleTon;
   }
 
-  /**
-   * Gets listenerClassName
+  /** Gets listenerClassName
    *
-   * @return value of listenerClassName
-   */
+   * @return value of listenerClassName */
   public String getListenerClassName() {
     return listenerClassName;
   }
@@ -291,11 +253,9 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.listenerClassName = listenerClassName;
   }
 
-  /**
-   * Gets listenerMethod
+  /** Gets listenerMethod
    *
-   * @return value of listenerMethod
-   */
+   * @return value of listenerMethod */
   public String getListenerMethod() {
     return listenerMethod;
   }

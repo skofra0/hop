@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,12 +50,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.UUID;
 
-/**
- * This servlet allows you to transport an exported workflow or pipeline over to the carte server as
+/** This servlet allows you to transport an exported workflow or pipeline over to the carte server as
  * a zip file. It ends up in a temporary file.
- *
- * <p>The servlet returns the name of the file stored.
- */
+ * <p>
+ * The servlet returns the name of the file stored. */
 @HopServerServlet(id = "addExport", name = "Upload a resources export file")
 public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugin {
   public static final String PARAMETER_LOAD = "load";
@@ -74,8 +72,7 @@ public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugi
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -101,8 +98,7 @@ public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugi
     OutputStream outputStream = null;
 
     try {
-      FileObject tempFile =
-          HopVfs.createTempFile("export", ".zip", System.getProperty("java.io.tmpdir"));
+      FileObject tempFile = HopVfs.createTempFile("export", ".zip", System.getProperty("java.io.tmpdir"));
       outputStream = HopVfs.getOutputStream(tempFile, false);
 
       // Pass the input directly to a temporary file
@@ -120,17 +116,14 @@ public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugi
       String fileUrl = null;
 
       String serverObjectId = null;
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
 
       // Now open the top level resource...
       //
       if (!Utils.isEmpty(load)) {
 
-        String metaStoreJson =
-            RegisterPackageServlet.getMetaStoreJsonFromZIP("zip:" + archiveUrl + "!metadata.json");
-        SerializableMetadataProvider metadataProvider =
-            new SerializableMetadataProvider(metaStoreJson);
+        String metaStoreJson = RegisterPackageServlet.getMetaStoreJsonFromZIP("zip:" + archiveUrl + "!metadata.json");
+        SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metaStoreJson);
 
         fileUrl = "zip:" + archiveUrl + "!" + load;
 
@@ -145,9 +138,7 @@ public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugi
           //
           String configUrl = "zip:" + archiveUrl + "!" + Workflow.CONFIGURATION_IN_EXPORT_FILENAME;
           Document configDoc = XmlHandler.loadXmlFile(configUrl);
-          WorkflowExecutionConfiguration workflowExecutionConfiguration =
-              new WorkflowExecutionConfiguration(
-                  XmlHandler.getSubNode(configDoc, WorkflowExecutionConfiguration.XML_TAG));
+          WorkflowExecutionConfiguration workflowExecutionConfiguration = new WorkflowExecutionConfiguration(XmlHandler.getSubNode(configDoc, WorkflowExecutionConfiguration.XML_TAG));
 
           serverObjectId = UUID.randomUUID().toString();
           servletLoggingObject.setContainerObjectId(serverObjectId);
@@ -159,23 +150,11 @@ public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugi
           //
           workflowMeta.setMetadataProvider(metadataProvider);
 
-          final IWorkflowEngine<WorkflowMeta> workflow =
-              WorkflowEngineFactory.createWorkflowEngine(
-                  variables,
-                  runConfigurationName,
-                  metadataProvider,
-                  workflowMeta,
-                  servletLoggingObject);
+          final IWorkflowEngine<WorkflowMeta> workflow = WorkflowEngineFactory.createWorkflowEngine(variables, runConfigurationName, metadataProvider, workflowMeta, servletLoggingObject);
 
           // store it all in the map...
           //
-          getWorkflowMap()
-              .addWorkflow(
-                  workflow.getWorkflowName(),
-                  serverObjectId,
-                  workflow,
-                  new WorkflowConfiguration(
-                      workflowMeta, workflowExecutionConfiguration, metadataProvider));
+          getWorkflowMap().addWorkflow(workflow.getWorkflowName(), serverObjectId, workflow, new WorkflowConfiguration(workflowMeta, workflowExecutionConfiguration, metadataProvider));
 
           // Apply the execution configuration...
           //
@@ -186,35 +165,23 @@ public class AddExportServlet extends BaseHttpServlet implements IHopServerPlugi
           //
           String configUrl = "zip:" + archiveUrl + "!" + Pipeline.CONFIGURATION_IN_EXPORT_FILENAME;
           Document configDoc = XmlHandler.loadXmlFile(configUrl);
-          PipelineExecutionConfiguration executionConfiguration =
-              new PipelineExecutionConfiguration(
-                  XmlHandler.getSubNode(configDoc, PipelineExecutionConfiguration.XML_TAG));
+          PipelineExecutionConfiguration executionConfiguration = new PipelineExecutionConfiguration(XmlHandler.getSubNode(configDoc, PipelineExecutionConfiguration.XML_TAG));
 
           // Open the pipeline from inside the ZIP archive
           //
-          PipelineMeta pipelineMeta =
-              new PipelineMeta(
-                  fileUrl, metadataProvider, true, Variables.getADefaultVariableSpace());
+          PipelineMeta pipelineMeta = new PipelineMeta(fileUrl, metadataProvider, true, Variables.getADefaultVariableSpace());
 
           serverObjectId = UUID.randomUUID().toString();
           servletLoggingObject.setContainerObjectId(serverObjectId);
           servletLoggingObject.setLogLevel(executionConfiguration.getLogLevel());
 
           String runConfigurationName = executionConfiguration.getRunConfiguration();
-          IPipelineEngine<PipelineMeta> pipeline =
-              PipelineEngineFactory.createPipelineEngine(
-                  variables, runConfigurationName, metadataProvider, pipelineMeta);
+          IPipelineEngine<PipelineMeta> pipeline = PipelineEngineFactory.createPipelineEngine(variables, runConfigurationName, metadataProvider, pipelineMeta);
           pipeline.setParent(servletLoggingObject);
 
           // store it all in the map...
           //
-          getPipelineMap()
-              .addPipeline(
-                  pipeline.getPipelineMeta().getName(),
-                  serverObjectId,
-                  pipeline,
-                  new PipelineConfiguration(
-                      pipelineMeta, executionConfiguration, metadataProvider));
+          getPipelineMap().addPipeline(pipeline.getPipelineMeta().getName(), serverObjectId, pipeline, new PipelineConfiguration(pipelineMeta, executionConfiguration, metadataProvider));
         }
       } else {
         fileUrl = archiveUrl;

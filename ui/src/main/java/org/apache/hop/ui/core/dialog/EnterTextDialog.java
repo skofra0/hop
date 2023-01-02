@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,28 +54,24 @@ public class EnterTextDialog extends Dialog {
   private boolean singleLine;
   private String origText;
 
-  /**
-   * Dialog to allow someone to show or enter a text
+  /** Dialog to allow someone to show or enter a text
    *
    * @param parent The parent shell to use
    * @param title The dialog title
    * @param message The message to display
    * @param text The text to display or edit
-   * @param fixed true if you want the font to be in fixed-width
-   */
+   * @param fixed true if you want the font to be in fixed-width */
   public EnterTextDialog(Shell parent, String title, String message, String text, boolean fixed) {
     this(parent, title, message, text);
     this.fixed = fixed;
   }
 
-  /**
-   * Dialog to allow someone to show or enter a text in variable width font
+  /** Dialog to allow someone to show or enter a text in variable width font
    *
    * @param parent The parent shell to use
    * @param title The dialog title
    * @param message The message to display
-   * @param text The text to display or edit
-   */
+   * @param text The text to display or edit */
   public EnterTextDialog(Shell parent, String title, String message, String text) {
     super(parent, SWT.NONE);
     this.parent = parent;
@@ -101,17 +97,9 @@ public class EnterTextDialog extends Dialog {
   }
 
   public String open() {
-    modal |=
-        Const.isLinux(); // On Linux, this dialog seems to behave strangely except when shown modal
+    modal |= Const.isLinux(); // On Linux, this dialog seems to behave strangely except when shown modal
 
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM
-                | SWT.RESIZE
-                | SWT.MAX
-                | SWT.MIN
-                | (modal ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE));
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN | (modal ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE));
     props.setLook(shell);
     shell.setImage(GuiResource.getInstance().getImageHopUi());
 
@@ -169,23 +157,20 @@ public class EnterTextDialog extends Dialog {
     wDesc.setLayoutData(fdDesc);
     wDesc.setEditable(!readonly);
     wDesc.addListener(SWT.DefaultSelection, e -> ok());
-    wDesc.addListener(
-        SWT.Modify,
-        e -> {
-          Text source = (Text) e.widget;
-          this.text = source.getText();
-        });
+    wDesc.addListener(SWT.Modify, e -> {
+      Text source = (Text) e.widget;
+      this.text = source.getText();
+    });
 
     enrich(this);
 
     // Detect [X] or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            checkCancel(e);
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        checkCancel(e);
+      }
+    });
 
     origText = text;
     getData();
@@ -253,10 +238,8 @@ public class EnterTextDialog extends Dialog {
     dispose();
   }
 
-  public static final void editDescription(
-      Shell shell, IDescription iDescription, String shellText, String message) {
-    EnterTextDialog textDialog =
-        new EnterTextDialog(shell, shellText, message, iDescription.getDescription());
+  public static final void editDescription(Shell shell, IDescription iDescription, String shellText, String message) {
+    EnterTextDialog textDialog = new EnterTextDialog(shell, shellText, message, iDescription.getDescription());
     String description = textDialog.open();
     if (description != null) {
       iDescription.setDescription(description);
