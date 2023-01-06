@@ -117,7 +117,8 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     }
 
     if (add == null) {
-      if (!(meta.isCached() && meta.isLoadingAllDataInCache())
+      // if (!(meta.isCached() && meta.isLoadingAllDataInCache()) NEXUS-MOD
+      if (!(meta.isCached() && meta.isLoadingAllDataInCache() && StringUtils.isEmpty(meta.getLookup().getWhereClause()) )
           || data.hasDBCondition) { // do not go to the
         // database when all rows
         // are in (exception LIKE
@@ -199,7 +200,8 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     // Store in cache if we need to!
     // If we already loaded all data into the cache, storing more makes no sense.
     //
-    if (meta.isCached() && cacheNow && !meta.isLoadingAllDataInCache() && data.allEquals) {
+    // if (meta.isCached() && cacheNow && !meta.isLoadingAllDataInCache() && data.allEquals) { // NEXUS-MOD
+    if (meta.isCached() && cacheNow && !(meta.isLoadingAllDataInCache() && StringUtils.isEmpty(meta.getLookup().getWhereClause())) && data.allEquals) { // NEXUS-MOD
       data.cache.storeRowInCache(meta, data.lookupMeta, lookupRow, add);
     }
 
@@ -429,7 +431,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
       // See which return values need to be trimmed...
       //
-      data.trimIndexes = new ArrayList();
+      data.trimIndexes = new ArrayList<>();
       for (int i = 0; i < returnValues.size(); i++) {
         if (data.returnValueTypes[i] == IValueMeta.TYPE_STRING
             && ValueMetaBase.getTrimTypeByCode(data.returnTrimTypes[i])
@@ -487,6 +489,10 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
   private void loadAllTableDataIntoTheCache() throws HopException {
     DatabaseMeta dbMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
+    String noLock = ""; // NEXUS-MOD
+    if (dbMeta.getIDatabase().isMsSqlServerVariant() || dbMeta.getIDatabase().isMsSqlServerNativeVariant()) {
+        noLock = " WITH (NOLOCK)";
+    } // NEXUS-MOD END
 
     Database db = getDatabase(dbMeta);
     connectDatabase(db);
@@ -522,10 +528,20 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
               + dbMeta.getQuotedSchemaTableCombination(
                   this, meta.getSchemaName(), meta.getTableName());
 
+      // where? //NEXUS-MOD
+      sql +=  noLock;
+      if (StringUtils.isNotEmpty(lookup.getWhereClause())) {
+        sql += " WHERE " + resolve(lookup.getWhereClause());
+      }
+
       // order by?
       if (StringUtils.isNotEmpty(lookup.getOrderByClause())) {
         sql += " ORDER BY " + lookup.getOrderByClause();
       }
+
+      if (log.isDetailed()) {  // NEXUS-MOD
+        logDetailed(sql);
+      } 
 
       // Now that we have the SQL constructed, let's store the rows...
       //

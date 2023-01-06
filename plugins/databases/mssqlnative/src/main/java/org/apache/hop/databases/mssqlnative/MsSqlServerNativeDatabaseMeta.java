@@ -52,6 +52,12 @@ public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta
   private boolean usingIntegratedSecurity;
 
   @Override
+  public void addDefaultOptions() {
+    addExtraOption(getPluginId(), "encrypt", "false");  // NEXUS-MOD
+    addExtraOption(getPluginId(), "trustServerCertificate", "true"); // NEXUS-MOD
+  }
+  
+  @Override
   public void widgetsCreated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
