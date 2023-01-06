@@ -99,11 +99,22 @@
 
     <properties>
         <site-repo-url>scpexe://people.apache.org/www/hop.apache.org/maven/</site-repo-url>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <!-- jdk version -->
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.build.timestamp.format>yyyy-MM-dd hh.mm.ss</maven.build.timestamp.format>
         <maven-surefire-plugin.argLine>-Duser.timezone=UTC -Dfile.encoding=UTF-8 -Duser.language=en -Duser.country=US --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
         </maven-surefire-plugin.argLine>
+        
+        <!-- jdk version -->
+        <source.jdk.version>${java.version}</source.jdk.version>
+        <target.jdk.version>${java.version}</target.jdk.version>
+        <maven.compiler.source>${source.jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${target.jdk.version}</maven.compiler.target>
+        <compilerArgument />
+
+        
 
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
@@ -114,15 +125,16 @@
         <apache-beam.version>2.43.0</apache-beam.version>
         <apache-spark.version>3.3.0</apache-spark.version>
         <apache-flink.version>1.15.2</apache-flink.version>
-        <asm.version>9.3</asm.version>
-        <aws-java-sdk.version>1.12.347</aws-java-sdk.version>
+        <asm.version>9.4</asm.version>
+        <aws-java-sdk.version>1.12.379</aws-java-sdk.version>
         <batik.version>1.16</batik.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-codec.version>1.15</commons-codec.version>
-        <commons-compress.version>1.21</commons-compress.version>
+        <commons-compress.version>1.22</commons-compress.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-logging.version>1.1.3</commons-logging.version>
+        <commons-logging.version>1.2</commons-logging.version>
+        <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <curator.version>5.4.0</curator.version>
         <encoder.version>1.2</encoder.version>
         <gax.version>2.19.5</gax.version>
@@ -172,7 +184,7 @@
         <paranamer.version>2.8</paranamer.version>
         <perfmark.version>0.26.0</perfmark.version>
         <protobuf.version>3.21.9</protobuf.version>
-        <rhino.version>1.7.12</rhino.version>
+        <rhino.version>1.7.14</rhino.version>
         <scala.version>2.12.17</scala.version>
         <slf4j.version>2.0.4</slf4j.version>
         <sshlib.version>2.2.21</sshlib.version>
@@ -182,9 +194,9 @@
         <xerces.version>2.12.2</xerces.version>
 
         <!-- Test dependencies -->
-        <byte-buddy.version>1.12.19</byte-buddy.version>
+        <byte-buddy.version>1.12.21</byte-buddy.version>
         <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.13.2</junit.version>
         <mockito-core.version>3.12.4</mockito-core.version>
         <objenesis.version>3.2</objenesis.version>
         <powermock-module-junit4.version>2.0.9</powermock-module-junit4.version>
@@ -192,41 +204,35 @@
 
         <!-- Copy from master POM (NEEDS CLEANUP) -->
         <!-- VERSIONS -->
-        <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
+        <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
+        <maven-release-plugin.version>3.1.0</maven-release-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
+        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
+        <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
         <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
-        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-surefire-report-plugin.version>3.0.0-M5</maven-surefire-report-plugin.version>
         <maven-verifier-plugin.version>1.1</maven-verifier-plugin.version>
         <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
         <maven-bundle-plugin.version>2.5.3</maven-bundle-plugin.version>
         <karaf-maven-plugin.version>3.0.8</karaf-maven-plugin.version>
-        <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
+        <jandex.version>3.0.5</jandex.version>
         <wagon-plugin.version>2.0.0</wagon-plugin.version>
 
         <!-- spring-security version -->
         <spring-security.version>4.1.5.RELEASE</spring-security.version>
 
-        <!-- jdk version -->
-        <source.jdk.version>11</source.jdk.version>
-        <target.jdk.version>11</target.jdk.version>
-        <maven.compiler.source>${source.jdk.version}</maven.compiler.source>
-        <maven.compiler.target>${target.jdk.version}</maven.compiler.target>
-        <compilerArgument />
 
         <!-- PHASE BINDINGS -->
         <set-highest-basedir-phase>initialize</set-highest-basedir-phase>
@@ -523,6 +529,26 @@
                 <artifactId>wagon-maven-plugin</artifactId>
                 <version>${wagon-plugin.version}</version>
             </dependency>
+            
+            <!-- NEXUS-MOD   -->
+            
+	        <dependency>
+	            <groupId>org.apache.commons</groupId>
+	            <artifactId>commons-vfs2</artifactId>
+	            <version>${commons-vfs2.version}</version>
+	            <exclusions>
+	            	<exclusion>
+					    <groupId>org.apache.hadoop</groupId>
+					    <artifactId>hadoop-hdfs-client</artifactId>
+	            	</exclusion>
+	            </exclusions>
+	        </dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -671,9 +697,9 @@
                     <version>${maven-assembly-plugin.version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.jboss.jandex</groupId>
+                    <groupId>io.smallrye</groupId>
                     <artifactId>jandex-maven-plugin</artifactId>
-                    <version>${jandex-maven-plugin.version}</version>
+                    <version>${jandex.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -711,7 +737,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.jboss.jandex</groupId>
+                <groupId>io.smallrye</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
                 <executions>
                     <execution>
@@ -733,7 +759,8 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <argLine>@{argLine} --illegal-access=permit -Dfile.encoding=${project.build.sourceEncoding}
+                        	<!-- illegal-access=permit  -->
+                            <argLine>@{argLine} -Dfile.encoding=${project.build.sourceEncoding}
                                 ${maven-surefire-plugin.argLine}
                             </argLine> <!-- this is set by jacoco's prepare-agent execution -->
                             <forkCount>${maven-surefire-plugin.forkCount}</forkCount>

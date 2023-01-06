@@ -32,7 +32,6 @@
     <description />
 
     <properties>
-        <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <google-api-sheets.version>v4-rev612-1.25.0</google-api-sheets.version>
         <google-api-drive.version>v3-rev197-1.25.0</google-api-drive.version>
         <google-api-services-analytics.version>v3-rev169-1.25.0</google-api-services-analytics.version>
