@@ -17,7 +17,6 @@
 
 package org.apache.hop.pipeline.transform;
 
-import junit.framework.TestCase;
 import org.apache.hop.core.BlockingRowSet;
 import org.apache.hop.core.IRowSet;
 
@@ -26,6 +25,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import junit.framework.TestCase;
 
 public class DynamicWaitTimesTest extends TestCase {
 

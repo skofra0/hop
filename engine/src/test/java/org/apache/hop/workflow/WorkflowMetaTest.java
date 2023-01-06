@@ -17,6 +17,17 @@
 
 package org.apache.hop.workflow;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
 import org.apache.hop.core.Const;
 import org.apache.hop.core.NotePadMeta;
 import org.apache.hop.core.exception.HopException;
@@ -39,10 +50,6 @@ import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.*;
 
 public class WorkflowMetaTest {
 

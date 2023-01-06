@@ -19,7 +19,11 @@ package org.apache.hop.core.row;
 
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.database.IDatabase;
-import org.apache.hop.core.exception.*;
+import org.apache.hop.core.exception.HopDatabaseException;
+import org.apache.hop.core.exception.HopEofException;
+import org.apache.hop.core.exception.HopException;
+import org.apache.hop.core.exception.HopFileException;
+import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.variables.IVariables;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Node;

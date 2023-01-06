@@ -17,7 +17,6 @@
 
 package org.apache.hop.ui.core.dialog;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.hop.core.Const;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.ui.core.PropsUi;
@@ -30,11 +29,17 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.function.Function;
+
+import com.google.common.annotations.VisibleForTesting;
 
 public class ErrorDialog extends Dialog {
   private static final Class<?> PKG = ErrorDialog.class; // For Translator

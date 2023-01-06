@@ -17,7 +17,6 @@
 
 package org.apache.hop.core.encryption;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.util.EnvUtil;
@@ -26,6 +25,8 @@ import org.apache.hop.core.util.StringUtil;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.annotations.VisibleForTesting;
 
 /** This class handles basic encryption of passwords in Hop. Note that it's not really encryption,
  * it's more obfuscation. Passwords are <b>difficult</b> to read, not impossible. */

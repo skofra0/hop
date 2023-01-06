@@ -33,6 +33,7 @@ import org.apache.hop.ui.core.gui.IGuiPluginCompositeWidgetsListener;
 import org.apache.hop.ui.core.widget.TextVar;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.eclipse.swt.widgets.Control;
+
 import picocli.CommandLine;
 
 @ConfigPlugin(id = "ExplorerPerspectiveConfigPlugin", description = "Configuration options for the explorer perspective", category = ConfigPlugin.CATEGORY_CONFIG)

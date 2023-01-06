@@ -48,10 +48,19 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 
 @HopPerspectivePlugin(id = "500-HopPluginExplorerPerspective", name = "i18n::PluginExplorerPerspective.Name", description = "i18n::PluginExplorerPerspective.Description", image = "ui/images/plugin.svg")
 @GuiPlugin(description = "i18n::PluginExplorerPerspective.GuiPlugin.Description")

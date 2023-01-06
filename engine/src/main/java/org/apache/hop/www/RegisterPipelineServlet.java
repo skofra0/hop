@@ -25,9 +25,10 @@ import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.engine.IPipelineEngine;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @HopServerServlet(id = "registerPipeline", name = "Add a pipeline to the server")
 public class RegisterPipelineServlet extends BaseWorkflowServlet {

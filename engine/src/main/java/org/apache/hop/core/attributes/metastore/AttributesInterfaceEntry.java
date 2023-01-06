@@ -17,9 +17,9 @@
 
 package org.apache.hop.core.attributes.metastore;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.IOException;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 interface AttributesInterfaceEntry {
   @JsonIgnore

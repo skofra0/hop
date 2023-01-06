@@ -17,15 +17,6 @@
 
 package org.apache.hop.pipeline.transform;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import org.apache.hop.core.ICheckResult;
 import org.apache.hop.core.IHopAttribute;
 import org.apache.hop.core.SqlStatement;
@@ -56,6 +47,15 @@ import org.apache.hop.resource.IResourceNaming;
 import org.apache.hop.resource.ResourceDefinition;
 import org.apache.hop.resource.ResourceReference;
 import org.w3c.dom.Node;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /** This class is responsible for implementing common functionality regarding transform meta, such as
  * logging. All Hop transforms have an extension of this where private fields have been added with

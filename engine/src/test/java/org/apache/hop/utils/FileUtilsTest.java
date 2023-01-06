@@ -17,13 +17,13 @@
 
 package org.apache.hop.utils;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.hop.core.logging.LogChannel;
 import org.apache.hop.core.util.FileUtil;
 import org.junit.Test;
 
 import java.io.File;
-
-import static org.junit.Assert.assertTrue;
 
 public class FileUtilsTest {
 

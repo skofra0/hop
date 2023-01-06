@@ -17,6 +17,11 @@
 
 package org.apache.hop.core.row;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopPluginException;
 import org.apache.hop.core.exception.HopValueException;
@@ -38,9 +43,11 @@ import org.w3c.dom.NodeList;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.*;
-
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @RunWith(PowerMockRunner.class)
 public class ValueMetaAndDataTest {

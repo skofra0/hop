@@ -17,6 +17,8 @@
 
 package org.apache.hop.pipeline.transforms.loadsave;
 
+import static org.junit.Assert.assertNotSame;
+
 import org.apache.hop.base.LoadSaveBase;
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.exception.HopException;
@@ -35,8 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertNotSame;
 
 public class LoadSaveTester<T extends ITransformMeta> extends LoadSaveBase<T> {
 

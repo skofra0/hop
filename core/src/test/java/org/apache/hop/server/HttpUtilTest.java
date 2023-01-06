@@ -17,10 +17,10 @@
 
 package org.apache.hop.server;
 
-import org.junit.Assert;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.hop.core.variables.Variables;
 import org.apache.hop.junit.rules.RestoreHopEnvironment;
+import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
 

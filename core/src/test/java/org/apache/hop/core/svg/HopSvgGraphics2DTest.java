@@ -17,11 +17,11 @@
 
 package org.apache.hop.core.svg;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class HopSvgGraphics2DTest {
 

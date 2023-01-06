@@ -17,7 +17,6 @@
 
 package org.apache.hop.www;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.util.Utils;
@@ -27,6 +26,8 @@ import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class HopServerStatus {
   public static final String XML_TAG = "serverstatus";

@@ -17,11 +17,12 @@
 
 package org.apache.hop.ui.hopgui.perspective.explorer.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import org.apache.hop.core.config.HopConfig;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.logging.LogChannel;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 public class ExplorerPerspectiveConfigSingleton {
 

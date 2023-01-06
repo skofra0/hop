@@ -17,7 +17,6 @@
 
 package org.apache.hop.www;
 
-import com.sun.jersey.spi.container.servlet.ServletContainer;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.HopEnvironment;
 import org.apache.hop.core.encryption.Encr;
@@ -35,8 +34,21 @@ import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.server.HopServer;
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.jaas.JAASLoginService;
-import org.eclipse.jetty.security.*;
-import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.security.ConstraintMapping;
+import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.HashLoginService;
+import org.eclipse.jetty.security.PropertyUserStore;
+import org.eclipse.jetty.security.UserStore;
+import org.eclipse.jetty.server.ConnectionLimit;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.LowResourceMonitor;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
@@ -48,10 +60,13 @@ import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
-import javax.servlet.Servlet;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.Servlet;
+
+import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 public class WebServer {
 

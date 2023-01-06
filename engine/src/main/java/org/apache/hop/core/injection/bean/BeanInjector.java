@@ -17,6 +17,9 @@
 
 package org.apache.hop.core.injection.bean;
 
+import static com.google.common.collect.Lists.newLinkedList;
+import static java.util.Objects.requireNonNull;
+
 import org.apache.hop.core.RowMetaAndData;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.injection.AfterInjection;
@@ -28,11 +31,12 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
 import java.util.stream.Collectors;
-
-import static com.google.common.collect.Lists.newLinkedList;
-import static java.util.Objects.requireNonNull;
 
 /** Engine for get/set metadata injection properties from bean. */
 public class BeanInjector<Meta extends Object> {

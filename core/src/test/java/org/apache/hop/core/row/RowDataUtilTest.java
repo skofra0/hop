@@ -17,8 +17,9 @@
 
 package org.apache.hop.core.row;
 
-import junit.framework.TestCase;
 import org.apache.hop.core.exception.HopValueException;
+
+import junit.framework.TestCase;
 
 public class RowDataUtilTest extends TestCase {
   public boolean arrayCompare(Object[] arr1, int start1, Object[] arr2, int start2, int len) {

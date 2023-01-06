@@ -16,6 +16,11 @@
  */
 package org.apache.hop.core.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.collections4.BidiMap;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,8 +29,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-
-import static org.junit.Assert.*;
 
 public class DateDetectorTest {
 

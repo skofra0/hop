@@ -17,6 +17,9 @@
 
 package org.apache.hop.concurrency;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.apache.commons.collections4.ListUtils;
 import org.apache.hop.workflow.WorkflowConfiguration;
 import org.apache.hop.workflow.WorkflowMeta;
@@ -33,9 +36,6 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class WorkflowMapConcurrencyTest {
   public static final String WORKFLOW_NAME_STRING = "workflow";

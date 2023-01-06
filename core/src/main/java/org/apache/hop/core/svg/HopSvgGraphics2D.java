@@ -17,6 +17,9 @@
 
 package org.apache.hop.core.svg;
 
+import static org.apache.batik.svggen.DOMGroupManager.DRAW;
+import static org.apache.batik.svggen.DOMGroupManager.FILL;
+
 import org.apache.batik.anim.dom.SVGDOMImplementation;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.DOMGroupManager;
@@ -28,18 +31,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.awt.font.TextLayout;
+import java.io.StringWriter;
+import java.text.DecimalFormat;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.font.TextLayout;
-import java.io.StringWriter;
-import java.text.DecimalFormat;
-
-import static org.apache.batik.svggen.DOMGroupManager.DRAW;
-import static org.apache.batik.svggen.DOMGroupManager.FILL;
 
 public class HopSvgGraphics2D extends SVGGraphics2D {
 

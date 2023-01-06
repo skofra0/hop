@@ -17,7 +17,11 @@
 
 package org.apache.hop.core.gui.plugin.callback;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /** When a @GuiPlugin has a method painted with this annotation it is possible for other code to call
  * it. The way it happens is that you have for example a toolbar that is being created and you need

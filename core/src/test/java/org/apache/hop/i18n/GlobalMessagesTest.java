@@ -17,6 +17,8 @@
 
 package org.apache.hop.i18n;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -24,8 +26,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
 public class GlobalMessagesTest {

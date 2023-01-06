@@ -25,9 +25,10 @@ import org.apache.hop.workflow.WorkflowMeta;
 import org.apache.hop.workflow.engine.IWorkflowEngine;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @HopServerServlet(id = "registerWorkflow", name = "Add a workflow to the server")
 public class RegisterWorkflowServlet extends BaseWorkflowServlet {

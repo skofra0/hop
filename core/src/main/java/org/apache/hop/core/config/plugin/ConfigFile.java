@@ -17,20 +17,25 @@
 
 package org.apache.hop.core.config.plugin;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import org.apache.hop.core.Const;
-import org.apache.hop.core.config.*;
+import org.apache.hop.core.config.ConfigFileSerializer;
+import org.apache.hop.core.config.ConfigNoFileSerializer;
+import org.apache.hop.core.config.IConfigFile;
+import org.apache.hop.core.config.IHopConfigSerializer;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.logging.LogChannel;
 import org.apache.hop.core.variables.DescribedVariable;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 public abstract class ConfigFile implements IConfigFile {
 

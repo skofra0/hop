@@ -23,7 +23,11 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.hop.base.AbstractMeta;
-import org.apache.hop.core.*;
+import org.apache.hop.core.Const;
+import org.apache.hop.core.ICheckResult;
+import org.apache.hop.core.IProgressMonitor;
+import org.apache.hop.core.NotePadMeta;
+import org.apache.hop.core.SqlStatement;
 import org.apache.hop.core.attributes.AttributesUtil;
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.exception.HopException;
@@ -59,7 +63,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 /** The definition of a Hop workflow is represented by a WorkflowMeta object. It is typically loaded
  * from a .hwf file or it is generated dynamically. The declared parameters of the workflow

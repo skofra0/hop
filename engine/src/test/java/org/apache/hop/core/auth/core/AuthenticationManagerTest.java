@@ -17,7 +17,20 @@
 
 package org.apache.hop.core.auth.core;
 
-import org.apache.hop.core.auth.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.apache.hop.core.auth.DelegatingKerberosConsumer;
+import org.apache.hop.core.auth.DelegatingKerberosConsumerForClassloaderBridging;
+import org.apache.hop.core.auth.DelegatingNoAuthConsumer;
+import org.apache.hop.core.auth.DelegatingUsernamePasswordConsumer;
+import org.apache.hop.core.auth.IKerberosAuthenticationProviderProxy;
+import org.apache.hop.core.auth.KerberosAuthenticationProvider;
+import org.apache.hop.core.auth.NoAuthenticationAuthenticationProvider;
+import org.apache.hop.core.auth.UsernamePasswordAuthenticationProvider;
 import org.apache.hop.core.auth.core.impl.ClassloaderBridgingAuthenticationPerformer;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,10 +40,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
 
 public class AuthenticationManagerTest {
   private AuthenticationManager manager;

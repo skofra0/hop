@@ -20,12 +20,13 @@ package org.apache.hop.core.svg;
 import org.apache.hop.core.exception.HopException;
 import org.w3c.dom.Document;
 
+import java.io.StringWriter;
+
 import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.StringWriter;
 
 /** Container for SVG image. */
 public class SvgImage {

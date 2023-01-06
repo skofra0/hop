@@ -24,12 +24,13 @@ import org.apache.hop.workflow.WorkflowMeta;
 import org.apache.hop.workflow.WorkflowSvgPainter;
 import org.apache.hop.workflow.engine.IWorkflowEngine;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @HopServerServlet(id = "workflowImage", name = "Generate a PNG image of a workflow")
 public class GetWorkflowImageServlet extends BaseHttpServlet implements IHopServerPlugin {

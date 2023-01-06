@@ -17,8 +17,9 @@
 
 package org.apache.hop.www;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Comparator;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /** A carte object entry in the pipeline or workflow maps */
 @XmlRootElement

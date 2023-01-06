@@ -24,11 +24,12 @@ import org.apache.hop.core.logging.LoggingObjectType;
 import org.apache.hop.core.logging.SimpleLoggingObject;
 import org.apache.hop.core.xml.XmlHandler;
 
+import java.io.IOException;
+import java.io.PrintStream;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintStream;
 
 @HopServerServlet(id = "nextSequence", name = "Get the next block of values for a sequence")
 public class NextSequenceValueServlet extends BaseHttpServlet implements IHopServerPlugin {

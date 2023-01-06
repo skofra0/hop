@@ -17,7 +17,6 @@
 
 package org.apache.hop.core.plugins;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.StopWatch;
@@ -45,8 +44,16 @@ import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.google.common.annotations.VisibleForTesting;
 
 public abstract class BasePluginType<T extends Annotation> implements IPluginType<T> {
   protected static Class<?> classFromResourcesPackage = BasePluginType.class; // For Translator

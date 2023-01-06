@@ -17,8 +17,6 @@
 
 package org.apache.hop.core.metadata;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonToken;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.metadata.api.HopMetadata;
@@ -32,6 +30,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.ByteArrayInputStream;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonToken;
 
 /** This metadata implementation is an in-memory metadata which serializes using JSON. In other
  * words, JSON is read into memory as a MetaStore and then you can ask to serialize that information

@@ -16,6 +16,15 @@
  */
 package org.apache.hop.core.row.value;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyObject;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.exception.HopDatabaseException;
 import org.apache.hop.junit.rules.RestoreHopEnvironment;
@@ -26,12 +35,6 @@ import org.mockito.stubbing.Answer;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.Date;
-
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
 
 /** User: Dzmitry Stsiapanau Date: 3/20/2014 Time: 11:51 AM */
 public class ValueMetaTimestampTest {

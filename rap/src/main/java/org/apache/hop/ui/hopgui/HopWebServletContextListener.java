@@ -21,8 +21,9 @@ import org.apache.hop.core.HopEnvironment;
 import org.apache.hop.core.exception.HopException;
 import org.eclipse.rap.rwt.engine.RWTServletContextListener;
 
-import javax.servlet.ServletContextEvent;
 import java.util.logging.Logger;
+
+import javax.servlet.ServletContextEvent;
 
 public class HopWebServletContextListener extends RWTServletContextListener {
   private static final Logger logger =

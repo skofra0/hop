@@ -16,6 +16,12 @@
  */
 package org.apache.hop.www;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopXmlException;
 import org.apache.hop.core.xml.XmlHandler;
@@ -28,8 +34,6 @@ import org.w3c.dom.Node;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import static org.junit.Assert.*;
 
 public class HopServerConfigTest {
 

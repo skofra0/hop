@@ -17,13 +17,6 @@
 
 package org.apache.hop.www;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.jersey.api.json.JSONConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.hop.core.Const;
@@ -56,13 +49,22 @@ import org.apache.hop.metadata.util.HopMetadataUtil;
 import org.apache.hop.pipeline.transform.TransformStatus;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import picocli.CommandLine;
-import picocli.CommandLine.Parameters;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.api.json.JSONConfiguration;
+
+import picocli.CommandLine;
+import picocli.CommandLine.Parameters;
 
 public class HopServer implements Runnable, IHasHopMetadataProvider {
   private static final Class<?> PKG = HopServer.class; // For Translator

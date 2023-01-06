@@ -24,10 +24,11 @@ import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.i18n.PackageMessages;
 import org.owasp.encoder.Encode;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public abstract class BodyHttpServlet extends BaseHttpServlet implements IHopServerPlugin {
 

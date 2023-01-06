@@ -17,12 +17,19 @@
 
 package org.apache.hop.core.config;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.config.plugin.ConfigFile;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.DescribedVariable;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /** This class keeps track of storing and retrieving all the configuration options in Hop. This
  * includes all options of the various plugins in the Hop ecosystem. */

@@ -17,8 +17,6 @@
 
 package org.apache.hop.imports.kettle;
 
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.util.StringUtil;
 import org.apache.hop.core.util.Utils;
@@ -27,6 +25,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.Map;
 
 public class KettleConverter {
 

@@ -17,7 +17,6 @@
 
 package org.apache.hop.core.listeners.impl;
 
-import com.google.common.base.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.listeners.ICurrentDirectoryChangedListener;
@@ -25,6 +24,8 @@ import org.apache.hop.core.variables.Variables;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import com.google.common.base.Objects;
 
 /** Updates directory references referencing {@link Const#INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER} */
 public class EntryCurrentDirectoryChangedListener implements ICurrentDirectoryChangedListener {

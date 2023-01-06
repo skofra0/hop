@@ -17,6 +17,12 @@
 
 package org.apache.hop.pipeline.transform;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.hop.core.util.AbstractTransformMeta;
 import org.apache.hop.core.variables.IVariables;
@@ -30,12 +36,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class TransformMetaTest {
 

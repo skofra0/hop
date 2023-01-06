@@ -17,7 +17,6 @@
 
 package org.apache.hop.metadata.serializer.json;
 
-import junit.framework.TestCase;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.encryption.HopTwoWayPasswordEncoder;
 import org.apache.hop.core.exception.HopException;
@@ -35,6 +34,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 public class JsonMetadataSerializerTest extends TestCase {
 

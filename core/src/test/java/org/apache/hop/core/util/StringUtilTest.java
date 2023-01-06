@@ -17,11 +17,12 @@
 
 package org.apache.hop.core.util;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 /** Test class for the basic functionality of StringUtil. */
 public class StringUtilTest extends TestCase {

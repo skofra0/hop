@@ -17,11 +17,16 @@
 
 package org.apache.hop.core.row.value;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+
 import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.junit.rules.RestoreHopEnvironment;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -31,8 +36,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
 
 public class ValueMetaStringTest {
   private static final String BASE_VALUE = "Some text";

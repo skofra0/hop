@@ -16,6 +16,8 @@
  */
 package org.apache.hop.core.logging;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.hop.junit.rules.RestoreHopEnvironment;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -24,9 +26,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.*;
-
-import static org.junit.Assert.assertEquals;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MetricsRegistryTest {
   @ClassRule

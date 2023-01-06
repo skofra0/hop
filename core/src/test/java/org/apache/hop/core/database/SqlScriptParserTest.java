@@ -17,12 +17,12 @@
 
 package org.apache.hop.core.database;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
 
 public class SqlScriptParserTest {
 

@@ -17,6 +17,11 @@
 
 package org.apache.hop.concurrency;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.apache.commons.collections4.ListUtils;
 import org.apache.hop.core.gui.WorkflowTracker;
 import org.apache.hop.workflow.ActionResult;
@@ -34,11 +39,6 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /** This test consists of two similar cases. There are three type of actors: getters, searchers and
  * updaters. They work simultaneously within their own threads. Getters invoke {@linkplain

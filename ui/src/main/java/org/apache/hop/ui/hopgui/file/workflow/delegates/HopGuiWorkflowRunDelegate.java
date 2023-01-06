@@ -17,7 +17,6 @@
 
 package org.apache.hop.ui.hopgui.file.workflow.delegates;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.extension.ExtensionPointHandler;
 import org.apache.hop.core.extension.HopExtensionPoint;
@@ -39,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.annotations.VisibleForTesting;
 
 public class HopGuiWorkflowRunDelegate {
   private static final Class<?> PKG = HopGui.class; // For Translator

@@ -17,7 +17,8 @@
 
 package org.apache.hop.core.row;
 
-import org.apache.hop.core.Const;
+import static org.junit.Assert.assertEquals;
+
 import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.row.value.ValueMetaDate;
 import org.apache.hop.junit.rules.RestoreHopEnvironment;
@@ -28,8 +29,6 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-
-import static org.junit.Assert.assertEquals;
 
 public class ValueDateUtilTest {
   private TimeZone defTimeZone;

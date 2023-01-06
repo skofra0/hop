@@ -17,16 +17,20 @@
 
 package org.apache.hop.pipeline.transforms.file;
 
-import com.google.common.base.Preconditions;
 import org.apache.hop.core.fileinput.FileInputList;
 import org.apache.hop.core.injection.InjectionDeep;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.PipelineMeta;
-import org.apache.hop.pipeline.transform.*;
+import org.apache.hop.pipeline.transform.BaseTransformMeta;
+import org.apache.hop.pipeline.transform.ITransform;
+import org.apache.hop.pipeline.transform.ITransformData;
+import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.resource.ResourceReference;
 
 import java.util.List;
+
+import com.google.common.base.Preconditions;
 
 /** Base meta for file-based input transforms. */
 public abstract class BaseFileInputMeta<Main extends ITransform, Data extends ITransformData, A extends BaseFileInputAdditionalField, I extends BaseFileInputFiles, F extends BaseFileField> extends BaseTransformMeta<Main, Data> {

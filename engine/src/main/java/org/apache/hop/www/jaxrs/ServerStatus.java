@@ -23,10 +23,11 @@ import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.xml.XmlHandler;
 import org.w3c.dom.Node;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
 import java.lang.management.ThreadMXBean;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ServerStatus {

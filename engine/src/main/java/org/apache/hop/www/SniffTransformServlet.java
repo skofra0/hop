@@ -32,13 +32,14 @@ import org.apache.hop.pipeline.engine.IPipelineEngine;
 import org.apache.hop.pipeline.transform.IRowListener;
 import org.owasp.encoder.Encode;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @HopServerServlet(id = "sniffTransform", name = "Sniff test a pipeline transform")
 public class SniffTransformServlet extends BaseHttpServlet implements IHopServerPlugin {

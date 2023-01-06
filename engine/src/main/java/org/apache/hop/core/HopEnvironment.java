@@ -17,7 +17,6 @@
 
 package org.apache.hop.core;
 
-import com.google.common.util.concurrent.SettableFuture;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hop.core.auth.AuthenticationConsumerPluginType;
 import org.apache.hop.core.auth.AuthenticationProviderPluginType;
@@ -29,7 +28,12 @@ import org.apache.hop.core.exception.HopPluginException;
 import org.apache.hop.core.extension.ExtensionPointHandler;
 import org.apache.hop.core.extension.HopExtensionPoint;
 import org.apache.hop.core.logging.LogChannel;
-import org.apache.hop.core.plugins.*;
+import org.apache.hop.core.plugins.ActionPluginType;
+import org.apache.hop.core.plugins.HopServerPluginType;
+import org.apache.hop.core.plugins.IPluginType;
+import org.apache.hop.core.plugins.PartitionerPluginType;
+import org.apache.hop.core.plugins.PluginRegistry;
+import org.apache.hop.core.plugins.TransformPluginType;
 import org.apache.hop.core.variables.DescribedVariable;
 import org.apache.hop.core.variables.VariableRegistry;
 import org.apache.hop.core.variables.VariableScope;
@@ -43,6 +47,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
+
+import com.google.common.util.concurrent.SettableFuture;
 
 /** The HopEnvironment class contains settings and properties for all of Hop. Initialization of the
  * environment is done by calling the init() method, which reads in properties file(s), registers

@@ -17,6 +17,8 @@
 
 package org.apache.hop.utils;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -28,8 +30,6 @@ import org.apache.hop.core.vfs.HopVfs;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
-import static org.junit.Assert.assertTrue;
 
 public class TestUtils {
 

@@ -21,7 +21,12 @@ import org.apache.hop.core.Const;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.plugins.IPlugin;
 import org.apache.hop.core.plugins.PluginRegistry;
-import org.apache.hop.core.search.*;
+import org.apache.hop.core.search.ISearchResult;
+import org.apache.hop.core.search.ISearchable;
+import org.apache.hop.core.search.ISearchableAnalyser;
+import org.apache.hop.core.search.ISearchablesLocation;
+import org.apache.hop.core.search.SearchQuery;
+import org.apache.hop.core.search.SearchableAnalyserPluginType;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.dialog.ErrorDialog;
@@ -41,10 +46,20 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TableItem;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 
 @HopPerspectivePlugin(id = "400-HopSearchPerspective", name = "i18n::HopSearchPerspective.Name", description = "i18n::HopSearchPerspective.Description", image = "ui/images/search.svg")
 @GuiPlugin(description = "i18n::HopSearchPerspective.GuiPlugin.Description")

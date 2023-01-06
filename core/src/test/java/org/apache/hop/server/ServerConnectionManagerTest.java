@@ -17,13 +17,13 @@
 
 package org.apache.hop.server;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.net.ssl.SSLContext;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class ServerConnectionManagerTest {
 

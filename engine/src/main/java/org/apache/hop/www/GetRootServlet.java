@@ -19,11 +19,12 @@ package org.apache.hop.www;
 
 import org.apache.hop.i18n.BaseMessages;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 public class GetRootServlet extends BaseHttpServlet implements IHopServerPlugin {
   private static final Class<?> PKG = GetRootServlet.class; // For Translator

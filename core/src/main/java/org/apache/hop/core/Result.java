@@ -17,7 +17,6 @@
 
 package org.apache.hop.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopFileException;
 import org.apache.hop.core.row.IRowMeta;
@@ -31,6 +30,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /** Describes the result of the execution of a Pipeline or a Job. The information available includes
  * the following:

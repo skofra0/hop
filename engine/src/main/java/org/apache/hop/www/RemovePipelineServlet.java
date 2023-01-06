@@ -27,11 +27,12 @@ import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.engine.IPipelineEngine;
 import org.owasp.encoder.Encode;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @HopServerServlet(id = "removePipeline", name = "Remove a pipeline")
 public class RemovePipelineServlet extends BaseHttpServlet implements IHopServerPlugin {

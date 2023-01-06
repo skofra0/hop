@@ -18,6 +18,7 @@
 package org.apache.hop.ui.util;
 
 import static org.apache.hop.core.Const.getDocUrl;
+
 import org.apache.hop.core.database.DatabasePluginType;
 import org.apache.hop.core.plugins.ActionPluginType;
 import org.apache.hop.core.plugins.IPlugin;

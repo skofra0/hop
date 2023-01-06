@@ -17,7 +17,6 @@
 
 package org.apache.hop.www;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.annotations.HopServerServlet;
 import org.apache.hop.core.exception.HopException;
@@ -35,15 +34,18 @@ import org.apache.hop.pipeline.transform.TransformStatus;
 import org.apache.hop.server.HttpUtil;
 import org.owasp.encoder.Encode;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @HopServerServlet(id = "pipelineStatus", name = "Get the status of a pipeline")
 public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopServerPlugin {

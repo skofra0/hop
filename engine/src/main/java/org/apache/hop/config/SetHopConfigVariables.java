@@ -25,6 +25,7 @@ import org.apache.hop.core.logging.ILogChannel;
 import org.apache.hop.core.variables.DescribedVariable;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.metadata.api.IHasHopMetadataProvider;
+
 import picocli.CommandLine;
 
 @ConfigPlugin(id = "SetHopConfigVariables", description = "Set system properties")

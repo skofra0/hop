@@ -17,8 +17,6 @@
 
 package org.apache.hop.www;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.Result;
 import org.apache.hop.core.exception.HopException;
@@ -32,6 +30,9 @@ import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class HopServerWorkflowStatus {
   public static final String XML_TAG = "workflow-status";
