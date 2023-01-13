@@ -37,8 +37,7 @@ import org.apache.hop.core.row.IValueMeta;
 
 
 @DatabaseMetaPlugin(type = "NEXUS_INFOBRIGHT", typeDescription = "Nexus Infobright")
-@GuiPlugin(id = "GUI-InfobrightDatabaseMeta")
-
+@GuiPlugin(id = "GUI-NexusInfobrightMeta")
 public class NexusInfobrightMeta extends NexusMySqlMeta {
 
   public static final String NEXUS_INFOBRIGHT_STRING_DBLOOKUP_LIMIT = "INFOBRIGHT_STRING_DBLOOKUP_LIMIT";
