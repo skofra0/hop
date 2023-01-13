@@ -73,82 +73,45 @@ public class GuiResource {
 
   /* * * Colors * * */
   private Color colorBackground;
-
   private Color colorGraph;
-
   private Color colorTab;
-
   private Color colorRed;
-
   private Color colorSuccessGreen;
-
   private Color colorBlueCustomGrid;
-
   private Color colorGreen;
-
   private Color colorBlue;
-
   private Color colorOrange;
-
   private Color colorYellow;
-
   private Color colorMagenta;
-
   private Color colorPurpule;
-
   private Color colorIndigo;
-
   private Color colorBlack;
-
   private Color colorGray;
-
   private Color colorDarkGray;
-
   private Color colorVeryDarkGray;
-
   private Color colorLightGray;
-
   private Color colorDemoGray;
-
   private Color colorWhite;
-
   private Color colorDirectory;
-
   private Color colorHop;
-
   private Color colorLight;
-
   private Color colorCream;
-
   private Color colorLightBlue;
-
   private Color colorCrystalText;
-
   private Color colorHopDefault;
-
   private Color colorHopTrue;
-
   private Color colorDeprecated;
 
   /* * * Fonts * * */
   private ManagedFont fontDefault;
-
   private ManagedFont fontGraph;
-
   private ManagedFont fontNote;
-
   private ManagedFont fontFixed;
-
   private ManagedFont fontMedium;
-
   private ManagedFont fontMediumBold;
-
   private ManagedFont fontLarge;
-
   private ManagedFont fontTiny;
-
   private ManagedFont fontSmall;
-
   private ManagedFont fontBold;
 
   /* * * Images * * */
@@ -709,8 +672,7 @@ public class GuiResource {
     imageAddSingle = loadAsResource(display, "ui/images/add_single.svg", ConstUi.SMALL_ICON_SIZE);
     imageCalendar = loadAsResource(display, "ui/images/calendar.svg", ConstUi.SMALL_ICON_SIZE);
     imageClosePanel = loadAsResource(display, "ui/images/close-panel.svg", ConstUi.SMALL_ICON_SIZE);
-    imageCollapseAll =
-        loadAsResource(display, "ui/images/collapse-all.svg", ConstUi.SMALL_ICON_SIZE);
+    imageCollapseAll = loadAsResource(display, "ui/images/collapse-all.svg", ConstUi.SMALL_ICON_SIZE);
     imageColor = loadAsResource(display, "ui/images/edit_option.svg", ConstUi.SMALL_ICON_SIZE);
     imageCancel = loadAsResource(display, "ui/images/cancel.svg", ConstUi.SMALL_ICON_SIZE);
     imageCopy = loadAsResource(display, "ui/images/copy.svg", ConstUi.SMALL_ICON_SIZE);
@@ -721,20 +683,15 @@ public class GuiResource {
     imageExpandAll = loadAsResource(display, "ui/images/expand-all.svg", ConstUi.SMALL_ICON_SIZE);
     imageLabel = loadAsResource(display, "ui/images/label.svg", ConstUi.SMALL_ICON_SIZE);
     imageFunction = loadAsResource(display, "ui/images/function.svg", ConstUi.SMALL_ICON_SIZE);
-    imageNavigateBack =
-        loadAsResource(display, "ui/images/navigate-back.svg", ConstUi.SMALL_ICON_SIZE);
-    imageNavigateForward =
-        loadAsResource(display, "ui/images/navigate-forward.svg", ConstUi.SMALL_ICON_SIZE);
+    imageNavigateBack = loadAsResource(display, "ui/images/navigate-back.svg", ConstUi.SMALL_ICON_SIZE);
+    imageNavigateForward = loadAsResource(display, "ui/images/navigate-forward.svg", ConstUi.SMALL_ICON_SIZE);
     imageNavigateUp = loadAsResource(display, "ui/images/navigate-up.svg", ConstUi.SMALL_ICON_SIZE);
     imageHelp = loadAsResource(display, "ui/images/help.svg", ConstUi.SMALL_ICON_SIZE);
     imageHide = loadAsResource(display, "ui/images/hide.svg", ConstUi.SMALL_ICON_SIZE);
-    imageHideResults =
-        loadAsResource(display, "ui/images/hide-results.svg", ConstUi.SMALL_ICON_SIZE);
+    imageHideResults = loadAsResource(display, "ui/images/hide-results.svg", ConstUi.SMALL_ICON_SIZE);
     imageHome = loadAsResource(display, "ui/images/home.svg", ConstUi.SMALL_ICON_SIZE);
-    imageMaximizePanel =
-        loadAsResource(display, "ui/images/maximize-panel.svg", ConstUi.SMALL_ICON_SIZE);
-    imageMinimizePanel =
-        loadAsResource(display, "ui/images/minimize-panel.svg", ConstUi.SMALL_ICON_SIZE);
+    imageMaximizePanel = loadAsResource(display, "ui/images/maximize-panel.svg", ConstUi.SMALL_ICON_SIZE);
+    imageMinimizePanel = loadAsResource(display, "ui/images/minimize-panel.svg", ConstUi.SMALL_ICON_SIZE);
     imageNew = loadAsResource(display, "ui/images/new.svg", ConstUi.SMALL_ICON_SIZE);
     imageNote = loadAsResource(display, "ui/images/note.svg", ConstUi.SMALL_ICON_SIZE);
     imagePlugin = loadAsResource(display, "ui/images/plugin.svg", ConstUi.SMALL_ICON_SIZE);
@@ -742,25 +699,19 @@ public class GuiResource {
     imageRefresh = loadAsResource(display, "ui/images/refresh.svg", ConstUi.SMALL_ICON_SIZE);
     imageRegEx = loadAsResource(display, "ui/images/regex.svg", ConstUi.SMALL_ICON_SIZE);
     imageRemoveAll = loadAsResource(display, "ui/images/remove_all.svg", ConstUi.SMALL_ICON_SIZE);
-    imageRemoveSingle =
-        loadAsResource(display, "ui/images/remove_single.svg", ConstUi.SMALL_ICON_SIZE);
-    imageResetOption =
-        loadAsResource(display, "ui/images/reset_option.svg", ConstUi.SMALL_ICON_SIZE);
+    imageRemoveSingle = loadAsResource(display, "ui/images/remove_single.svg", ConstUi.SMALL_ICON_SIZE);
+    imageResetOption = loadAsResource(display, "ui/images/reset_option.svg", ConstUi.SMALL_ICON_SIZE);
     imageSchema = loadAsResource(display, "ui/images/user.svg", ConstUi.SMALL_ICON_SIZE);
     imageSearch = loadAsResource(display, "ui/images/search.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowAll = loadAsResource(display, "ui/images/show-all.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowErrorLines =
-        loadAsResource(display, "ui/images/show-error-lines.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowErrorLines = loadAsResource(display, "ui/images/show-error-lines.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowGrid = loadAsResource(display, "ui/images/show-grid.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowHistory =
-        loadAsResource(display, "ui/images/show-history.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowHistory = loadAsResource(display, "ui/images/show-history.svg", ConstUi.SMALL_ICON_SIZE);
     imageShow = loadAsResource(display, "ui/images/show.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowLog = loadAsResource(display, "ui/images/log.svg", ConstUi.SMALL_ICON_SIZE);
     imageShowPerf = loadAsResource(display, "ui/images/show-perf.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowResults =
-        loadAsResource(display, "ui/images/show-results.svg", ConstUi.SMALL_ICON_SIZE);
-    imageShowSelected =
-        loadAsResource(display, "ui/images/show-selected.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowResults = loadAsResource(display, "ui/images/show-results.svg", ConstUi.SMALL_ICON_SIZE);
+    imageShowSelected = loadAsResource(display, "ui/images/show-selected.svg", ConstUi.SMALL_ICON_SIZE);
     imageSynonym = loadAsResource(display, "ui/images/view.svg", ConstUi.SMALL_ICON_SIZE);
     imageTable = loadAsResource(display, "ui/images/table.svg", ConstUi.SMALL_ICON_SIZE);
     imageUser = loadAsResource(display, "ui/images/user.svg", ConstUi.SMALL_ICON_SIZE);
@@ -784,13 +735,11 @@ public class GuiResource {
     imageTrue = SwtSvgImageUtil.getImageAsResource(display, "ui/images/true.svg");
     imageTrueDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/true-disabled.svg");
     imageFalse = SwtSvgImageUtil.getImageAsResource(display, "ui/images/false.svg");
-    imageFalseDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/false-disabled.svg");
+    imageFalseDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/false-disabled.svg");
     imageVariable = SwtSvgImageUtil.getImageAsResource(display, "ui/images/variable.svg");
     imageFile = SwtSvgImageUtil.getImageAsResource(display, "ui/images/file.svg");
     imageFolder = SwtSvgImageUtil.getImageAsResource(display, "ui/images/folder.svg");
-    imagePartitionSchema =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/partition_schema.svg");
+    imagePartitionSchema = SwtSvgImageUtil.getImageAsResource(display, "ui/images/partition_schema.svg");
     imageDatabase = SwtSvgImageUtil.getImageAsResource(display, "ui/images/database.svg");
     imageData = SwtSvgImageUtil.getImageAsResource(display, "ui/images/data.svg");
     imageEdit = SwtSvgImageUtil.getImageAsResource(display, "ui/images/edit.svg");
@@ -800,13 +749,11 @@ public class GuiResource {
     imageBol = SwtSvgImageUtil.getImageAsResource(display, "ui/images/bol.svg");
     imageClearText = SwtSvgImageUtil.getImageAsResource(display, "ui/images/clear-text.svg");
     imageCopyRows = SwtSvgImageUtil.getImageAsResource(display, "ui/images/copy-rows.svg");
-    imageCopyRowsDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/copy-rows-disabled.svg");
+    imageCopyRowsDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/copy-rows-disabled.svg");
     imageFailure = SwtSvgImageUtil.getImageAsResource(display, "ui/images/failure.svg");
     imageSuccess = SwtSvgImageUtil.getImageAsResource(display, "ui/images/success.svg");
     imageError = SwtSvgImageUtil.getImageAsResource(display, "ui/images/error.svg");
-    imageErrorDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/error-disabled.svg");
+    imageErrorDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/error-disabled.svg");
     imageInfo = SwtSvgImageUtil.getImageAsResource(display, "ui/images/info.svg");
     imageInfoDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/info-disabled.svg");
     imageWarning = SwtSvgImageUtil.getImageAsResource(display, "ui/images/warning.svg");
@@ -814,35 +761,28 @@ public class GuiResource {
     imageInput = SwtSvgImageUtil.getImageAsResource(display, "ui/images/input.svg");
     imageOutput = SwtSvgImageUtil.getImageAsResource(display, "ui/images/output.svg");
     imageTarget = SwtSvgImageUtil.getImageAsResource(display, "ui/images/target.svg");
-    imageTargetDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/target-disabled.svg");
+    imageTargetDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/target-disabled.svg");
     imageContextMenu = SwtSvgImageUtil.getImageAsResource(display, "ui/images/context_menu.svg");
     imageParallel = SwtSvgImageUtil.getImageAsResource(display, "ui/images/parallel-hop.svg");
-    imageParallelDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/parallel-hop-disabled.svg");
+    imageParallelDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/parallel-hop-disabled.svg");
     imageUnconditional = SwtSvgImageUtil.getImageAsResource(display, "ui/images/unconditional.svg");
-    imageUnconditionalDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/unconditional-disabled.svg");
+    imageUnconditionalDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/unconditional-disabled.svg");
     imageBusy = SwtSvgImageUtil.getImageAsResource(display, "ui/images/busy.svg");
     imageInject = SwtSvgImageUtil.getImageAsResource(display, "ui/images/inject.svg");
     imageBalance = SwtSvgImageUtil.getImageAsResource(display, "ui/images/scales.svg");
     imageCheckpoint = SwtSvgImageUtil.getImageAsResource(display, "ui/images/checkpoint.svg");
     imageArrow = SwtSvgImageUtil.getImageAsResource(display, "ui/images/arrow.svg");
-    imageFolderConnections =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/folder_connection.svg");
+    imageFolderConnections = SwtSvgImageUtil.getImageAsResource(display, "ui/images/folder_connection.svg");
     imageDisabledHop = SwtSvgImageUtil.getImageAsResource(display, "ui/images/DHOP.svg");
 
     // Hop arrow
     //
-    imageArrowDefault =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-default.svg");
+    imageArrowDefault = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-default.svg");
     imageArrowTrue = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-true.svg");
     imageArrowFalse = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-false.svg");
     imageArrowError = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-error.svg");
-    imageArrowDisabled =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-disabled.svg");
-    imageArrowCandidate =
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-candidate.svg");
+    imageArrowDisabled = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-disabled.svg");
+    imageArrowCandidate = SwtSvgImageUtil.getImageAsResource(display, "ui/images/hop-arrow-candidate.svg");
   }
 
   public Image getImageLabel() {

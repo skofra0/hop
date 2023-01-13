@@ -295,7 +295,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
 
     // Where clause // NEXUS-MOD
     wlWhereClause = new Label(shell, SWT.RIGHT);
-    wlWhereClause.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.WhereClause.Label")); //$NON-NLS-1$
+    wlWhereClause.setText(BaseMessages.getString(PKG, "Where")); //$NON-NLS-1$
     PropsUi.setLook(wlWhereClause);
     wlWhereClause.setEnabled(input.isCached());
     FormData fdlWhereClause = new FormData();
