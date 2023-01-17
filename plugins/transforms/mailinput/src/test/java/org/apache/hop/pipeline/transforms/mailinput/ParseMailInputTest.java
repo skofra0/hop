@@ -45,8 +45,8 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
