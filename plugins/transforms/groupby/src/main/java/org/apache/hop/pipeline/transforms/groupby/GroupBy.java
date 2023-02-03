@@ -469,7 +469,11 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
               value = value == null ? Long.valueOf(0) : value;
               data.agg[i] = (Long) value + 1;
             }
-          }
+          } else { // DEEM-MOD COUNT DISTINCT SHOULD NOT RETURN null
+            if (value == null && data.agg[i]==null) {
+              data.agg[i] = 0L;
+            }
+          } // DEEM-MOD END
           break;
         case Aggregation.TYPE_GROUP_COUNT_ALL:
           if (!subjMeta.isNull(subj)) {

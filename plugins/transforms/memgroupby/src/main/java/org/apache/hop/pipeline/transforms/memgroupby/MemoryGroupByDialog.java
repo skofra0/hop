@@ -17,6 +17,11 @@
 
 package org.apache.hop.pipeline.transforms.memgroupby;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.row.IRowMeta;
@@ -24,7 +29,6 @@ import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.PipelineMeta;
-import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.ui.core.PropsUi;
@@ -47,12 +51,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 public class MemoryGroupByDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = MemoryGroupByMeta.class; // For Translator
 
@@ -71,7 +69,7 @@ public class MemoryGroupByDialog extends BaseTransformDialog implements ITransfo
 
   public MemoryGroupByDialog(
       Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
-    super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
+    super(parent, variables, (MemoryGroupByMeta) in, pipelineMeta, sname);
     input = (MemoryGroupByMeta) in;
     inputFields = new HashMap<>();
   }
@@ -102,7 +100,7 @@ public class MemoryGroupByDialog extends BaseTransformDialog implements ITransfo
     shell.setText(BaseMessages.getString(PKG, "MemoryGroupByDialog.Shell.Title"));
 
     int middle = props.getMiddlePct();
-    int margin = props.getMargin();
+    int margin = PropsUi.getMargin();
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);

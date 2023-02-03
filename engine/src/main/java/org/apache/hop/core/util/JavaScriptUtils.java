@@ -47,6 +47,7 @@ public class JavaScriptUtils {
         return jsToString(value, classType);
 
       case IValueMeta.TYPE_DATE:
+      case IValueMeta.TYPE_TIMESTAMP: // DEEM-MOD
         return jsToDate(value, classType);
 
       case IValueMeta.TYPE_BOOLEAN:

@@ -3197,6 +3197,10 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         switch (sqltype) {
           case java.sql.Types.CHAR:
           case java.sql.Types.VARCHAR:
+          case java.sql.Types.NVARCHAR:      // DEEM-MOD
+          case java.sql.Types.NCHAR:         // DEEM-MOD
+          case java.sql.Types.LONGVARCHAR:   // DEEM-MOD
+          case java.sql.Types.LONGNVARCHAR:  // DEEM-MOD
             val = new ValueMetaString(name);
             break;
           case java.sql.Types.BIGINT:
@@ -3215,6 +3219,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           case java.sql.Types.DATE:
           case java.sql.Types.TIME:
           case java.sql.Types.TIMESTAMP:
+          case java.sql.Types.TIME_WITH_TIMEZONE:       // DEEM-MOD
+          case java.sql.Types.TIMESTAMP_WITH_TIMEZONE:  // DEEM-MOD
             val = new ValueMetaDate(name);
             break;
           case java.sql.Types.BOOLEAN:

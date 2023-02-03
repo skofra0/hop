@@ -95,7 +95,8 @@ public class Condition implements Cloneable {
         "ENDS WITH",
         "LIKE",
         "TRUE"
-      };
+        ,"IS EMPTY" , "NOT IS EMPTY" // DEEM-MOD
+     };
 
   public static final int FUNC_EQUAL = 0;
   public static final int FUNC_NOT_EQUAL = 1;
@@ -112,6 +113,8 @@ public class Condition implements Cloneable {
   public static final int FUNC_ENDS_WITH = 12;
   public static final int FUNC_LIKE = 13;
   public static final int FUNC_TRUE = 14;
+  public static final int FUNC_IS_EMPTY      = 15;  // DEEM-MOD 
+  public static final int FUNC_NOT_IS_EMPTY  = 16;  // DEEM-MOD
 
   //
   // These parameters allow for:
@@ -490,6 +493,14 @@ public class Condition implements Cloneable {
               evaluation = false;
             }
             break;
+          case IS_EMPTY: // DEEM-MOD
+            string = fieldMeta.getCompatibleString(field);
+            evaluation = string == null || string.isEmpty();
+            break;
+          case NOT_IS_EMPTY: // DEEM-MOD
+            string = fieldMeta.getCompatibleString(field);
+            evaluation = !(string == null || string.isEmpty());
+            break;
           case LIKE:
             // Converts to a regular expression
             //
@@ -704,7 +715,7 @@ public class Condition implements Cloneable {
         retval.append(" TRUE");
       } else {
         retval.append(leftValueName + " " + getFunctionDesc());
-        if (function != NULL && function != NOT_NULL) {
+        if (function != NULL && function != NOT_NULL && function != IS_EMPTY && function != NOT_IS_EMPTY) { // DEEM-MOD
           if (rightValueName != null) {
             retval.append(" ");
             retval.append(rightValueName);
@@ -1091,6 +1102,8 @@ public class Condition implements Cloneable {
     ENDS_WITH("ENDS WITH", FUNC_ENDS_WITH),
     LIKE("LIKE", FUNC_LIKE),
     TRUE("TRUE", FUNC_TRUE),
+    IS_EMPTY("IS NULL", FUNC_IS_EMPTY),
+    NOT_IS_EMPTY("IS NOT NULL", FUNC_NOT_IS_EMPTY),
     ;
     private final String code;
     private final String description;
