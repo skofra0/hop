@@ -31,7 +31,16 @@
 
     <properties>
         <poi.version>5.2.3</poi.version>
+        <libformula.version>9.0.0.3-582</libformula.version>
     </properties>
+    
+   	<repositories>
+		<repository>
+			<id>bdo-nexus</id>
+			<url>${nexus-url}/content/groups/public/</url>
+		</repository>
+	</repositories>
+
 
     <dependencies>
 <!--        <dependency>-->
@@ -51,6 +60,20 @@
             <version>${poi.version}</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+			<groupId>org.pentaho.reporting.library</groupId>
+			<artifactId>libbase</artifactId>
+			<version>${libformula.version}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.pentaho.reporting.library</groupId>
+			<artifactId>libformula</artifactId>
+			<version>${libformula.version}</version>
+            <scope>provided</scope>
+		</dependency>
+        
+        
     </dependencies>
     <build>
         <resources>

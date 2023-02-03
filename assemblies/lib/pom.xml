@@ -227,6 +227,8 @@
             <artifactId>jakarta.mail</artifactId>
             <version>${jakarta-mail.version}</version>
         </dependency>
+        
+        <!-- DEEM-MOD remote  hadoop-hdfs-client 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs-client</artifactId>
@@ -242,6 +244,7 @@
             <artifactId>okio</artifactId>
             <version>${okio.version}</version>
         </dependency>
+		-->
 
         <!-- SWT dependencies -->
         <dependency>

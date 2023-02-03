@@ -193,6 +193,13 @@
             <artifactId>hop-transform-rowgenerator</artifactId>
             <version>2.3.0</version>
         </dependency>
+        
+        <!-- DEEM-MOD -->
+        <dependency>
+            <groupId>org.apache.hop</groupId>
+            <artifactId>hop-engine-beam</artifactId>
+            <version>2.3.0</version>
+        </dependency>
 
 
         <dependency>
