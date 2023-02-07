@@ -409,8 +409,7 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * @return the referenced object once loaded
    * @throws HopException
    */
-  IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
+  IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
 
   /**
    * At save and run time, the system will attempt to set the workflowMeta so that it can be

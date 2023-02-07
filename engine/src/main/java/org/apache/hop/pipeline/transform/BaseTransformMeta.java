@@ -96,8 +96,8 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
       // Some tests class use BaseTransformMeta<ITransform,ITransformData>
       if ( mainClass.isInterface() ) return null;
 
-      Constructor<Main> constructor = mainClass.getConstructor(new Class[] {TransformMeta.class, this.getClass(), dataClass, int.class, PipelineMeta.class, Pipeline.class});
-      return constructor.newInstance(new Object[] {transformMeta, this, data, copyNr, pipelineMeta, pipeline});
+      Constructor<Main> constructor = mainClass.getConstructor(TransformMeta.class, this.getClass(), dataClass, int.class, PipelineMeta.class, Pipeline.class);
+      return constructor.newInstance(transformMeta, this, data, copyNr, pipelineMeta, pipeline);
     } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
       throw new RuntimeException("Error create instance of transform: " + this.getName(), e);
     }
@@ -113,8 +113,8 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
       // Some tests class use BaseTransformMeta<ITransform,ITransformData>
       if ( dataClass.isInterface() ) return null;
       
-      return dataClass.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
+      return dataClass.getDeclaredConstructor().newInstance();
+    } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
       throw new RuntimeException("Error create instance of transform data: " + this.getName(), e);
     }
   }
