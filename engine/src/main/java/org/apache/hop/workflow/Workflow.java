@@ -1327,7 +1327,7 @@ public abstract class Workflow extends Variables
   /**
    * Gets LoggingObjectType.JOB, which is always the value for Workflow.
    *
-   * @return LoggingObjectType LoggingObjectType.JOB
+   * @return LoggingObjectType LoggingObjectType.WORKFLOW
    */
   @Override
   public LoggingObjectType getObjectType() {
