@@ -116,18 +116,18 @@
         <apache-beam.version>2.43.0</apache-beam.version>
         <apache-spark.version>3.3.0</apache-spark.version>
         <apache-flink.version>1.15.2</apache-flink.version>
-        <asm.version>9.4</asm.version>
-        <aws-java-sdk.version>1.12.347</aws-java-sdk.version>
+        <asm.version>9.5</asm.version>
+        <aws-java-sdk.version>1.12.450</aws-java-sdk.version>
         <batik.version>1.16</batik.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-codec.version>1.15</commons-codec.version>
         <commons-compress.version>1.22</commons-compress.version>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <curator.version>5.4.0</curator.version>
-        <encoder.version>1.2</encoder.version>
+        <encoder.version>1.2.3</encoder.version>
         <gax.version>2.19.5</gax.version>
         <google-api-common.version>2.2.2</google-api-common.version>
         <google-api-client.version>2.0.1</google-api-client.version>
@@ -145,15 +145,16 @@
         <httpclient.version>4.5.13</httpclient.version>
         <httpccore.version>4.4.15</httpccore.version>
         <jackcess.version>4.0.4</jackcess.version>
-        <jackson.version>2.14.1</jackson.version>
+        <jackson.version>2.14.2</jackson.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
-        <jandex.version>3.0.5</jandex.version>
+        <jandex.version>3.1.1</jandex.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <jetty.version>9.4.35.v20201120</jetty.version>
+        <jetty.version>9.4.51.v20230217</jetty.version>
         <joda-time.version>2.12.1</joda-time.version>
         <json4s.version>3.7.0-M11</json4s.version>
         <json-simple.version>1.1.1</json-simple.version>
-        <json-smart.version>2.4.8</json-smart.version>
+        <json-smart.version>2.4.10</json-smart.version>
+        <accessors-smart.version>2.4.9</accessors-smart.version>
         <jsch.version>0.1.55</jsch.version>
         <juniversalchardet.version>2.4.0</juniversalchardet.version>
         <kafka-clients.version>3.3.1</kafka-clients.version>
@@ -178,9 +179,9 @@
         <protobuf.version>3.21.9</protobuf.version>
         <rhino.version>1.7.14</rhino.version>
         <scala.version>2.12.17</scala.version>
-        <slf4j.version>2.0.4</slf4j.version>
+        <slf4j.version>2.0.7</slf4j.version>
         <sshlib.version>2.2.21</sshlib.version>
-        <snappy-java.version>1.1.8.4</snappy-java.version>
+        <snappy-java.version>1.1.10.0</snappy-java.version>
         <woodstox.version>6.4.0</woodstox.version>
         <zookeeper.version>3.8.0</zookeeper.version>
         <xerces.version>2.12.2</xerces.version>
@@ -196,17 +197,17 @@
 
         <!-- Copy from master POM (NEEDS CLEANUP) -->
         <!-- VERSIONS -->
-        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
         <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
         <maven-release-plugin.version>3.1.0</maven-release-plugin.version>
-        <maven-site-plugin.version>4.0.0-M5</maven-site-plugin.version>
+        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0</maven-failsafe-plugin.version>
         <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
         <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
@@ -516,7 +517,7 @@
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.0.0</version>
                 <type>maven-plugin</type>
             </dependency>
             <dependency>
