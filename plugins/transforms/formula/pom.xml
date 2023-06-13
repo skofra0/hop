@@ -34,10 +34,10 @@
         <libformula.version>9.0.0.3-582</libformula.version>
     </properties>
     
-   	<repositories>
+	<repositories>
 		<repository>
-			<id>bdo-nexus</id>
-			<url>${nexus-url}/content/groups/public/</url>
+			<id>DeemMaven</id>
+			<url>https://maven.deem.no:8443/repository/maven-public</url>
 		</repository>
 	</repositories>
 

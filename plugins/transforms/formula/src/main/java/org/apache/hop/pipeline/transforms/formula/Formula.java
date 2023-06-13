@@ -48,7 +48,7 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
 
   @Override
   public boolean init() {
-	// DEEM-MOD
+    // DEEM-MOD
     data.runner = new FormulaRunnerPentaho();
     data.runner.init(meta, data);
 
