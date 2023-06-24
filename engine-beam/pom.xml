@@ -39,7 +39,7 @@
 
         <dependency>
             <groupId>org.apache.beam</groupId>
-            <artifactId>beam-vendor-grpc-1_48_1</artifactId>
+            <artifactId>beam-vendor-grpc-1_54_0</artifactId>
             <version>0.1</version>
         </dependency>
         <dependency>

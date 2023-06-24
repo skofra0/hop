@@ -44,6 +44,7 @@
             <groupId>org.connectbot</groupId>
             <artifactId>sshlib</artifactId>
             <version>${sshlib.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
