@@ -17,6 +17,7 @@
 
 package org.apache.hop.databases.mssql;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.BaseDatabaseMeta;
 import org.apache.hop.core.database.Database;
@@ -288,11 +289,16 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
           }
         } else {
           if (precision == 0) {
-            if (length > 18) {
+            // if (length > 18) { // DEEM-MOD
+            if (length > 20) {    // DEEM-MOD
               retval += "DECIMAL(" + length + ",0)";
             } else {
               if (length > 9) {
-                retval += "BIGINT";
+                if (length == 11 && "int".equalsIgnoreCase(v.getOriginalColumnTypeName())) { // DEEM-MOD
+                  retval += "INT"; // DEEM-MOD
+                } else {
+                  retval += "BIGINT";
+                }
               } else {
                 retval += "INT";
               }
@@ -310,12 +316,12 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
         if (length < getMaxVARCHARLength()) {
           // Maybe use some default DB String length in case length<=0
           if (length > 0) {
-            retval += "VARCHAR(" + length + ")";
+            retval += "NVARCHAR(" + length + ")"; // DEEM-MOD
           } else {
-            retval += "VARCHAR(100)";
+            retval += "NVARCHAR(100)"; // DEEM-MOD
           }
         } else {
-          retval += "TEXT"; // Up to 2bilion characters.
+          retval += "NVARCHAR(MAX)"; // DEEM-MOD // Up to 2bilion characters.
         }
         break;
       case IValueMeta.TYPE_BINARY:
@@ -757,6 +763,30 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     }
 
     try {
+      // DEEM-MOD START JDBC (Try JDBC meta function first)
+      try (ResultSet indexList = database.getDatabaseMetaData().getIndexInfo(null, StringUtils.trimToNull(database.resolve(schemaName)), database.resolve(tableName), false, true)) {
+          while (indexList.next()) {
+              String column = indexList.getString("COLUMN_NAME");
+              int idx = Const.indexOfString(column, idxFields);
+              if (idx >= 0) {
+                  exists[idx] = true;
+              }
+          }
+      }
+
+      // See if all the fields are indexed...
+      boolean all = true;
+      for (int i = 0; i < exists.length && all; i++) {
+          if (!exists[i]) {
+              all = false;
+          }
+      }
+
+      if (all) {
+          return true;
+      }
+      // DEEM-MOD END JDBC
+
       //
       // Get the info from the data dictionary...
       //
@@ -792,7 +822,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
       }
 
       // See if all the fields are indexed...
-      boolean all = true;
+      all = true; // DEEM-MOD
       for (int i = 0; i < exists.length && all; i++) {
         if (!exists[i]) {
           all = false;
@@ -885,7 +915,8 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public int getMaxVARCHARLength() {
-    return 8000;
+    // return 8000;
+    return 4000; // DEEM-MOD
   }
 
   @Override

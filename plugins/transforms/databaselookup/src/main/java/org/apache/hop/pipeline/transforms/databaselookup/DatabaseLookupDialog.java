@@ -85,6 +85,9 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
   private Label wlOrderBy;
   private Text wOrderBy;
 
+  private Label wlWhereClause;// DEEM-MOD
+  private Text wWhereClause; // DEEM-MOD
+
   private Label wlFailMultiple;
   private Button wFailMultiple;
 
@@ -288,12 +291,34 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
           }
         });
 
+    // Where clause // DEEM-MOD
+    wlWhereClause = new Label(shell, SWT.RIGHT);
+    wlWhereClause.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.WhereClause.Label")); //$NON-NLS-1$
+    PropsUi.setLook(wlWhereClause);
+    wlWhereClause.setEnabled(input.isCached());
+    FormData fdlWhereClause = new FormData();
+    fdlWhereClause.left = new FormAttachment(0, 0);
+    fdlWhereClause.right = new FormAttachment(middle, -margin);
+    fdlWhereClause.top = new FormAttachment(wCacheLoadAll, margin);
+    wlWhereClause.setLayoutData(fdlWhereClause);
+    wWhereClause = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    PropsUi.setLook(wWhereClause);
+    wWhereClause.setEnabled(input.isCached());
+    wWhereClause.addModifyListener(lsMod);
+    FormData fdWhereClause = new FormData();
+    fdWhereClause.left = new FormAttachment(middle, 0);
+    fdWhereClause.right = new FormAttachment(100, 0);
+    fdWhereClause.top = new FormAttachment(wCacheLoadAll, margin);
+    wWhereClause.setLayoutData(fdWhereClause);
+    wWhereClause.addModifyListener(lsMod);
+
+    
     Label wlKey = new Label(shell, SWT.NONE);
     wlKey.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.Keys.Label"));
     PropsUi.setLook(wlKey);
     FormData fdlKey = new FormData();
     fdlKey.left = new FormAttachment(0, 0);
-    fdlKey.top = new FormAttachment(wCacheLoadAll, margin);
+    fdlKey.top = new FormAttachment(wWhereClause, margin); // DEEM-MOD
     wlKey.setLayoutData(fdlKey);
 
     int nrKeyCols = 4;
@@ -616,6 +641,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     wOrderBy.setText(Const.NVL(lookup.getOrderByClause(), ""));
     wFailMultiple.setSelection(lookup.isFailingOnMultipleResults());
     wEatRows.setSelection(lookup.isEatingRowOnLookupFailure());
+    wWhereClause.setText(Const.NVL(lookup.getWhereClause(), "")); // DEEM-MOD
 
     wKey.optimizeTableView();
     wReturn.optimizeTableView();
@@ -671,6 +697,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     lookup.setOrderByClause(wOrderBy.getText());
     lookup.setFailingOnMultipleResults(wFailMultiple.getSelection());
     lookup.setEatingRowOnLookupFailure(wEatRows.getSelection());
+    lookup.setWhereClause(wWhereClause.getText()); // DEEM-MOD
 
     transformName = wTransformName.getText(); // return value
 

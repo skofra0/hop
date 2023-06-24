@@ -17,7 +17,8 @@
 
 package org.apache.hop.pipeline.transforms.formula;
 
-import java.sql.Timestamp;
+import java.util.Arrays;
+
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.core.row.RowDataUtil;
@@ -27,29 +28,20 @@ import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
-import org.apache.hop.pipeline.transforms.formula.util.FormulaParser;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.IOException;
-import java.util.Arrays;
+import org.apache.hop.pipeline.transforms.formula.runner.libformula.FormulaRunnerPentaho;
 
 public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
 
-  private XSSFWorkbook workBook;
-  private XSSFSheet workSheet;
-  private Row sheetRow;
+//  private XSSFWorkbook workBook;
+//  private XSSFSheet workSheet;
+//  private Row sheetRow;
 
   @Override
   public boolean init() {
 
-    workBook = new XSSFWorkbook();
-    workSheet = workBook.createSheet();
-    sheetRow = workSheet.createRow(0);
+    // DEEM-MOD
+    data.runner = new FormulaRunnerPentaho();
+    data.runner.init(meta, data);
 
     data.returnType = new int[meta.getFormulas().size()];
     for (int i = 0; i < meta.getFormulas().size(); i++) {
@@ -62,8 +54,8 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
   @Override
   public void dispose() {
     try {
-      workBook.close();
-    } catch (IOException e) {
+      data.runner.dispose(); // DEEM-MOD
+    } catch (HopException e) {
       logError("Unable to close temporary workbook", e);
     }
     super.dispose();
@@ -109,17 +101,21 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       logRowlevel("Read row #" + getLinesRead() + " : " + Arrays.toString(r));
     }
 
-    if (sheetRow != null) {
-      workSheet.removeRow(sheetRow);
-    }
-    sheetRow = workSheet.createRow(0);
-
-    Object outputValue = null;
+//    if (sheetRow != null) {
+//      workSheet.removeRow(sheetRow);
+//    }
+//    sheetRow = workSheet.createRow(0);
+//
+//    Object outputValue = null;
     Object[] outputRowData = RowDataUtil.resizeArray(r, data.outputRowMeta.size());
+    data.runner.initRow(outputRowData); // DEEM-MOD
 
     for (int i = 0; i < meta.getFormulas().size(); i++) {
 
       FormulaMetaFunction formula = meta.getFormulas().get(i);
+      Object outputValue = data.runner.evaluate(formula, getInputRowMeta(), r, i); // DEEM-MOD
+      
+/*      
       FormulaParser parser = new FormulaParser(formula, getInputRowMeta(), r, sheetRow, variables);
       CellValue cellValue = parser.getFormulaValue();
 
@@ -174,11 +170,10 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
         default:
           break;
       }
-
+*/
       int realIndex = (data.replaceIndex[i] < 0) ? tempIndex++ : data.replaceIndex[i];
 
-      outputRowData[realIndex] =
-          getReturnValue(outputValue, data.returnType[i], realIndex, formula);
+      outputRowData[realIndex] = getReturnValue(outputValue, data.returnType[i], realIndex, formula);
     }
 
     putRow(data.outputRowMeta, outputRowData);

@@ -23,7 +23,7 @@ import org.apache.beam.sdk.values.PCollection;
 import org.apache.hop.beam.core.BeamHop;
 import org.apache.hop.beam.core.HopRow;
 import org.apache.hop.beam.engines.IBeamPipelineEngineRunConfiguration;
-import org.apache.hop.beam.pipeline.IBeamPipelineTransformHandler;
+// import org.apache.hop.beam.pipeline.IBeamPipelineTransformHandler;
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.ICheckResult;
 import org.apache.hop.core.annotations.Transform;
@@ -44,7 +44,7 @@ import org.apache.hop.metadata.api.IHopMetadataProvider;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
-import org.apache.hop.pipeline.transforms.memgroupby.beam.GroupByTransform;
+// import org.apache.hop.pipeline.transforms.memgroupby.beam.GroupByTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ import java.util.Map;
     keywords = "i18n::MemoryGroupByMeta.keyword",
     documentationUrl = "/pipeline/transforms/memgroupby.html")
 public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGroupByData>
-    implements IBeamPipelineTransformHandler {
+  { // implements IBeamPipelineTransformHandler // DEEM-MOD
   private static final Class<?> PKG = MemoryGroupByMeta.class; // For Translator
 
   /** Fields to group over */
@@ -247,12 +247,12 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
     }
   }
 
-  @Override
+//@Override DEEM-MOD remove beam support
   public boolean isInput() {
     return false;
   }
 
-  @Override
+//@Override DEEM-MOD remove beam support
   public boolean isOutput() {
     return false;
   }
@@ -276,6 +276,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
    * @param parentLogChannelId
    * @throws HopException
    */
+/*   DEEM-MOD remove beam support
   @Override
   public void handleTransform(
       ILogChannel log,
@@ -334,6 +335,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
             + previousTransforms.size()
             + " previous transform(s)");
   }
+  */
 
   public enum GroupType implements IEnumHasCode {
     None("-", "-"),
