@@ -167,6 +167,13 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
+  // DEEM-MOD
+  public static Database connect(ILoggingObject parentObject, IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
+    Database db = new Database(parentObject,variables, databaseMeta);
+    db.connect();
+    return db;
+  }
+
   /**
    * Construct a new Database Connection
    *
