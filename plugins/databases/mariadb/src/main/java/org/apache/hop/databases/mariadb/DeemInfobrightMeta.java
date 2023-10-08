@@ -1,7 +1,7 @@
 /*
  **************************************************************************
  *
- * Copyright 2021 - Nexus
+ * Copyright 2023 - Deem
  *
  * Based upon code from Pentaho Data Integration
  *
@@ -36,23 +36,23 @@ import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
 
-@DatabaseMetaPlugin(type = "NEXUS_INFOBRIGHT", typeDescription = "Nexus Infobright")
-@GuiPlugin(id = "GUI-NexusInfobrightMeta")
-public class NexusInfobrightMeta extends NexusMySqlMeta {
+@DatabaseMetaPlugin(type = "DEEM_INFOBRIGHT", typeDescription = "Deem Infobright")
+@GuiPlugin(id = "GUI-DeemInfobrightMeta")
+public class DeemInfobrightMeta extends DeemMySqlMeta {
 
-  public static final String NEXUS_INFOBRIGHT_STRING_DBLOOKUP_LIMIT = "INFOBRIGHT_STRING_DBLOOKUP_LIMIT";
-  public static final String NEXUS_INFOBRIGHT_INT_DBLOOKUP_LIMIT = "INFOBRIGHT_INT_DBLOOKUP_LIMIT";
-  public static final String NEXUS_INFOBRIGHT_STRING_DBLOOKUP_IGNORE = "INFOBRIGHT_STRING_DBLOOKUP_IGNORE";
-  public static final String NEXUS_INFOBRIGHT_MAX_DECIMAL_LENGTH = "INFOBRIGHT_MAX_DECIMAL_LENGTH";
-  public static final String NEXUS_INFOBRIGHT_MAX_DECIMAL_PRECISION = "INFOBRIGHT_MAX_DECIMAL_PRECISION";
-  public static final String NEXUS_INFOBRIGHT_DECIMAL_TYPE = "INFOBRIGHT_DECIMAL_TYPE";
+  public static final String DEEM_INFOBRIGHT_STRING_DBLOOKUP_LIMIT = "INFOBRIGHT_STRING_DBLOOKUP_LIMIT";
+  public static final String DEEM_INFOBRIGHT_INT_DBLOOKUP_LIMIT = "INFOBRIGHT_INT_DBLOOKUP_LIMIT";
+  public static final String DEEM_INFOBRIGHT_STRING_DBLOOKUP_IGNORE = "INFOBRIGHT_STRING_DBLOOKUP_IGNORE";
+  public static final String DEEM_INFOBRIGHT_MAX_DECIMAL_LENGTH = "INFOBRIGHT_MAX_DECIMAL_LENGTH";
+  public static final String DEEM_INFOBRIGHT_MAX_DECIMAL_PRECISION = "INFOBRIGHT_MAX_DECIMAL_PRECISION";
+  public static final String DEEM_INFOBRIGHT_DECIMAL_TYPE = "INFOBRIGHT_DECIMAL_TYPE";
 
-  public static final int INFOBRIGHT_STRING_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty(NEXUS_INFOBRIGHT_STRING_DBLOOKUP_LIMIT, "9"));
-  public static final int INFOBRIGHT_INT_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty(NEXUS_INFOBRIGHT_INT_DBLOOKUP_LIMIT, "9"));
-  public static final int INFOBRIGHT_MAX_DECIMAL_LENGTH = Integer.parseInt(System.getProperty(NEXUS_INFOBRIGHT_MAX_DECIMAL_LENGTH, "18"));
-  public static final int INFOBRIGHT_MAX_DECIMAL_PRECISION = Integer.parseInt(System.getProperty(NEXUS_INFOBRIGHT_MAX_DECIMAL_PRECISION, "6"));
-  public static final String INFOBRIGHT_DECIMAL_TYPE = System.getProperty(NEXUS_INFOBRIGHT_DECIMAL_TYPE, "DOUBLE"); // DECIMAL
-  public static final String INFOBRIGHT_STRING_DBLOOKUP_IGNORE = System.getProperty(NEXUS_INFOBRIGHT_STRING_DBLOOKUP_IGNORE, "");
+  public static final int INFOBRIGHT_STRING_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_STRING_DBLOOKUP_LIMIT, "9"));
+  public static final int INFOBRIGHT_INT_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_INT_DBLOOKUP_LIMIT, "9"));
+  public static final int INFOBRIGHT_MAX_DECIMAL_LENGTH = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_MAX_DECIMAL_LENGTH, "18"));
+  public static final int INFOBRIGHT_MAX_DECIMAL_PRECISION = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_MAX_DECIMAL_PRECISION, "6"));
+  public static final String INFOBRIGHT_DECIMAL_TYPE = System.getProperty(DEEM_INFOBRIGHT_DECIMAL_TYPE, "DOUBLE"); // DECIMAL
+  public static final String INFOBRIGHT_STRING_DBLOOKUP_IGNORE = System.getProperty(DEEM_INFOBRIGHT_STRING_DBLOOKUP_IGNORE, "");
   protected static List<String> stringDbLookupIgnore = Collections.emptyList();
 
   public static final String COMMENT_LOOKUP = " COMMENT \"LOOKUP\"";

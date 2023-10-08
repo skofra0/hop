@@ -1,7 +1,7 @@
 /*
  **************************************************************************
  *
- * Copyright 2021 - Nexus
+ * Copyright 2023 - Deem
  *
  * Based upon code from Pentaho Data Integration
  *
@@ -34,9 +34,9 @@ import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
 
-@DatabaseMetaPlugin(type = "NEXUS_MYSQL", typeDescription = "Nexus MySQL")
-@GuiPlugin(id = "GUI-NexusMySqlDatabaseMeta")
-public class NexusMySqlMeta extends MariaDBDatabaseMeta {
+@DatabaseMetaPlugin(type = "DEEM_MYSQL", typeDescription = "Deem MySQL")
+@GuiPlugin(id = "GUI-DeemMySqlDatabaseMeta")
+public class DeemMySqlMeta extends MariaDBDatabaseMeta {
 
   @Override
   public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldname, boolean addCr) {
