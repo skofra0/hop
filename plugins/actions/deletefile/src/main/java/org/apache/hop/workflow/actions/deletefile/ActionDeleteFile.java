@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.hop.workflow.actions.deletefile;
 
 import org.apache.commons.vfs2.FileObject;
@@ -57,10 +56,12 @@ import java.util.List;
 public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
   private static final Class<?> PKG = ActionDeleteFile.class; // For Translator
 
-  @HopMetadataProperty(key = "filename")
+  @HopMetadataProperty(
+      key = "filename")
   private String filename;
 
-  @HopMetadataProperty(key = "fail_if_file_not_exists")
+  @HopMetadataProperty(
+      key = "fail_if_file_not_exists")
   private boolean failIfFileNotExists;
 
   public ActionDeleteFile(String n) {
@@ -122,8 +123,8 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
             result.setResult(true);
             if (log.isBasic()) {
               logBasic(
-                  BaseMessages.getString(
-                      PKG, "ActionDeleteFile.File_Already_Deleted", realFilename));
+                  BaseMessages
+                      .getString(PKG, "ActionDeleteFile.File_Already_Deleted", realFilename));
             }
           }
         } else {
@@ -143,9 +144,7 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
       } catch (Exception e) {
         logError(
             BaseMessages.getString(
-                PKG,
-                "ActionDeleteFile.ERROR_0006_Exception_Deleting_File",
-                realFilename,
+                PKG, "ActionDeleteFile.ERROR_0006_Exception_Deleting_File", realFilename,
                 e.getMessage()),
             e);
         result.setResult(false);
@@ -181,7 +180,8 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
 
   @Override
   public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+      IVariables variables,
+      WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       String realFileName = resolve(filename);

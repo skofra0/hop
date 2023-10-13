@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.hop.pipeline.transforms.standardizephonenumber;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
