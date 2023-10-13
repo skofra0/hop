@@ -1,7 +1,7 @@
 /*
  **************************************************************************
  *
- * Copyright 2021 - Nexus
+ * Copyright 2023 - Deem
  *
  * Based upon code from Pentaho Data Integration
  *

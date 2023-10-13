@@ -1,7 +1,7 @@
 /*
  **************************************************************************
  *
- * Copyright 2021 - Nexus
+ * Copyright 2023 - Deem
  *
  * Based upon code from Pentaho Data Integration
  *
@@ -35,7 +35,7 @@ public class DateYmd8FunctionDescription extends AbstractFunctionDescription {
   private static final long serialVersionUID = 3110217290825835653L;
 
   public DateYmd8FunctionDescription() {
-    super("DATEYMD8", "plugin.nexus.formula.functions.DateYmd8-Function");
+    super("DATEYMD8", "org.apache.hop.pipeline.transforms.formula.runner.libformula.functions.DateYmd8-Function");
   }
 
   @Override

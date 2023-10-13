@@ -118,11 +118,12 @@
         <asm.version>9.5</asm.version>
         <aws-java-sdk.version>1.12.487</aws-java-sdk.version>
         <batik.version>1.16</batik.version>
+		<poi.version>5.2.4</poi.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-codec.version>1.15</commons-codec.version>
         <commons-compress.version>1.23.0</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-lang3.version>3.13.0</commons-lang3.version>
         <commons-logging.version>1.2</commons-logging.version>
         <curator.version>5.4.0</curator.version>
         <encoder.version>1.2.3</encoder.version>
@@ -146,7 +147,7 @@
         <jackson.version>2.15.2</jackson.version>
         <jakarta.version>3.1.0</jakarta.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
-        <jandex.version>3.1.2</jandex.version>
+        <jandex.version>3.1.5</jandex.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jetty.version>9.4.51.v20230217</jetty.version>
         <joda-time.version>2.12.5</joda-time.version>
@@ -168,9 +169,9 @@
         <okhttp.version>4.10.0</okhttp.version>
         <opencensus-api.version>0.31.1</opencensus-api.version>
         <opencensus-contrib-http-util.version>0.31.1</opencensus-contrib-http-util.version>
-        <org.eclipse.platform.version>3.124.0</org.eclipse.platform.version>
-        <org.eclipse.commands.version>3.11.0</org.eclipse.commands.version>
-        <org.eclipse.equinox.version>3.18.0</org.eclipse.equinox.version>
+        <org.eclipse.platform.version>3.124.100</org.eclipse.platform.version>
+        <org.eclipse.commands.version>3.11.100</org.eclipse.commands.version>
+        <org.eclipse.equinox.version>3.18.100</org.eclipse.equinox.version>
         <opencsv.version>5.7.1</opencsv.version>
         <paranamer.version>2.8</paranamer.version>
         <perfmark.version>0.26.0</perfmark.version>

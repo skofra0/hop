@@ -1705,7 +1705,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *     name combination.
    * @return true if the table exists, false if it doesn't.
    */
-  private boolean checkTableExists(String tableName) throws HopDatabaseException {
+  // DEEM-MOD (bublic)
+  public boolean checkTableExists(String tableName) throws HopDatabaseException {
     try {
       if (log.isDebug()) {
         log.logDebug("Checking if table [" + tableName + "] exists!");
@@ -1746,6 +1747,39 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    */
   public boolean checkTableExists(String schema, String tableName) throws HopDatabaseException {
     return checkTableExists(databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName));
+  }
+
+  
+  /**
+   * See if the table specified exists.
+   * <p>
+   * This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
+   * first and we only use statements when absolutely necessary.
+   * <p>
+   * Contrary to previous versions of similar duplicated methods, this implementation does not
+   * require quoted identifiers.
+   * @param tableName The unquoted name of the table to check.<br>
+   *        This is NOT the properly quoted name of the table or the complete schema-table name
+   *        combination.
+   * @param schema The unquoted name of the schema.
+   * @return true if the table exists, false if it doesn't.
+   */
+  public boolean checkViewExists(String schema, String tableName) throws HopDatabaseException {
+    try {
+      if (log.isDebug()) {
+        log.logDebug("Checking if view [" + tableName + "] exists!");
+      }
+
+      try (ResultSet rs2 = getDatabaseMetaData().getTables(null, null, resolve(tableName), new String[] {"VIEW"})) {
+        return rs2.next();
+
+      } catch (HopDatabaseException e) {
+        return false;
+      }
+
+    } catch (Exception e) {
+      throw new HopDatabaseException("Unable to check if table [" + tableName + "] exists on connection [" + databaseMeta.getName() + "]", e);
+    }
   }
 
   /**

@@ -35,7 +35,7 @@ public class FormulaRunnerPentaho extends FormulaRunner {
       formulas = new org.pentaho.reporting.libraries.formula.Formula[meta.getFormulas().size()];
       for (int i = 0; i < meta.getFormulas().size(); i++) {
         FormulaMetaFunction fn = meta.getFormulas().get(i);
-        currentFormula = fn; // NEXUS-MOD
+        currentFormula = fn; // DEEM-MOD
         if (!StringUtils.isEmpty(fn.getFieldName())) {
           formulas[i] = createFormula(meta.getFormulas().get(i).getFormula());
         } else {

@@ -30,7 +30,7 @@
     <name>Hop Plugins Transforms Formula</name>
 
     <properties>
-        <poi.version>5.2.3</poi.version>
+        <poi.version>5.2.4</poi.version>
         <libformula.version>9.0.0.3-582</libformula.version>
     </properties>
 

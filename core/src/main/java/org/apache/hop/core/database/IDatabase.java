@@ -795,6 +795,11 @@ public interface IDatabase extends Cloneable {
   /** @return true if the database is a Terradata variant. */
   boolean isTeradataVariant();
 
+  // DEEM-MOD
+  default boolean isMonetDbVariant() {
+    return false;
+  }
+
   /**
    * Returns a true of savepoints can be release, false if not.
    *
@@ -1014,4 +1019,5 @@ public interface IDatabase extends Cloneable {
    * @param schemaTable The schema-table name combination (Fully qualified table name) to generate the clause for.
    */
   String getSqlInsertClauseBeforeFields(IVariables variables, String schemaTable);
+
 }

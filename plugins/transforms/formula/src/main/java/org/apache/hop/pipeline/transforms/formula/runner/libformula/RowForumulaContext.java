@@ -147,7 +147,7 @@ public class RowForumulaContext implements FormulaContext {
         return valueMeta.getBinary(valueData);
       case IValueMeta.TYPE_BOOLEAN:
         return valueMeta.getBoolean(valueData);
-      case IValueMeta.TYPE_TIMESTAMP: // NEXUS-MOD
+      case IValueMeta.TYPE_TIMESTAMP: // DEEM-MOD
       case IValueMeta.TYPE_DATE:
         return valueMeta.getDate(valueData);
       case IValueMeta.TYPE_INTEGER:
